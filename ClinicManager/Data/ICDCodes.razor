@@ -1,0 +1,231 @@
+﻿@page "/icd-codes"
+@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IICDCodeService icdCodeService 
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                ICD 10 Codes
+            </MudText>
+        </MudItem>
+   
+        <MudItem xs="12" md="6" sm="6">
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                       Variant="Variant.Outlined">New ICD Code</MudButton>
+        </MudItem>
+               <MudItem xs="12" md="6" sm="6">
+                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+            </MudItem>
+    @if (!isTableView)
+    {
+        @foreach (var icdCode in _icdCodes)
+        {
+            <MudItem md="3" sm="6">
+                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h6">@icdCode.ICDCode</MudText>
+                    </MudCardContent>
+                    <MudCardContent>
+                        <center>
+                            <MudText Align="Align.Center" Typo="Typo.body1">@icdCode.Description</MudText>
+                        </center>
+                    </MudCardContent>
+                    <MudCardContent>
+                        <center>
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
+                        </center>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    }
+    </MudGrid>
+
+    @if (isTableView)
+    {
+        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_icdCodes"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<ICDCodeDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<ICDCodeDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+        </div>
+        <MudSpacer />
+            <MudTextField Label="Search ICD Codes" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="ICDCodeDTO" SortLabel="ICDCodeId">ICD Code Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="ICDCodeDTO" SortLabel="ICDCode">ICD Code</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="ICDCodeDTO" SortLabel="Description">Description</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ICDCodeId">
+            <MudHighlighter Text="@context.ICDCodeId.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="ICDCode">
+            <MudHighlighter Text="@context.ICDCode" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="Description">
+            <MudHighlighter Text="@context.Description" HighlightedText="@_searchString" />
+        </MudTd>     
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.ICDCodeId))">Edit</MudButton>
+       </MudTd>
+       <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.ICDCodeId))">Delete</MudButton>
+       </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Rows" />
+    </PagerContent>
+    </MudTable>
+    }
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string Patient;
+    private List<ICDCodeDTO> _icdCodes = new();
+    private ICDCodeDTO icdCode = new();
+    public bool isTableView = true;
+    private MudTable<ICDCodeDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+   
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllICDCodes();
+    }
+
+    public async Task GetAllICDCodes()
+    {
+        var icdCodes = await icdCodeService.GetAll();
+        if (icdCodes.Succeeded)
+        {
+            _icdCodes = icdCodes.Data;
+        }
+    }
+    public void SetViewGrid()
+    {
+        isTableView = false;
+    }
+        public void SetViewTable()
+    {
+        isTableView = true;
+    }
+    private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        if (id != 0)
+        {
+            icdCode = _icdCodes.FirstOrDefault(c => c.ICDCodeId == id);
+            if (icdCode != null)
+            {
+                parameters.Add(nameof(AddEditICDCode.AddEditICDModel), new ICDCodeDTO
+                {
+                    ICDCodeId = icdCode.ICDCodeId,
+                    DateAdded = icdCode.DateAdded,
+                    Description = icdCode.Description,
+                    ICDCode = icdCode.ICDCode
+                });
+            }
+        }
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<AddEditICDCode>(id == 0 ? "Create" : "Edit", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await _table.ReloadServerData();
+        }
+    }
+     private bool Search(ICDCodeDTO icd) => FilterFunc(icd, _searchString);
+
+    private bool FilterFunc(ICDCodeDTO icd, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (icd.ICDCode.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (icd.Description.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+     private async Task GetWardAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await icdCodeService.GetAllICDCodesTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _icdCodes = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+        private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<ICDCodeDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetWardAsync(state);
+            return new TableData<ICDCodeDTO> { TotalItems = _totalItems, Items = _icdCodes };
+        }
+         private async Task Delete(int id)
+        {
+            string deleteContent = $"Delete ICD Code {_icdCodes.FirstOrDefault(c => c.ICDCodeId == id).ICDCode}";
+            var parameters = new DialogParameters
+            {
+                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await icdCodeService.DeleteAsync(id);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("ICD Code Deleted", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+}

@@ -1,0 +1,267 @@
+﻿@page "/nursing-careplan"
+@inject IDialogService DialogService
+@using ClinicManager.Data.PatientFiles.PatientFileModals
+@using ClinicManager.Data.PatientFiles.ReportViews
+@using PatientFileModals
+@using ReportViews
+
+<MudContainer>
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Nurse Care Plan
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudTooltip Text="Patient Age">
+                            <MudAvatar Color="Color.Info">45</MudAvatar>
+                        </MudTooltip>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1"> Mr. Reynart Grobler</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary">Dr</MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Niemann</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Info">4</MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Ward</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Warning">30</MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Bed</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Diagnosis</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudAvatar Color="Color.Success" Class="mr-2">
+                            <MudIcon Icon="@Icons.TwoTone.Check" />
+                        </MudAvatar>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">Blah blah</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem md="6" sm="6">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Allergies</MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudAvatar Color="Color.Error" Class="mr-2">
+                            <MudIcon Icon="@Icons.TwoTone.Close" />
+                        </MudAvatar>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">Vrouens</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Progress Notes</MudText>
+                    </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ViewProgressNotes())">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("progress-notes"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Nurse Presentation</MudText>
+                    </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("nurse-presentation"))">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("nurse-presentation-view"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Daily Care</MudText>
+                    </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("daily-care"))">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("daily-care-view"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Fluid Balance</MudText>
+                    </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("fluid-balance"))">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("fluid-balance-view"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Skin Integrity</MudText>
+                    </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("skin-integrity"))">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("skin-integrity-view"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4" sm="4" Style="border-radius:10px 10px 10px 10px">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <center>
+                        <MudText Typo="Typo.inherit">Stool Charts</MudText>
+                   </center>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("stool-charts"))">Add</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(e => ChangeView("stool-charts-view"))">View</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+
+        @switch (currentView)
+        {
+            case "daily-care":
+                <DailyCareList />
+                break;
+            case "daily-care-view":
+                <DayCareView/>
+                break;
+            case "progress-notes":
+                <ProgressNotesView />
+                break;
+            case "fluid-balance":
+                <FluidBalanceRecord />
+                break;
+            case "fluid-balance-view":
+                <FluidBalanceView />
+                break;
+            case "nurse-presentation":
+                <NursePresentation />
+                break;
+            case "nurse-presentation-view":
+                <NursePresentationView />
+                break;
+            case "stool-charts":
+                <StoolCharts />
+                break;
+            case "stool-charts-view":
+                <StoolChartView />
+                break;
+            case "skin-integrity":
+                <SkinIntegrityReport />
+                break;
+            case "skin-integrity-view":
+                <SkinIntegrityView />
+                break;
+            default:
+                <DailyCareList />
+                break;
+        }
+    </MudGrid>
+</MudContainer>
+
+@code {
+    public string currentView;
+
+    public void ChangeView(string view)
+    {
+        currentView = view;
+    }
+
+    private void AddReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<NurseCheckListModal>("Report Form", parameters, options);
+    }
+
+    private void ViewProgressNotes()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<ProgressNotesModal>("Progress Notes", parameters, options);
+    }
+
+}

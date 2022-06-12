@@ -1,0 +1,134 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Shared.DTO_s
+@inject IBedService bedService 
+@inject IWardService wardService 
+
+
+<EditForm Model="@AddEditBedModel" OnValidSubmit="SaveAsync">
+    <MudDialog>
+        <TitleContent>
+            @{
+            if (AddEditBedModel.BedId == 0)
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Add Bed
+            </MudText>
+            }
+            else
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                Update Bed
+            </MudText>
+            }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField T="int" For="@(() => AddEditBedModel.BedNumber)" @bind-Value="AddEditBedModel.BedNumber" Label="Bed Number" />
+                </MudItem>
+                  <MudItem xs="12">
+                    <MudSelect T="string" Label="Wards" For="@(() => AddEditBedModel.WardNumber)" @bind-Value="AddEditBedModel.WardNumber">
+                        @foreach (var item in _wards)
+                        {
+                            <MudSelectItem T="string" Value="@item.Prop2" />
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Secondary">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                @if (AddEditBedModel.BedId != 0)
+                {
+                    <MudText>Update</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public BedDTO AddEditBedModel { get; set; } = new();
+    private bool _processing = false;
+    private List<LookupDTO> _wards = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllWards();
+    }
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+ 
+        if (AddEditBedModel.BedId == 0)
+            response = await bedService.SaveAsync(AddEditBedModel);
+        else
+            response = await bedService.UpdateAsync(AddEditBedModel);
+
+        if (response.Succeeded)
+        {
+            if (AddEditBedModel.BedId == 0)
+            {
+                _snackBar.Add("New Bed Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Bed Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+                MudDialog.Close();
+            }
+        }
+    }     
+
+    public async Task GetAllWards()
+    {
+        var wardResult = await wardService.GetForLookUp();
+        if (wardResult.Succeeded)
+        {
+            _wards = wardResult.Data;
+        }
+        else
+        {
+            foreach (var message in wardResult.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+}

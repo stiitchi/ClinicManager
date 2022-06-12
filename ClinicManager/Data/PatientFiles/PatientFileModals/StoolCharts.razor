@@ -1,0 +1,80 @@
+﻿@inject IDialogService DialogService
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Stool Charts
+        </MudText>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>Normal Bowel Habit</MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="value" />
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>Frequency</MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="value" />
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>Consistency</MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="value" />
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <MudSelect T="string" Label="Amount" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem T="string" Value="@("Small")" />
+            <MudSelectItem T="string" Value="@("Moderate")" />
+            <MudSelectItem T="string" Value="@("Large")" />
+        </MudSelect>
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <MudTextField @bind-Value="value" Label="Colour" />
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <MudTextField @bind-Value="value" Label="Blood" />
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <MudTextField @bind-Value="value" Label="Mucus Amount" />
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <MudTextField @bind-Value="value" Label="Specimen Sent" />
+    </MudItem>
+    <MudItem md="6" sm="6"/>
+
+    <MudItem md="6" sm="6">
+        <center>
+            <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                       Style="border-radius:10px 10px 10px 10px"
+                       OnClick="Sign">Sign</MudButton>
+        </center>
+    </MudItem>
+    <MudItem md="6" sm="6">
+        <center>
+            <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                       Style="border-radius:10px 10px 10px 10px">Add Presentation</MudButton>
+        </center>
+    </MudItem>
+</MudGrid>
+
+@code{
+    public string value;
+    public DateTime today = DateTime.Today;
+    public TimeSpan time = DateTime.Now.TimeOfDay;
+
+    private void Sign()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SignModal>("Sign", parameters, options);
+    }
+}

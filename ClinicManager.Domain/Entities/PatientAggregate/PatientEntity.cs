@@ -1,0 +1,457 @@
+﻿using ClinicManager.Domain.Entities.BedAggregate;
+using ClinicManager.Domain.Entities.DayFeesAggregate;
+using ClinicManager.Domain.Entities.ICDCodeAggregate;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanSkinIntegrity;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.ComfortSleep;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.DailyCare;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Elimination;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.FluidBalance;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Hygiene;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Intervention;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Mobility;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.SkinIntegrity;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts;
+
+namespace ClinicManager.Domain.Entities.PatientAggregate
+{
+    public class PatientEntity : EntityBase
+    {
+        public PatientEntity()
+        { }
+        public PatientEntity(
+           int caseInformationNo, int accountNo, DateTime admissionDate,
+           DateTime admissionTime, string fullName, string lastName,
+           string title, string initials, int iDNo, int homeTelNo,
+           int workTelNo, int cellNo, DateTime dateOfBirth,
+           string address, string poBox, int poBoxCode,
+           string occupation, string language, string gender,
+           string race, string employerName, string workAddress,
+           string workAddressPostalCode, string nextOfKin,
+           string contactNo, string relationshipOfKin,
+           string altContactNo, string altContact, string altContactRelationship,
+           string medicalAidNo, string medicalAidName, string medicalAidOption,
+           string authNo, string dependentCode, string medicalAidMemberName,
+           string medicalAidMemberSurname, string medicalAidMemberIdNo,
+           string medicalAidMemberTelNo, string medicalAidMemberCellNo,
+           string medicalAidMemberPostalAddress, string medicalAidMemberCode,
+           string medicalAidMemberOccupation, string medicalAidMemberEmployer,
+           string medicalAidMemberBusinessAddress,
+           string medicalAidMemberBusinessPostalCode)
+        {
+            _caseInformationNo = caseInformationNo;
+            _accountNo = accountNo;
+            _admissionDate = admissionDate;
+            _admissionTime = admissionTime;
+            _fullName = fullName;
+            _lastName = lastName;
+            _title = title;
+            _initials = initials;
+            _IDNo = iDNo;
+            _homeTelNo = homeTelNo;
+            _workTelNo = workTelNo;
+            _cellNo = cellNo;
+            _dateOfBirth = dateOfBirth;
+            _address = address;
+            _poBox = poBox;
+            _poBoxCode = poBoxCode;
+            _occupation = occupation;
+            _language = language;
+            _gender = gender;
+            _race = race;
+            _employerName = employerName;
+            _workAddress = workAddress;
+            _workAddressPostalCode = workAddressPostalCode;
+            _nextOfKin = nextOfKin;
+            _contactNo = contactNo;
+            _relationshipOfKin = relationshipOfKin;
+            _altContactNo = altContactNo;
+            _altContact = altContact;
+            _altContactRelationship = altContactRelationship;
+            _medicalAidNo = medicalAidNo;
+            _medicalAidName = medicalAidName;
+            _medicalAidOption = medicalAidOption;
+            _authNo = authNo;
+            _dependentCode = dependentCode;
+            _medicalAidMemberName = medicalAidMemberName;
+            _medicalAidMemberSurname = medicalAidMemberSurname;
+            _medicalAidMemberIdNo = medicalAidMemberIdNo;
+            _medicalAidMemberTelNo = medicalAidMemberTelNo;
+            _medicalAidMemberCellNo = medicalAidMemberCellNo;
+            _medicalAidMemberPostalAddress = medicalAidMemberPostalAddress;
+            _medicalAidMemberCode = medicalAidMemberCode;
+            _medicalAidMemberOccupation = medicalAidMemberOccupation;
+            _medicalAidMemberEmployer = medicalAidMemberEmployer;
+            _medicalAidMemberBusinessAddress = medicalAidMemberBusinessAddress;
+            _medicalAidMemberBusinessPostalCode = medicalAidMemberBusinessPostalCode;
+        }
+
+        public void Set(
+            int caseInformationNo, int accountNo, DateTime admissionDate,
+            DateTime admissionTime, string fullName, string lastName,
+            string title, string initials, int iDNo, int homeTelNo,
+            int workTelNo, int cellNo, DateTime dateOfBirth,
+            string address, string poBox, int poBoxCode,
+            string occupation, string language, string gender,
+            string race, string employerName, string workAddress,
+            string workAddressPostalCode, string nextOfKin,
+            string contactNo, string relationshipOfKin,
+            string altContactNo, string altContact, string altContactRelationship,
+            string medicalAidNo, string medicalAidName, string medicalAidOption,
+            string authNo, string dependentCode, string medicalAidMemberName,
+            string medicalAidMemberSurname, string medicalAidMemberIdNo,
+            string medicalAidMemberTelNo, string medicalAidMemberCellNo,
+            string medicalAidMemberPostalAddress, string medicalAidMemberCode,
+            string medicalAidMemberOccupation, string medicalAidMemberEmployer,
+            string medicalAidMemberBusinessAddress,
+            string medicalAidMemberBusinessPostalCode)
+        {
+            _caseInformationNo = caseInformationNo;
+            _accountNo = accountNo;
+            _admissionDate = admissionDate;
+            _admissionTime = admissionTime;
+            _fullName = fullName;
+            _lastName = lastName;
+            _title = title;
+            _initials = initials;
+            _IDNo = iDNo;
+            _homeTelNo = homeTelNo;
+            _workTelNo = workTelNo;
+            _cellNo = cellNo;
+            _dateOfBirth = dateOfBirth;
+            _address = address;
+            _poBox = poBox;
+            _poBoxCode = poBoxCode;
+            _occupation = occupation;
+            _language = language;
+            _gender = gender;
+            _race = race;
+            _employerName = employerName;
+            _workAddress = workAddress;
+            _workAddressPostalCode = workAddressPostalCode;
+            _nextOfKin = nextOfKin;
+            _contactNo = contactNo;
+            _relationshipOfKin = relationshipOfKin;
+            _altContactNo = altContactNo;
+            _altContact = altContact;
+            _altContactRelationship = altContactRelationship;
+            _medicalAidNo = medicalAidNo;
+            _medicalAidName = medicalAidName;
+            _medicalAidOption = medicalAidOption;
+            _authNo = authNo;
+            _dependentCode = dependentCode;
+            _medicalAidMemberName = medicalAidMemberName;
+            _medicalAidMemberSurname = medicalAidMemberSurname;
+            _medicalAidMemberIdNo = medicalAidMemberIdNo;
+            _medicalAidMemberTelNo = medicalAidMemberTelNo;
+            _medicalAidMemberCellNo = medicalAidMemberCellNo;
+            _medicalAidMemberPostalAddress = medicalAidMemberPostalAddress;
+            _medicalAidMemberCode = medicalAidMemberCode;
+            _medicalAidMemberOccupation = medicalAidMemberOccupation;
+            _medicalAidMemberEmployer = medicalAidMemberEmployer;
+            _medicalAidMemberBusinessAddress = medicalAidMemberBusinessAddress;
+            _medicalAidMemberBusinessPostalCode = medicalAidMemberBusinessPostalCode;
+        }
+
+        private int _caseInformationNo;
+        public int CaseInformationNo => _caseInformationNo;
+
+        private int _accountNo;
+        public int AccountNo => _accountNo;
+
+        private DateTime _admissionDate;
+        public DateTime AdmissionDate => _admissionDate;
+
+        private DateTime _admissionTime;
+        public DateTime AdmissionTime => _admissionTime;
+
+        private string _fullName;
+        public string FullName => _fullName;
+
+        private string _lastName;
+        public string LastName => _lastName;
+
+        private string _title;
+        public string Title => _title;
+
+        private string _initials;
+        public string Initials => _initials;
+
+        private int _IDNo;
+        public int IDNo => _IDNo;
+
+        private int _homeTelNo;
+        public int HomeTelNo => _homeTelNo;
+
+        private int _workTelNo;
+        public int WorkTelNo => _workTelNo;
+
+        private int _cellNo;
+        public int CellNo => _cellNo;
+
+        private DateTime _dateOfBirth;
+        public DateTime DateOfBirth => _dateOfBirth;
+
+        private string _address;
+        public string Address => _address;
+
+        private string _poBox;
+        public string PoBox => _poBox;
+
+        private int _poBoxCode;
+        public int PoBoxCode => _poBoxCode;
+
+        private string _occupation;
+        public string Occupation => _occupation;
+
+        private string _language;
+        public string Language => _language;
+
+        private string _gender;
+        public string Gender => _gender;
+
+        private string _race;
+        public string Race => _race;
+
+        private string _employerName;
+        public string EmployerName => _employerName;
+
+        private string _workAddress;
+        public string WorkAddress => _workAddress;
+
+        private string _workAddressPostalCode;
+        public string WorkAddressPostalCode => _workAddressPostalCode;
+
+        private string _nextOfKin;
+        public string NextOfKin => _nextOfKin;
+
+        private string _contactNo;
+        public string ContactNo => _contactNo;
+
+        private string _relationshipOfKin;
+        public string RelationshipOfKin => _relationshipOfKin;
+
+        private string _altContactNo;
+        public string AltContactNo => _altContactNo;
+
+        private string _altContact;
+        public string AltContact => _altContact;
+
+        private string _altContactRelationship;
+        public string AltContactRelationship => _altContactRelationship;
+
+        private string _medicalAidNo;
+        public string MedicalAidNo => _medicalAidNo;
+
+        private string _medicalAidName;
+        public string MedicalAidName => _medicalAidName;
+
+        private string _medicalAidOption;
+        public string MedicalAidOption => _medicalAidOption;
+
+        private string _authNo;
+        public string AuthNo => _authNo;
+
+        private string _dependentCode;
+        public string DependentCode => _dependentCode;
+
+        private string _medicalAidMemberName;
+        public string MedicalAidMemberName => _medicalAidMemberName;
+
+        private string _medicalAidMemberSurname;
+        public string MedicalAidMemberSurname => _medicalAidMemberSurname;
+
+        private string _medicalAidMemberIdNo;
+        public string MedicalAidMemberIdNo => _medicalAidMemberIdNo;
+
+        private string _medicalAidMemberTelNo;
+        public string MedicalAidMemberTelNo => _medicalAidMemberTelNo;
+
+        private string _medicalAidMemberCellNo;
+        public string MedicalAidMemberCellNo => _medicalAidMemberCellNo;
+
+        private string _medicalAidMemberPostalAddress;
+        public string MedicalAidMemberPostalAddress => _medicalAidMemberPostalAddress;
+
+        private string _medicalAidMemberCode;
+        public string MedicalAidMemberCode => _medicalAidMemberCode;
+
+        private string _medicalAidMemberOccupation;
+        public string MedicalAidMemberOccupation => _medicalAidMemberOccupation;
+
+        private string _medicalAidMemberEmployer;
+        public string MedicalAidMemberEmployer => _medicalAidMemberEmployer;
+
+        private string _medicalAidMemberBusinessAddress;
+        public string MedicalAidMemberBusinessAddress => _medicalAidMemberBusinessAddress;
+
+        private string _medicalAidMemberBusinessPostalCode;
+        public string MedicalAidMemberBusinessPostalCode => _medicalAidMemberBusinessPostalCode;
+
+
+
+        private readonly List<BedEntity> _beds = new();
+        public virtual IReadOnlyCollection<BedEntity> Beds => _beds;
+
+        private readonly List<ICDCodeEntity> _icdCodes = new();
+        public virtual IReadOnlyCollection<ICDCodeEntity> IcdCodes => _icdCodes;
+
+        private readonly List<DayFeesEntity> _dayFees = new();
+        public virtual IReadOnlyCollection<DayFeesEntity> DayFees => _dayFees;
+
+        private readonly List<OralIntakeTestEntity> _oralIntakeTestRecords = new();
+        public virtual IReadOnlyCollection<OralIntakeTestEntity> OralIntakeTestRecords => _oralIntakeTestRecords;
+
+        private readonly List<OralOutputEntity> _oralOutputRecords = new();
+        public virtual IReadOnlyCollection<OralOutputEntity> OralOutputRecords => _oralOutputRecords;
+
+        private readonly List<Previous24HourIntakeEntity> _previous24HourIntakeRecords = new();
+        public virtual IReadOnlyCollection<Previous24HourIntakeEntity> Previous24HourIntakeRecords => _previous24HourIntakeRecords;
+
+        private readonly List<IVTestEntity> _ivTestRecords = new();
+        public virtual IReadOnlyCollection<IVTestEntity> IvTestRecords => _ivTestRecords;
+
+        private readonly List<IVEntity> _carePlanIVTests = new();
+        public virtual IReadOnlyCollection<IVEntity> CarePlanIVTests => _carePlanIVTests;
+
+        private readonly List<NurseCarePlanComfortSleepEntity> _comfortSleepRecords = new();
+        public virtual IReadOnlyCollection<NurseCarePlanComfortSleepEntity> ComfortSleepRecords => _comfortSleepRecords;
+
+        private readonly List<DailyCareRecordEntity> _dailyCareRecords = new();
+        public virtual IReadOnlyCollection<DailyCareRecordEntity> DailyCareRecords => _dailyCareRecords;
+
+        private readonly List<CathetherEntity> _cathetherRecords = new();
+        public virtual IReadOnlyCollection<CathetherEntity> CathetherRecords => _cathetherRecords;
+
+        private readonly List<ContinentEntity> _continentRecords = new();
+        public virtual IReadOnlyCollection<ContinentEntity> ContinentRecords => _continentRecords;
+
+        private readonly List<IVSiteEntity> _ivSiteRecords = new();
+        public virtual IReadOnlyCollection<IVSiteEntity> IvSiteRecords => _ivSiteRecords;
+
+        private readonly List<MonitorFluidEntity> _monitorFluidRecords = new();
+        public virtual IReadOnlyCollection<MonitorFluidEntity> MonitorFluidRecords => _monitorFluidRecords;
+
+        private readonly List<OralEntity> _oralRecords = new();
+        public virtual IReadOnlyCollection<OralEntity> OralRecords => _oralRecords;
+
+        private readonly List<TestTubeEntity> _testTubeRecords = new();
+        public virtual IReadOnlyCollection<TestTubeEntity> TestTubeRecords => _testTubeRecords;
+
+        private readonly List<SkinIntegrityReport> _skinIntegrityReportRecords = new();
+        public virtual IReadOnlyCollection<SkinIntegrityReport> SkinIntegrityReportRecords => _skinIntegrityReportRecords;
+
+        private readonly List<BedBathAssistEntity> _bedBathAssistRecords = new();
+        public virtual IReadOnlyCollection<BedBathAssistEntity> BedBathAssistRecords => _bedBathAssistRecords;
+
+        private readonly List<BedBathEntity> _bedBathRecords = new();
+        public virtual IReadOnlyCollection<BedBathEntity> BedBathRecords => _bedBathRecords;
+
+        private readonly List<SelfCareEntity> _selfCareRecords = new();
+        public virtual IReadOnlyCollection<SelfCareEntity> SelfCareRecords => _selfCareRecords;
+
+        private readonly List<IsolationEntity> _isolationRecords = new();
+        public virtual IReadOnlyCollection<IsolationEntity> IsolationRecords => _isolationRecords;
+
+        private readonly List<MedicationEntity> _medicationRecords = new();
+        public virtual IReadOnlyCollection<MedicationEntity> MedicationRecords => _medicationRecords;
+
+        private readonly List<PostOperativeCareEntity> _postOperativeCareRecords = new();
+        public virtual IReadOnlyCollection<PostOperativeCareEntity> PostOperativeCareRecords => _postOperativeCareRecords;
+
+        private readonly List<TractionEntity> _tractionRecords = new();
+        public virtual IReadOnlyCollection<TractionEntity> TractionRecords => _tractionRecords;
+
+        private readonly List<WoundCareEntity> _woundCareRecords = new();
+        public virtual IReadOnlyCollection<WoundCareEntity> WoundCareRecords => _woundCareRecords;
+
+        private readonly List<BedRestEntity> _bedRestRecords = new();
+        public virtual IReadOnlyCollection<BedRestEntity> BedRestRecords => _bedRestRecords;
+
+        private readonly List<ExerciseEntity> _exerciseRecords = new();
+        public virtual IReadOnlyCollection<ExerciseEntity> ExerciseRecords => _exerciseRecords;
+
+        private readonly List<MobileImmobileEntity> _mobileImmobileRecords = new();
+        public virtual IReadOnlyCollection<MobileImmobileEntity> MobileImmobileRecords => _mobileImmobileRecords;
+
+        private readonly List<WalkAssistanceEntity> _walkAssistanceRecords = new();
+        public virtual IReadOnlyCollection<WalkAssistanceEntity> WalkAssistanceRecords => _walkAssistanceRecords;
+
+        private readonly List<WalkChairEntity> _walkChairRecords = new();
+        public virtual IReadOnlyCollection<WalkChairEntity> WalkChairRecords => _walkChairRecords;
+
+        private readonly List<KeepNPOEntity> _keepNPORecords = new();
+        public virtual IReadOnlyCollection<KeepNPOEntity> KeepNPORecords => _keepNPORecords;
+
+        private readonly List<SpecialEntity> _specialRecords = new();
+        public virtual IReadOnlyCollection<SpecialEntity> SpecialRecords => _specialRecords;
+
+        private readonly List<WardDietEntity> _wardDietRecords = new();
+        public virtual IReadOnlyCollection<WardDietEntity> WardDietRecords => _wardDietRecords;
+
+        private readonly List<BloodEntity> _bloodRecords = new();
+        public virtual IReadOnlyCollection<BloodEntity> BloodRecords => _bloodRecords;
+
+        private readonly List<BloodGlucoseEntity> _bloodGlucoseRecords = new();
+        public virtual IReadOnlyCollection<BloodGlucoseEntity> BloodGlucoseRecords => _bloodGlucoseRecords;
+
+        private readonly List<NeurologicalEntity> _neurologicalRecords = new();
+        public virtual IReadOnlyCollection<NeurologicalEntity> NeurologicalRecords => _neurologicalRecords;
+
+        private readonly List<NeurovascularEntity> _neurovascularRecords = new();
+        public virtual IReadOnlyCollection<NeurovascularEntity> NeurovascularRecords => _neurovascularRecords;
+
+        private readonly List<UrineTestEntity> _urineTestRecords = new();
+        public virtual IReadOnlyCollection<UrineTestEntity> UrineTestRecords => _urineTestRecords;
+
+        private readonly List<VitalSignEntity> _vitalSignRecords = new();
+        public virtual IReadOnlyCollection<VitalSignEntity> VitalSignRecords => _vitalSignRecords;
+
+        private readonly List<InhalaNebsEntity> _inhalaNebsRecords = new();
+        public virtual IReadOnlyCollection<InhalaNebsEntity> InhalaNebsRecords => _inhalaNebsRecords;
+
+        private readonly List<MaskTimeEntity> _maskTimeRecords = new();
+        public virtual IReadOnlyCollection<MaskTimeEntity> MaskTimeRecords => _maskTimeRecords;
+
+        private readonly List<NasalCannulEntity> _nasalCannulRecords = new();
+        public virtual IReadOnlyCollection<NasalCannulEntity> NasalCannulRecords => _nasalCannulRecords;
+
+        private readonly List<PolyMaskEntity> _polyMaskRecords = new();
+        public virtual IReadOnlyCollection<PolyMaskEntity> PolyMaskRecords => _polyMaskRecords;
+
+        private readonly List<PatientProgressEntity> _patientProgressRecords = new();
+        public virtual IReadOnlyCollection<PatientProgressEntity> PatientProgressRecords => _patientProgressRecords;
+
+        private readonly List<CommunicationEntity> _communicationRecords = new();
+        public virtual IReadOnlyCollection<CommunicationEntity> CommunicationRecords => _communicationRecords;
+
+        private readonly List<HealthCareEntity> _healthCareRecords = new();
+        public virtual IReadOnlyCollection<HealthCareEntity> HealthCareRecords => _healthCareRecords;
+
+        private readonly List<SupportEntity> _supportRecords = new();
+        public virtual IReadOnlyCollection<SupportEntity> SupportRecords => _supportRecords;
+
+        private readonly List<CheckIdBandEntity> _checkIdBandRecords = new();
+        public virtual IReadOnlyCollection<CheckIdBandEntity> CheckIdBandRecords => _checkIdBandRecords;
+
+        private readonly List<CotsideEntity> _cotsideRecords = new();
+        public virtual IReadOnlyCollection<CotsideEntity> CotsideRecords => _cotsideRecords;
+
+        private readonly List<PressurePartEntity> _pressurePartRecords = new();
+        public virtual IReadOnlyCollection<PressurePartEntity> PressurePartRecords => _pressurePartRecords;
+
+        private readonly List<RednessEntity> _rednessRecords = new();
+        public virtual IReadOnlyCollection<RednessEntity> RednessRecords => _rednessRecords;
+
+        private readonly List<StoolChartEntity> _stoolChartRecords = new();
+        public virtual IReadOnlyCollection<StoolChartEntity> StoolChartRecords => _stoolChartRecords;
+
+        
+    }
+}

@@ -1,0 +1,258 @@
+﻿@page "/wards"
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IWardService wardService 
+
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Wards
+            </MudText>
+        </MudItem>
+        
+        <MudItem xs="12" md="6" sm="6">
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                       Variant="Variant.Outlined">New Ward</MudButton>
+        </MudItem>
+
+            <MudItem xs="12" md="6" sm="6">
+                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+            </MudItem>
+        
+
+        @if (!isTableView)
+        {
+            @foreach (var ward in _wards)
+            {
+                <MudItem xs="12" md="6" sm="12">
+                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Secondary">@ward.WardNumber</MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudChip Size="Size.Large" Color="Color.Info">
+                                    @ward.TotalBeds Beds
+                                </MudChip>
+                                <MudChip Size="Size.Large" Color="Color.Success">
+                                    28 Available
+                                </MudChip>
+                                <MudChip Size="Size.Large" Color="Color.Error">
+                                    2 Occupied
+                                </MudChip>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+            }
+        }
+
+
+    </MudGrid>
+    @if (isTableView)
+    {
+        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_wards"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<WardDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<WardDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+        </div>
+        <MudSpacer />
+            <MudTextField Label="Search Ward" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="WardNumber">Ward Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="RoomNumber">Room Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="TotalBeds">Total Beds</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Ward Number">
+            <MudHighlighter Text="@context.WardNumber.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="Room Number">
+            <MudHighlighter Text="@context.RoomNumber.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="Total Beds">
+            <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
+        </MudTd>  
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-WardBeds/{@context.WardId}/{@context.WardNumber}"))">View Beds</MudButton>
+       </MudTd>
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.WardId))">Edit</MudButton>
+       </MudTd>
+       <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.WardId))">Delete</MudButton>
+       </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Rows" />
+    </PagerContent>
+    </MudTable>
+    }
+
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string Patient;
+    public bool isFilters = true;
+    public bool isTableView = true;
+    private List<WardDTO> _wards = new();
+    private WardDTO ward = new();
+    private MudTable<WardDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+
+    public void ViewFilters()
+    {
+        isFilters = true;
+    }
+    public void CloseFilters()
+    {
+        isFilters = false;
+    }
+
+    public void SetViewGrid()
+    {
+        isTableView = false;
+    }
+     public void SetViewTable()
+    {
+        isTableView = true;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllWards();
+    }
+
+   
+    private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        if (id != 0)
+        {
+            ward = _wards.FirstOrDefault(c => c.WardId == id);
+            if (ward != null)
+            {
+                parameters.Add(nameof(AddEditWard.AddEditWardModel), new WardDTO
+                {
+                    WardId = ward.WardId,
+                    WardNumber = ward.WardNumber,
+                    RoomNumber = ward.RoomNumber,
+                    TotalBeds = ward.TotalBeds
+                });
+            }
+        }
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<AddEditWard>(id == 0 ? "Create" : "Edit", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await _table.ReloadServerData();
+        }
+    }
+
+    public async Task GetAllWards()
+    {
+        var wards = await wardService.GetAll();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
+    }
+
+    private bool Search(WardDTO ward) => FilterFunc(ward, _searchString);
+
+    private bool FilterFunc(WardDTO ward, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (ward.WardNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (ward.RoomNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+     private async Task GetWardAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await wardService.GetAllWardsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _wards = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+        private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<WardDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetWardAsync(state);
+            return new TableData<WardDTO> { TotalItems = _totalItems, Items = _wards };
+        }
+         private async Task Delete(int id)
+        {
+            string deleteContent = $"Delete Ward {_wards.FirstOrDefault(c => c.WardId == id).WardNumber}";
+            var parameters = new DialogParameters
+            {
+                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await wardService.DeleteAsync(id);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Ward Deleted", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+}
+

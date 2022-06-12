@@ -1,0 +1,407 @@
+﻿@using ClinicManager.Data.Modals.CarePlan.NursePresentation
+@inject IDialogService DialogService
+
+<MudItem xs="12" md="12" sm="12">
+    <MudText Align="Align.Center" Typo="Typo.h6">
+        Nurse Presentation
+    </MudText>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Observations">
+            <MudGrid>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Vital Signs</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Neurological</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Neurovascular</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Blood Glucose</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Urine Test</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success"OnClick="(() => AddUrineTest())" 
+                     Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Blood</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Oxygenation">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Mask</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Polymask</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Nasal Cannula</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Inhala/Nebs</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Fluids/Electrolyte">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">IV</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Oral</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Tube</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Monitor Fluid</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Check IV Suite</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Nutrition">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Keep N.P.O</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Full Ward Diet</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Special</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Hygiene">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Bedbath</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Assist: Basin/Bath</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Selfcare</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Skin Integrity">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Pressure Part Care</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Report Redness</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Psychosocial/Spiritual">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Health Education</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Communication</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Support</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Comfort Sleep">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Pain Control</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Mobility">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Mobile/Immobile</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Walk With Assitance</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Assist Into Chair</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Bedrest</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-3" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Exercises</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Safety">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Check ID Bands</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Cotsides</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Special Intervention">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Medication</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Wound Care</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Post Operative Care</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Isolation</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Traction</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Elimination">
+            <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Continent</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Catheter</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+
+@code{
+    private void Sign()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SignModal>("Sign", parameters, options);
+    }
+    private void AddUrineTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<UrineTest>("Urine Test", parameters, options);
+    }
+}

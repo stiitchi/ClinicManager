@@ -1,0 +1,121 @@
+﻿<MudDialog Style="width:400px; width:500px">
+    <DialogContent>
+        <MudTabs>
+            <MudTabPanel Text="Details">
+                <MudItem xs="8" md="12" sm="12">
+                    <MudText Class="mr-2 mt-3" Align="Align.Center" Typo="Typo.h6">
+                      Mr. Dumisani Mdani
+                    </MudText>
+                    <MudText Class="mr-2" Align="Align.Center" Typo="Typo.body1">
+                        16047198775091
+                    </MudText>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <center>
+                        <MudChip Size="Size.Medium" Color="Color.Warning">
+                            Ward 2
+                        </MudChip>
+                        <MudChip Size="Size.Medium" Color="Color.Secondary">
+                            Bed 23
+                        </MudChip>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <center>
+                        <MudChip Size="Size.Medium" Color="Color.Info">
+                            18 May
+                        </MudChip>
+                        <MudChip Size="Size.Medium" Color="Color.Secondary">
+                            21:55
+                        </MudChip>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <center>
+                        <MudCard Class="mt-2" Style=" border-radius: 15px 15px 15px 15px;
+                                              background-color: #2196f3">
+                            <MudText Align="Align.Center" Color="Color.Inherit" Typo="Typo.inherit">
+                                Dr Niemann
+                            </MudText>
+                        </MudCard>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <center>
+                        <MudCard Class="mt-2" Style=" border-radius: 15px 15px 15px 15px;
+                                              background-color: #ff9800">
+                            <MudText Class="mr-2" Align="Align.Center" Color="Color.Inherit" Typo="Typo.inherit">
+                                Query Mengitis
+                            </MudText>
+                        </MudCard>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12" Class="mt-3">
+                    <center>
+                        <MudText Align="Align.Left" Color="Color.Inherit" Typo="Typo.inherit">
+                            LOM
+                        </MudText>
+                        <MudChip Class="mr-3" Size="Size.Medium">
+                           7.02
+                        </MudChip>
+                        <MudText Align="Align.Left" Color="Color.Inherit" Typo="Typo.inherit">
+                            Auth
+                        </MudText>
+                        <MudChip Size="Size.Medium">
+                            7.02
+                        </MudChip>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <MudText Class="mt-4" Align="Align.Center" Typo="Typo.h6">
+                        ICD 10 Codes
+                    </MudText>
+                    <MudText Align="Align.Center" Typo="Typo.body2">
+                        <MudChip Size="Size.Small">G03.9</MudChip>
+                        <MudChip Size="Size.Small">U07</MudChip>
+                        <MudChip Size="Size.Small">I10</MudChip>
+                        <MudChip Size="Size.Small">U07</MudChip>
+                        <MudChip Size="Size.Small">A87.9</MudChip>
+                        <MudChip Size="Size.Small">G40</MudChip>
+                        <MudChip Size="Size.Small">I63.9</MudChip>
+                        <MudChip Size="Size.Small">G40</MudChip>
+                        <MudChip Size="Size.Small">R47.0</MudChip>
+                        <MudChip Size="Size.Small">Z50.1</MudChip>
+                    </MudText>
+                </MudItem>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Infections">
+                <MudItem xs="8" md="12" sm="12">
+                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                        Co-Mobilities
+                    </MudText>
+                    <center>
+                        <MudChip Color="Color.Error" Size="Size.Medium">Ashtma</MudChip>
+                        <MudChip Color="Color.Error" Size="Size.Medium">Epilepsy</MudChip>
+                        <MudChip Color="Color.Error" Size="Size.Medium">Hypertension</MudChip>
+                    </center>
+                </MudItem>
+                <MudItem xs="8" md="12" sm="12">
+                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                       Allergies
+                    </MudText>
+                    <center>
+                        <MudChip Color="Color.Error" Size="Size.Medium">Tavanic</MudChip>
+                    </center>
+                </MudItem>
+            </MudTabPanel>
+        </MudTabs>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" Style=" border-radius: 10px 10px 10px 10px;"
+                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

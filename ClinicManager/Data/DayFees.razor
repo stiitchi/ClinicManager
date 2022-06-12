@@ -1,0 +1,232 @@
+﻿@page "/day-fees"
+@using ClinicManager.Web.Infrastructure.Services.DayFees
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IDayFeesService dayFeesService 
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Day Fees
+            </MudText>
+        </MudItem>
+          <MudItem xs="12" md="6" sm="6">
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                       Variant="Variant.Outlined">New Day Fee</MudButton>
+        </MudItem>
+
+            <MudItem xs="12" md="6" sm="6">
+                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+            </MudItem>
+        @if (!isTableView)
+        {
+            @foreach (var dayFee in _dayFees)
+            {
+                <MudItem xs="12" md="3" sm="3">
+                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                        <MudCardContent>
+                            <MudText Align="Align.Center" Typo="Typo.h6">@dayFee.DayFeeCode</MudText>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudText Align="Align.Center" Typo="Typo.body1">@dayFee.Description</MudText>
+                            </center>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
+                            </center>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        }
+    </MudGrid>
+    @if (isTableView)
+    {
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_dayFees"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<DayFeesDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<DayFeesDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+        </div>
+        <MudSpacer />
+            <MudTextField Label="Search Day Fees" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="DayFeesDTO" SortLabel="DayFeeID">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="DayFeesDTO" SortLabel="DayFeeCode">Day Fee Code</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="DayFeesDTO" SortLabel="Description">Day Fee Description</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Day Fee ID">
+            <MudHighlighter Text="@context.DayFeeID.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="Day Fee Code">
+            <MudHighlighter Text="@context.DayFeeCode" HighlightedText="@_searchString" />
+        </MudTd>
+         <MudTd DataLabel="Description">
+            <MudHighlighter Text="@context.Description" HighlightedText="@_searchString" />
+        </MudTd>   
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.DayFeeID))">Edit</MudButton>
+       </MudTd>
+       <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.DayFeeID))">Delete</MudButton>
+       </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Rows" />
+    </PagerContent>
+    </MudTable>
+    }
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string Patient;
+    private List<DayFeesDTO> _dayFees = new();
+    public bool isTableView = true;
+    private DayFeesDTO dayFee = new();
+    private MudTable<DayFeesDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+        protected async override Task OnInitializedAsync()
+        {
+            await GetAllDayFees();
+        }
+
+        public async Task GetAllDayFees()
+        {
+            var dayFees = await dayFeesService.GetAll();
+            if (dayFees.Succeeded)
+            {
+                _dayFees = dayFees.Data;
+            }
+        }
+
+         public void SetViewGrid()
+        {
+            isTableView = false;
+        }
+         public void SetViewTable()
+        {
+            isTableView = true;
+        }
+
+         private async Task InvokeModal(int id = 0)
+        {
+            var parameters = new DialogParameters();
+            if (id != 0)
+            {
+                dayFee = _dayFees.FirstOrDefault(c => c.DayFeeID == id);
+                if (dayFee != null)
+                {
+                    parameters.Add(nameof(AddEditDayFee.AddEditDayFeeModel), new DayFeesDTO
+                    {
+                     DayFeeID = dayFee.DayFeeID,
+                     DateAdded = dayFee.DateAdded,
+                     DayFeeCode = dayFee.DayFeeCode,
+                     Description = dayFee.Description
+                    });
+                }
+            }
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddEditDayFee>(id == 0 ? "Create" : "Edit", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await _table.ReloadServerData();
+            }
+        }
+        private bool Search(DayFeesDTO dayFee) => FilterFunc(dayFee, _searchString);
+
+        private bool FilterFunc(DayFeesDTO dayFee, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (dayFee.DayFeeCode.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            if (dayFee.Description.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+         private async Task GetDayFeesAsync(TableState state)
+        {
+            string[] orderings = null;
+            if (!string.IsNullOrEmpty(state.SortLabel))
+            {
+                orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+            }
+
+            var response = await dayFeesService.GetAllDayFeesTable(state.Page + 1, state.PageSize, _searchString, orderings);
+            if (response.Succeeded)
+            {
+                _totalItems = response.TotalCount;
+                _currentPage = response.CurrentPage;
+                _dayFees = response.Data;
+            }
+            else
+            {
+                foreach (var message in response.Messages)
+                {
+                    _snackBar.Add(message, Severity.Error);
+                }
+            }
+        }
+
+        private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<DayFeesDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetDayFeesAsync(state);
+            return new TableData<DayFeesDTO> { TotalItems = _totalItems, Items = _dayFees };
+        }
+
+         private async Task Delete(int id)
+        {
+            string deleteContent = $"Delete Day Fee {_dayFees.FirstOrDefault(c => c.DayFeeID == id).DayFeeCode}";
+            var parameters = new DialogParameters
+            {
+                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await dayFeesService.DeleteAsync(id);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Day Fee Deleted", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+}

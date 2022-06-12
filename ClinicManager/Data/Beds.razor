@@ -1,0 +1,231 @@
+﻿@page "/beds"
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IBedService bedService 
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Beds
+            </MudText>
+        </MudItem>
+          <MudItem xs="12" md="6" sm="6">
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                       Variant="Variant.Outlined">New Bed</MudButton>
+        </MudItem>
+
+            <MudItem xs="12" md="6" sm="6">
+                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+            </MudItem>
+        @if (!isTableView)
+        {
+            @foreach (var bed in _beds)
+            {
+                <MudItem xs="12" md="3" sm="3">
+                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                        <MudCardContent>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> Bed @bed.BedNumber</MudText>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudText Align="Align.Center" Typo="Typo.body1">Ward @bed.WardNumber</MudText>
+                            </center>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
+                            </center>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        }
+    </MudGrid>
+    @if (isTableView)
+    {
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_beds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+        </div>
+        <MudSpacer />
+            <MudTextField Label="Search Beds" @bind-Value="SearchField" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="BedDTO" SortLabel="BedNumber">Bed Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="BedDTO" SortLabel="WardNumber">Ward Number</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="BedNumber">
+            <MudHighlighter Text="@context.BedNumber.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+         <MudTd DataLabel="WardNumber">
+            <MudHighlighter Text="@context.WardNumber?.ToString()" HighlightedText="@_searchString" />
+        </MudTd>   
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.BedId))">View Patient</MudButton>
+       </MudTd>
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.BedId))">Edit</MudButton>
+       </MudTd>
+       <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.BedId))">Delete</MudButton>
+       </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Rows" />
+    </PagerContent>
+    </MudTable>
+    }
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string SearchField;
+    private List<BedDTO> _beds = new();
+    public bool isTableView = true;
+    private BedDTO bed = new();
+    private MudTable<BedDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+        protected async override Task OnInitializedAsync()
+        {
+            await GetAllBeds();
+        }
+
+        public async Task GetAllBeds()
+        {
+            var beds = await bedService.GetAll();
+            if (beds.Succeeded)
+            {
+                _beds = beds.Data;
+            }
+        }
+
+         public void SetViewGrid()
+        {
+            isTableView = false;
+        }
+         public void SetViewTable()
+        {
+            isTableView = true;
+        }
+
+         private async Task InvokeModal(int id = 0)
+        {
+            var parameters = new DialogParameters();
+            if (id != 0)
+            {
+                bed = _beds.FirstOrDefault(c => c.BedId == id);
+                if (bed != null)
+                {
+                    parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
+                    {
+                    BedId = bed.BedId,
+                    BedNumber = bed.BedNumber,
+                    WardNumber = bed.WardNumber,
+                    WardId = bed.WardId
+                    });
+                }
+            }
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddEditBed>(id == 0 ? "Create Bed" : "Edit Bed", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await _table.ReloadServerData();
+            }
+        }
+        private bool Search(BedDTO bed) => FilterFunc(bed, _searchString);
+
+        private bool FilterFunc(BedDTO bed, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (bed.BedNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            if (bed.WardNumber?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+         private async Task GetBedsAsync(TableState state)
+        {
+            string[] orderings = null;
+            if (!string.IsNullOrEmpty(state.SortLabel))
+            {
+                orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+            }
+
+            var response = await bedService.GetAllBedsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+            if (response.Succeeded)
+            {
+                _totalItems = response.TotalCount;
+                _currentPage = response.CurrentPage;
+                _beds = response.Data;
+            }
+            else
+            {
+                foreach (var message in response.Messages)
+                {
+                    _snackBar.Add(message, Severity.Error);
+                }
+            }
+        }
+
+        private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<BedDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetBedsAsync(state);
+            return new TableData<BedDTO> { TotalItems = _totalItems, Items = _beds };
+        }
+
+         private async Task Delete(int id)
+        {
+            string deleteContent = $"Delete Bed {_beds.FirstOrDefault(c => c.BedId == id).BedNumber}";
+            var parameters = new DialogParameters
+            {
+                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await bedService.DeleteAsync(id);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Bed Deleted", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+}

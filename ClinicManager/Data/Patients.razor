@@ -1,0 +1,96 @@
+﻿@page "/patients"
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@inject IPatientService patientService 
+
+<MudContainer>
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Patients
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudTextField Label="Search Patient" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+            <MudButton Color="Color.Info" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
+                       Variant="Variant.Outlined">New Patient</MudButton>
+        </MudItem>
+        <MudItem xs="12" md="3" sm="3">
+            <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
+        </MudItem>
+        <MudItem xs="12" md="3" sm="3">
+            <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
+        </MudItem>
+        @foreach(var patient in _patients)
+        {
+        <MudItem xs="12" md="6" sm="6">
+            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardContent>
+                    <MudText Align="Align.Center" Typo="Typo.h6">@patient.Title @patient.FullName</MudText>
+                </MudCardContent>
+                <MudCardContent>
+                    <MudText Align="Align.Center" Typo="Typo.body1">@patient.IDNo</MudText>
+                </MudCardContent>
+                <MudCardContent>
+                    <center>
+                        <MudChip Size="Size.Large" Color="Color.Info">
+                            @patient.AdmissionDate.ToString("MMMM dd")
+                        </MudChip>
+                        <MudChip Size="Size.Large" Color="Color.Secondary">
+                            @patient.AdmissionTime.ToShortTimeString()
+                        </MudChip>
+                    </center>
+                </MudCardContent>
+                <MudCardContent>
+                    <center>
+                        <MudTooltip Text="Discharge Patient">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Success" Icon="@Icons.Material.TwoTone.Home" />
+                        </MudTooltip>
+                        <MudTooltip Text="Move Patient">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Warning" Icon="@Icons.Material.TwoTone.MoveUp" />
+                        </MudTooltip>
+                        <MudTooltip Text="Patient Infections">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Error" Icon="@Icons.Filled.AccessibilityNew" />
+                        </MudTooltip>
+                        <MudTooltip Text="Patient Reports">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" />
+                        </MudTooltip>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string Patient;
+    private List<PatientDTO> _patients = new();
+    private PatientDTO patient = new();
+
+    private void AddPatient()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<ViewPatientDetails>("Patient Details", parameters, options);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllPatients();
+    }
+
+    public async Task GetAllPatients()
+    {
+        var patient = await patientService.GetAll();
+        if (patient.Succeeded)
+        {
+            _patients = patient.Data;
+        }
+    }
+}
+

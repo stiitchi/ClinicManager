@@ -1,0 +1,221 @@
+﻿<MudDialog Style="height:780px;">
+    <DialogContent>
+        <MudTabs Position="Position.Top">
+            <MudTabPanel Text="Personal Details">
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value1" Label="ID Number" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Mr")" />
+                        <MudSelectItem T="string" Value="@("Mrs")" />
+                        <MudSelectItem T="string" Value="@("Ms")" />
+                        <MudSelectItem T="string" Value="@("Miss")" />
+                        <MudSelectItem T="string" Value="@("Dr")" />
+                    </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value3" Label="First Name" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value4" Label="Last Name" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudDatePicker Text="Date of Birth" Variant="Variant.Outlined" Date="date"></MudDatePicker>
+                </MudItem>
+                <MudItem Class="mt-2 mb-2" sm="12">
+                  <MudText Typo="Typo.h6">Emergency Contact Details</MudText>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value5" Label="First Name" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value6" Label="Last Name" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value7" Label="Contact Number" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Relationship" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Mother")" />
+                        <MudSelectItem T="string" Value="@("Father")" />
+                        <MudSelectItem T="string" Value="@("Brother")" />
+                        <MudSelectItem T="string" Value="@("Sister")" />
+                        <MudSelectItem T="string" Value="@("Spouse")" />
+                        <MudSelectItem T="string" Value="@("Cousin")" />
+                        <MudSelectItem T="string" Value="@("Partner")" />
+                        <MudSelectItem T="string" Value="@("Grandparent")" />
+                        <MudSelectItem T="string" Value="@("Other")" />
+                    </MudSelect>
+                </MudItem>
+            </MudTabPanel>
+            <MudTabPanel Text="Admission Details">
+                <MudItem sm="12">
+                    <MudDatePicker Text="Admission Date" Variant="Variant.Outlined" Date="date2"></MudDatePicker>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value9" Label="Other Members" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Select Ward" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Ward 1")" />
+                        <MudSelectItem Value="@("Ward 2")" />
+                        <MudSelectItem Value="@("Ward 3")" />
+                        <MudSelectItem Value="@("Ward 4")" />
+                        <MudSelectItem Value="@("Ward 5")" />
+                    </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Select Bed" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Bed 1")" />
+                        <MudSelectItem Value="@("Bed 2")" />
+                        <MudSelectItem Value="@("Bed 3")" />
+                        <MudSelectItem Value="@("Bed 4")" />
+                        <MudSelectItem Value="@("Bed 5")" />
+                    </MudSelect>
+                </MudItem>
+            </MudTabPanel>
+            <MudTabPanel Text="Wound Care">
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="value10" Label="Other Members" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Stage" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Stage 1")" />
+                        <MudSelectItem Value="@("Stage 2")" />
+                        <MudSelectItem Value="@("Stage 3")" />
+                        <MudSelectItem Value="@("Stage 4")" />
+                        <MudSelectItem Value="@("Stage 5")" />
+                    </MudSelect>
+                </MudItem>
+            </MudTabPanel>
+            <MudTabPanel Text="Medical Details">
+                <MudItem sm="12">
+                    <MudSelect T="string" @bind-Value="value11" Label="Province"
+                               Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Gauteng")" />
+                        <MudSelectItem Value="@("North-West")" />
+                        <MudSelectItem Value="@("Kwa-Zulu Natal")" />
+                        <MudSelectItem Value="@("Free State")" />
+                        <MudSelectItem Value="@("Limpopo")" />
+                        <MudSelectItem Value="@("Mpumalanga")" />
+                        <MudSelectItem Value="@("Western Cape")" />
+                        <MudSelectItem Value="@("Eastern Cape")" />
+                        <MudSelectItem Value="@("Northern Cape")" />                     
+                    </MudSelect>
+                </MudItem>
+                @if (value11 != ""){
+                   <MudItem sm="12">
+                    <MudAutocomplete T="string" Label="Search Hospital"
+                                     @bind-Value="value12" SearchFunc="@Search2"
+                        ResetValueOnEmptyText="@resetValueOnEmptyText2"
+                        CoerceText="@coerceText2" CoerceValue="@coerceValue2"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                }
+                @if(value12 != "") { 
+                <MudItem sm="12">
+                    <MudAutocomplete T="string" Label="Search Doctor"
+                        @bind-Value="value13" SearchFunc="@Search1"
+                        ResetValueOnEmptyText="@resetValueOnEmptyText"
+                        CoerceText="@coerceText" CoerceValue="@coerceValue"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                }
+                @if(value13 != "") { 
+                <MudItem sm="12">
+                    <MudAutocomplete T="string" Label="Search Medical Aid"
+                        @bind-Value="value13" SearchFunc="@Search3"
+                        ResetValueOnEmptyText="@resetValueOnEmptyText"
+                        CoerceText="@coerceText" CoerceValue="@coerceValue"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+                </MudItem>
+                }
+            </MudTabPanel>
+        </MudTabs>    
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Info" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+    public DateTime date = DateTime.Today;
+    public DateTime date2 = DateTime.Today;
+    public DateTime date3 = DateTime.Today;
+    private bool resetValueOnEmptyText;
+    private bool coerceText;
+    private bool coerceValue;
+    private bool resetValueOnEmptyText2;
+    private bool coerceText2;
+    private bool coerceValue2;
+    private bool resetValueOnEmptyText3;
+    private bool coerceText3;
+    private bool coerceValue3;
+    public string value1;
+    public string value2;
+    public string value3;
+    public string value4;
+    public string value5;
+    public string value6;
+    public string value7;
+    public string value8;
+    public string value9;
+    public string value10;
+    public string value11;
+    public string value12;
+    public string value13;
+    public string value14;
+
+    private async Task<IEnumerable<string>> Search2(string value)
+    {
+        await Task.Delay(2);
+        if (string.IsNullOrEmpty(value))
+            return new string[0];
+        return hospitals.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> Search1(string value)
+    {
+        await Task.Delay(2);
+        if (string.IsNullOrEmpty(value))
+            return new string[0];
+        return docs.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> Search3(string value)
+    {
+        await Task.Delay(2);
+        if (string.IsNullOrEmpty(value))
+            return new string[0];
+        return medicalAids.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private string[] docs =
+{
+        "De Beer", "Nkosi", "Jabulani", "Merdoc",
+        "Smith", "Van Huysteen"
+    };
+
+    private string[] hospitals =
+    {
+        "Montana", "Kalafong", "Jakaranda", "Eugene Marias"
+    };
+
+    private string[] medicalAids =
+    {
+        "Discovery", "Best Med", "Bonitas", "Momentum"
+    };
+
+    [Parameter] public string ContentText { get; set; }
+
+    [Parameter] public string ButtonText { get; set; }
+
+    [Parameter] public Color Color { get; set; }
+
+}

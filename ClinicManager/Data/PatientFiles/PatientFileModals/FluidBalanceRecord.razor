@@ -1,0 +1,102 @@
+﻿@inject IDialogService DialogService
+
+<MudItem xs="12" md="12" sm="12">
+    <MudText Align="Align.Center" Typo="Typo.h6">
+        Fluid Balance Record
+    </MudText>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Intravenous Intake">
+            <MudItem xs="8" md="12" sm="12">
+                <MudTimePicker Time="time" AmPm="true" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Type" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="IV Check" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Volume" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Total" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Note" Variant="Variant.Outlined" />
+            </MudItem>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Oral/Tube Intake">
+            <MudItem xs="8" md="12" sm="12">
+                <MudTimePicker Time="time" AmPm="true" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Volume" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Total" Variant="Variant.Outlined" />
+            </MudItem>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Output">
+            <MudItem xs="8" md="12" sm="12">
+                <MudTimePicker Time="time" AmPm="true" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Urine" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Total" Variant="Variant.Outlined" />
+            </MudItem>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Total">
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Previous 24 Hours Intake" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Previous 24 Hours Output" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+                <MudTextField @bind-Value="value" Label="Total Intake In 24 Hours" Variant="Variant.Outlined" />
+            </MudItem>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+<MudItem md="6" sm="6">
+    <center>
+        <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                   Style="border-radius:10px 10px 10px 10px"
+                   OnClick="Sign">Sign</MudButton>
+    </center>
+</MudItem>
+<MudItem md="6" sm="6">
+    <center>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                   Style="border-radius:10px 10px 10px 10px">Add Presentation</MudButton>
+    </center>
+</MudItem>
+
+@code{
+    public string value;
+    public DateTime today = DateTime.Today;
+    public TimeSpan time = DateTime.Now.TimeOfDay;
+
+    private void Sign()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SignModal>("Sign", parameters, options);
+    }
+}

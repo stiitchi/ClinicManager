@@ -1,0 +1,108 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Shared.DTO_s
+@inject IICDCodeService icdCodeService 
+
+
+<EditForm Model="@AddEditICDModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+            if (AddEditICDModel.ICDCodeId == 0)
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Add ICD Code
+            </MudText>
+            }
+            else
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                Update ICD Code
+            </MudText>
+            }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField T="string" For="@(() => AddEditICDModel.ICDCode)" @bind-Value="AddEditICDModel.ICDCode" Label="ICD Code" />
+                </MudItem>
+                 <MudItem xs="12">
+                    <MudTextField T="string" For="@(() => AddEditICDModel.Description)" @bind-Value="AddEditICDModel.Description" Label="ICD Code Description" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated || _processing)"  Color="Color.Secondary">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                @if (AddEditICDModel.ICDCodeId != 0)
+                {
+                    <MudText>Update</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ICDCodeDTO AddEditICDModel { get; set; } = new();
+    private bool _processing = false;
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        if (AddEditICDModel.ICDCodeId == 0)
+            response = await icdCodeService.SaveAsync(AddEditICDModel);
+        else
+            response = await icdCodeService.UpdateAsync(AddEditICDModel);
+
+        if (response.Succeeded)
+        {
+            if (AddEditICDModel.ICDCodeId == 0)
+            {
+                _snackBar.Add("New ICD Code Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("ICD Code Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }     
+}

@@ -1,0 +1,72 @@
+﻿@page "/admissions"
+@using ClinicManager.Web.Infrastructure.Services.Admission
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@inject IAdmissionService admissionService
+
+<MudContainer>
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Admissions
+            </MudText>
+        </MudItem>
+             
+        <MudItem xs="12" md="12" sm="12">
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                       Variant="Variant.Outlined">New Admission</MudButton>
+        </MudItem>
+        @foreach(var admission in _admissions)
+        {
+        <MudItem xs="12" md="6" sm="6">
+           <MudNavLink>
+                <MudCard Elevation="5" Style="border-radius: 10px 10px 10px 10px">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <center>
+                                <MudChip Size="Size.Large" Color="Color.Warning">@admission.AdmissionDate.ToString("MMMM dd")</MudChip>
+                                <MudChip Size="Size.Large" Color="Color.Secondary">@admission.AdmissionTime.ToString("HH:mm")</MudChip>
+                            </center>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                                <MudText Class="ml-3 mt-2" Typo="Typo.h6">@admission.PatientFullName @admission.LastName</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudCard>
+           </MudNavLink>
+        </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code{
+    DateTime? date = DateTime.Today;
+    public string Patient;
+    private List<AdmissionDTO> _admissions = new();
+    private AdmissionDTO admission = new();
+
+    private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<AdmissionFormModal>("Admission Form", parameters, options);
+        var result = await dialog.Result;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllAdmissions();
+    }
+
+    public async Task GetAllAdmissions()
+    {
+        var admission = await admissionService.GetAll();
+        if (admission.Succeeded)
+        {
+            _admissions = admission.Data;
+        }
+    }
+
+
+}
+
