@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 {
-   public class GetBedRestRecordByPatientIdQuery : IRequest<Result<MobilityRecordDTO>>
+   public class GetBedRestRecordByPatientIdQuery : IRequest<Result<BedRestDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetBedRestRecordByPatientIdQueryHandler : IRequestHandler<GetBedRestRecordByPatientIdQuery, Result<MobilityRecordDTO>>
+    public class GetBedRestRecordByPatientIdQueryHandler : IRequestHandler<GetBedRestRecordByPatientIdQuery, Result<BedRestDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,29 +20,29 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<MobilityRecordDTO>> Handle(GetBedRestRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<BedRestDTO>> Handle(GetBedRestRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var bedRestEntry = await _context.BedRestTests.AsNoTracking()
                     .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.BedRestFrequency != 0,
+                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId,
                     cancellationToken);
                 if (bedRestEntry == null)
                     throw new Exception("Unable to return Bed Rest Record");
 
-                var dto = new MobilityRecordDTO
+                var dto = new BedRestDTO
                 {
                     BedRestFrequency = bedRestEntry.BedRestFrequency,
                     BedRestSignature = bedRestEntry.BedRestSignature,
                     BedRestTime = bedRestEntry.BedRestTime,
                     PatientId = bedRestEntry.PatientId
                 };
-                return await Result<MobilityRecordDTO>.SuccessAsync(dto);
+                return await Result<BedRestDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<MobilityRecordDTO>.FailAsync(ex.Message);
+                return await Result<BedRestDTO>.FailAsync(ex.Message);
             }
         }
     }

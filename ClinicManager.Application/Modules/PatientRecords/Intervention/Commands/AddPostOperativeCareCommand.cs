@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
     {
         public DateTime PostOperativeCareTime { get; set; }
         public int PostOperativeCareFreq { get; set; }
+        public int PostOperativeCareId { get; set; }
         public string PostOperativeCareSignature { get; set; }
         public int PatientId { get; set; }
 

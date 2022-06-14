@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Commands
     {
         public DateTime SelfCareTime { get; set; }
         public int SelfCareFreq { get; set; }
+        public int SelfCareId { get; set; }
         public string SelfCareSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Commands
                 try
                 {
                     var selfCareEntry = await _context.SelfCareTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.SelfCareId, cancellationToken);
                     if (selfCareEntry != null)
                         throw new Exception("Self Care Record already exists");
 

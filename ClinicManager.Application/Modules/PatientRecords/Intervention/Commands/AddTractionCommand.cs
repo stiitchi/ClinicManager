@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
     {
         public DateTime TractionTime { get; set; }
         public int TractionFreq { get; set; }
+        public int TractionId { get; set; }
         public string TractionSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
                 try
                 {
                     var tractionEntry = await _context.TractionTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.TractionId, cancellationToken);
                     if (tractionEntry != null)
                         throw new Exception("Traction Record already exists");
 

@@ -4,6 +4,7 @@
     {
         public DateTime AssistIntoChairTime { get; set; }
         public int AssistIntoChairFrequency { get; set; }
+        public int AssistIntoChairId { get; set; }
         public string AssistIntoChairSignature { get; set; }
         public int PatientId { get; set; }
     }

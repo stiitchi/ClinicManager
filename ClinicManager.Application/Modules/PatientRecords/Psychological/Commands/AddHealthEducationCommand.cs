@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
     {
         public DateTime HealthEducationTime { get; set; }
         public int HealthEducationFrequency { get; set; }
+        public int HealthEducationId { get; set; }
         public string HealthEducationSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
                 try
                 {
                     var healthEducationEntry = await _context.HealthCareTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.HealthEducationId
+                                                     ,cancellationToken);
                     if (healthEducationEntry != null)
                         throw new Exception("Health Education Record already exists");
 

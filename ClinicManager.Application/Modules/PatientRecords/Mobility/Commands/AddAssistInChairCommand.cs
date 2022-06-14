@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
     {
         public DateTime AssistIntoChairTime { get; set; }
         public int AssistIntoChairFrequency { get; set; }
+        public int AssistIntoChairId { get; set; }
         public string AssistIntoChairSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
                 try
                 {
                     var chairAssistEntry = await _context.WalkChairTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId &&c.Id == request.AssistIntoChairId, cancellationToken);
                     if (chairAssistEntry != null)
                         throw new Exception("Mobility Record already exists");
 

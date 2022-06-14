@@ -32,7 +32,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Commands
         {
             try
             {
-                var stoolCharts = await _context.StoolChartTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.StoolChartId, cancellationToken);
+                var stoolCharts = await _context.StoolChartTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.StoolChartId && c.PatientId == request.PatientId, cancellationToken);
                 if (stoolCharts != null)
                     throw new Exception("Stool Chart already exists");
 

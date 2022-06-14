@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
     {
         public DateTime IsolationTime { get; set; }
         public int IsolationFreq { get; set; }
+        public int IsolationId { get; set; }
         public string IsolationSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
                 try
                 {
                     var isolationEntry = await _context.IsolationTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.IsolationId, cancellationToken);
                     if (isolationEntry != null)
                         throw new Exception("Isolation Record already exists");
 

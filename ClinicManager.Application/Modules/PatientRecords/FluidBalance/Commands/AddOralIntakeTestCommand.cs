@@ -9,6 +9,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
     public class AddOralIntakeTestCommand : IRequest<Result<int>>
     {
         public int PatientId { get; set; }
+        public int OralIntakeId { get; set; }
         public int OralIntakeMl { get; set; }
         public int OralIntakeVolume { get; set; }
         public int RunningTotalOral { get; set; }
@@ -29,7 +30,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
         {
             try
             {
-                var oralTest = await _context.OralTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                var oralTest = await _context.OralTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.OralIntakeId, cancellationToken);
                 if (oralTest != null)
                     throw new Exception("Oral Test already exists");
 

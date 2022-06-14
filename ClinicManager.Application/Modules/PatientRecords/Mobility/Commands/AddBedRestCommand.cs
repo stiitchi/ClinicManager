@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
     {
         public DateTime BedRestTime { get; set; }
         public int BedRestFrequency { get; set; }
+        public int BedRestId { get; set; }
         public string BedRestSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
                 try
                 {
                     var bedRestEntry = await _context.BedRestTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.BedRestId, cancellationToken);
                     if (bedRestEntry != null)
                         throw new Exception("Bed Rest Record already exists");
 

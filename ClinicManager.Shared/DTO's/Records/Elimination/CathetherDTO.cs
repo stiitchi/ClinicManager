@@ -6,5 +6,6 @@
         public int CatheterFreq { get; set; }
         public string CatheterSignature { get; set; }
         public int PatientId { get; set; }
+        public int CatheterId { get; set; }
     }
 }

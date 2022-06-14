@@ -12,7 +12,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Commands
         public int CatheterFreq { get; set; }
         public string CatheterSignature { get; set; }
         public int CatheterPatientId { get; set; }
-        public int EliminationRecordId { get; set; }
+        public int CatheterRecordId { get; set; }
 
     }
 
@@ -30,7 +30,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Commands
             try
             {
                 var cathetherEntry = await _context.CathetherRecords.IgnoreQueryFilters()
-                                                 .FirstOrDefaultAsync(c => c.Id == request.EliminationRecordId, cancellationToken);
+                                                 .FirstOrDefaultAsync(c => c.Id == request.CatheterRecordId, cancellationToken);
                 if (cathetherEntry != null)
                     throw new Exception("Cathether Entry already exists");
 

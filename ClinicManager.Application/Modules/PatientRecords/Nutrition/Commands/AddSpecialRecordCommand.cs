@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
     {
         public DateTime SpecialTime { get; set; }
         public int SpecialFrequency { get; set; }
+        public int SpecialId { get; set; }
         public string SpecialSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
                 try
                 {
                     var specialEntry = await _context.SpecialTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.SpecialId
+                                                     ,cancellationToken);
                     if (specialEntry != null)
                         throw new Exception("NPO Record already exists");
 

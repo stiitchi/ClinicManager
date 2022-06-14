@@ -4,7 +4,7 @@
     {
         public DateTime BloodTime { get; set; }
         public int BloodFrequency { get; set; }
-        public int BloodFrequencyId { get; set; }
+        public int BloodId { get; set; }
         public string BloodSignature { get; set; }
         public int PatientId { get; set; }
     }

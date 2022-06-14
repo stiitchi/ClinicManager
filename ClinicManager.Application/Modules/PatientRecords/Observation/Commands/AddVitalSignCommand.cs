@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
     {
         public DateTime VitalSignsTime { get; set; }
         public int VitalSignsFrequency { get; set; }
+        public int VitalSignsId { get; set; }
         public string VitalSignSignature { get; set; }
         public string RecordType { get; set; }
         public int PatientId { get; set; }
@@ -29,9 +30,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                 try
                 {
                     var vitalSignEntry = await _context.VitalSignTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.VitalSignsId,
+                                                     cancellationToken);
                     if (vitalSignEntry != null)
-                        throw new Exception("Vital Sign already exists");
+                        throw new Exception($"Vital Test with Id {request.VitalSignsId} already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

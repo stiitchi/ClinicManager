@@ -3,12 +3,10 @@
       public class OralOutputDTO
     {
         public int PatientId { get; set; }
-        public int OralTestId { get; set; }
-        public int OralOutputVolume { get; set; }
+        public int OralOutputTestId { get; set; }
         public int RunningOutputTotal { get; set; }
         public int OralOutputMl { get; set; }
         public bool IsUrine { get; set; }
-        public string OralCheckType { get; set; }
         public DateTime OralOutputTime { get; set; }
     }
 }

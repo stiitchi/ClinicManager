@@ -4,6 +4,7 @@
     {
         public DateTime NasalCannulaTime { get; set; }
         public int NasalCannulaFrequency { get; set; }
+        public int NasalCannulaId { get; set; }
         public string NasalCannulaSignature { get; set; }
         public int PatientId { get; set; }
     }

@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Hygiene;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 {
-    public class GetBedBathAssistByPatientIdQuery : IRequest<Result<HygieneDTO>>
+    public class GetBedBathAssistByPatientIdQuery : IRequest<Result<BedBathAssistDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetBedBathAssistByPatientIdQueryHandler : IRequestHandler<GetBedBathAssistByPatientIdQuery, Result<HygieneDTO>>
+    public class GetBedBathAssistByPatientIdQueryHandler : IRequestHandler<GetBedBathAssistByPatientIdQuery, Result<BedBathAssistDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<HygieneDTO>> Handle(GetBedBathAssistByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<BedBathAssistDTO>> Handle(GetBedBathAssistByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -30,18 +30,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
                 if (bedBathAssistEntry == null)
                     throw new Exception("Unable to return Bed Bath Record");
 
-                var dto = new HygieneDTO
+                var dto = new BedBathAssistDTO
                 {
                     BedBathAssistTime = bedBathAssistEntry.BedBathAssistTime,
                     BedBathAssistFreq = bedBathAssistEntry.BedBathAssistFrequency,
                     BedBathAssistSignature = bedBathAssistEntry.BedBathAssistSignature,
                     PatientId = bedBathAssistEntry.PatientId
                 };
-                return await Result<HygieneDTO>.SuccessAsync(dto);
+                return await Result<BedBathAssistDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<HygieneDTO>.FailAsync(ex.Message);
+                return await Result<BedBathAssistDTO>.FailAsync(ex.Message);
             }
         }
     }

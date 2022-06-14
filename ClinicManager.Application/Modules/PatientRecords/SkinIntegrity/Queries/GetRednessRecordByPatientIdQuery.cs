@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.SkinIntegrity;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
 {
-    public class GetRednessRecordByPatientIdQuery : IRequest<Result<SkinIntegrityReportDTO>>
+    public class GetRednessRecordByPatientIdQuery : IRequest<Result<RednessDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetRednessRecordByPatientIdQueryHandler : IRequestHandler<GetRednessRecordByPatientIdQuery, Result<SkinIntegrityReportDTO>>
+    public class GetRednessRecordByPatientIdQueryHandler : IRequestHandler<GetRednessRecordByPatientIdQuery, Result<RednessDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<SkinIntegrityReportDTO>> Handle(GetRednessRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<RednessDTO>> Handle(GetRednessRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
                 if (rednessEntry == null)
                     throw new Exception("Unable to return Redness Skin Report");
 
-                var dto = new SkinIntegrityReportDTO
+                var dto = new RednessDTO
                 {
                     ReportRednessSignature = rednessEntry.ReportRednessSignature,
                     ReportRednessFrequency = rednessEntry.ReportRednessFrequency,
                     ReportRednessTime = rednessEntry.ReportRednessTime,
                     PatientId = rednessEntry.PatientId
                 };
-                return await Result<SkinIntegrityReportDTO>.SuccessAsync(dto);
+                return await Result<RednessDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<SkinIntegrityReportDTO>.FailAsync(ex.Message);
+                return await Result<RednessDTO>.FailAsync(ex.Message);
             }
         }
     }

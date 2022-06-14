@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
     {
         public DateTime SupportTime { get; set; }
         public int SupportFrequency { get; set; }
+        public int SupportId { get; set; }
         public string SupportSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
                 try
                 {
                     var supportEntry = await _context.SupportTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.SupportId
+                                                     ,cancellationToken);
                     if (supportEntry != null)
                         throw new Exception("Support Record already exists");
 

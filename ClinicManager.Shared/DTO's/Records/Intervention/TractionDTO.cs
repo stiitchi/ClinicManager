@@ -4,6 +4,7 @@
     {
         public DateTime TractionTime { get; set; }
         public int TractionFreq { get; set; }
+        public int TractionId { get; set; }
         public string TractionSignature { get; set; }
         public int PatientId { get; set; }
     }

@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Commands
     {
         public DateTime CotsidesTime { get; set; }
         public int CotsidesFrequency { get; set; }
+        public int CotsidesId { get; set; }
         public string CotsidesSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Commands
                 try
                 {
                     var cotsideEntry = await _context.CotsideRecords.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.CotsidesId
+                                                     ,cancellationToken);
                     if (cotsideEntry != null)
                         throw new Exception("Cotside Entry already exists");
 

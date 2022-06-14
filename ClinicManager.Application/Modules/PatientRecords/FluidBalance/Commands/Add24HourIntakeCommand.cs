@@ -8,6 +8,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
 {
     public class Add24HourIntakeCommand : IRequest<Result<int>>
     {
+        public int TotalIntakeId { get; set; }
         public int Intake24Hour { get; set; }
         public int Output24Hour { get; set; }
         public int TotalIntake { get; set; }
@@ -29,7 +30,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
         {
             try
             {
-                var intake24Hour = await _context.Previous24HourIntakeTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                var intake24Hour = await _context.Previous24HourIntakeTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.TotalIntakeId, cancellationToken);
                 if (intake24Hour != null)
                     throw new Exception("24 Hour Intake already exists");
 

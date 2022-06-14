@@ -1,16 +1,28 @@
-﻿<MudDialog Style="width:400px;">
+﻿@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+
+@inject IPatientRecordService patientRecordService 
+
+<MudDialog Style="width:400px;">
     <DialogContent>
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="value"  Label="Note" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="AddEditObservationModel.Desc"  Label="Description" Variant="Variant.Outlined" />
+        </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditObservationModel.RiskFactor"  Label="Risk Factor" Variant="Variant.Outlined" />
+        </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditObservationModel.Allergy"  Label="Allergy" Variant="Variant.Outlined" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info" Class="mt-2"
-                       Style="border-radius:10px 10px 10px 10px"
-                       OnClick="Submit">Sign Report</MudButton>
+                       Style="border-radius:10px 10px 10px 10px">
+                        Sign Report</MudButton>
             <MudCard Outlined="true" Class="mt-2"
                      Style="width:350px; height:100px;
                      border-radius:10px 10px 10px 10px" />
@@ -22,18 +34,41 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                   OnClick="Submit">Add Note</MudButton>
+                   OnClick="SaveAsync">Add Progress Note</MudButton>
     </DialogActions>
 </MudDialog>
 
 
+  
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    [Parameter] public ProgressReportDTO AddEditObservationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
-    public string value;
+    private bool _processing = false;
     public DateTime today = DateTime.Today;
     public TimeSpan time = DateTime.Now.TimeOfDay;
 
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        AddEditObservationModel.PatientId = 1;
+
+        time = AddEditObservationModel.TimeAdded.TimeOfDay;
+        response = await patientRecordService.AddProgressReportRecord(AddEditObservationModel);
+        if (response.Succeeded)
+        {
+            _snackBar.Add("Progress Report Saved", Severity.Success);
+            _processing = false;
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+                MudDialog.Close();
+            }
+        }
+    }     
 }

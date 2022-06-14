@@ -33,7 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                                                      .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.UrineTestId
                                                      ,cancellationToken);
                     if (urineTestEntry != null)
-                        throw new Exception("Urine Test already exists");
+                        throw new Exception($"Urine Test with Id {request.UrineTestId} already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

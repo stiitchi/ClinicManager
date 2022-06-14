@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
     {
         public DateTime PolyMaskTime { get; set; }
         public int PolyMaskFrequency { get; set; }
+        public int PolyMaskId { get; set; }
         public string PolyMaskSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
                 try
                 {
                     var polyMaskTimeEntry = await _context.PolyMaskTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.PolyMaskId
+                                                     ,cancellationToken);
                     if (polyMaskTimeEntry != null)
                         throw new Exception("oly Mask Time Record already exists");
 

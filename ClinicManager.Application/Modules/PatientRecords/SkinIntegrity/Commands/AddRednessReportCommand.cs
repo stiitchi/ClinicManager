@@ -11,6 +11,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Command
        {
         public DateTime ReportRednessTime { get; set; }
         public int ReportRednessFrequency { get; set; }
+        public int ReportRednessId { get; set; }
         public string ReportRednessSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -29,7 +30,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Command
                 try
                 {
                     var rednessEntry = await _context.RednessTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.ReportRednessId
+                                                     ,cancellationToken);
                     if (rednessEntry != null)
                         throw new Exception("Redness already exists");
 

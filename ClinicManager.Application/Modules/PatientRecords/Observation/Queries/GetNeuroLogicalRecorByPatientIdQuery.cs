@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 {
-    public class GetNeuroLogicalRecordByPatientIdQuery : IRequest<Result<ObservationRecordDTO>>
+    public class GetNeuroLogicalRecordByPatientIdQuery : IRequest<Result<NeuroLogicalDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetNeuroLogicalRecordByPatientIdQueryHandler : IRequestHandler<GetNeuroLogicalRecordByPatientIdQuery, Result<ObservationRecordDTO>>
+    public class GetNeuroLogicalRecordByPatientIdQueryHandler : IRequestHandler<GetNeuroLogicalRecordByPatientIdQuery, Result<NeuroLogicalDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<ObservationRecordDTO>> Handle(GetNeuroLogicalRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<NeuroLogicalDTO>> Handle(GetNeuroLogicalRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                 if (neuroLogicalRecord == null)
                     throw new Exception("Unable to return Neurological Record");
 
-                var dto = new ObservationRecordDTO
+                var dto = new NeuroLogicalDTO
                 {
                     NeuroLogicalFrequency = neuroLogicalRecord.NeuroLogicalFrequency,
                     NeuroLogicalSignature = neuroLogicalRecord.NeuroLogicalSignature,
                     NeuroLogicalTime = neuroLogicalRecord.NeuroLogicalTime,
                     PatientId = neuroLogicalRecord.PatientId
                 };
-                return await Result<ObservationRecordDTO>.SuccessAsync(dto);
+                return await Result<NeuroLogicalDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<ObservationRecordDTO>.FailAsync(ex.Message);
+                return await Result<NeuroLogicalDTO>.FailAsync(ex.Message);
             }
         }
     }

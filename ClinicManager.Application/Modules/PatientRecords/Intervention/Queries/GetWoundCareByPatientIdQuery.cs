@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Intervention;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 {
-     public class GetWoundCareByPatientIdQuery : IRequest<Result<InterventionRecordDTO>>
+     public class GetWoundCareByPatientIdQuery : IRequest<Result<WoundCareDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetWoundCareByPatientIdQueryHandler : IRequestHandler<GetWoundCareByPatientIdQuery, Result<InterventionRecordDTO>>
+    public class GetWoundCareByPatientIdQueryHandler : IRequestHandler<GetWoundCareByPatientIdQuery, Result<WoundCareDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<InterventionRecordDTO>> Handle(GetWoundCareByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<WoundCareDTO>> Handle(GetWoundCareByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 if (woundCareEntry == null)
                     throw new Exception("Unable to return Wound Care Record");
 
-                var dto = new InterventionRecordDTO
+                var dto = new WoundCareDTO
                 {
                     WoundCareFreq = woundCareEntry.WoundCareFrequency,
                     WoundCareTime = woundCareEntry.WoundCareTime,
                     WoundCareSignature = woundCareEntry.WoundCareSignature,
                     PatientId = woundCareEntry.PatientId
                 };
-                return await Result<InterventionRecordDTO>.SuccessAsync(dto);
+                return await Result<WoundCareDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<InterventionRecordDTO>.FailAsync(ex.Message);
+                return await Result<WoundCareDTO>.FailAsync(ex.Message);
             }
         }
     }

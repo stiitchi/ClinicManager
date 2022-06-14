@@ -25,7 +25,7 @@
         <MudItem md="6" sm="6">
         <MudButton Variant="Variant.Outlined" Color="Color.Info"
                    Style="border-radius:10px 10px 10px 10px"
-                   OnClick="Sign">Sign</MudButton>
+                   >Sign</MudButton>
    
         </MudItem>
         <MudItem md="6" sm="6">
@@ -47,11 +47,6 @@
         DialogService.Show<DateSelector>("Select Date", parameters, options);
     }
 
-    private void Sign()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<SignModal>("Sign", parameters, options);
-    }
+   
 
 }

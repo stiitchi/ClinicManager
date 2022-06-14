@@ -1,0 +1,70 @@
+﻿@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@using ClinicManager.Shared.DTO_s.Records.Observations
+@inject IPatientRecordService patientRecordService 
+
+
+<MudDialog Style="width:400px;">
+    <DialogContent>
+        <EditForm Model="AddEditObservationModel" OnValidSubmit="SaveAsync">
+        <MudItem xs="8" md="12" sm="12">
+            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
+        </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditObservationModel.NeuroLogicalFrequency"  Label="Frequency" Variant="Variant.Outlined" />
+        </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Info" Class="mt-2"
+                       Style="border-radius:10px 10px 10px 10px"
+                       >Sign Report</MudButton>
+            <MudCard Outlined="true" Class="mt-2"
+                     Style="width:350px; height:100px;
+                     border-radius:10px 10px 10px 10px" />
+        </MudItem>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                   Style="border-radius:10px 10px 10px 10px"
+                    OnClick="(() => SaveAsync())">Add Neuro Logical Record</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public NeuroLogicalDTO AddEditObservationModel { get; set; } = new();
+    void Cancel() => MudDialog.Cancel();
+    private bool _processing = false;
+    public DateTime today = DateTime.Today;
+    public TimeSpan time = DateTime.Now.TimeOfDay;
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        AddEditObservationModel.PatientId = 1;
+        AddEditObservationModel.NeuroLogicalSignature = "Signature";
+        
+        time = AddEditObservationModel.NeuroLogicalTime.TimeOfDay;
+        response = await patientRecordService.AddNeuroLogicalRecord(AddEditObservationModel);
+        if (response.Succeeded)
+        {
+            _snackBar.Add("Neuro Logical Test Saved", Severity.Success);
+            _processing = false;
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+                MudDialog.Close();
+            }
+        }
+    }     
+}

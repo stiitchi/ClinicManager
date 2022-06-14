@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
     {
         public DateTime CommunicationTime { get; set; }
         public int CommunicationFrequency { get; set; }
+        public int CommunicationId { get; set; }
         public string CommunicationSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Command
                 try
                 {
                     var communicationEntry = await _context.CommunicationTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.CommunicationId
+                                                     ,cancellationToken);
                     if (communicationEntry != null)
                         throw new Exception("Communication Record already exists");
 

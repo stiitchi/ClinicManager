@@ -1,4 +1,19 @@
-﻿@using ClinicManager.Data.Modals.CarePlan.NursePresentation
+﻿@using ClinicManager.Data.Modals.CarePlan.NursePresentation.ComfortSleep
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.DailyCare
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Elimination
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Fluid_Balance
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Hygiene
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Intervention
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Mobility
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Nutrition
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Observations
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Oxygenation
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.ProgressReport
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Psychological
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Safety
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.SkinIntegrity
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.SkinReport
+@using ClinicManager.Data.Modals.CarePlan.NursePresentation.StoolChart
 @inject IDialogService DialogService
 
 <MudItem xs="12" md="12" sm="12">
@@ -15,35 +30,39 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddVitalSignTest())" 
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Neurological</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddNeuroLogicalTest())" 
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Neurovascular</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddNeuroVascularTest())"  
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Blood Glucose</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddBloodGlucoseTest())" 
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Urine Test</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success"OnClick="(() => AddUrineTest())" 
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddUrineTest())" 
                      Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
@@ -51,7 +70,8 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddBloodTest())"  
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -66,34 +86,38 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddMaskTest())" 
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Polymask</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddPolyMaskTest())" 
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Nasal Cannula</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddNasalCannulaTest())"
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Inhala/Nebs</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddInhalNebsTest())"
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
     </MudExpansionPanels>
 </MudItem>
-<MudItem md="6" sm="6">
+@*<MudItem md="6" sm="6">
     <MudExpansionPanels>
         <MudExpansionPanel Text="Fluids/Electrolyte">
             <MudGrid>
@@ -135,7 +159,7 @@
             </MudGrid>
         </MudExpansionPanel>
     </MudExpansionPanels>
-</MudItem>
+</MudItem>*@
 <MudItem md="6" sm="6">
     <MudExpansionPanels>
         <MudExpansionPanel Text="Nutrition">
@@ -145,21 +169,24 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddNPORecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Full Ward Diet</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddFullWardDietTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Special</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddSpecialRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -174,21 +201,24 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddBedBathTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Assist: Basin/Bath</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddBathAssistTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Selfcare</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddSelfCareTest())"
+                    Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -203,14 +233,16 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddPressurePartCareTimeReport())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Report Redness</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddRednessReport())"  
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -225,21 +257,24 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddHealthEducationRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Communication</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddCommunicationRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Support</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddSupportRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -254,7 +289,8 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddComfortSleepTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -269,35 +305,40 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddMobileImmobileTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Walk With Assitance</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddWalkAssistanceTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Assist Into Chair</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddAssistInChairTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Bedrest</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddBedRestTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-3" md="3" sm="6">
                     <MudText Typo="Typo.body2">Exercises</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddExerciseTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -312,14 +353,16 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddCheckIDBandsRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Cotsides</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddCotsideRecord())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -334,35 +377,40 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddMedicationTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Wound Care</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddWoundCareTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Post Operative Care</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddPostOperativeCareTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Isolation</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddIsolationTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Traction</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddTractionTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -377,14 +425,16 @@
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddContinentTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
                 <MudItem Class="mt-2" md="3" sm="6">
                     <MudText Typo="Typo.body2">Catheter</MudText>
                 </MudItem>
                 <MudItem md="3" sm="6">
                     <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
-                    <MudIconButton Color="Color.Success" Icon="@Icons.TwoTone.Add" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddCathetherTest())"
+                     Icon="@Icons.TwoTone.Add" />
                 </MudItem>
             </MudGrid>
         </MudExpansionPanel>
@@ -392,16 +442,296 @@
 </MudItem>
 
 @code{
-    private void Sign()
+                                                 //Comfort Sleep
+
+    private void AddComfortSleepTest()
     {
         var parameters = new DialogParameters();
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<SignModal>("Sign", parameters, options);
+        DialogService.Show<ComfortSleep>("Comfort Sleep Test", parameters, options);
     }
+                                                  //Daily Care
+    private void AddDailyCareTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<DailyCare>("Daily Care Test", parameters, options);
+    }
+                                                //Elimination
+    private void AddCathetherTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Cathether>("Cathether Test", parameters, options);
+    }
+    private void AddContinentTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Continent>("Continent Test", parameters, options);
+    }
+
+                                                //Fluid Balance
+
+    private void AddPrevious24HoursTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Previous24Hours>("24 Hour Intake", parameters, options);
+    }
+    private void AddOralIntakeTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<OralIntake>("Oral Intake", parameters, options);
+    }
+    private void AddOralOutputTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<OralOutput>("Oral Output", parameters, options);
+    }
+    private void AddIVTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<IVTest>("IV Test", parameters, options);
+    }
+                                                //Hygiene
+    private void AddBathAssistTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<BedBathAssist>("Bed Bath Assist Test", parameters, options);
+    }
+    private void AddBedBathTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<BedBath>("Bed Bath Test", parameters, options);
+    }
+    private void AddSelfCareTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SelfCare>("Self Care Test", parameters, options);
+    }
+                                                 //Intervention
+    private void AddIsolationTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Isolation>("Isolation Test", parameters, options);
+    }
+    private void AddMedicationTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Medication>("Medication Test", parameters, options);
+    }
+    private void AddPostOperativeCareTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<PostOperativeCare>("Post Operative Care Test", parameters, options);
+    }
+    private void AddTractionTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Traction>("Traction Test", parameters, options);
+    }
+    private void AddWoundCareTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<WoundCare>("Wound Care Test", parameters, options);
+    }
+
+                                                //Mobility
+    private void AddAssistInChairTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<AssistInChair>("Assist In Chair Test", parameters, options);
+    }
+    private void AddBedRestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<BedRest>("Bed Rest Test", parameters, options);
+    }
+    private void AddExerciseTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Exercise>("Exercise Test", parameters, options);
+    }
+    private void AddMobileImmobileTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<MobileImmobile>("Mobile/Immobile Test", parameters, options);
+    }
+    private void AddWalkAssistanceTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<WalkAssistance>("Walk Assistance Test", parameters, options);
+    }
+                                                //Nutrition
+    private void AddFullWardDietTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<FullWardDiet>("Full Ward Diet Test", parameters, options);
+    }
+    private void AddNPORecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<NPOReport>("NPO Record", parameters, options);
+    }
+    private void AddSpecialRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Special>("Special Record", parameters, options);
+    }
+
+                                               //Observations
     private void AddUrineTest()
     {
         var parameters = new DialogParameters();
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<UrineTest>("Urine Test", parameters, options);
     }
+    private void AddVitalSignTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<VitalSigns>("Vital Sign Test", parameters, options);
+    }
+    private void AddNeuroVascularTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Neurovascular>("Neuro Vascular Test", parameters, options);
+    }
+    private void AddNeuroLogicalTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Neurological>("Neuro Logical Test", parameters, options);
+    }
+    private void AddBloodGlucoseTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<BloodGlucose>("Blood Glucose Test", parameters, options);
+    }
+    private void AddBloodTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Blood>("Blood Test", parameters, options);
+    }
+                                                 //Oxygenation
+
+    private void AddMaskTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Mask>("Mask Test", parameters, options);
+    }
+    private void AddInhalNebsTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<InhalaNebs>("Inhala Nebs Test", parameters, options);
+    }
+    private void AddPolyMaskTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<PolyMask>("Poly Mask Test", parameters, options);
+    }
+    private void AddNasalCannulaTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<NasalCannula>("Nasal Cannula Test", parameters, options);
+    }
+
+                                                 //Progres Report
+    private void AddProgressReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<ProgressReport>("Progress ReportTest", parameters, options);
+    }   
+
+                                                 //Psychological
+
+    private void AddCommunicationRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Communication>("Communication Test", parameters, options);
+    }  
+    private void AddHealthEducationRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<HealthEducation>("Health Education Test", parameters, options);
+    } 
+    private void AddSupportRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Support>("Support Test", parameters, options);
+    } 
+
+                                                 //Safety
+    private void AddCheckIDBandsRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<CheckIDBands>("Check ID Bands Test", parameters, options);
+    } 
+    private void AddCotsideRecord()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Cotside>("Cotside Test", parameters, options);
+    } 
+
+                                                //Skin Report
+    private void AddSkinIntegrityReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SkinIntegrity>("Skin Integrity Report", parameters, options);
+    } 
+                                               //Skin Care Plan Report
+    private void AddPressurePartCareTimeReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<PressurePart>("Pressure Part Report", parameters, options);
+    } 
+    private void AddRednessReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Redness>("Redness Report", parameters, options);
+    } 
+
+                                             //Stool Chart Report
+    private void AddStoolChartReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<StoolChart>("Stool Chart Report", parameters, options);
+    } 
 }

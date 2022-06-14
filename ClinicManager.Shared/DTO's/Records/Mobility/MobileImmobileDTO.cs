@@ -4,6 +4,7 @@
     {
         public DateTime MobileImmobileTime { get; set; }
         public int MobileImmobileFreq { get; set; }
+        public int MobileImmobileId { get; set; }
         public string MobileImmobileSignature { get; set; }
         public int PatientId { get; set; }
     }

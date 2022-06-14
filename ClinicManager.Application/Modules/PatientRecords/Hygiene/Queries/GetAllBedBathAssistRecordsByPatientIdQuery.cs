@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Hygiene;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Hygiene;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 {
-     public class GetAllBedBathAssistRecordsByPatientIdQuery : IRequest<Result<List<HygieneDTO>>>
+     public class GetAllBedBathAssistRecordsByPatientIdQuery : IRequest<Result<List<BedBathAssistDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllBedBathAssistRecordsByPatientIdQueryHandler : IRequestHandler<GetAllBedBathAssistRecordsByPatientIdQuery, Result<List<HygieneDTO>>>
+    public class GetAllBedBathAssistRecordsByPatientIdQueryHandler : IRequestHandler<GetAllBedBathAssistRecordsByPatientIdQuery, Result<List<BedBathAssistDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<HygieneDTO>>> Handle(GetAllBedBathAssistRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<BedBathAssistDTO>>> Handle(GetAllBedBathAssistRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<BedBathAssistEntity, HygieneDTO>> expression = e => new HygieneDTO
+                Expression<Func<BedBathAssistEntity, BedBathAssistDTO>> expression = e => new BedBathAssistDTO
                 {
                     BedBathAssistTime = e.BedBathAssistTime,
                     BedBathAssistFreq = e.BedBathAssistFrequency,
@@ -38,14 +38,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId && r.BedBathAssistFreq != 0)
+                        .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
-                return await Result<List<HygieneDTO>>.SuccessAsync(bedBath);
+                return await Result<List<BedBathAssistDTO>>.SuccessAsync(bedBath);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<HygieneDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<BedBathAssistDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

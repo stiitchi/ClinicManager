@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 {
-    public class GetAllCommunicationRecordsByPatientIdQuery : IRequest<Result<List<PsychologicalRecordDTO>>>
+    public class GetAllCommunicationRecordsByPatientIdQuery : IRequest<Result<List<CommunicationDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllCommunicationRecordsByPatientIdQueryHandler : IRequestHandler<GetAllCommunicationRecordsByPatientIdQuery, Result<List<PsychologicalRecordDTO>>>
+    public class GetAllCommunicationRecordsByPatientIdQueryHandler : IRequestHandler<GetAllCommunicationRecordsByPatientIdQuery, Result<List<CommunicationDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<PsychologicalRecordDTO>>> Handle(GetAllCommunicationRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<CommunicationDTO>>> Handle(GetAllCommunicationRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<CommunicationEntity, PsychologicalRecordDTO>> expression = e => new PsychologicalRecordDTO
+                Expression<Func<CommunicationEntity, CommunicationDTO>> expression = e => new CommunicationDTO
                 {
                     CommunicationFrequency = e.CommunicationFrequency,
                     CommunicationSignature = e.CommunicationSignature,
@@ -40,12 +40,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.CommunicationFrequency != 0)
                         .ToListAsync(cancellationToken);
-                return await Result<List<PsychologicalRecordDTO>>.SuccessAsync(communicationEntry);
+                return await Result<List<CommunicationDTO>>.SuccessAsync(communicationEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<PsychologicalRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<CommunicationDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

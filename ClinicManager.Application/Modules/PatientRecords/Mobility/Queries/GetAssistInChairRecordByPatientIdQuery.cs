@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 {
-     public class GetAssistInChairRecordByPatientIdQuery : IRequest<Result<MobilityRecordDTO>>
+     public class GetAssistInChairRecordByPatientIdQuery : IRequest<Result<AssistIntoChairDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAssistInChairRecordByPatientIdQueryHandler : IRequestHandler<GetAssistInChairRecordByPatientIdQuery, Result<MobilityRecordDTO>>
+    public class GetAssistInChairRecordByPatientIdQueryHandler : IRequestHandler<GetAssistInChairRecordByPatientIdQuery, Result<AssistIntoChairDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<MobilityRecordDTO>> Handle(GetAssistInChairRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<AssistIntoChairDTO>> Handle(GetAssistInChairRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 if (chairAssistEntry == null)
                     throw new Exception("Unable to return Chair Assistance Record");
 
-                var dto = new MobilityRecordDTO
+                var dto = new AssistIntoChairDTO
                 {
                     AssistIntoChairFrequency = chairAssistEntry.AssistIntoChairFrequency,
                     AssistIntoChairSignature = chairAssistEntry.AssistIntoChairSignature,
                     AssistIntoChairTime = chairAssistEntry.AssistIntoChairTime,
                     PatientId = chairAssistEntry.PatientId
                 };
-                return await Result<MobilityRecordDTO>.SuccessAsync(dto);
+                return await Result<AssistIntoChairDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<MobilityRecordDTO>.FailAsync(ex.Message);
+                return await Result<AssistIntoChairDTO>.FailAsync(ex.Message);
             }
         }
     }

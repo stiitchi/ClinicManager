@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Mobility;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 {
-    public class GetAllAssistInChairRecordByPatientIdQuery : IRequest<Result<List<MobilityRecordDTO>>>
+    public class GetAllAssistInChairRecordByPatientIdQuery : IRequest<Result<List<AssistIntoChairDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllAssistInChairRecordByPatientIdQueryHandler : IRequestHandler<GetAllAssistInChairRecordByPatientIdQuery, Result<List<MobilityRecordDTO>>>
+    public class GetAllAssistInChairRecordByPatientIdQueryHandler : IRequestHandler<GetAllAssistInChairRecordByPatientIdQuery, Result<List<AssistIntoChairDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<MobilityRecordDTO>>> Handle(GetAllAssistInChairRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<AssistIntoChairDTO>>> Handle(GetAllAssistInChairRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<WalkChairEntity, MobilityRecordDTO>> expression = e => new MobilityRecordDTO
+                Expression<Func<WalkChairEntity, AssistIntoChairDTO>> expression = e => new AssistIntoChairDTO
                 {
                     AssistIntoChairTime = e.AssistIntoChairTime,
                     AssistIntoChairFrequency = e.AssistIntoChairFrequency,
@@ -40,12 +40,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.AssistIntoChairFrequency != 0)
                         .ToListAsync(cancellationToken);
-                return await Result<List<MobilityRecordDTO>>.SuccessAsync(assistInChairEntry);
+                return await Result<List<AssistIntoChairDTO>>.SuccessAsync(assistInChairEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<MobilityRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<AssistIntoChairDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

@@ -8,7 +8,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Commands
 {
     public class AddDailyCareRecordCommand : IRequest<Result<int>>
     {
-        public int Id { get; set; }
+        public int DailyCareRecordId { get; set; }
         public int PatientId { get; set; }
         public string CareRecord { get; set; }
         public DateTime DateAdded { get; set; }
@@ -28,7 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Commands
         {
             try
             {
-                var dailyCareRecords = await _context.DailyCareRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+                var dailyCareRecords = await _context.DailyCareRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.DailyCareRecordId && c.Id == request.DailyCareRecordId);
                 if (dailyCareRecords != null)
                     throw new Exception("Daily Record already exists");
 

@@ -4,6 +4,7 @@
     {
         public DateTime BedBathAssistTime { get; set; }
         public int BedBathAssistFreq { get; set; }
+        public int BedBathAssistId { get; set; }
         public string BedBathAssistSignature { get; set; }
         public int PatientId { get; set; }
     }

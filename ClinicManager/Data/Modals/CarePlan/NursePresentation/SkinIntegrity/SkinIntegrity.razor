@@ -1,17 +1,30 @@
-﻿@using ClinicManager.Shared.Wrappers
+﻿@using ClinicManager.Shared.DTO_s.Records.SkinReport
+@using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
-@using ClinicManager.Shared.DTO_s.Records.Observations
+@using ClinicManager.Shared.DTO_s.Records.Safety
 @inject IPatientRecordService patientRecordService 
 
 
 <MudDialog Style="width:400px;">
     <DialogContent>
-        <EditForm Model="AddEditObservationModel" OnValidSubmit="SaveAsync">
+        <EditForm Model="AddEditSafetyModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditObservationModel.VitalSignsFrequency"  Label="Frequency" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="AddEditSafetyModel.SacrumDescription"  Label="Sacrum" Variant="Variant.Outlined" />
+        </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditSafetyModel.HealsDescription"  Label="Heals" Variant="Variant.Outlined" />
+        </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditSafetyModel.HipsDescription"  Label="Hips" Variant="Variant.Outlined" />
+        </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditSafetyModel.OtherDescription"  Label="Other" Variant="Variant.Outlined" />
+        </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditSafetyModel.Comments"  Label="Comments" Variant="Variant.Outlined" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
@@ -30,14 +43,14 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                    OnClick="(() => SaveAsync())">Add Vital Sign Record</MudButton>
+                    OnClick="(() => SaveAsync())">Add Skin Integrity Report</MudButton>
     </DialogActions>
 </MudDialog>
 
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public VitalSignDTO AddEditObservationModel { get; set; } = new();
+    [Parameter] public SkinReportDTO AddEditSafetyModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Today;
@@ -47,14 +60,12 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.PatientId = 1;
-        AddEditObservationModel.VitalSignSignature = "Signature";
-        
-        time = AddEditObservationModel.VitalSignsTime.TimeOfDay;
-        response = await patientRecordService.AddVitalSignRecord(AddEditObservationModel);
+        AddEditSafetyModel.PatientId = 1;
+    
+        response = await patientRecordService.AddSkinIntegrityReportRecord(AddEditSafetyModel);
         if (response.Succeeded)
         {
-            _snackBar.Add("Urine Test Saved", Severity.Success);
+            _snackBar.Add("Skin Integrity Record Saved", Severity.Success);
             _processing = false;
             MudDialog.Close();
         }

@@ -95,7 +95,7 @@
     <center>
         <MudButton Variant="Variant.Outlined" Color="Color.Info"
                    Style="border-radius:10px 10px 10px 10px"
-                   OnClick="Sign">Sign</MudButton>
+                   >Sign</MudButton>
     </center>
 </MudItem>
 <MudItem md="6" sm="6">
@@ -110,11 +110,6 @@
     public DateTime today = DateTime.Today;
     public TimeSpan time = DateTime.Now.TimeOfDay;
 
-    private void Sign()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<SignModal>("Sign", parameters, options);
-    }
+ 
 
 }

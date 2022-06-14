@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
     {
         public DateTime NeuroVascularTime { get; set; }
         public int NeuroVascularFrequency { get; set; }
+        public int NeuroVascularId { get; set; }
         public string NeuroVascularSignature { get; set; }
         public string RecordType { get; set; }
         public int PatientId { get; set; }
@@ -29,9 +30,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                 try
                 {
                     var neuroVascularEntry = await _context.NeurovascularTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
-                    if (neuroVascularEntry != null)
-                        throw new Exception("Neuro Vascular already exists");
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.NeuroVascularId
+                                                     ,cancellationToken);
+
+                     if (neuroVascularEntry != null)
+                        throw new Exception($"Neuro Vascular  with Id {request.NeuroVascularId} already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

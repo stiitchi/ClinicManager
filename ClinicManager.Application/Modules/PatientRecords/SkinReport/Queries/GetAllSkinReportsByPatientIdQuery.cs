@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanSkinIntegrity;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.SkinReport;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

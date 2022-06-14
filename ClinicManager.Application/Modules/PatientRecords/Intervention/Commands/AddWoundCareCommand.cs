@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
     {
         public DateTime WoundCareTime { get; set; }
         public int WoundCareFreq { get; set; }
+        public int WoundCareId { get; set; }
         public string WoundCareSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
                 try
                 {
                     var woundCares = await _context.WoundCareTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.WoundCareId, cancellationToken);
                     if (woundCares != null)
                         throw new Exception("Intervention Record already exists");
 

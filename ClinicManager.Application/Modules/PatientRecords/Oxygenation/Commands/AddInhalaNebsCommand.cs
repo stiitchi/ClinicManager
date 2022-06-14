@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
     {
         public DateTime InhalaNebsTime { get; set; }
         public int InhalaNebsFrequency { get; set; }
+        public int InhalaNebsId { get; set; }
         public string InhalaNebsSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
                 try
                 {
                     var inhalaNebsEntry = await _context.InhalaNebsTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.InhalaNebsId
+                                                     ,cancellationToken);
                     if (inhalaNebsEntry != null)
                         throw new Exception("Inhala Nebs Record already exists");
 

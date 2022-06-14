@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Intervention;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Intervention;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 {
-    public class GetAllTractionRecordsByPatientIdQuery : IRequest<Result<List<InterventionRecordDTO>>>
+    public class GetAllTractionRecordsByPatientIdQuery : IRequest<Result<List<TractionDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllTractionRecordsByPatientIdQueryHandler : IRequestHandler<GetAllTractionRecordsByPatientIdQuery, Result<List<InterventionRecordDTO>>>
+    public class GetAllTractionRecordsByPatientIdQueryHandler : IRequestHandler<GetAllTractionRecordsByPatientIdQuery, Result<List<TractionDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<InterventionRecordDTO>>> Handle(GetAllTractionRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<TractionDTO>>> Handle(GetAllTractionRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<TractionEntity, InterventionRecordDTO>> expression = e => new InterventionRecordDTO
+                Expression<Func<TractionEntity, TractionDTO>> expression = e => new TractionDTO
                 {
                     TractionFreq = e.TractionFrequency,
                     TractionTime = e.TractionTime,
@@ -40,12 +40,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
-                return await Result<List<InterventionRecordDTO>>.SuccessAsync(tractionRecords);
+                return await Result<List<TractionDTO>>.SuccessAsync(tractionRecords);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<InterventionRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<TractionDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

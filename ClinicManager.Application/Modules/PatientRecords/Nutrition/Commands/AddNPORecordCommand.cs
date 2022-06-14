@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
     {
         public DateTime KeepNPOTime { get; set; }
         public int KeepNPOFrequency { get; set; }
+        public int KeepNPOId { get; set; }
         public string KeepNPOSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
                 try
                 {
                     var npoEntry = await _context.KeepNPOTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.KeepNPOId
+                                                     ,cancellationToken);
                     if (npoEntry != null)
                         throw new Exception("NPO Record already exists");
 

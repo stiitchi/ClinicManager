@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
        {
         public DateTime BloodTime { get; set; }
         public int BloodFrequency { get; set; }
+        public int BloodId { get; set; }
         public string BloodSignature { get; set; }
         public string RecordType { get; set; }
         public int PatientId { get; set; }
@@ -29,10 +30,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                 try
                 {
                     var bloodFrequency = await _context.BloodTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.BloodId
+                                                     ,cancellationToken);
                     if (bloodFrequency != null)
-                        throw new Exception("Blood Frequency Record already exists");
-
+                        throw new Exception($"Blood Record with Id {request.BloodId} already exists");
+                    
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
                     if (patient == null)

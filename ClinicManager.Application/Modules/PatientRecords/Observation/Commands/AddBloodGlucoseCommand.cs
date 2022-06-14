@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
         {
         public DateTime BloodGlucoseTime { get; set; }
         public int BloodGlucoseFrequency { get; set; }
+        public int BloodGlucoseId { get; set; }
         public string BloodGlucoseSignature { get; set; }
         public string RecordType { get; set; }
         public int PatientId { get; set; }
@@ -29,9 +30,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                 try
                 {
                     var bloodGlucoseEntry = await _context.BloodGlucoseTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.BloodGlucoseId, 
+                                                     cancellationToken);
                     if (bloodGlucoseEntry != null)
-                        throw new Exception("Urine Test already exists");
+                        throw new Exception($"Blood Glucose Record with Id {request.BloodGlucoseId} already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

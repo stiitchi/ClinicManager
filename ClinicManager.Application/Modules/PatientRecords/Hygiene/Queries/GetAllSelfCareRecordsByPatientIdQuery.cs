@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Hygiene;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Hygiene;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 {
-    public class GetAllSelfCareRecordsByPatientIdQuery : IRequest<Result<List<HygieneDTO>>>
+    public class GetAllSelfCareRecordsByPatientIdQuery : IRequest<Result<List<SelfCareDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllSelfCareRecordsByPatientIdQueryHandler : IRequestHandler<GetAllSelfCareRecordsByPatientIdQuery, Result<List<HygieneDTO>>>
+    public class GetAllSelfCareRecordsByPatientIdQueryHandler : IRequestHandler<GetAllSelfCareRecordsByPatientIdQuery, Result<List<SelfCareDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<HygieneDTO>>> Handle(GetAllSelfCareRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<SelfCareDTO>>> Handle(GetAllSelfCareRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<SelfCareEntity, HygieneDTO>> expression = e => new HygieneDTO
+                Expression<Func<SelfCareEntity, SelfCareDTO>> expression = e => new SelfCareDTO
                 {
                     SelfCareTime = e.SelfCareTime,
                     SelfCareFreq = e.SelfCareFrequency,
@@ -38,14 +38,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId && r.SelfCareFreq != 0)
+                        .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
-                return await Result<List<HygieneDTO>>.SuccessAsync(selfCareReport);
+                return await Result<List<SelfCareDTO>>.SuccessAsync(selfCareReport);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<HygieneDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<SelfCareDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

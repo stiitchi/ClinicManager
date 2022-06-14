@@ -4,6 +4,7 @@
     {
         public DateTime WoundCareTime { get; set; }
         public int WoundCareFreq { get; set; }
+        public int WoundCareId { get; set; }
         public string WoundCareSignature { get; set; }
         public int PatientId { get; set; }
     }

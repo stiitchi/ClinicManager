@@ -4,6 +4,7 @@
     {
         public DateTime CommunicationTime { get; set; }
         public int CommunicationFrequency { get; set; }
+        public int CommunicationId { get; set; }
         public string CommunicationSignature { get; set; }
         public int PatientId { get; set; }
     }

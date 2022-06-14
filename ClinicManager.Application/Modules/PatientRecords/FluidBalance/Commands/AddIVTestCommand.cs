@@ -35,7 +35,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
         {
             try
             {
-                var ivTest = await _context.IVTestRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.IVTestId, cancellationToken);
+                var ivTest = await _context.IVTestRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.IVTestId && c.PatientId == request.IVTestId, cancellationToken);
                 if (ivTest != null)
                     throw new Exception("IV Test already exists");
 

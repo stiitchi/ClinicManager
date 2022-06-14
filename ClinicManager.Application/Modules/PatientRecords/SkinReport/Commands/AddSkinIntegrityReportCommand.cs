@@ -31,7 +31,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinReport.Commands
         {
             try
             {
-                var skinIntegrities = await _context.SkinIntegrityReports.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.SkinIntegrityId, cancellationToken);
+                var skinIntegrities = await _context.SkinIntegrityReports.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.SkinIntegrityId);
                 if (skinIntegrities != null)
                     throw new Exception("Skin Integrity already exists");
 

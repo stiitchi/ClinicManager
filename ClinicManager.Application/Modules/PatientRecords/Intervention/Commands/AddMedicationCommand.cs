@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
     {
         public DateTime MedicationTime { get; set; }
         public int MedicationFreq { get; set; }
+        public int MedicationId { get; set; }
         public string MedicationSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Commands
                 try
                 {
                     var medicationEntry = await _context.MedicationTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.MedicationId, cancellationToken);
                     if (medicationEntry != null)
                         throw new Exception("Intervention Record already exists");
 

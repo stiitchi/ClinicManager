@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 { 
-     public class GetSpecialRecordPatientIdQuery : IRequest<Result<NutritionRecordDTO>>
+     public class GetSpecialRecordPatientIdQuery : IRequest<Result<SpecialDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetSpecialRecordPatientIdQueryHandler : IRequestHandler<GetSpecialRecordPatientIdQuery, Result<NutritionRecordDTO>>
+    public class GetSpecialRecordPatientIdQueryHandler : IRequestHandler<GetSpecialRecordPatientIdQuery, Result<SpecialDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<NutritionRecordDTO>> Handle(GetSpecialRecordPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<SpecialDTO>> Handle(GetSpecialRecordPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                 if (specialEntry == null)
                     throw new Exception("Unable to return Special Record");
 
-                var dto = new NutritionRecordDTO
+                var dto = new SpecialDTO
                 {
                     SpecialTime = specialEntry.SpecialTime,
                     SpecialSignature = specialEntry.SpecialSignature,
                     SpecialFrequency = specialEntry.SpecialFrequency,
                     PatientId = specialEntry.PatientId
                 };
-                return await Result<NutritionRecordDTO>.SuccessAsync(dto);
+                return await Result<SpecialDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<NutritionRecordDTO>.FailAsync(ex.Message);
+                return await Result<SpecialDTO>.FailAsync(ex.Message);
             }
         }
     }

@@ -4,6 +4,7 @@
     {
         public DateTime CheckIDBandsTime { get; set; }
         public int CheckIDBandsFrequency { get; set; }
+        public int CheckIDBandsId{ get; set; }
         public string CheckIDBandsSignature { get; set; }
         public int PatientId { get; set; }
     }

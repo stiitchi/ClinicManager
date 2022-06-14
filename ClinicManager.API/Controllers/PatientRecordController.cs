@@ -31,7 +31,18 @@ using ClinicManager.Application.Modules.PatientRecords.SkinReport.Queries;
 using ClinicManager.Application.Modules.PatientRecords.StoolChart.Commands;
 using ClinicManager.Application.Modules.PatientRecords.StoolChart.Queries;
 using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Elimination;
+using ClinicManager.Shared.DTO_s.Records.FluidBalance;
+using ClinicManager.Shared.DTO_s.Records.Hygiene;
+using ClinicManager.Shared.DTO_s.Records.Intervention;
+using ClinicManager.Shared.DTO_s.Records.Mobility;
+using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.DTO_s.Records.Observations;
+using ClinicManager.Shared.DTO_s.Records.Oxygenation;
+using ClinicManager.Shared.DTO_s.Records.Psychological;
+using ClinicManager.Shared.DTO_s.Records.Safety;
+using ClinicManager.Shared.DTO_s.Records.SkinIntegrity;
+using ClinicManager.Shared.DTO_s.Records.SkinReport;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers
@@ -40,7 +51,7 @@ namespace ClinicManager.API.Controllers
     [ApiController]
     public class PatientRecordController : BaseApiController<PatientRecordController>
     {
- //Add
+                                     /* Add Records */
         //Comfort Sleep
 
         [HttpPost("AddComfortSleepRecord")]
@@ -63,7 +74,7 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddDailyCareRecordCommand
             {
-                Id = dailyCare.DailyCareRecordId,
+                DailyCareRecordId = dailyCare.DailyCareRecordId,
                 CareRecord = dailyCare.CareRecord,
                 DateAdded = dailyCare.DateAdded,
                 TimeAdded = dailyCare.TimeAdded,
@@ -74,28 +85,28 @@ namespace ClinicManager.API.Controllers
         //Elimination
 
         [HttpPost("AddCathetherRecord")]
-        public async Task<IActionResult> AddCathetherRecord(EliminationRecordDTO elimination)
+        public async Task<IActionResult> AddCathetherRecord(CathetherDTO elimination)
         {
             return Ok(await _mediator.Send(new AddCathetherCommand
             {
+               CatheterRecordId = elimination.CatheterId,
                CatheterFreq = elimination.CatheterFreq,
                CatheterSignature = elimination.CatheterSignature,
                CatheterTime = elimination.CatheterTime,
-               EliminationRecordId = elimination.EliminationRecordId,
-               CatheterPatientId = elimination.CatheterPatientId
+               CatheterPatientId = elimination.PatientId
             }));
         }
 
         [HttpPost("AddContinentRecord")]
-        public async Task<IActionResult> AddContinentRecord(EliminationRecordDTO elimination)
+        public async Task<IActionResult> AddContinentRecord(ContinentDTO elimination)
         {
             return Ok(await _mediator.Send(new AddContinentCommand
             {
+                ContinentId = elimination.ContinentId,
                 ContinentFreq = elimination.ContinentFreq,
                 ContinentSignature = elimination.ContinentSignature,
                 ContinentTime = elimination.ContinentTime,
-                EliminationRecordId = elimination.EliminationRecordId,
-                PatientId = elimination.ContinentPatientId
+                PatientId = elimination.PatientId
             }));
         }
 
@@ -106,6 +117,7 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new Add24HourIntakeCommand
             {
+                TotalIntakeId = intake.TotalIntakeId,
                 DateToday = intake.DateToday,
                 Intake24Hour = intake.Intake24Hour,
                 Output24Hour = intake.Output24Hour,
@@ -115,12 +127,12 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddOralOutputRecord")]
-        public async Task<IActionResult> AddOralIntakeTestRecord(FluidBalanceRecordOralCheckDTO oral)
+        public async Task<IActionResult> AddOralIntakeTestRecord(OralOutputDTO oral)
         {
             return Ok(await _mediator.Send(new AddOralOutputCommand
             {
-                OralIOutputMl = oral.OutputMl,  
-                OralOutputVolume = oral.OralOutputVolume,
+                OralOutputTestId = oral.OralOutputTestId,
+                OralIOutputMl = oral.OralOutputMl,  
                 OralOutputTime = oral.OralOutputTime,
                 IsUrine = oral.IsUrine,
                 RunningTotalOralOutput = oral.RunningOutputTotal,
@@ -129,10 +141,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddOralInputRecord")]
-        public async Task<IActionResult> AddOralInputRecord(FluidBalanceRecordOralCheckDTO oral)
+        public async Task<IActionResult> AddOralInputRecord(OralIntakeDTO oral)
         {
             return Ok(await _mediator.Send(new AddOralIntakeTestCommand
             {
+                OralIntakeId = oral.OralIntakeTestId,
                 OralIntakeMl = oral.OralIntakeMl,
                 OralIntakeVolume = oral.OralIntakeVolume,
                 OralIntakeTime = oral.OralIntakeTime,
@@ -147,6 +160,7 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddIVTestCommand
             {
+                IVTestId = ivCheck.IVTestId,
                 intravenousCheck = ivCheck.intravenousCheck,
                 intravenousCheckType = ivCheck.intravenousCheckType,
                 intravenousCompleteVolume = ivCheck.intravenousCompleteVolume,
@@ -156,7 +170,6 @@ namespace ClinicManager.API.Controllers
                 intravenousML = ivCheck.intravenousML,
                 intravenousRunningTotal = ivCheck.intravenousRunningTotal,
                 intravenousStartVolume = ivCheck.intravenousStartVolume,
-                IVTestId = ivCheck.IVTestId,
                 PatientId = ivCheck.PatientId
             }));
         }
@@ -164,10 +177,11 @@ namespace ClinicManager.API.Controllers
         //Hygiene
 
         [HttpPost("AddBedBathAssist")]
-        public async Task<IActionResult> AddBedBathAssist(HygieneDTO hygiene)
+        public async Task<IActionResult> AddBedBathAssist(BedBathAssistDTO hygiene)
         {
             return Ok(await _mediator.Send(new AddBedBathAssistCommand
             {
+                BedBathAssistId = hygiene.BedBathAssistId,
                 BedBathAssistFreq = hygiene.BedBathAssistFreq, 
                 BedBathAssistSignature = hygiene.BedBathAssistSignature,
                 BedBathAssistTime = hygiene.BedBathAssistTime,
@@ -176,10 +190,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddBedBathRecord")]
-        public async Task<IActionResult> AddBedBathRecord(HygieneDTO hygiene)
+        public async Task<IActionResult> AddBedBathRecord(BedBathDTO hygiene)
         {
             return Ok(await _mediator.Send(new AddBedBathRecordCommand
             {
+                BedBathId = hygiene.BedBathId,
                 BedBathFreq = hygiene.BedBathFreq, 
                 BedBathSignature = hygiene.BedBathSignature,
                 BedBathTime = hygiene.BedBathTime,
@@ -188,10 +203,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddSelfCareRecord")]
-        public async Task<IActionResult> AddSelfCareRecord(HygieneDTO hygiene)
+        public async Task<IActionResult> AddSelfCareRecord(SelfCareDTO hygiene)
         {
             return Ok(await _mediator.Send(new AddSelfCareRecordCommand
             {
+                SelfCareId = hygiene.SelfCareId,
                 SelfCareFreq = hygiene.SelfCareFreq, 
                 SelfCareSignature = hygiene.SelfCareSignature,
                 SelfCareTime = hygiene.SelfCareTime,
@@ -202,10 +218,11 @@ namespace ClinicManager.API.Controllers
         //Intervention
 
         [HttpPost("AddIsolationRecord")]
-        public async Task<IActionResult> AddIsolationRecord(InterventionRecordDTO isolation)
+        public async Task<IActionResult> AddIsolationRecord(IsolationDTO isolation)
         {
             return Ok(await _mediator.Send(new AddIsolationCommand
             {
+                IsolationId = isolation.IsolationId,
                 IsolationFreq = isolation.IsolationFreq, 
                 IsolationSignature = isolation.IsolationSignature,
                 IsolationTime = isolation.IsolationTime,
@@ -214,10 +231,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddMedicationRecord")]
-        public async Task<IActionResult> AddMedicationRecord(InterventionRecordDTO medication)
+        public async Task<IActionResult> AddMedicationRecord(MedicationDTO medication)
         {
             return Ok(await _mediator.Send(new AddMedicationCommand
             {
+                MedicationId = medication.MedicationId,
                 MedicationFreq = medication.MedicationFreq, 
                 MedicationSignature = medication.MedicationSignature,
                 MedicationTime = medication.MedicationTime,
@@ -226,10 +244,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddPostOperativeCareRecord")]
-        public async Task<IActionResult> AddPostOperativeCareRecord(InterventionRecordDTO operativeCare)
+        public async Task<IActionResult> AddPostOperativeCareRecord(PostOperativeCareDTO operativeCare)
         {
             return Ok(await _mediator.Send(new AddPostOperativeCareCommand
             {
+                PostOperativeCareId = operativeCare.PostOperativeCareId,
                 PostOperativeCareFreq = operativeCare.PostOperativeCareFreq,
                 PostOperativeCareSignature = operativeCare.PostOperativeCareSignature,
                 PostOperativeCareTime = operativeCare.PostOperativeCareTime,
@@ -238,10 +257,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddTractionRecord")]
-        public async Task<IActionResult> AddTractionRecord(InterventionRecordDTO traction)
+        public async Task<IActionResult> AddTractionRecord(TractionDTO traction)
         {
             return Ok(await _mediator.Send(new AddTractionCommand
             {
+                TractionId = traction.TractionId,
                 TractionFreq = traction.TractionFreq,
                 TractionSignature = traction.TractionSignature,
                 TractionTime = traction.TractionTime,
@@ -250,10 +270,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddWoundCareRecord")]
-        public async Task<IActionResult> AddWoundCareRecord(InterventionRecordDTO woundCare)
+        public async Task<IActionResult> AddWoundCareRecord(WoundCareDTO woundCare)
         {
             return Ok(await _mediator.Send(new AddWoundCareCommand
             {
+                WoundCareId = woundCare.WoundCareId,  
                 WoundCareFreq = woundCare.WoundCareFreq,
                 WoundCareSignature = woundCare.WoundCareSignature,
                 WoundCareTime = woundCare.WoundCareTime,
@@ -264,10 +285,11 @@ namespace ClinicManager.API.Controllers
         //Mobility
 
         [HttpPost("AddAssistInChairRecord")]
-        public async Task<IActionResult> AddAssistInChairRecord(MobilityRecordDTO mobility)
+        public async Task<IActionResult> AddAssistInChairRecord(AssistIntoChairDTO mobility)
         {
             return Ok(await _mediator.Send(new AddAssistInChairCommand
             {
+                AssistIntoChairId = mobility.AssistIntoChairId,
                 AssistIntoChairFrequency = mobility.AssistIntoChairFrequency,
                 AssistIntoChairSignature = mobility.AssistIntoChairSignature,
                 AssistIntoChairTime = mobility.AssistIntoChairTime,
@@ -276,10 +298,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddBedRestRecord")]
-        public async Task<IActionResult> AddBedRestRecord(MobilityRecordDTO mobility)
+        public async Task<IActionResult> AddBedRestRecord(BedRestDTO mobility)
         {
             return Ok(await _mediator.Send(new AddBedRestCommand
-            {
+            {   
+                BedRestId = mobility.BedRestId,
                 BedRestFrequency = mobility.BedRestFrequency,
                 BedRestSignature = mobility.BedRestSignature,
                 BedRestTime = mobility.BedRestTime,
@@ -288,10 +311,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddExerciseRecord")]
-        public async Task<IActionResult> AddExerciseRecord(MobilityRecordDTO mobility)
+        public async Task<IActionResult> AddExerciseRecord(ExerciseDTO mobility)
         {
             return Ok(await _mediator.Send(new AddExerciseCommand
             {
+                ExercisesId = mobility.ExercisesId,
                 ExercisesFrequency = mobility.ExercisesFrequency,
                 ExercisesSignature = mobility.ExercisesSignature,
                 ExercisesTime = mobility.ExercisesTime,
@@ -300,10 +324,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddMobileImmobileRecord")]
-        public async Task<IActionResult> AddMobileImmobileRecord(MobilityRecordDTO mobility)
+        public async Task<IActionResult> AddMobileImmobileRecord(MobileImmobileDTO mobility)
         {
             return Ok(await _mediator.Send(new AddMobileImmobileCommand
             {
+                MobileImmobileId = mobility.MobileImmobileId,
                 MobileImmobileFreq = mobility.MobileImmobileFreq,
                 MobileImmobileSignature = mobility.MobileImmobileSignature,
                 MobileImmobileTime = mobility.MobileImmobileTime,
@@ -312,10 +337,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddWalkAssistanceRecord")]
-        public async Task<IActionResult> AddWalkAssistanceRecord(MobilityRecordDTO mobility)
+        public async Task<IActionResult> AddWalkAssistanceRecord(WalkWithAssistanceDTO mobility)
         {
             return Ok(await _mediator.Send(new AddWalkAssistanceCommand
             {
+                WalkWithAssistanceId = mobility.WalkWithAssistanceId,
                 WalkWithAssistanceFrequency = mobility.WalkWithAssistanceFrequency,
                 WalkWithAssistanceSignature = mobility.WalkWithAssistanceSignature,
                 WalkWithAssistanceTime = mobility.WalkWithAssistanceTime,
@@ -326,10 +352,11 @@ namespace ClinicManager.API.Controllers
         //Nutrition
 
         [HttpPost("AddFullWardDietRecord")]
-        public async Task<IActionResult> AddFullWardDietRecord(NutritionRecordDTO nutrition)
+        public async Task<IActionResult> AddFullWardDietRecord(FullWardDietDTO nutrition)
         {
             return Ok(await _mediator.Send(new AddFullWardDietCommand
             {
+                FullWardDietId = nutrition.FullWardDietID,
                 FullWardDietFrequency = nutrition.FullWardDietFrequency,
                 FullWardDietSignature = nutrition.FullWardDietSignature,
                 FullWardDietTime = nutrition.FullWardDietTime,
@@ -338,10 +365,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddNPORecord")]
-        public async Task<IActionResult> AddNPORecord(NutritionRecordDTO nutrition)
+        public async Task<IActionResult> AddNPORecord(KeepNPODTO nutrition)
         {
             return Ok(await _mediator.Send(new AddNPORecordCommand
             {
+                KeepNPOId = nutrition.KeepNPOId,
                 KeepNPOFrequency = nutrition.KeepNPOFrequency,
                 KeepNPOSignature = nutrition.KeepNPOSignature,
                 KeepNPOTime = nutrition.KeepNPOTime,
@@ -350,10 +378,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddSpecialRecord")]
-        public async Task<IActionResult> AddSpecialRecord(NutritionRecordDTO nutrition)
+        public async Task<IActionResult> AddSpecialRecord(SpecialDTO nutrition)
         {
             return Ok(await _mediator.Send(new AddSpecialRecordCommand
             {
+                SpecialId = nutrition.SpecialId,
                 SpecialFrequency = nutrition.SpecialFrequency,
                 SpecialSignature = nutrition.SpecialSignature,
                 SpecialTime = nutrition.SpecialTime,
@@ -364,10 +393,11 @@ namespace ClinicManager.API.Controllers
         //Observation
 
         [HttpPost("AddBloodFrequencyRecord")]
-        public async Task<IActionResult> AddBloodFrequencyRecord(ObservationRecordDTO observation)
+        public async Task<IActionResult> AddBloodFrequencyRecord(BloodDTO observation)
         {
             return Ok(await _mediator.Send(new AddBloodFrequencyCommand
             {
+                BloodId = observation.BloodId,
                 BloodFrequency = observation.BloodFrequency,
                 BloodSignature = observation.BloodSignature,
                 BloodTime = observation.BloodTime,
@@ -376,10 +406,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddBloodGlucoseRecord")]
-        public async Task<IActionResult> AddBloodGlucoseRecord(ObservationRecordDTO observation)
+        public async Task<IActionResult> AddBloodGlucoseRecord(BloodGlucoseDTO observation)
         {
             return Ok(await _mediator.Send(new AddBloodGlucoseCommand
             {
+                BloodGlucoseId = observation.BloodGlucoseId,
                 BloodGlucoseFrequency = observation.BloodGlucoseFrequency,
                 BloodGlucoseSignature = observation.BloodGlucoseSignature,
                 BloodGlucoseTime = observation.BloodGlucoseTime,
@@ -388,10 +419,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddNeuroLogicalRecord")]
-        public async Task<IActionResult> AddNeuroLogicalRecord(ObservationRecordDTO observation)
+        public async Task<IActionResult> AddNeuroLogicalRecord(NeuroLogicalDTO observation)
         {
             return Ok(await _mediator.Send(new AddNeuroLogicalCommand
             {
+                NeuroLogicalId = observation.NeuroLogicalId,
                 NeuroLogicalFrequency = observation.NeuroLogicalFrequency,
                 NeuroLogicalSignature = observation.NeuroLogicalSignature,
                 NeuroLogicalTime = observation.NeuroLogicalTime,
@@ -400,10 +432,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddNeuroVascularRecord")]
-        public async Task<IActionResult> AddNeuroVascularRecord(ObservationRecordDTO observation)
+        public async Task<IActionResult> AddNeuroVascularRecord(NeuroVascularDTO observation)
         {
             return Ok(await _mediator.Send(new AddNeuroVascularCommand
             {
+                NeuroVascularId = observation.NeuroVascularId,
                 NeuroVascularFrequency = observation.NeuroVascularFrequency,
                 NeuroVascularSignature = observation.NeuroVascularSignature,
                 NeuroVascularTime = observation.NeuroVascularTime,
@@ -425,10 +458,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddVitalSignRecord")]
-        public async Task<IActionResult> AddVitalSignRecord(ObservationRecordDTO observation)
+        public async Task<IActionResult> AddVitalSignRecord(VitalSignDTO observation)
         {
             return Ok(await _mediator.Send(new AddVitalSignCommands
             {
+                VitalSignsId = observation.VitalSignsId,
                 VitalSignsFrequency = observation.VitalSignsFrequency,
                 VitalSignSignature = observation.VitalSignSignature,
                 VitalSignsTime = observation.VitalSignsTime,
@@ -439,10 +473,11 @@ namespace ClinicManager.API.Controllers
         //Oxygenation
 
         [HttpPost("AddInhalaNebsRecord")]
-        public async Task<IActionResult> AddInhalaNebsRecord(OxygenationRecordDTO oxygenation)
+        public async Task<IActionResult> AddInhalaNebsRecord(InhalaNebsDTO oxygenation)
         {
             return Ok(await _mediator.Send(new AddInhalaNebsCommand
             {
+                InhalaNebsId = oxygenation.InhalaNebsId,
                 InhalaNebsFrequency = oxygenation.InhalaNebsFrequency, 
                 InhalaNebsSignature = oxygenation.InhalaNebsSignature,
                 InhalaNebsTime = oxygenation.InhalaNebsTime,
@@ -451,10 +486,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddMaskTimeRecord")]
-        public async Task<IActionResult> AddMaskTimeRecord(OxygenationRecordDTO oxygenation)
+        public async Task<IActionResult> AddMaskTimeRecord(MaskDTO oxygenation)
         {
             return Ok(await _mediator.Send(new AddMaskTimeCommand
             {
+                MaskId = oxygenation.MaskId,    
                 MaskFrequency = oxygenation.MaskFrequency,
                 MaskSignature = oxygenation.MaskSignature,
                 MaskTime = oxygenation.MaskTime,
@@ -463,10 +499,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddNasalCannulRecord")]
-        public async Task<IActionResult> AddNasalCannulRecord(OxygenationRecordDTO oxygenation)
+        public async Task<IActionResult> AddNasalCannulRecord(NasalCannulaDTO oxygenation)
         {
             return Ok(await _mediator.Send(new AddNasalCannulCommand
             {
+                NasalCannulaId = oxygenation.NasalCannulaId,
                 NasalCannulaFrequency = oxygenation.NasalCannulaFrequency,
                 NasalCannulaSignature = oxygenation.NasalCannulaSignature,
                 NasalCannulaTime = oxygenation.NasalCannulaTime,
@@ -475,10 +512,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddPolyMaskRecord")]
-        public async Task<IActionResult> AddPolyMaskRecord(OxygenationRecordDTO oxygenation)
+        public async Task<IActionResult> AddPolyMaskRecord(PolyMaskDTO oxygenation)
         {
             return Ok(await _mediator.Send(new AddPolyMaskCommand
             {
+                PolyMaskId = oxygenation.PolyMaskId,
                 PolyMaskFrequency = oxygenation.PolyMaskFrequency,
                 PolyMaskSignature = oxygenation.PolyMaskSignature,
                 PolyMaskTime = oxygenation.PolyMaskTime,
@@ -493,10 +531,10 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddProgressReportCommand
             {
+                ProgressReportId = report.ProgressReportId,
                 Allergy = report.Allergy,
                 DateAdded = report.DateAdded,
                 Desc = report.Desc,
-                ProgressReportId = report.ProgressReportId,
                 RiskFactor = report.RiskFactor,
                 TimeAdded = report.TimeAdded,
                 PatientId = report.PatientId
@@ -506,10 +544,11 @@ namespace ClinicManager.API.Controllers
         //Psychological 
 
         [HttpPost("AddCommunicationRecord")]
-        public async Task<IActionResult> AddCommunicationRecord(PsychologicalRecordDTO psychologicalRecord)
+        public async Task<IActionResult> AddCommunicationRecord(CommunicationDTO psychologicalRecord)
         {
             return Ok(await _mediator.Send(new AddCommunicationCommand
             {
+                CommunicationId = psychologicalRecord.CommunicationId,  
                 CommunicationFrequency = psychologicalRecord.CommunicationFrequency,
                 CommunicationSignature = psychologicalRecord.CommunicationSignature,
                 CommunicationTime = psychologicalRecord.CommunicationTime,
@@ -518,10 +557,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddHealthEducationRecord")]
-        public async Task<IActionResult> AddHealthEducationRecord(PsychologicalRecordDTO psychologicalRecord)
+        public async Task<IActionResult> AddHealthEducationRecord(HealthEducationDTO psychologicalRecord)
         {
             return Ok(await _mediator.Send(new AddHealthEducationCommand
             {
+                HealthEducationId = psychologicalRecord.HealthEducationId,
                 HealthEducationFrequency = psychologicalRecord.HealthEducationFrequency,
                 HealthEducationSignature = psychologicalRecord.HealthEducationSignature,
                 HealthEducationTime = psychologicalRecord.HealthEducationTime,
@@ -530,10 +570,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddSupportRecord")]
-        public async Task<IActionResult> AddSupportRecord(PsychologicalRecordDTO psychologicalRecord)
+        public async Task<IActionResult> AddSupportRecord(SupportDTO psychologicalRecord)
         {
             return Ok(await _mediator.Send(new AddSupportCommand
             {
+                SupportId = psychologicalRecord.SupportId,
                 SupportFrequency = psychologicalRecord.SupportFrequency,
                 SupportSignature = psychologicalRecord.SupportSignature,
                 SupportTime = psychologicalRecord.SupportTime,
@@ -544,10 +585,11 @@ namespace ClinicManager.API.Controllers
         //Safety
 
         [HttpPost("AddCheckIDBandsRecord")]
-        public async Task<IActionResult> AddCheckIDBandsRecord(SafetyRecordDTO safety)
+        public async Task<IActionResult> AddCheckIDBandsRecord(CheckIDBandDTO safety)
         {
             return Ok(await _mediator.Send(new AddCheckIDBandsCommand
             {
+                CheckIDBandsId = safety.CheckIDBandsId, 
                 CheckIDBandsFrequency = safety.CheckIDBandsFrequency,
                 CheckIDBandsSignature = safety.CheckIDBandsSignature,
                 CheckIDBandsTime = safety.CheckIDBandsTime,
@@ -556,10 +598,11 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddCotsideRecord")]
-        public async Task<IActionResult> AddCotsideRecord(SafetyRecordDTO safety)
+        public async Task<IActionResult> AddCotsideRecord(CotsideDTO safety)
         {
             return Ok(await _mediator.Send(new AddCotsideCommand
             {
+                CotsidesId = safety.CotsidesId, 
                 CotsidesFrequency = safety.CotsidesFrequency,
                 CotsidesSignature = safety.CotsidesSignature,
                 CotsidesTime = safety.CotsidesTime,
@@ -574,12 +617,12 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddSkinIntegrityReportCommand
             {
+                SkinIntegrityId = skin.SkinIntegrityId,
                 Comments = skin.Comments,
                 Heals = skin.HealsDescription,
                 Hips = skin.HipsDescription,
                 Other = skin.OtherDescription,
                 Sacrum = skin.SacrumDescription,
-                SkinIntegrityId = skin.SkinIntegrityId,
                 PatientId = skin.PatientId
             }));
         }
@@ -587,10 +630,11 @@ namespace ClinicManager.API.Controllers
         //Skin Integrity Report
 
         [HttpPost("AddPressurePartCareTimeRecord")]
-        public async Task<IActionResult> AddPressurePartCareTimeRecord(SkinIntegrityReportDTO skin)
+        public async Task<IActionResult> AddPressurePartCareTimeRecord(PressurePartCareDTO skin)
         {
             return Ok(await _mediator.Send(new AddPressurePartCareTimeCommand
             {
+                PressurePartCareId = skin.PressurePartCareId,
                 PressurePartCareSignature = skin.PressurePartCareSignature,
                 PressurePartCareFrequency = skin.PressurePartCareFrequency,
                 PressurePartCareTime = skin.PressurePartCareTime,
@@ -599,16 +643,19 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost("AddRednessReportRecord")]
-        public async Task<IActionResult> AddRednessReportRecord(SkinIntegrityReportDTO skin)
+        public async Task<IActionResult> AddRednessReportRecord(RednessDTO skin)
         {
             return Ok(await _mediator.Send(new AddRednessReportCommand
             {
+                ReportRednessId = skin.ReportRednessId,
                 ReportRednessFrequency = skin.ReportRednessFrequency,
                 ReportRednessSignature = skin.ReportRednessSignature,
                 ReportRednessTime = skin.ReportRednessTime,
                 PatientId = skin.PatientId
             }));
         }
+
+        //Stool Chart Report
 
         [HttpPost("AddStoolChartRecord")]
         public async Task<IActionResult> AddStoolChartRecord(StoolChartDTO stoolChart)
@@ -627,7 +674,7 @@ namespace ClinicManager.API.Controllers
             }));
         }
 
-//Delete Records
+                                        /* Delete Records */
 
         //Comfort Sleep
 
@@ -925,7 +972,7 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new DeleteStoolChartCommand { Id = id }));
         }
 
-//GetAll Records
+                                        /* Get All Records*/
 
         //Comfort Sleep
 
@@ -965,10 +1012,16 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAll24HourIntakesByPatientIdQuery { PatientId = patientId }));
         }
 
-        [HttpGet("GetAllOralChecksByPatientId")]
-        public async Task<IActionResult> GetAllOralChecksByPatientId(int patientId)
+        [HttpGet("GetAllOralOutputChecksByPatientId")]
+        public async Task<IActionResult> GetAllOralOutputChecksByPatientId(int patientId)
         {
-            return Ok(await _mediator.Send(new GetAllOralChecksByPatentIdQuery { PatientId = patientId }));
+            return Ok(await _mediator.Send(new GetAllOralOutputChecksByPatientIdQuery { PatientId = patientId }));
+        }
+
+        [HttpGet("GetAllOralInputChecksByPatientId")]
+        public async Task<IActionResult> GetAllOralInputChecksByPatientId(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetAllOralInputChecksByPatentIdQuery { PatientId = patientId }));
         }
 
         [HttpGet("GetAllIVCheckByPatientId")]
@@ -1217,7 +1270,7 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllStoolChartsByPatientIdQuery { PatientId = patientId }));
         }
 
-//GetById Records
+                                                 /* GetById Records */
 
         //Comfort Sleep
 
@@ -1257,10 +1310,16 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new Get24HourIntakeByPatientIdQuery { PatientId = patientId }));
         }
 
-        [HttpGet("GetOralCheckByPatientId")]
+        [HttpGet("GetOralInputCheckByPatientId")]
+        public async Task<IActionResult> GetOralInputCheckByPatientId(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetOralInputByPatientIdQuery { PatientId = patientId }));
+        }
+
+        [HttpGet("GetOralOutputCheckByPatientId")]
         public async Task<IActionResult> GetOralCheckByPatientId(int patientId)
         {
-            return Ok(await _mediator.Send(new GetOralCheckByPatientIdQuery { PatientId = patientId }));
+            return Ok(await _mediator.Send(new GetOralOutputByPatientIdQuery { PatientId = patientId }));
         }
 
         [HttpGet("GetIVCheckByPatientId")]

@@ -4,6 +4,7 @@
     {
         public DateTime InhalaNebsTime { get; set; }
         public int InhalaNebsFrequency { get; set; }
+        public int InhalaNebsId { get; set; }
         public string InhalaNebsSignature { get; set; }
         public int PatientId { get; set; }
     }

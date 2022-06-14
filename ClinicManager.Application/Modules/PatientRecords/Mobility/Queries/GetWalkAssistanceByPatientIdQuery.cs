@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 {
-     public class GetWalkAssistanceByPatientIdQuery : IRequest<Result<MobilityRecordDTO>>
+     public class GetWalkAssistanceByPatientIdQuery : IRequest<Result<WalkWithAssistanceDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetWalkAssistanceByPatientIdQueryHandler : IRequestHandler<GetWalkAssistanceByPatientIdQuery, Result<MobilityRecordDTO>>
+    public class GetWalkAssistanceByPatientIdQueryHandler : IRequestHandler<GetWalkAssistanceByPatientIdQuery, Result<WalkWithAssistanceDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<MobilityRecordDTO>> Handle(GetWalkAssistanceByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<WalkWithAssistanceDTO>> Handle(GetWalkAssistanceByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 if (walkAssistanceEntry == null)
                     throw new Exception("Unable to return Mobility Record");
 
-                var dto = new MobilityRecordDTO
+                var dto = new WalkWithAssistanceDTO
                 {
                     WalkWithAssistanceFrequency = walkAssistanceEntry.WalkWithAssistanceFrequency,
                     WalkWithAssistanceSignature = walkAssistanceEntry.WalkWithAssistanceSignature,
                     WalkWithAssistanceTime = walkAssistanceEntry.WalkWithAssistanceTime,
                     PatientId = walkAssistanceEntry.PatientId
                 };
-                return await Result<MobilityRecordDTO>.SuccessAsync(dto);
+                return await Result<WalkWithAssistanceDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<MobilityRecordDTO>.FailAsync(ex.Message);
+                return await Result<WalkWithAssistanceDTO>.FailAsync(ex.Message);
             }
         }
     }

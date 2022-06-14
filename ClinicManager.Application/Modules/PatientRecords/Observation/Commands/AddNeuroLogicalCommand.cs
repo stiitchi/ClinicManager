@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
     {
         public DateTime NeuroLogicalTime { get; set; }
         public int NeuroLogicalFrequency { get; set; }
+        public int NeuroLogicalId { get; set; }
         public string NeuroLogicalSignature { get; set; }
         public string RecordType { get; set; }
         public int PatientId { get; set; }
@@ -29,9 +30,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Commands
                 try
                 {
                     var neuroLogicalEntry = await _context.NeurologicalTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.NeuroLogicalId
+                                                     , cancellationToken);
                     if (neuroLogicalEntry != null)
-                        throw new Exception("Neuro Logical already exists");
+                        throw new Exception($"Neurologicl Record with Id {request.NeuroLogicalId} already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

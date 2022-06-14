@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Commands
     {
         public DateTime BedBathTime { get; set; }
         public int BedBathFreq { get; set; }
+        public int BedBathId { get; set; }
         public string BedBathSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Commands
                 try
                 {
                     var hygieneEntry = await _context.BedBathTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.BedBathId, cancellationToken);
                     if (hygieneEntry != null)
                         throw new Exception("Hygiene Record already exists");
 

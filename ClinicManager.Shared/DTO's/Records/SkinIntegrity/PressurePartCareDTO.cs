@@ -4,6 +4,7 @@
     {
         public DateTime PressurePartCareTime { get; set; }
         public int PressurePartCareFrequency { get; set; }
+        public int PressurePartCareId { get; set; }
         public string PressurePartCareSignature { get; set; }
         public int PatientId { get; set; }
     }

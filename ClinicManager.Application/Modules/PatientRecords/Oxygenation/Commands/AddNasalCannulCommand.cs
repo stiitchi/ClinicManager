@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
     {
         public DateTime NasalCannulaTime { get; set; }
         public int NasalCannulaFrequency { get; set; }
+        public int NasalCannulaId { get; set; }
         public string NasalCannulaSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
                 try
                 {
                     var nasalCannulRecord = await _context.NasalCannulTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.NasalCannulaId
+                                                     ,cancellationToken);
                     if (nasalCannulRecord != null)
                         throw new Exception("Nasal Cannul Record already exists");
 

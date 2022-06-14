@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
     {
         public DateTime MaskTime { get; set; }
         public int MaskFrequency { get; set; }
+        public int MaskId { get; set; }
         public string MaskSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands
                 try
                 {
                     var maskTimeEntry = await _context.MaskTimeTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.MaskId
+                                                     ,cancellationToken);
                     if (maskTimeEntry != null)
                         throw new Exception("Mask Time Record already exists");
 

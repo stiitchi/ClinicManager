@@ -4,6 +4,7 @@
     {
         public DateTime IsolationTime { get; set; }
         public int IsolationFreq { get; set; }
+        public int IsolationId{ get; set; }
         public string IsolationSignature { get; set; }
         public int PatientId { get; set; }
     }

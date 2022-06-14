@@ -10,8 +10,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
     {
         public int PatientId { get; set; }
         public int OralIOutputMl { get; set; }
+        public int OralOutputTestId { get; set; }
         public bool IsUrine { get; set; }
-        public int OralOutputVolume { get; set; }
         public int RunningTotalOralOutput { get; set; }
         public DateTime OralOutputTime { get; set; }
     }

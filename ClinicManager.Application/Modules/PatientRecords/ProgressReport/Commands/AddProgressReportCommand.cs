@@ -31,7 +31,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.ProgressReport.Comman
             try
             {
                 var progressReport = await _context.PatientProgressTests.IgnoreQueryFilters()
-                                                 .FirstOrDefaultAsync(c => c.Id == request.ProgressReportId, cancellationToken);
+                                                 .FirstOrDefaultAsync(c => c.Id == request.ProgressReportId && c.PatientId == request.PatientId
+                                                 ,cancellationToken);
                 if (progressReport != null)
                     throw new Exception("Report already exists");
 

@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Oxygenation;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 {
-    public class GetAllNassalCannulRecordsByPatientIdQuery : IRequest<Result<List<OxygenationRecordDTO>>>
+    public class GetAllNassalCannulRecordsByPatientIdQuery : IRequest<Result<List<NasalCannulaDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllNassalCannulRecordsByPatientIdQueryHandler : IRequestHandler<GetAllNassalCannulRecordsByPatientIdQuery, Result<List<OxygenationRecordDTO>>>
+    public class GetAllNassalCannulRecordsByPatientIdQueryHandler : IRequestHandler<GetAllNassalCannulRecordsByPatientIdQuery, Result<List<NasalCannulaDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<OxygenationRecordDTO>>> Handle(GetAllNassalCannulRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<NasalCannulaDTO>>> Handle(GetAllNassalCannulRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<NasalCannulEntity, OxygenationRecordDTO>> expression = e => new OxygenationRecordDTO
+                Expression<Func<NasalCannulEntity, NasalCannulaDTO>> expression = e => new NasalCannulaDTO
                 {
                     NasalCannulaFrequency = e.NasalCannulaFrequency,
                     NasalCannulaSignature = e.NasalCannulaSignature,
@@ -40,12 +40,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.NasalCannulaFrequency != 0)
                         .ToListAsync(cancellationToken);
-                return await Result<List<OxygenationRecordDTO>>.SuccessAsync(nasalEntry);
+                return await Result<List<NasalCannulaDTO>>.SuccessAsync(nasalEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<OxygenationRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<NasalCannulaDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

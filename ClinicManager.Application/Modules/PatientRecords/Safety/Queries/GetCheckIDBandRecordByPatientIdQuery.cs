@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Safety;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
 {
-    public class GetCheckIDBandRecordByPatientIdQuery : IRequest<Result<SafetyRecordDTO>>
+    public class GetCheckIDBandRecordByPatientIdQuery : IRequest<Result<CheckIDBandDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetCheckIDBandRecordByPatientIdQueryHandler : IRequestHandler<GetCheckIDBandRecordByPatientIdQuery, Result<SafetyRecordDTO>>
+    public class GetCheckIDBandRecordByPatientIdQueryHandler : IRequestHandler<GetCheckIDBandRecordByPatientIdQuery, Result<CheckIDBandDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<SafetyRecordDTO>> Handle(GetCheckIDBandRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CheckIDBandDTO>> Handle(GetCheckIDBandRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
                 if (idBandEntry == null)
                     throw new Exception("Unable to return ID Band Record");
 
-                var dto = new SafetyRecordDTO
+                var dto = new CheckIDBandDTO
                 {
                     CheckIDBandsTime = idBandEntry.CheckIDBandsTime,
                     CheckIDBandsSignature = idBandEntry.CheckIDBandsSignature,
                     CheckIDBandsFrequency = idBandEntry.CheckIDBandsFrequency,
                     PatientId = idBandEntry.PatientId
                 };
-                return await Result<SafetyRecordDTO>.SuccessAsync(dto);
+                return await Result<CheckIDBandDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<SafetyRecordDTO>.FailAsync(ex.Message);
+                return await Result<CheckIDBandDTO>.FailAsync(ex.Message);
             }
         }
     }

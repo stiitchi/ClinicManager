@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
     {
         public DateTime MobileImmobileTime { get; set; }
         public int MobileImmobileFreq { get; set; }
+        public int MobileImmobileId { get; set; }
         public string MobileImmobileSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
                 try
                 {
                     var mobileImmobileEntry = await _context.MobileImmobileTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.MobileImmobileId
+                                                     ,cancellationToken);
                     if (mobileImmobileEntry != null)
                         throw new Exception("Mobility Record already exists");
 

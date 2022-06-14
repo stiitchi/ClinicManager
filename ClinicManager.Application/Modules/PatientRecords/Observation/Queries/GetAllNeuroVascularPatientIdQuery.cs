@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 {
-    public class GetAllNeuroVascularPatientIdQuery : IRequest<Result<List<ObservationRecordDTO>>>
+    public class GetAllNeuroVascularPatientIdQuery : IRequest<Result<List<NeuroVascularDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllNeuroVascularPatientIdQueryHandler : IRequestHandler<GetAllNeuroVascularPatientIdQuery, Result<List<ObservationRecordDTO>>>
+    public class GetAllNeuroVascularPatientIdQueryHandler : IRequestHandler<GetAllNeuroVascularPatientIdQuery, Result<List<NeuroVascularDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<ObservationRecordDTO>>> Handle(GetAllNeuroVascularPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<NeuroVascularDTO>>> Handle(GetAllNeuroVascularPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<NeurovascularEntity, ObservationRecordDTO>> expression = e => new ObservationRecordDTO
+                Expression<Func<NeurovascularEntity, NeuroVascularDTO>> expression = e => new NeuroVascularDTO
                 {
                     NeuroVascularTime = e.NeuroVascularTime,
                     NeuroVascularSignature = e.NeuroVascularSignature,
@@ -38,14 +38,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId && r.NeuroVascularFrequency != 0)
+                        .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
-                return await Result<List<ObservationRecordDTO>>.SuccessAsync(neuroVascularEntry);
+                return await Result<List<NeuroVascularDTO>>.SuccessAsync(neuroVascularEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<ObservationRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<NeuroVascularDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

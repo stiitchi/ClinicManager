@@ -1,17 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 {
-   public class GetNPORecordByPatientIdQuery : IRequest<Result<NutritionRecordDTO>>
+   public class GetNPORecordByPatientIdQuery : IRequest<Result<KeepNPODTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetNPORecordByPatientIdQueryHandler : IRequestHandler<GetNPORecordByPatientIdQuery, Result<NutritionRecordDTO>>
+    public class GetNPORecordByPatientIdQueryHandler : IRequestHandler<GetNPORecordByPatientIdQuery, Result<KeepNPODTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<NutritionRecordDTO>> Handle(GetNPORecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<KeepNPODTO>> Handle(GetNPORecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                 if (npoRecordEntry == null)
                     throw new Exception("Unable to return NPO Record");
 
-                var dto = new NutritionRecordDTO
+                var dto = new KeepNPODTO
                 {
                     KeepNPOFrequency = npoRecordEntry.KeepNPOFrequency,
                     KeepNPOSignature = npoRecordEntry.KeepNPOSignature,
                     KeepNPOTime = npoRecordEntry.KeepNPOTime,
                     PatientId = npoRecordEntry.PatientId
                 };
-                return await Result<NutritionRecordDTO>.SuccessAsync(dto);
+                return await Result<KeepNPODTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<NutritionRecordDTO>.FailAsync(ex.Message);
+                return await Result<KeepNPODTO>.FailAsync(ex.Message);
             }
         }
     }

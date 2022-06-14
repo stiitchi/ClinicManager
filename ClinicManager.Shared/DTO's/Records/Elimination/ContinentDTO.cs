@@ -6,5 +6,6 @@
         public int ContinentFreq { get; set; }
         public string ContinentSignature { get; set; }
         public int PatientId { get; set; }
+        public int ContinentId { get; set; }
     }
 }

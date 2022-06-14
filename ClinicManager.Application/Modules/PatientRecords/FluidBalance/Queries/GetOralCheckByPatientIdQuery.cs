@@ -1,51 +1,49 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.FluidBalance;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
 {
-    public class GetOralCheckByPatientIdQuery : IRequest<Result<FluidBalanceRecordOralCheckDTO>>
+    public class GetOralOutputByPatientIdQuery : IRequest<Result<OralOutputDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetOralCheckByPatientIdQueryHandler : IRequestHandler<GetOralCheckByPatientIdQuery, Result<FluidBalanceRecordOralCheckDTO>>
+    public class GetOralOutputByPatientIdQueryHandler : IRequestHandler<GetOralOutputByPatientIdQuery, Result<OralOutputDTO>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetOralCheckByPatientIdQueryHandler(IApplicationDbContext context)
+        public GetOralOutputByPatientIdQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<FluidBalanceRecordOralCheckDTO>> Handle(GetOralCheckByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<OralOutputDTO>> Handle(GetOralOutputByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var oralCheck = await _context.OralIntakeTests.AsNoTracking()
+                var oralCheck = await _context.OralOutputTests.AsNoTracking()
                     .IgnoreQueryFilters()
-                    .Where(x => x.OralCheckType != null)
                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
 
                 if (oralCheck == null)
                     throw new Exception("Unable to return Oral Check");
-                var dto = new FluidBalanceRecordOralCheckDTO
+                var dto = new OralOutputDTO
                 {
-                    OralTestId = oralCheck.Id,
-                    OralIntakeMl = oralCheck.OralIntakeMl,
-                    OralIntakeTime = oralCheck.OralIntakeTime,
-                    OralIntakeVolume = oralCheck.OralIntakeVolume,
-                    OutputMl = oralCheck.OutputMl,
+                    OralOutputTestId = oralCheck.Id,
+                    OralOutputMl = oralCheck.OutputMl,
+                    OralOutputTime = oralCheck.OralOutputTime,
+                    RunningOutputTotal = oralCheck.RunningOutputTotal,
                     IsUrine = oralCheck.IsUrine,
                     PatientId = oralCheck.PatientId
                 };
-                return await Result<FluidBalanceRecordOralCheckDTO>.SuccessAsync(dto);
+                return await Result<OralOutputDTO>.SuccessAsync(dto);
             }
             catch (Exception ex)
             {
-                return await Result<FluidBalanceRecordOralCheckDTO>.FailAsync(ex.Message);
+                return await Result<OralOutputDTO>.FailAsync(ex.Message);
             }
         }
     }

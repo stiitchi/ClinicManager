@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
     {
         public DateTime WalkWithAssistanceTime { get; set; }
         public int WalkWithAssistanceFrequency { get; set; }
+        public int WalkWithAssistanceId { get; set; }
         public string WalkWithAssistanceSignature { get; set; }
         public int PatientId { get; set; }
 

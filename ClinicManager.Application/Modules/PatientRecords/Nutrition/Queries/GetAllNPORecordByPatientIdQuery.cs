@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 {
-    public class GetAllNPORecordByPatientIdQuery : IRequest<Result<List<NutritionRecordDTO>>>
+    public class GetAllNPORecordByPatientIdQuery : IRequest<Result<List<KeepNPODTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllNPORecordByPatientIdQueryHandler : IRequestHandler<GetAllNPORecordByPatientIdQuery, Result<List<NutritionRecordDTO>>>
+    public class GetAllNPORecordByPatientIdQueryHandler : IRequestHandler<GetAllNPORecordByPatientIdQuery, Result<List<KeepNPODTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<NutritionRecordDTO>>> Handle(GetAllNPORecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<KeepNPODTO>>> Handle(GetAllNPORecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<KeepNPOEntity, NutritionRecordDTO>> expression = e => new NutritionRecordDTO
+                Expression<Func<KeepNPOEntity, KeepNPODTO>> expression = e => new KeepNPODTO
                 {
                     KeepNPOTime = e.KeepNPOTime,
                     KeepNPOFrequency = e.KeepNPOFrequency,
@@ -38,14 +38,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId && r.KeepNPOFrequency != 0)
+                        .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
-                return await Result<List<NutritionRecordDTO>>.SuccessAsync(npoEntry);
+                return await Result<List<KeepNPODTO>>.SuccessAsync(npoEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<NutritionRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<KeepNPODTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

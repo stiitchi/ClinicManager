@@ -12,7 +12,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Commands
         public int ContinentFreq { get; set; }
         public string ContinentSignature { get; set; }
         public int PatientId { get; set; }
-        public int EliminationRecordId { get; set; }
+        public int ContinentId { get; set; }
 
     }
 
@@ -30,7 +30,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Commands
             try
             {
                 var continentEntry = await _context.ContinentRecords.IgnoreQueryFilters()
-                                                 .FirstOrDefaultAsync(c => c.Id == request.EliminationRecordId, cancellationToken);
+                                                 .FirstOrDefaultAsync(c => c.Id == request.ContinentId, cancellationToken);
                 if (continentEntry != null)
                     throw new Exception("Continent Entry already exists");
 

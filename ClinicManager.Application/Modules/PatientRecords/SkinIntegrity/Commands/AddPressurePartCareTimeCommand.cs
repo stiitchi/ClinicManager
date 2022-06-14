@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Command
     {
         public DateTime PressurePartCareTime { get; set; }
         public int PressurePartCareFrequency { get; set; }
+        public int PressurePartCareId { get; set; }
         public string PressurePartCareSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Command
                 try
                 {
                     var pressureCarePartEntry = await _context.SkinIntegrityReports.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.PressurePartCareId
+                                                     ,cancellationToken);
                     if (pressureCarePartEntry != null)
                         throw new Exception("Pressure Part Care already exists");
 

@@ -10,6 +10,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
     {
         public DateTime FullWardDietTime { get; set; }
         public int FullWardDietFrequency { get; set; }
+        public int FullWardDietId { get; set; }
         public string FullWardDietSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -28,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Commands
                 try
                 {
                     var dietEntry = await _context.WardDietTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.FullWardDietId
+                                                     ,cancellationToken);
                     if (dietEntry != null)
                         throw new Exception("Diet Record already exists");
 

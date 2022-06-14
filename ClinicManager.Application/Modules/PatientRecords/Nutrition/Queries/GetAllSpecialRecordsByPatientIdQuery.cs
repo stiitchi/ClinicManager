@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
-using ClinicManager.Shared.DTO_s.Records;
+using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,12 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 {
-    public class GetAllSpecialRecordsByPatientIdQuery : IRequest<Result<List<NutritionRecordDTO>>>
+    public class GetAllSpecialRecordsByPatientIdQuery : IRequest<Result<List<SpecialDTO>>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetAllSpecialRecordsByPatientIdQueryHandler : IRequestHandler<GetAllSpecialRecordsByPatientIdQuery, Result<List<NutritionRecordDTO>>>
+    public class GetAllSpecialRecordsByPatientIdQueryHandler : IRequestHandler<GetAllSpecialRecordsByPatientIdQuery, Result<List<SpecialDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,11 +22,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<NutritionRecordDTO>>> Handle(GetAllSpecialRecordsByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<SpecialDTO>>> Handle(GetAllSpecialRecordsByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<SpecialEntity, NutritionRecordDTO>> expression = e => new NutritionRecordDTO
+                Expression<Func<SpecialEntity, SpecialDTO>> expression = e => new SpecialDTO
                 {
                     SpecialFrequency = e.SpecialFrequency,
                     SpecialSignature = e.SpecialSignature,
@@ -40,12 +40,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.SpecialFrequency != 0)
                         .ToListAsync(cancellationToken);
-                return await Result<List<NutritionRecordDTO>>.SuccessAsync(specialEntry);
+                return await Result<List<SpecialDTO>>.SuccessAsync(specialEntry);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<NutritionRecordDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<List<SpecialDTO>>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

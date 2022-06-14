@@ -4,6 +4,7 @@
     {
         public DateTime PolyMaskTime { get; set; }
         public int PolyMaskFrequency { get; set; }
+        public int PolyMaskId { get; set; }
         public string PolyMaskSignature { get; set; }
         public int PatientId { get; set; }
     }

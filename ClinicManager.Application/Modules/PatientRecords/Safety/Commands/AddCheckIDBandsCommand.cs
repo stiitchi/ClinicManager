@@ -11,6 +11,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Commands
     {
         public DateTime CheckIDBandsTime { get; set; }
         public int CheckIDBandsFrequency { get; set; }
+        public int CheckIDBandsId { get; set; }
         public string CheckIDBandsSignature { get; set; }
         public int PatientId { get; set; }
 
@@ -29,7 +30,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Commands
                 try
                 {
                     var idBandEntry = await _context.CheckIdBandTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.CheckIDBandsId
+                                                     ,cancellationToken);
                     if (idBandEntry != null)
                         throw new Exception("ID Band already exists");
 

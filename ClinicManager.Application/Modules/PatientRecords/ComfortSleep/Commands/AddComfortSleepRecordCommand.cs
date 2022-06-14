@@ -29,7 +29,8 @@ namespace ClinicManager.Application.Modules.PatientRecords.ComfortSleep.Commands
             try
             {
                 var comfortSleep = await _context.NurseCarePlanComfortSleepRecords.IgnoreQueryFilters()
-                                                 .FirstOrDefaultAsync(c => c.Id == request.ComfortSleepRecordId, cancellationToken);
+                                                 .FirstOrDefaultAsync(c => c.Id == request.ComfortSleepRecordId && c.PatientId == request.PatientId
+                                                 ,cancellationToken);
                 if (comfortSleep != null)
                     throw new Exception("Report already exists");
 

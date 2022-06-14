@@ -4,6 +4,7 @@
     {
         public DateTime FullWardDietTime { get; set; }
         public int FullWardDietFrequency { get; set; }
+        public int FullWardDietID { get; set; }
         public string FullWardDietSignature { get; set; }
         public int PatientId { get; set; }
     }
