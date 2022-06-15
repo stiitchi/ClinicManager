@@ -1,9 +1,13 @@
 ﻿@page "/nursing-careplan"
 @inject IDialogService DialogService
-@using ClinicManager.Data.PatientFiles.PatientFileModals
+@using ClinicManager.Data.Modals.PatientRecords.DailyCare
+@using ClinicManager.Data.Modals.PatientRecords.Fluid_Balance
+@using ClinicManager.Data.Modals.PatientRecords.ProgressReport
+@using ClinicManager.Data.Modals.PatientRecords.SkinIntegrity
+@using ClinicManager.Data.Modals.PatientRecords.StoolChart
+@using ClinicManager.Data.PatientFiles
 @using ClinicManager.Data.PatientFiles.ReportViews
-@using PatientFileModals
-@using ReportViews
+
 
 <MudContainer>
     <MudGrid Class="mt-8">
@@ -106,7 +110,7 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ViewProgressNotes())">Add</MudButton>
+                               @onclick="@(e => AddProgressNotes())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(e => ChangeView("progress-notes"))">View</MudButton>
@@ -140,7 +144,7 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("daily-care"))">Add</MudButton>
+                               OnClick="(() => AddDailyCareTest())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(e => ChangeView("daily-care-view"))">View</MudButton>
@@ -174,7 +178,7 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("skin-integrity"))">Add</MudButton>
+                               OnClick="(() => AddSkinIntegrityReport())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(e => ChangeView("skin-integrity-view"))">View</MudButton>
@@ -191,7 +195,7 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("stool-charts"))">Add</MudButton>
+                               OnClick="(() => AddStoolChartReport())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(e => ChangeView("stool-charts-view"))">View</MudButton>
@@ -202,9 +206,6 @@
 
         @switch (currentView)
         {
-            case "daily-care":
-                <DailyCareList />
-                break;
             case "daily-care-view":
                 <DayCareView/>
                 break;
@@ -223,20 +224,14 @@
             case "nurse-presentation-view":
                 <NursePresentationView />
                 break;
-            case "stool-charts":
-                <StoolCharts />
-                break;
             case "stool-charts-view":
                 <StoolChartView />
-                break;
-            case "skin-integrity":
-                <SkinIntegrityReport />
                 break;
             case "skin-integrity-view":
                 <SkinIntegrityView />
                 break;
             default:
-                <DailyCareList />
+          
                 break;
         }
     </MudGrid>
@@ -249,19 +244,29 @@
     {
         currentView = view;
     }
-
-    private void AddReport()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<NurseCheckListModal>("Report Form", parameters, options);
-    }
-
-    private void ViewProgressNotes()
+    private void AddProgressNotes()
     {
         var parameters = new DialogParameters();
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<ProgressNotesModal>("Progress Notes", parameters, options);
     }
 
+    private void AddDailyCareTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<DailyCareModal>("Daily Care Test", parameters, options);
+    }
+    private void AddSkinIntegrityReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<SkinIntegrityModal>("Skin Integrity Report", parameters, options);
+    }
+    private void AddStoolChartReport()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<StoolChartModal>("Stool Chart Report", parameters, options);
+    } 
 }

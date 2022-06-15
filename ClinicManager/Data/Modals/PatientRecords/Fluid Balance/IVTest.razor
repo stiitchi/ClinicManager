@@ -11,9 +11,6 @@
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
-        <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousCheck"  Label="Intravenous Check" Variant="Variant.Outlined" />
-        </MudItem>
           <MudItem xs="8" md="12" sm="12">
             <MudSelect T="string" Label="Record Type" @bind-Value="AddEditFluidBalanceModel.intravenousCheckType" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                 <MudSelectItem Value="@("Injection")" />
@@ -21,10 +18,10 @@
              </MudSelect>
         </MudItem>
          <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousStartVolume"  Label="Started Volume" Variant="Variant.Outlined" />
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.intravenousStartVolume"  Label="Started Volume" Variant="Variant.Outlined" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousCompleteVolume"  Label="Complete Volume" Variant="Variant.Outlined" />
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.intravenousCompleteVolume"  Label="Complete Volume" Variant="Variant.Outlined" />
         </MudItem>
        <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousDesc"  Label="Description" Variant="Variant.Outlined" />
@@ -33,10 +30,10 @@
             <MudTimePicker Variant="Variant.Outlined" Time="timeCompleted" AmPm="true" />
         </MudItem>
          <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousML"  Label="Intravenous ML" Variant="Variant.Outlined" />
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.intravenousML"  Label="Intravenous ML" Variant="Variant.Outlined" />
         </MudItem>
          <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.intravenousRunningTotal"  Label="Intravenous Running Total" Variant="Variant.Outlined" />
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.intravenousRunningTotal"  Label="Intravenous Running Total" Variant="Variant.Outlined" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
@@ -55,7 +52,7 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                    OnClick="(() => SaveAsync())">Add Oral Intake Record</MudButton>
+                    OnClick="(() => SaveAsync())">Add IV Test</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -74,7 +71,8 @@
         _processing = true;
         IResult<int> response;
         AddEditFluidBalanceModel.PatientId = 1;
-        
+
+        AddEditFluidBalanceModel.intravenousCheck = true;
         time = AddEditFluidBalanceModel.intravenousIntakeTime.TimeOfDay;
         timeCompleted = AddEditFluidBalanceModel.intravenousIntakeTimeCompleted.TimeOfDay;
         response = await patientRecordService.AddIVTestRecord(AddEditFluidBalanceModel);

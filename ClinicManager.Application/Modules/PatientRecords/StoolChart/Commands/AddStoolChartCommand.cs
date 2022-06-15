@@ -13,6 +13,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Commands
         public bool NormalBowelMovement { get; set; }
         public bool Blood { get; set; }
         public int MuscousAmount { get; set; }
+        public string StoolColour { get; set; }
         public string BowelAmount { get; set; }
         public string Consistency { get; set; }
         public DateTime StoolTime { get; set; }
@@ -46,6 +47,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Commands
                    request.StoolTime,
                    request.StoolDate,
                    request.Blood,
+                   request.StoolColour,
                    request.MuscousAmount,
                    request.BowelAmount,
                    request.Consistency

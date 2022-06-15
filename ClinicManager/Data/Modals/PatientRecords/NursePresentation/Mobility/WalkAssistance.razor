@@ -1,28 +1,18 @@
 ﻿@using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
-@using ClinicManager.Shared.DTO_s.Records.FluidBalance
+@using ClinicManager.Shared.DTO_s.Records.Mobility
 @inject IPatientRecordService patientRecordService 
 
 
 <MudDialog Style="width:400px;">
     <DialogContent>
-        <EditForm Model="AddEditFluidBalanceModel" OnValidSubmit="SaveAsync">
+        <EditForm Model="AddEditMobilityModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.OralIntakeMl"  Label="Oral Intake Ml" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="AddEditMobilityModel.WalkWithAssistanceFrequency"  Label="Frequency" Variant="Variant.Outlined" />
         </MudItem>
-        <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditFluidBalanceModel.OralIntakeVolume"  Label="Oral Intake Volume" Variant="Variant.Outlined" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
-            <MudSelect T="string" Label="Record Type" @bind-Value="AddEditFluidBalanceModel.OralCheckType" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                <MudSelectItem Value="@("Oral Check")" />
-                <MudSelectItem Value="@("Stetoscope")" />
-             </MudSelect>
-        </MudItem>
-
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info" Class="mt-2"
@@ -40,14 +30,14 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                    OnClick="(() => SaveAsync())">Add Oral Intake Record</MudButton>
+                    OnClick="(() => SaveAsync())">Add Walk Assistance Record</MudButton>
     </DialogActions>
 </MudDialog>
 
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public OralIntakeDTO AddEditFluidBalanceModel { get; set; } = new();
+    [Parameter] public WalkWithAssistanceDTO AddEditMobilityModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Today;
@@ -57,13 +47,14 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditFluidBalanceModel.PatientId = 1;
+        AddEditMobilityModel.PatientId = 1;
+        AddEditMobilityModel.WalkWithAssistanceSignature = "Signature";
         
-        time = AddEditFluidBalanceModel.OralIntakeTime.TimeOfDay;
-        response = await patientRecordService.AddOralInputTestRecord(AddEditFluidBalanceModel);
+        time = AddEditMobilityModel.WalkWithAssistanceTime.TimeOfDay;
+        response = await patientRecordService.AddWalkAssistanceRecord(AddEditMobilityModel);
         if (response.Succeeded)
         {
-            _snackBar.Add("Oral Intake Record Saved", Severity.Success);
+            _snackBar.Add("Walk Assitance Record Saved", Severity.Success);
             _processing = false;
             MudDialog.Close();
         }

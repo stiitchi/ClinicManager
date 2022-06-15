@@ -29,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
                 try
                 {
                     var exerciseEntry = await _context.ExerciseTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.ExercisesId, cancellationToken);
                     if (exerciseEntry != null)
                         throw new Exception("Exercise Record already exists");
 

@@ -28,7 +28,13 @@ namespace ClinicManager.Application.Modules.PatientRecords.ProgressReport.Querie
             {
                 Expression<Func<PatientProgressEntity, ProgressReportDTO>> expression = e => new ProgressReportDTO
                 {
-                    
+                    ProgressReportId = e.Id,
+                    Allergy = e.Allergy,
+                    DateAdded = e.DateAdded,
+                    Desc = e.Description,
+                    RiskFactor = e.RiskFactor,
+                    TimeAdded = e.TimeAdded,
+                    PatientId = e.PatientId,
                 };
 
                 var progressReport = await _context.PatientProgressTests

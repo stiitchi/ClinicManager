@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinReport.Queries
             {
                 Expression<Func<SkinIntegrityReport, SkinReportDTO>> expression = e => new SkinReportDTO
                 {
+                    SkinIntegrityId = e.Id,
                     SacrumDescription = e.SacrumDescription,
                     HealsDescription = e.HealsDescription,
                     HipsDescription = e.HipsDescription,

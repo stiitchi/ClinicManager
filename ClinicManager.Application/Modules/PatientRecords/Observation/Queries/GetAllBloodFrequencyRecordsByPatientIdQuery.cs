@@ -26,15 +26,15 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
         {
             try
             {
-                Expression<Func<BloodGlucoseEntity, BloodDTO>> expression = e => new BloodDTO
+                Expression<Func<BloodEntity, BloodDTO>> expression = e => new BloodDTO
                 {
-                    BloodFrequency = e.BloodGlucoseFrequency,
-                    BloodSignature = e.BloodGlucoseSignature,
-                    BloodTime = e.BloodGlucoseTime,
+                    BloodFrequency = e.BloodFrequency,
+                    BloodSignature = e.BloodSignature,
+                    BloodTime = e.BloodTime,
                     PatientId = e.PatientId
                 };
 
-                var bloodGlucoseEntry = await _context.BloodGlucoseTests
+                var bloodGlucoseEntry = await _context.BloodTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)

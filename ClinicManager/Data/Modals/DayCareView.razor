@@ -1,5 +1,4 @@
 ﻿@using ClinicManager.Shared.DTO_s.Records
-@using ClinicManager.Shared.DTO_s.Records.SkinReport
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
 @inject IPatientRecordService patientRecordService 
@@ -7,35 +6,32 @@
 <MudGrid>
     <MudItem xs="12" md="12" sm="12">
         <MudText Align="Align.Center" Typo="Typo.h6">
-            Stool Chart View
+            Daily Care Views
         </MudText>
     </MudItem>
     @foreach(var report in _reports)
-    {
+    {     
     <MudItem md="3" sm="3">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">@report.StoolChartId</MudAvatar>
+                    <MudChip Color="Color.Info"> @report.CareRecord</MudChip>
                 </CardHeaderAvatar>
                 <CardHeaderContent>
-                   @report.StoolDate.ToString("MMMM dd") <br/>
-                   @report.StoolTime.ToString("HH:mm")
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>          
-               Normal Bowel Movement: <MudChip Color="Color.Success">@report.NormalBowelMovement</MudChip> <br/>
-               Bowel Amount <MudChip Color="Color.Warning">@report.BowelAmount</MudChip> <br/>
-               Mucous Amount <MudChip Color="Color.Info">@report.MuscousAmount</MudChip> <br/>
-               Consistency <MudChip Color="Color.Secondary">@report.Consistency</MudChip>
+            <MudCardContent>
+                <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip>
+                <MudChip>@report.TimeAdded.ToString("HH:mm")</MudChip>
             </MudCardContent>
         </MudCard>
     </MudItem>
     }
+
 </MudGrid>
 
 @code {
-    private List<StoolChartDTO> _reports = new();
+    private List<DailyCareRecordDTO> _reports = new();
     [Parameter] public int PatientId { get; set; } 
 
     protected async override Task OnInitializedAsync()
@@ -45,7 +41,7 @@
 
     public async Task GetAllReports(int patientId)
     {
-        var reports = await patientRecordService.GetAllStoolChartsByPatientId(patientId);
+        var reports = await patientRecordService.GetAllDailyCareRecordsByPatientId(patientId);
         if (reports.Succeeded)
         {
             _reports = reports.Data;

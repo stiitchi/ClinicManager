@@ -1,0 +1,75 @@
+﻿@using ClinicManager.Data.Modals.PatientRecords.Fluid_Balance
+@inject IDialogService DialogService
+
+<MudItem xs="12" md="12" sm="12">
+    <MudText Align="Align.Center" Typo="Typo.h6">
+        Fluid Balance Record
+    </MudText>
+</MudItem>
+<MudItem md="12" sm="12">
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Tests">
+             <MudGrid>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">IV Test</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddIVTestTest())"
+                     Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Oral Intake</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddOralIntakeTestTest())"
+                     Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                 <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">Oral Output</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddOralOutputTestTest())"
+                     Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+                 <MudItem Class="mt-2" md="3" sm="6">
+                    <MudText Typo="Typo.body2">24 Hour Intake</MudText>
+                </MudItem>
+                <MudItem md="3" sm="6">
+                    <MudIconButton Color="Color.Info" Icon="@Icons.TwoTone.GridView" />
+                    <MudIconButton Color="Color.Success" OnClick="(() => AddPrevious24HoursTest())"
+                     Icon="@Icons.TwoTone.Add" />
+                </MudItem>
+            </MudGrid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudItem>
+
+@code{
+    private void AddPrevious24HoursTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<Previous24Hours>("24 Hour Intake", parameters, options);
+    }
+    private void AddOralIntakeTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<OralIntake>("Oral Intake", parameters, options);
+    }
+    private void AddOralOutputTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<OralOutput>("Oral Output", parameters, options);
+    }
+    private void AddIVTestTest()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<IVTest>("IV Test", parameters, options);
+    }
+}

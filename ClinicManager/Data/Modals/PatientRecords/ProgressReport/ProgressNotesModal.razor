@@ -1,32 +1,31 @@
 ﻿@using ClinicManager.Shared.DTO_s.Records
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
-@using ClinicManager.Shared.DTO_s.Records.FluidBalance
 @inject IPatientRecordService patientRecordService 
-
 
 <MudDialog Style="width:400px;">
     <DialogContent>
-        <EditForm Model="AddEditEliminationModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditEliminationModel.Intake24Hour"  Label="24 Hour Intake" Variant="Variant.Outlined" />
+            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditEliminationModel.Output24Hour"  Label="24 Hour Output" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="AddEditObservationModel.Desc"  Label="Description" Variant="Variant.Outlined" />
         </MudItem>
-          <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditEliminationModel.TotalIntake"  Label="Overall Total" Variant="Variant.Outlined" />
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditObservationModel.RiskFactor"  Label="Risk Factor" Variant="Variant.Outlined" />
+        </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditObservationModel.Allergy"  Label="Allergy" Variant="Variant.Outlined" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info" Class="mt-2"
-                       Style="border-radius:10px 10px 10px 10px"
-                       >Sign Report</MudButton>
+                       Style="border-radius:10px 10px 10px 10px">
+                        Sign Report</MudButton>
             <MudCard Outlined="true" Class="mt-2"
                      Style="width:350px; height:100px;
                      border-radius:10px 10px 10px 10px" />
         </MudItem>
-        </EditForm>
     </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Outlined"
@@ -34,14 +33,15 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                    OnClick="(() => SaveAsync())">Add 24 Hour Intake Report</MudButton>
+                   OnClick="SaveAsync">Add Progress Note</MudButton>
     </DialogActions>
 </MudDialog>
 
 
+  
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public Previous24HourIntakeDTO AddEditEliminationModel { get; set; } = new();
+    [Parameter] public ProgressReportDTO AddEditObservationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Today;
@@ -51,12 +51,13 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditEliminationModel.PatientId = 1;
-   
-        response = await patientRecordService.Add24HourIntakeRecord(AddEditEliminationModel);
+        AddEditObservationModel.PatientId = 1;
+
+        time = AddEditObservationModel.TimeAdded.TimeOfDay;
+        response = await patientRecordService.AddProgressReportRecord(AddEditObservationModel);
         if (response.Succeeded)
         {
-            _snackBar.Add("24 Hour Intake Saved", Severity.Success);
+            _snackBar.Add("Progress Report Saved", Severity.Success);
             _processing = false;
             MudDialog.Close();
         }

@@ -11,22 +11,40 @@
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Bowel Amount" @bind-Value="AddEditStoolChartModel.BowelAmount" 
+                    Variant="Variant.Outlined"
+                    AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Small")" />
+                        <MudSelectItem T="string" Value="@("Medium")" />
+                        <MudSelectItem T="string" Value="@("Large")" />
+                    </MudSelect>
+            </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditStoolChartModel.BowelAmount"  Label="Bowel Amount" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="AddEditStoolChartModel.StoolColour"  Label="Stool Colour" Variant="Variant.Outlined" />
         </MudItem>
          <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditStoolChartModel.MuscousAmount"  Label="Muscous Amount" Variant="Variant.Outlined" />
         </MudItem>
-         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditStoolChartModel.Consistency"  Label="Consistency" Variant="Variant.Outlined" />
-        </MudItem>
-         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditStoolChartModel.NormalBowelMovement"  Label="Normal Bowel Movement" Variant="Variant.Outlined" />
-        </MudItem>
-            <MudItem xs="8" md="12" sm="12">
+          <MudItem sm="12">
+                    <MudSelect T="string" Label="Bristol Stool Chart" @bind-Value="AddEditStoolChartModel.Consistency" 
+                    Variant="Variant.Outlined"
+                    AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Type 1 - Severe Constipation")" />
+                        <MudSelectItem T="string" Value="@("Type 2 - Mild Constipation")" />
+                        <MudSelectItem T="string" Value="@("Type 3 - Normal")" />
+                        <MudSelectItem T="string" Value="@("Type 4 - Normal")" />
+                        <MudSelectItem T="string" Value="@("Type 5 - Lacking Fibre")" />
+                        <MudSelectItem T="string" Value="@("Type 6 - Mild Diarrhea")" />
+                        <MudSelectItem T="string" Value="@("Type 7 - Severe Diarrhea")" />
+                    </MudSelect>
+            </MudItem>
+        <MudItem xs="8" md="12" sm="12">
+                <MudText>Normal Bowel Movement?</MudText>
             <MudCheckBox @bind-Checked="AddEditStoolChartModel.NormalBowelMovement" Color="Color.Primary"></MudCheckBox>
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
+                <MudText>Any Blood?</MudText>
             <MudCheckBox @bind-Checked="AddEditStoolChartModel.Blood" Color="Color.Primary"></MudCheckBox>
         </MudItem>
   

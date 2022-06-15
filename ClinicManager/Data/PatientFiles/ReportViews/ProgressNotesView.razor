@@ -1,67 +1,50 @@
-﻿<MudGrid>
+﻿@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
     <MudItem xs="12" md="12" sm="12">
         <MudText Align="Align.Center" Typo="Typo.h6">
             Progress Notes Views
         </MudText>
     </MudItem>
-    <MudItem md="3" sm="3">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Note #1
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                Slept 10 hours
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-    <MudItem md="3" sm="3">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Note #2
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                    Made bed
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-    <MudItem md="3" sm="3">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Note #3
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                Bed sores
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
-    <MudItem md="3" sm="3">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Note #4
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                    Did not eat
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
+     @foreach (var report in _reports)
+            {
+            <MudItem md="3" sm="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Color="Color.Info" >@report.ProgressReportId</MudAvatar>
+                        </CardHeaderAvatar>
+                    </MudCardHeader>
+                    <MudCardContent>
+                       Allergy:  @report.Allergy <br/>
+                       Risk Factor:  @report.RiskFactor <br/>
+                       Description : @report.Desc
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+            }
+
 </MudGrid>
+
+  
+@code {
+    private List<ProgressReportDTO> _reports = new();
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllReports(1);
+    }
+
+    public async Task GetAllReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllProgressReportsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _reports = reports.Data;
+        }
+    }  
+}

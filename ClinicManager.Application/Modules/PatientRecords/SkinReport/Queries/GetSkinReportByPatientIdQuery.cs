@@ -32,6 +32,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinReport.Queries
 
                 var dto = new SkinReportDTO
                 {
+                    SkinIntegrityId = skinIntegrity.Id,
                     SacrumDescription = skinIntegrity.SacrumDescription,
                     HealsDescription = skinIntegrity.HealsDescription,
                     HipsDescription = skinIntegrity.HipsDescription,

@@ -29,9 +29,9 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Commands
                 try
                 {
                     var walkAssistanceEntry = await _context.WalkAssistanceTests.IgnoreQueryFilters()
-                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                                                     .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.WalkWithAssistanceId, cancellationToken);
                     if (walkAssistanceEntry != null)
-                        throw new Exception("Mobility Record already exists");
+                        throw new Exception("Walk Assitance Record already exists");
 
                     var patient = await _context.Patients.IgnoreQueryFilters()
                                                    .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);

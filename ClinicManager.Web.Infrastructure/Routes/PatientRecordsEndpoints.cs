@@ -8,7 +8,8 @@ namespace ClinicManager.Web.Infrastructure.Routes
         public static string AddCathetherRecord = "api/PatientRecord/AddCathetherRecord";
         public static string AddContinentRecord = "api/PatientRecord/AddContinentRecord";
         public static string Add24HourIntakeRecord = "api/PatientRecord/Add24HourIntakeRecord";
-        public static string AddOralTestRecord = "api/PatientRecord/AddOralTestRecord";
+        public static string AddOralInputRecord = "api/PatientRecord/AddOralInputRecord";
+        public static string AddOralOutputRecord = "api/PatientRecord/AddOralOutputRecord";
         public static string AddIVTestRecord = "api/PatientRecord/AddIVTestRecord";
         public static string AddBedBathAssist = "api/PatientRecord/AddBedBathAssist";
         public static string AddBedBathRecord = "api/PatientRecord/AddBedBathRecord";
@@ -225,31 +226,35 @@ namespace ClinicManager.Web.Infrastructure.Routes
 
         public static string GetAllComfortSleepRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllComfortSleepRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllComfortSleepRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllDailyCareRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllDailyCareRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllDailyCareRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllCathethersByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllCathethersByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllCathethersByPatientId?patientId={patientId}";
         }
         public static string GetAllContinentsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllContinentsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllContinentsByPatientId?patientId={patientId}";
         }
         public static string GetAll24HourIntakesByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAll24HourIntakesByPatientId={patientId}";
+            return $"api/PatientRecord/GetAll24HourIntakesByPatientId?patientId={patientId}";
         }
-        public static string GetAllOralChecksByPatientId(int patientId)
+        public static string GetAllOralOutputChecksByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllOralChecksByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllOralOutputChecksByPatientId?patientId={patientId}";
+        }
+        public static string GetAllOralIntakeChecksByPatientId(int patientId)
+        {
+            return $"api/PatientRecord/GetAllOralInputChecksByPatientId?patientId={patientId}";
         }
         public static string GetAllIVCheckByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllIVCheckByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllIVCheckByPatientId?patientId={patientId}";
         }
         public static string GetAllBedBathAssistRecordsByPatientId(int patientId)
         {
@@ -257,318 +262,318 @@ namespace ClinicManager.Web.Infrastructure.Routes
         }
         public static string GetAllBedBathRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllBedBathRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllBedBathRecordByPatientId?patientId={patientId}";
         }
         public static string GetAllSelfCareRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllSelfCareRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllSelfCareRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllIsolationRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllIsolationRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllIsolationRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllMedicationRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllMedicationRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllMedicationRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllPostOperativeCareRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllPostOperativeCareRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllPostOperativeCareRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllTractionRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllTractionRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllTractionRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllWoundCareRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllWoundCareRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllWoundCareRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllAssistInChairRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllAssistInChairRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllAssistInChairRecordByPatientId?patientId={patientId}";
         }
         public static string GetAllBedRestRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllBedRestRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllBedRestRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllExerciseRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllExerciseRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllExerciseRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllByMobilityRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllByMobilityRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllByMobilityRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllWalkAssistanceRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllWalkAssistanceRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllWalkAssistanceRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllFullWardDietByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllFullWardDietByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllFullWardDietByPatientId?patientId={patientId}";
         }
         public static string GetAllNPORecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllNPORecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllNPORecordByPatientId?patientId={patientId}";
         }
         public static string GetAllSpecialRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllSpecialRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllSpecialRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllBloodGlucoseRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllBloodGlucoseRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllBloodGlucoseRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllBloodFrequencyRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllBloodFrequencyRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllBloodFrequencyRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllNeuroLogicalRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllNeuroLogicalRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllNeuroLogicalRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllNeuroVascularPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllNeuroVascularPatientId={patientId}";
+            return $"api/PatientRecord/GetAllNeuroVascularPatientId?patientId={patientId}";
         }
         public static string GetAllUrineTestsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllUrineTestsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllUrineTestsByPatientId?patientId={patientId}";
         }
         public static string GetAllVitalSignRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllVitalSignRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllVitalSignRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllInhalaByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllInhalaByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllInhalaByPatientId?patientId={patientId}";
         }
         public static string GetAllMaskByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllMaskByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllMaskByPatientId?patientId={patientId}";
         }
         public static string GetAllNassalCannulRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllNassalCannulRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllNassalCannulRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllPolyMaskByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllPolyMaskByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllPolyMaskByPatientId?patientId={patientId}";
         }
         public static string GetAllProgressReportsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllProgressReportsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllProgressReportsByPatientId?patientId={patientId}";
         }
         public static string GetAllCommunicationRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllCommunicationRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllCommunicationRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllHealthEducationByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllHealthEducationByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllHealthEducationByPatientId?patientId={patientId}";
         }
         public static string GetAllSupportRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllSupportRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllSupportRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllCheckIDBandRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllCheckIDBandRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllCheckIDBandRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllCotsideRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllCotsideRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllCotsideRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllSkinReportsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllSkinReportsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllSkinReportsByPatientId?patientId={patientId}";
         }
         public static string GetAllPressurePartCareTimeByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllPressurePartCareTimeByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllPressurePartCareTimeByPatientId?patientId={patientId}";
         }
         public static string GetAllRednessReportsById(int patientId)
         {
-            return $"api/PatientRecord/GetAllRednessReportsById={patientId}";
+            return $"api/PatientRecord/GetAllRednessReportsById?patientId={patientId}";
         }
         public static string GetAllStoolChartsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllStoolChartsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllStoolChartsByPatientId?patientId={patientId}";
         }
 
 
 
         public static string GetComfortSleepRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetComfortSleepRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetComfortSleepRecordByPatientId?patientId={patientId}";
         }
         public static string GetDailyCareRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetDailyCareRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetDailyCareRecordByPatientId?patientId={patientId}";
         }
         public static string GetCathetherRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetCathetherRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetCathetherRecordByPatientId?patientId={patientId}";
         }
         public static string GetContinentByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetContinentByPatientId={patientId}";
+            return $"api/PatientRecord/GetContinentByPatientId?patientId={patientId}";
         }
         public static string Get24HourIntakeByPatientId(int patientId)
         {
-            return $"api/PatientRecord/Get24HourIntakeByPatientId={patientId}";
+            return $"api/PatientRecord/Get24HourIntakeByPatientId?patientId={patientId}";
         }
         public static string GetOralCheckByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetOralCheckByPatientId={patientId}";
+            return $"api/PatientRecord/GetOralCheckByPatientId?patientId={patientId}";
         }
         public static string GetIVCheckByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetIVCheckByPatientId={patientId}";
+            return $"api/PatientRecord/GetIVCheckByPatientId?patientId={patientId}";
         }
         public static string GetBedBathAssistByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetBedBathAssistByPatientId={patientId}";
+            return $"api/PatientRecord/GetBedBathAssistByPatientId?patientId={patientId}";
         }
         public static string GetBedBathPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetBedBathPatientId={patientId}";
+            return $"api/PatientRecord/GetBedBathPatientId?patientId={patientId}";
         }
         public static string GetSelfCareRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetSelfCareRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetSelfCareRecordByPatientId?patientId={patientId}";
         }
         public static string GetIsolationRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetIsolationRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetIsolationRecordByPatientId?patientId={patientId}";
         }
         public static string GetMedicationRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetMedicationRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetMedicationRecordByPatientId?patientId={patientId}";
         }
         public static string GetPostOperativeRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetPostOperativeRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetPostOperativeRecordByPatientId?patientId={patientId}";
         }
         public static string GetTractionByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetTractionByPatientId={patientId}";
+            return $"api/PatientRecord/GetTractionByPatientId?patientId={patientId}";
         }
         public static string GetWoundCareByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetWoundCareByPatientId={patientId}";
+            return $"api/PatientRecord/GetWoundCareByPatientId?patientId={patientId}";
         }
         public static string GetAssistInChairRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAssistInChairRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetAssistInChairRecordByPatientId?patientId={patientId}";
         }
         public static string GetBedRestRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetBedRestRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetBedRestRecordByPatientId?patientId={patientId}";
         }
         public static string GetMobilityRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetMobilityRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetMobilityRecordByPatientId?patientId={patientId}";
         }
         public static string GetExerciseRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetExerciseRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetExerciseRecordByPatientId?patientId={patientId}";
         }
         public static string GetWalkAssistanceByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetWalkAssistanceByPatientId={patientId}";
+            return $"api/PatientRecord/GetWalkAssistanceByPatientId?patientId={patientId}";
         }
         public static string GetFullWardDietByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetFullWardDietByPatientId={patientId}";
+            return $"api/PatientRecord/GetFullWardDietByPatientId?patientId={patientId}";
         }
         public static string GetNPORecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetNPORecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetNPORecordByPatientId?patientId={patientId}";
         }
         public static string GetSpecialRecordPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetSpecialRecordPatientId={patientId}";
+            return $"api/PatientRecord/GetSpecialRecordPatientId?patientId={patientId}";
         }
         public static string GetBloodFrequencyRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetBloodFrequencyRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetBloodFrequencyRecordByPatientId?patientId={patientId}";
         }
         public static string GetBloodGlucoseRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetBloodGlucoseRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetBloodGlucoseRecordByPatientId?patientId={patientId}";
         }
         public static string GetNeuroLogicalRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetNeuroLogicalRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetNeuroLogicalRecordByPatientId?patientId={patientId}";
         }
         public static string GetNeuroVascularRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetNeuroVascularRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetNeuroVascularRecordByPatientId?patientId={patientId}";
         }
         public static string GetUrineTestByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetUrineTestByPatientId={patientId}";
+            return $"api/PatientRecord/GetUrineTestByPatientId?patientId={patientId}";
         }
         public static string GetVitalSignRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetVitalSignRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetVitalSignRecordByPatientId?patientId={patientId}";
         }
         public static string GetInhalaRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetInhalaRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetInhalaRecordByPatientId?patientId={patientId}";
         }
         public static string GetMaskRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetMaskRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetMaskRecordByPatientId?patientId={patientId}";
         }
         public static string GetNassalCannulByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetNassalCannulByPatientId={patientId}";
+            return $"api/PatientRecord/GetNassalCannulByPatientId?patientId={patientId}";
         }
         public static string GetPolyMaskRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetPolyMaskRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetPolyMaskRecordByPatientId?patientId={patientId}";
         }
         public static string GetProgressReportByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetProgressReportByPatientId={patientId}";
+            return $"api/PatientRecord/GetProgressReportByPatientId?patientId={patientId}";
         }
         public static string GetCommunicationRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetCommunicationRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetCommunicationRecordByPatientId?patientId={patientId}";
         }
         public static string GetHealthEducationByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetHealthEducationByPatientId={patientId}";
+            return $"api/PatientRecord/GetHealthEducationByPatientId?patientId={patientId}";
         }
         public static string GetSupportRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetSupportRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetSupportRecordByPatientId?patientId={patientId}";
         }
         public static string GetCheckIDBandRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetCheckIDBandRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetCheckIDBandRecordByPatientId?patientId={patientId}";
         }
         public static string GetCotsideByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetCotsideByPatientId={patientId}";
+            return $"api/PatientRecord/GetCotsideByPatientId?patientId={patientId}";
         }
         public static string GetSkinReportByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetSkinReportByPatientId={patientId}";
+            return $"api/PatientRecord/GetSkinReportByPatientId?patientId={patientId}";
         }
         public static string GetPressurePartTimeRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetPressurePartTimeRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetPressurePartTimeRecordByPatientId?patientId={patientId}";
         }
         public static string GetRednessRecordByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetRednessRecordByPatientId={patientId}";
+            return $"api/PatientRecord/GetRednessRecordByPatientId?patientId={patientId}";
         }
         public static string GetStoolChartByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetStoolChartByPatientId={patientId}";
+            return $"api/PatientRecord/GetStoolChartByPatientId?patientId={patientId}";
         }
     }
 }

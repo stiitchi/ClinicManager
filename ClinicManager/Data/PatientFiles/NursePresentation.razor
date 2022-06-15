@@ -1,19 +1,17 @@
-﻿@using ClinicManager.Data.Modals.CarePlan.NursePresentation.ComfortSleep
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.DailyCare
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Elimination
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Fluid_Balance
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Hygiene
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Intervention
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Mobility
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Nutrition
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Observations
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Oxygenation
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.ProgressReport
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Psychological
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.Safety
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.SkinIntegrity
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.SkinReport
-@using ClinicManager.Data.Modals.CarePlan.NursePresentation.StoolChart
+﻿@using ClinicManager.Data.Modals.PatientRecords.DailyCare
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.ComfortSleep
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Elimination
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Hygiene
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Intervention
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Mobility
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Nutrition
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Observations
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Oxygenation
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Psychological
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Safety
+@using ClinicManager.Data.Modals.PatientRecords.NursePresentation.SkinReport
+@using ClinicManager.Data.Modals.PatientRecords.SkinIntegrity
+@using ClinicManager.Data.Modals.PatientRecords.StoolChart
 @inject IDialogService DialogService
 
 <MudItem xs="12" md="12" sm="12">
@@ -450,13 +448,6 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<ComfortSleep>("Comfort Sleep Test", parameters, options);
     }
-                                                  //Daily Care
-    private void AddDailyCareTest()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<DailyCare>("Daily Care Test", parameters, options);
-    }
                                                 //Elimination
     private void AddCathetherTest()
     {
@@ -470,33 +461,8 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Continent>("Continent Test", parameters, options);
     }
+              
 
-                                                //Fluid Balance
-
-    private void AddPrevious24HoursTest()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<Previous24Hours>("24 Hour Intake", parameters, options);
-    }
-    private void AddOralIntakeTestTest()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<OralIntake>("Oral Intake", parameters, options);
-    }
-    private void AddOralOutputTestTest()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<OralOutput>("Oral Output", parameters, options);
-    }
-    private void AddIVTestTest()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<IVTest>("IV Test", parameters, options);
-    }
                                                 //Hygiene
     private void AddBathAssistTest()
     {
@@ -662,15 +628,6 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<NasalCannula>("Nasal Cannula Test", parameters, options);
     }
-
-                                                 //Progres Report
-    private void AddProgressReport()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<ProgressReport>("Progress ReportTest", parameters, options);
-    }   
-
                                                  //Psychological
 
     private void AddCommunicationRecord()
@@ -706,14 +663,7 @@
         DialogService.Show<Cotside>("Cotside Test", parameters, options);
     } 
 
-                                                //Skin Report
-    private void AddSkinIntegrityReport()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<SkinIntegrity>("Skin Integrity Report", parameters, options);
-    } 
-                                               //Skin Care Plan Report
+                                           //Skin Care Plan Report
     private void AddPressurePartCareTimeReport()
     {
         var parameters = new DialogParameters();
@@ -725,13 +675,5 @@
         var parameters = new DialogParameters();
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Redness>("Redness Report", parameters, options);
-    } 
-
-                                             //Stool Chart Report
-    private void AddStoolChartReport()
-    {
-        var parameters = new DialogParameters();
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        DialogService.Show<StoolChart>("Stool Chart Report", parameters, options);
     } 
 }

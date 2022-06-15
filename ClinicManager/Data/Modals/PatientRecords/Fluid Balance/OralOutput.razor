@@ -1,18 +1,26 @@
 ﻿@using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
-@using ClinicManager.Shared.DTO_s.Records.Mobility
+@using ClinicManager.Shared.DTO_s.Records.FluidBalance
 @inject IPatientRecordService patientRecordService 
 
 
 <MudDialog Style="width:400px;">
     <DialogContent>
-        <EditForm Model="AddEditMobilityModel" OnValidSubmit="SaveAsync">
+        <EditForm Model="AddEditFluidBalanceModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
             <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
-            <MudTextField @bind-Value="AddEditMobilityModel.WalkWithAssistanceFrequency"  Label="Frequency" Variant="Variant.Outlined" />
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.OralOutputMl"  Label="Oral Output Ml" Variant="Variant.Outlined" />
         </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudTextField Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditFluidBalanceModel.RunningOutputTotal"  Label="Running Output Total" Variant="Variant.Outlined" />
+        </MudItem>
+         <MudItem xs="8" md="12" sm="12">
+            <MudText>Is Fluid Urine?</MudText>
+            <MudCheckBox @bind-Checked="AddEditFluidBalanceModel.IsUrine" Color="Color.Primary"></MudCheckBox>
+        </MudItem>
+       
         <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info" Class="mt-2"
@@ -30,31 +38,31 @@
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                    Style="border-radius:10px 10px 10px 10px"
-                    OnClick="(() => SaveAsync())">Add Walk Assistance Record</MudButton>
+                    OnClick="(() => SaveAsync())">Add Oral Output Record</MudButton>
     </DialogActions>
 </MudDialog>
 
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public WalkWithAssistanceDTO AddEditMobilityModel { get; set; } = new();
+    [Parameter] public OralOutputDTO AddEditFluidBalanceModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Today;
     public TimeSpan time = DateTime.Now.TimeOfDay;
+    public bool Basic_CheckBox2 { get; set; } = false;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditMobilityModel.PatientId = 1;
-        AddEditMobilityModel.WalkWithAssistanceSignature = "Signature";
+        AddEditFluidBalanceModel.PatientId = 1;
         
-        time = AddEditMobilityModel.WalkWithAssistanceTime.TimeOfDay;
-        response = await patientRecordService.AddWalkAssistanceRecord(AddEditMobilityModel);
+        time = AddEditFluidBalanceModel.OralOutputTime.TimeOfDay;
+        response = await patientRecordService.AddOralOutputTestRecord(AddEditFluidBalanceModel);
         if (response.Succeeded)
         {
-            _snackBar.Add("Bed Rest Record Saved", Severity.Success);
+            _snackBar.Add("Oral Output Record Saved", Severity.Success);
             _processing = false;
             MudDialog.Close();
         }

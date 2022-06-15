@@ -26,6 +26,33 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Commands
 
         public async Task<Result<int>> Handle(AddDailyCareRecordCommand request, CancellationToken cancellationToken)
         {
+            string record = "";
+            switch (request.CareRecord)
+            {
+                case "Bedbath Shower":
+                    record = "BedbathShower";
+                    break;
+                case "Linen Change":
+                    record = "LinenChange";
+                    break;
+                case "Mouth Care":
+                    record = "MouthCare";
+                    break;
+                case "Pressure Part":
+                    record = "PressurePart";
+                    break;
+                case "Position Change":
+                    record = "PositionChange";
+                    break;
+                case "Nappy Change":
+                    record = "NappyChange";
+                    break;
+                case "Walk Chair":
+                    record = "WalkChair";
+                    break;
+                default:
+                    break;
+            }
             try
             {
                 var dailyCareRecords = await _context.DailyCareRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.DailyCareRecordId && c.Id == request.DailyCareRecordId);
@@ -34,12 +61,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Commands
 
                 var patient = await _context.Patients.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
                 if (patient == null)
-                    throw new Exception("Daily Record already exists");
+                    throw new Exception("Patient already exists");
 
                 var dailyCareRecord = new DailyCareRecordEntity(
                    request.DateAdded,
                    request.TimeAdded,
-                   request.CareRecord,
+                   record,
                    patient
                     );
 

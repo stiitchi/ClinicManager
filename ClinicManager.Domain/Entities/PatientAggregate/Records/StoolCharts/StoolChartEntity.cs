@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
 {
     public class StoolChartEntity : EntityBase
@@ -7,7 +9,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
         {}
 
         public StoolChartEntity(PatientEntity patient, bool normalBowelMovement, DateTime time, DateTime date,
-                                bool blood, int muscousAmount, string bowelMovement,
+                                bool blood, string colour, int muscousAmount, string bowelMovement,
                                 string consitency)
         {
             _patientId = patient.Id;
@@ -15,6 +17,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
             _stoolChartTime = time;
             _stoolChartDate = date;
             _blood = blood;
+            _stoolColour = colour;
             _mucousAmount = muscousAmount;
 
             switch (bowelMovement)
@@ -34,25 +37,25 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
 
             switch (consitency)
             {
-                case "Type1":
+                case "Type 1 - Severe Constipation":
                     _consistency = ConsistencyEnum.Type1.ToString();
                     break;
-                case "Type2":
+                case "Type 2 - Mild Constipation":
                     _consistency = ConsistencyEnum.Type2.ToString();
                     break;
-                case "Type3":
+                case "Type 3 - Normal":
                     _consistency = ConsistencyEnum.Type3.ToString();
                     break;
-                case "Type4":
+                case "Type 4 - Normal":
                     _consistency = ConsistencyEnum.Type4.ToString();
                     break;
-                case "Type5":
+                case "Type 5 - Lacking Fibre":
                     _consistency = ConsistencyEnum.Type5.ToString();
                     break;
-                case "Type6":
+                case "Type 6 - Mild Diarrhea":
                     _consistency = ConsistencyEnum.Type6.ToString();
                     break;
-                case "Type7":
+                case "Type 7 - Severe Diarrhea":
                     _consistency = ConsistencyEnum.Type7.ToString();
                     break;
                 default:
@@ -61,7 +64,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
         }
 
         public void Set(PatientEntity patient, bool normalBowelMovement, DateTime time, DateTime date,
-                               bool blood, int muscousAmount, string bowelMovement,
+                               bool blood, string stoolColour, int muscousAmount, string bowelMovement,
                                string consitency)
         {
             _patientId = patient.Id;
@@ -69,6 +72,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
             _stoolChartTime = time;
             _stoolChartDate = date;
             _blood = blood;
+            _stoolColour = stoolColour;
             _mucousAmount = muscousAmount;
 
             switch (bowelMovement)
@@ -88,25 +92,25 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
 
             switch (consitency)
             {
-                case "Type1":
+                case "Type 1 - Severe Constipation":
                     _consistency = ConsistencyEnum.Type1.ToString();
                     break;
-                case "Type2":
+                case "Type 2 - Mild Constipation":
                     _consistency = ConsistencyEnum.Type2.ToString();
                     break;
-                case "Type3":
+                case "Type 3 - Normal":
                     _consistency = ConsistencyEnum.Type3.ToString();
                     break;
-                case "Type4":
+                case "Type 4 - Normal":
                     _consistency = ConsistencyEnum.Type4.ToString();
                     break;
-                case "Type5":
+                case "Type 5 - Lacking Fibre":
                     _consistency = ConsistencyEnum.Type5.ToString();
                     break;
-                case "Type6":
+                case "Type 6 - Mild Diarrhea":
                     _consistency = ConsistencyEnum.Type6.ToString();
                     break;
-                case "Type7":
+                case "Type 7 - Severe Diarrhea":
                     _consistency = ConsistencyEnum.Type7.ToString();
                     break;
                 default:
@@ -144,12 +148,19 @@ namespace ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts
         public string BowelAmount => _bowelAmount;
         private enum ConsistencyEnum
         {
+            [Description("Severe Constipation")]
             Type1,
+            [Description("Mild Constipation")]
             Type2,
+            [Description("Normal")]
             Type3,
+            [Description("Normal")]
             Type4,
+            [Description("Lacking Fibre")]
             Type5,
+            [Description("Mild Diarrhea")]
             Type6,
+            [Description("Severe Diarrhea")]
             Type7
         }
 

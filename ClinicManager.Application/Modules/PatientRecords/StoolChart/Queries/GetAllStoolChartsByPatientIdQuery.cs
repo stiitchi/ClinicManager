@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Queries
             {
                 Expression<Func<StoolChartEntity, StoolChartDTO>> expression = e => new StoolChartDTO
                 {
+                    StoolChartId = e.Id,
                     Blood = e.Blood,
                     BowelAmount = e.BowelAmount,
                     Consistency = e.Consistency,
@@ -35,6 +36,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Queries
                     NormalBowelMovement = e.NormalBowelHabit,
                     StoolDate = e.StoolChartDate,
                     StoolTime = e.StoolChartTime,   
+                    StoolColour = e.StoolColour,
                     PatientId = e.PatientId
                 };
 

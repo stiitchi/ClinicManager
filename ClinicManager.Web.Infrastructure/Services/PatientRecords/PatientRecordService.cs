@@ -190,7 +190,7 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddNasalCannulRecord, request);
             return await response.ToResult<int>();
         }
-
+        
         public async Task<IResult<int>> AddNeuroLogicalRecord(NeuroLogicalDTO request)
         {
             await ConfigureHeaders();
@@ -215,14 +215,14 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         public async Task<IResult<int>> AddOralInputTestRecord(OralIntakeDTO request)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddOralTestRecord, request);
+            var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddOralInputRecord, request);
             return await response.ToResult<int>();
         }
 
         public async Task<IResult<int>> AddOralOutputTestRecord(OralOutputDTO request)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddOralTestRecord, request);
+            var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddOralOutputRecord, request);
             return await response.ToResult<int>();
         }
 
@@ -534,11 +534,18 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             return await response.ToResult<List<KeepNPODTO>>(); throw new NotImplementedException();
         }
 
-        public async Task<IResult<List<OralIntakeDTO>>> GetAllOralChecksByPatientId(int patientId)
+        public async Task<IResult<List<OralIntakeDTO>>> GetAllOralIntakeChecksByPatientId(int patientId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllOralChecksByPatientId(patientId));
-            return await response.ToResult<List<OralIntakeDTO>>(); throw new NotImplementedException(); // 
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllOralIntakeChecksByPatientId(patientId));
+            return await response.ToResult<List<OralIntakeDTO>>(); throw new NotImplementedException(); 
+        }
+
+        public async Task<IResult<List<OralOutputDTO>>> GetAllOralOutputChecksByPatientId(int patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllOralOutputChecksByPatientId(patientId));
+            return await response.ToResult<List<OralOutputDTO>>(); throw new NotImplementedException();
         }
 
         public async Task<IResult<List<PolyMaskDTO>>> GetAllPolyMaskByPatientId(int patientId)

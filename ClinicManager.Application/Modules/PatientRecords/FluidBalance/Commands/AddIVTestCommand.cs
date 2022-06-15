@@ -35,13 +35,13 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
         {
             try
             {
-                var ivTest = await _context.IVTestRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.IVTestId && c.PatientId == request.IVTestId, cancellationToken);
+                var ivTest = await _context.IVTestRecords.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.IVTestId && c.PatientId == request.PatientId, cancellationToken);
                 if (ivTest != null)
                     throw new Exception("IV Test already exists");
 
                 var patient = await _context.Patients.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
-                if (patient != null)
-                    throw new Exception("Daily Record already exists");
+                if (patient == null)
+                    throw new Exception("Patient doesn't exist");
 
                 var ivTests = new IVTestEntity(
                    request.intravenousML,
@@ -58,7 +58,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
 
                 await _context.IVTestRecords.AddAsync(ivTests, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<int>.SuccessAsync(ivTest.Id);
+                return await Result<int>.SuccessAsync(ivTests.Id);
             }
             catch (Exception ex)
             {

@@ -29,13 +29,13 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
         {
             try
             {
-                var oralTest = await _context.OralTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+                var oralTest = await _context.OralTests.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.Id == request.OralOutputTestId, cancellationToken);
                 if (oralTest != null)
                     throw new Exception("Oral Test already exists");
 
                 var patient = await _context.Patients.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
-                if (patient != null)
-                    throw new Exception("Patient already exists");
+                if (patient == null)
+                    throw new Exception("Patient doesn't exists");
 
                 var oralTests = new OralOutputEntity(
                    request.OralIOutputMl,
@@ -47,7 +47,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Commands
 
                 await _context.OralOutputTests.AddAsync(oralTests, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<int>.SuccessAsync(oralTest.Id);
+                return await Result<int>.SuccessAsync(oralTests.Id);
             }
             catch (Exception ex)
             {

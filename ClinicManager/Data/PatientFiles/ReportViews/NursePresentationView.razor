@@ -1,67 +1,184 @@
-﻿<MudGrid>
+﻿@using ClinicManager.Shared.DTO_s.Records.Observations
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
     <MudItem xs="12" md="12" sm="12">
         <MudText Align="Align.Center" Typo="Typo.h6">
             Nurse Presentation Views
         </MudText>
     </MudItem>
+    @foreach(var report in _bloodReports)
+    {    
     <MudItem md="3" sm="3">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
+                    <MudAvatar Color="Color.Error">@report.BloodId</MudAvatar>
                 </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Oxygenation
-                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                Mask
+               Frequency: @report.BloodFrequency <br/>
+               Time Added: <MudChip>@report.BloodTime.ToString("HH:mm")</MudChip> 
             </MudCardContent>
         </MudCard>
     </MudItem>
+    }
+
+    @foreach(var report in _bloodGlucoseReports)
+    {    
     <MudItem md="3" sm="3">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
+                    <MudAvatar Color="Color.Info">@report.BloodGlucoseId</MudAvatar>
                 </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Observation
-                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                Vital Signs
+               Frequency: @report.BloodGlucoseFrequency <br/>
+               Time Added: <MudChip>@report.BloodGlucoseTime.ToString("HH:mm")</MudChip> 
             </MudCardContent>
         </MudCard>
     </MudItem>
+    }
+
+    @foreach(var report in _neurologicalReports)
+    {    
     <MudItem md="3" sm="3">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
+                    <MudAvatar Color="Color.Secondary">@report.NeuroLogicalId</MudAvatar>
                 </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Nutrition
-                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                Full Ward Diet
+               Frequency: @report.NeuroLogicalFrequency <br/>
+               Time Added: <MudChip>@report.NeuroLogicalTime.ToString("HH:mm")</MudChip> 
             </MudCardContent>
         </MudCard>
     </MudItem>
+    }
+
+    @foreach(var report in _neurovascularReports)
+    {    
     <MudItem md="3" sm="3">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
+                    <MudAvatar Color="Color.Success">@report.NeuroVascularId</MudAvatar>
                 </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Safety
-                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                Cotsides
+               Frequency: @report.NeuroVascularFrequency <br/>
+               Time Added: <MudChip>@report.NeuroVascularTime.ToString("HH:mm")</MudChip> 
             </MudCardContent>
         </MudCard>
     </MudItem>
+    }
+
+    @foreach(var report in _urineTestReports)
+    {    
+    <MudItem md="3" sm="3">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Warning">@report.UrineTestId</MudAvatar>
+                </CardHeaderAvatar>
+            </MudCardHeader>
+            <MudCardContent>
+               Frequency: @report.UrineTestFrequency <br/>
+               Time Added: <MudChip>@report.UrineTestTime.ToString("HH:mm")</MudChip> 
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    }
+
+    @foreach(var report in _vitalSignReports)
+    {    
+    <MudItem md="3" sm="3">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Info">@report.VitalSignsId</MudAvatar>
+                </CardHeaderAvatar>
+            </MudCardHeader>
+            <MudCardContent>
+               Frequency: @report.VitalSignsFrequency <br/>
+               Time Added: <MudChip>@report.VitalSignsTime.ToString("HH:mm")</MudChip> 
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    }
+ 
 </MudGrid>
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<BloodDTO> _bloodReports = new();
+    private List<BloodGlucoseDTO> _bloodGlucoseReports = new();
+    private List<NeuroLogicalDTO> _neurologicalReports = new();
+    private List<NeuroVascularDTO> _neurovascularReports = new();
+    private List<UrineTestDTO> _urineTestReports = new();
+    private List<VitalSignDTO> _vitalSignReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllBloodReports(1);
+        await GetAllBloodGlucoseReports(1);
+        await GetAllGetNeurologicalReports(1);
+        await GetAllGetNeurologicalReports(1);
+        await GetAllGetNeurovascularReports(1);
+        await GetAllGetUrineTestReports(1);
+        await GetAllGetVitalSignReports(1);
+    }
+
+    public async Task GetAllBloodReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllBloodFrequencyRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _bloodReports = reports.Data;
+        }
+    }  
+    public async Task GetAllBloodGlucoseReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllBloodGlucoseRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _bloodGlucoseReports = reports.Data;
+        }
+    }
+    public async Task GetAllGetNeurologicalReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllNeuroLogicalRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _neurologicalReports = reports.Data;
+        }
+    }
+     public async Task GetAllGetNeurovascularReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllNeuroVascularPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _neurovascularReports = reports.Data;
+        }
+    }
+    public async Task GetAllGetUrineTestReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllUrineTestsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _urineTestReports = reports.Data;
+        }
+    }
+    public async Task GetAllGetVitalSignReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllVitalSignRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _vitalSignReports = reports.Data;
+        }
+    }
+}

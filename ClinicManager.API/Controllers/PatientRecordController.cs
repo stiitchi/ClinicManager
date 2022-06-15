@@ -666,6 +666,7 @@ namespace ClinicManager.API.Controllers
                 BowelAmount = stoolChart.BowelAmount,
                 StoolTime = stoolChart.StoolTime,
                 Blood = stoolChart.Blood,
+                StoolColour = stoolChart.StoolColour,         
                 Consistency = stoolChart.Consistency,
                 MuscousAmount = stoolChart.MuscousAmount,
                 NormalBowelMovement = stoolChart.NormalBowelMovement,

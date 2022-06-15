@@ -1,46 +1,59 @@
-﻿<MudGrid>
+﻿@using ClinicManager.Shared.DTO_s.Records.Observations
+@using ClinicManager.Shared.DTO_s.Records.SkinReport
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
     <MudItem xs="12" md="12" sm="12">
         <MudText Align="Align.Center" Typo="Typo.h6">
             Skin Integrity View
         </MudText>
     </MudItem>
+    @foreach(var report in _reports)
+    {
+
     <MudItem md="3" sm="12">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
+                    <MudAvatar Color="Color.Info">  @report.SkinIntegrityId</MudAvatar>
                 </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Report #1
-                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
                 <MudTabs>
                     <MudTabPanel Text="Sacrum">
                         <center>
                             <MudText Class="mt-5" Typo="Typo.body1">
-                                Inflated
+                                @report.SacrumDescription
                             </MudText>
                         </center>
                     </MudTabPanel>
                     <MudTabPanel Text="Hips">
                         <center>
                             <MudText Class="mt-5" Typo="Typo.body1">
-                                Don't Lie
+                                @report.HipsDescription
                             </MudText>
                         </center>
                     </MudTabPanel>
                     <MudTabPanel Text="Heals">
                         <center>
                             <MudText Class="mt-5" Typo="Typo.body1">
-                                Scaffed
+                                @report.HealsDescription
+                            </MudText>
+                        </center>
+                    </MudTabPanel>
+                      <MudTabPanel Text="Other">
+                        <center>
+                            <MudText Class="mt-5" Typo="Typo.body1">
+                                @report.OtherDescription
                             </MudText>
                         </center>
                     </MudTabPanel>
                     <MudTabPanel Text="Comments">
                         <center>
                             <MudText Class="mt-5" Typo="Typo.body1">
-                                Others
+                                @report.Comments
                             </MudText>
                         </center>
                     </MudTabPanel>
@@ -48,48 +61,24 @@
             </MudCardContent>
         </MudCard>
     </MudItem>
-    <MudItem md="3" sm="12">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info" />
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    Report #2
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudTabs>
-                    <MudTabPanel Text="Sacrum">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                Inflated
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Hips">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                Don't Lie
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Heals">
-                        <center>
-                            <MudText Class="mt-5"  Typo="Typo.body1">
-                                Scaffed
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Comments">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                Others
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                </MudTabs>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
+    }
 </MudGrid>
+
+@code {
+    private List<SkinReportDTO> _reports = new();
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllReports(1);
+    }
+
+    public async Task GetAllReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllSkinReportsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _reports = reports.Data;
+        }
+    }  
+}

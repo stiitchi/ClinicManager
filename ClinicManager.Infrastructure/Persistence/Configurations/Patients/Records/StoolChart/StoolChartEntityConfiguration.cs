@@ -17,7 +17,6 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients.Recor
             conf.Property(c => c.Blood);
             conf.Property(c => c.MucousAmount);
             conf.Property(c => c.BowelAmount).IsRequired(false);
-            conf.Property(c => c.StoolColour).IsRequired(false);
             conf.Property(c => c.Consistency).IsRequired(false);
 
             conf.HasOne(c => c.Patient).WithMany(c => c.StoolChartRecords).HasForeignKey(c => c.PatientId);

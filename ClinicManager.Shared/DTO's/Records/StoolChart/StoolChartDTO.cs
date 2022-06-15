@@ -10,6 +10,7 @@ namespace ClinicManager.Shared.DTO_s.Records
         public int MuscousAmount { get; set; }
         public string BowelAmount { get; set; }
         public string Consistency { get; set; }
+        public string StoolColour { get; set; }
         public DateTime StoolTime { get; set; }
         public DateTime StoolDate { get; set; }
     }
