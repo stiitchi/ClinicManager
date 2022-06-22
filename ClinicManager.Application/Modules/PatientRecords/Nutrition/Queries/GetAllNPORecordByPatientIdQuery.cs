@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 Expression<Func<KeepNPOEntity, KeepNPODTO>> expression = e => new KeepNPODTO
                 {
+                    KeepNPOId = e.Id,
                     KeepNPOTime = e.KeepNPOTime,
                     KeepNPOFrequency = e.KeepNPOFrequency,
                     KeepNPOSignature = e.KeepNPOSignature,

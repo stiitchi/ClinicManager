@@ -1027,7 +1027,7 @@ namespace ClinicManager.API.Controllers
 
         [HttpGet("GetAllIVCheckByPatientId")]
         public async Task<IActionResult> GetAllIVCheckByPatientId(int patientId)
-        {
+        { 
             return Ok(await _mediator.Send(new GetAllIVChecksByPatentIdQuery { PatientId = patientId }));
         }
 

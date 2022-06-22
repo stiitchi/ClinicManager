@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditInterventionModel.PatientId = 1;
-        AddEditInterventionModel.WoundCareSignature = "Signature";
-        
+        AddEditInterventionModel.WoundCareSignature = "Signature";    
         time = AddEditInterventionModel.WoundCareTime.TimeOfDay;
         response = await patientRecordService.AddWoundCareRecord(AddEditInterventionModel);
         if (response.Succeeded)

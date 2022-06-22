@@ -19,6 +19,11 @@ namespace ClinicManager.Web.Infrastructure.Routes
             return $"api/Bed/GetAllBedsByWardId?wardId={wardId}";
         }
 
+        public static string BedsByWardIdLookup(int wardId)
+        {
+            return $"api/Bed/BedsByWardIdLookup?wardId={wardId}";
+        }
+
         public static string GetAllBedsByWardIdTable(int pageNumber, int pageSize, string searchString, int wardId, string[] orderBy)
         {
             var url = $"api/Bed/GetAllBedsByWardIdTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&wardId={wardId}&orderBy=";

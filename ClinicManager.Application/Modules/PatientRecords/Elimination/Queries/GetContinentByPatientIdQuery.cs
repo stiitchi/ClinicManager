@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
 
                 var dto = new ContinentDTO
                 {
+                ContinentId = continentRecord.Id,
                 ContinentTime = continentRecord.ContinentTime,
                 ContinentSignature = continentRecord.ContinentSignature,
                 ContinentFreq = continentRecord.ContinentFrequency,

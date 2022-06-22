@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             {
                 Expression<Func<BedBathAssistEntity, BedBathAssistDTO>> expression = e => new BedBathAssistDTO
                 {
+                    BedBathAssistId = e.Id,
                     BedBathAssistTime = e.BedBathAssistTime,
                     BedBathAssistFreq = e.BedBathAssistFrequency,
                     BedBathAssistSignature = e.BedBathAssistSignature,

@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new MedicationDTO
                 {
+                    MedicationId = medicationEntry.Id,
                     MedicationFreq = medicationEntry.MedicationFrequency,
                     MedicationTime = medicationEntry.MedicationTime,
                     MedicationSignature = medicationEntry.MedicationSignature,

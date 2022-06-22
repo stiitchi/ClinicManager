@@ -74,5 +74,12 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByWardIdTable(pageNumber, pageSize, searchString, wardId, orderBy));
             return await response.ToPaginatedResult<BedDTO>();
         }
+
+        public async Task<IResult<List<LookupDTO>>> BedsByWardIdLookup(int wardId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.BedsByWardIdLookup(wardId));
+            return await response.ToResult<List<LookupDTO>>();
+        }
     }
 }

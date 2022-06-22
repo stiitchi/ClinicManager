@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditMobilityModel.PatientId = 1;
-        AddEditMobilityModel.WalkWithAssistanceSignature = "Signature";
-        
+        AddEditMobilityModel.WalkWithAssistanceSignature = "Signature";     
         time = AddEditMobilityModel.WalkWithAssistanceTime.TimeOfDay;
         response = await patientRecordService.AddWalkAssistanceRecord(AddEditMobilityModel);
         if (response.Succeeded)

@@ -1,4 +1,5 @@
-﻿@using ClinicManager.Shared.DTO_s.Records
+﻿@page "/fluid-balance-view/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
 @using ClinicManager.Shared.DTO_s.Records.FluidBalance
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
@@ -10,14 +11,24 @@
             Fluid Balance Views
         </MudText>
     </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
     @foreach(var report in _ivReports)
     { 
     <MudItem md="3" sm="6">
-        <MudCard>
+        <MudCard Style="height:100%">
             <MudCardHeader>
                 <CardHeaderAvatar>
                     <MudAvatar Color="Color.Info">@report.IVTestId</MudAvatar>
                 </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                        IV Test Report
+                    </MudText>
+                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
                 Check Type: <MudChip Class="mr-2">@report.intravenousCheckType</MudChip> <br/>
@@ -34,7 +45,7 @@
     @foreach(var report in _oralInputReports)
     { 
     <MudItem md="3" sm="6">
-        <MudCard>
+        <MudCard Style="height:100%">
             <MudCardHeader>
                 <CardHeaderAvatar>
                     <MudAvatar Color="Color.Info">@report.OralIntakeTestId</MudAvatar>
@@ -55,11 +66,16 @@
     @foreach(var report in _oralOutputReports)
     { 
     <MudItem md="3" sm="6">
-        <MudCard>
+        <MudCard Style="height:100%">
             <MudCardHeader>
                 <CardHeaderAvatar>
                     <MudAvatar Color="Color.Info">@report.OralOutputTestId</MudAvatar>
                 </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                        Oral Output Report
+                    </MudText>
+                </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
                Total ML: @report.OralOutputMl <br/>
@@ -107,10 +123,10 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await GetAllIVTestReports(1);
-        await GetAllOralIntakeReports(1);
-        await GetAllOralOutputReports(1);
-        await GetAllOral24HourReports(1);
+        await GetAllIVTestReports(PatientId);
+        await GetAllOralIntakeReports(PatientId);
+        await GetAllOralOutputReports(PatientId);
+        await GetAllOral24HourReports(PatientId);
     }
 
     public async Task GetAllIVTestReports(int patientId)

@@ -26,13 +26,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 var specialEntry = await _context.SpecialTests.AsNoTracking()
                     .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.SpecialFrequency != 0,
+                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId,
                     cancellationToken);
                 if (specialEntry == null)
                     throw new Exception("Unable to return Special Record");
 
                 var dto = new SpecialDTO
                 {
+                    SpecialId = specialEntry.Id,
                     SpecialTime = specialEntry.SpecialTime,
                     SpecialSignature = specialEntry.SpecialSignature,
                     SpecialFrequency = specialEntry.SpecialFrequency,

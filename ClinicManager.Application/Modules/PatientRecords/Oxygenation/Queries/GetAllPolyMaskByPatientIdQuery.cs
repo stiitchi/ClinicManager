@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             {
                 Expression<Func<PolyMaskEntity, PolyMaskDTO>> expression = e => new PolyMaskDTO
                 {
+                    PolyMaskId = e.Id,
                     PolyMaskFrequency = e.PolyMaskFrequency,
                     PolyMaskSignature = e.PolyMaskSignature,
                     PolyMaskTime = e.PolyMaskTime,

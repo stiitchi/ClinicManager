@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditOxygenationModel.PatientId = 1;
         AddEditOxygenationModel.InhalaNebsSignature = "Signature";
-        
         time = AddEditOxygenationModel.InhalaNebsTime.TimeOfDay;
         response = await patientRecordService.AddInhalaNebsRecord(AddEditOxygenationModel);
         if (response.Succeeded)

@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             {
                 Expression<Func<WalkChairEntity, AssistIntoChairDTO>> expression = e => new AssistIntoChairDTO
                 {
+                    AssistIntoChairId = e.Id,
                     AssistIntoChairTime = e.AssistIntoChairTime,
                     AssistIntoChairFrequency = e.AssistIntoChairFrequency,
                     AssistIntoChairSignature = e.AssistIntoChairSignature,

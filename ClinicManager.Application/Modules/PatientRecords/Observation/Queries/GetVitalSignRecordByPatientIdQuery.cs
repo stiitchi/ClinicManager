@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new VitalSignDTO
                 {
+                    VitalSignsId = vitalSignRecord.Id,
                     VitalSignsFrequency = vitalSignRecord.VitalSignsFrequency,
                     VitalSignSignature = vitalSignRecord.VitalSignSignature,
                     VitalSignsTime = vitalSignRecord.VitalSignsTime,

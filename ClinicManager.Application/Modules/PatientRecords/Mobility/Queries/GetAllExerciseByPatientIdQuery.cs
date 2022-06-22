@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             {
                 Expression<Func<ExerciseEntity, ExerciseDTO>> expression = e => new ExerciseDTO
                 {
+                    ExercisesId = e.Id,
                     ExercisesTime = e.ExercisesTime,
                     ExercisesFrequency = e.ExercisesFrequency,
                     ExercisesSignature = e.ExercisesSignature,

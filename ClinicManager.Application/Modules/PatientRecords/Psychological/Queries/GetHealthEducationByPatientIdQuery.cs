@@ -1,19 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 {
-     public class GetHealthEducationByPatientIdQuery : IRequest<Result<List<HealthEducationDTO>>>
+     public class GetHealthEducationByPatientIdQuery : IRequest<Result<HealthEducationDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetHealthEducationByPatientIdQueryHandler : IRequestHandler<GetHealthEducationByPatientIdQuery, Result<List<HealthEducationDTO>>>
+    public class GetHealthEducationByPatientIdQueryHandler : IRequestHandler<GetHealthEducationByPatientIdQuery, Result<HealthEducationDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,30 +20,30 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<HealthEducationDTO>>> Handle(GetHealthEducationByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<HealthEducationDTO>> Handle(GetHealthEducationByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<HealthCareEntity, HealthEducationDTO>> expression = e => new HealthEducationDTO
-                {
-                    HealthEducationSignature = e.HealthEducationSignature,
-                    HealthEducationFrequency = e.HealthEducationFrequency,
-                    HealthEducationTime = e.HealthEducationTime,
-                    PatientId = e.PatientId
-                };
+                var healthEducationRecord = await _context.HealthCareTests.AsNoTracking()
+                  .IgnoreQueryFilters()
+                  .FirstOrDefaultAsync(c => c.PatientId == request.PatientId);
+                if (healthEducationRecord == null)
+                    throw new Exception("Unable to return Health Education Record");
 
-                var healthEducationEntry = await _context.HealthCareTests
-                        .AsNoTracking()
-                        .IgnoreQueryFilters()
-                        .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId && r.HealthEducationFrequency != 0)
-                        .ToListAsync(cancellationToken);
-                return await Result<List<HealthEducationDTO>>.SuccessAsync(healthEducationEntry);
+                var dto = new HealthEducationDTO
+                {
+                    HealthEducationId = healthEducationRecord.Id,
+                    HealthEducationFrequency = healthEducationRecord.HealthEducationFrequency,
+                    HealthEducationSignature = healthEducationRecord.HealthEducationSignature,
+                    HealthEducationTime = healthEducationRecord.HealthEducationTime,
+                    PatientId = healthEducationRecord.PatientId
+                };
+                return await Result<HealthEducationDTO>.SuccessAsync(dto);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<HealthEducationDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<HealthEducationDTO>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

@@ -30,7 +30,7 @@
         <MudItem xs="12" md="6" sm="6">
             <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
                 <MudCardContent>
-                    <MudText Align="Align.Center" Typo="Typo.h6">@patient.Title @patient.FullName</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6">@patient.Title @patient.LastName</MudText>
                 </MudCardContent>
                 <MudCardContent>
                     <MudText Align="Align.Center" Typo="Typo.body1">@patient.IDNo</MudText>
@@ -41,7 +41,7 @@
                             @patient.AdmissionDate.ToString("MMMM dd")
                         </MudChip>
                         <MudChip Size="Size.Large" Color="Color.Secondary">
-                            @patient.AdmissionTime.ToShortTimeString()
+                            @patient.DischargeDate.ToShortTimeString()
                         </MudChip>
                     </center>
                 </MudCardContent>
@@ -57,7 +57,8 @@
                             <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Error" Icon="@Icons.Filled.AccessibilityNew" />
                         </MudTooltip>
                         <MudTooltip Text="Patient Reports">
-                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" />
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                            @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
                         </MudTooltip>
                     </center>
                 </MudCardContent>
@@ -77,7 +78,7 @@
     {
         var parameters = new DialogParameters();
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<ViewPatientDetails>("Patient Details", parameters, options);
+        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
     }
 
     protected async override Task OnInitializedAsync()

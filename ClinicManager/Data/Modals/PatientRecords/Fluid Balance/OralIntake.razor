@@ -56,9 +56,7 @@
     private async Task SaveAsync()
     {
         _processing = true;
-        IResult<int> response;
-        AddEditFluidBalanceModel.PatientId = 1;
-        
+        IResult<int> response;;  
         time = AddEditFluidBalanceModel.OralIntakeTime.TimeOfDay;
         response = await patientRecordService.AddOralInputTestRecord(AddEditFluidBalanceModel);
         if (response.Succeeded)

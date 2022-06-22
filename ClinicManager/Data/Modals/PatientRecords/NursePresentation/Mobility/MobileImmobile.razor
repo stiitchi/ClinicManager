@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditMobilityModel.PatientId = 1;
-        AddEditMobilityModel.MobileImmobileSignature = "Signature";
-        
+        AddEditMobilityModel.MobileImmobileSignature = "Signature";   
         time = AddEditMobilityModel.MobileImmobileTime.TimeOfDay;
         response = await patientRecordService.AddMobileImmobileRecord(AddEditMobilityModel);
         if (response.Succeeded)

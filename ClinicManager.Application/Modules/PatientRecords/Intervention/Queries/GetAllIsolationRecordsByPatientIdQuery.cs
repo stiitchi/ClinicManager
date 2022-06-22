@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             {
                 Expression<Func<IsolationEntity, IsolationDTO>> expression = e => new IsolationDTO
                 {
+                    IsolationId = e.Id,
                     IsolationFreq = e.IsolationFrequency,
                     IsolationTime = e.IsolationTime,
                     IsolationSignature = e.IsolationSignature,

@@ -63,5 +63,16 @@ namespace ClinicManager.API.Controllers
                 ICDCode = icd.ICDCode
             }));
         }
+
+        [HttpPost("AddPatientICDCode")]
+        public async Task<IActionResult> AddPatientICDCode(PatientICDCodeDTO patientDayfee)
+        {
+            return Ok(await _mediator.Send(new AssignICDCodeToPatientCommand
+            {
+                PatientICDCodeId = patientDayfee.PatientICDCodeId,
+                ICDCodeId = patientDayfee.ICDCodeId,
+                PatientId = patientDayfee.PatientId
+            }));
+        }
     }
 }

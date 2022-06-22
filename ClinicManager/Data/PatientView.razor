@@ -1,0 +1,251 @@
+﻿@page "/patient-edit/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@inject IPatientService patientService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <MudTabPanel Text="Personal Details">
+                <MudGrid>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.IDNo" Label="ID Number" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudSelect T="string" @bind-Value="patient.Title" Label="Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                            <MudSelectItem Value="@("Mr")" />
+                            <MudSelectItem Value="@("Ms")" />
+                            <MudSelectItem Value="@("Miss")" />
+                            <MudSelectItem Value="@("Dr")" />
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.FirstName" Label="First Name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.LastName" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudDatePicker Date="patient.DateOfBirth" Variant="Variant.Outlined" Label="Date Of Birth"  />
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Admission Details">
+                <MudGrid>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.WardNo" Label="Ward Number" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.BedNo" Label="Bed Number" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudDatePicker Date="patient.AdmissionDate" Label="Admission Date" Variant="Variant.Outlined"/>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudDatePicker Date="patient.DischargeDate" Label="Discharge Date" Variant="Variant.Outlined"  />
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudDatePicker Date="patient.ReportDate" Label="Report Date" Variant="Variant.Outlined"  />
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Medical Details">
+                <MudGrid>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.RefferingDoctor" Label="Reffering Doctor" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.RefferingHospital" Label="Reffering Hospital" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.MedicalAidName" Label="Medical Aid" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.MedicalAidNo" Label="Medical Aid Number" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.MedicalAidOption" Label="Medical Aid Option" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.DependentCode" Label="Dependant Code" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="OT" @bind-Checked="patient.OT" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="Speech" @bind-Checked="patient.Speech" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="Psychologist" @bind-Checked="patient.Psych" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="Dietician" @bind-Checked="patient.Dietician" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="Social Worker" @bind-Checked="patient.SocialWorker" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudCheckBox Label="Physiotherapist" @bind-Checked="patient.Physio" Color="Color.Primary"></MudCheckBox>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+            <MudTabPanel Text="ICD Codes">
+                <MudGrid>
+                    <MudItem xs="2" md="2">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText Align="Align.Center"> AO.78</MudText> <br />
+                                <MudText Align="Align.Center">Daily Stay</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+            <MudTabPanel Text="Day Fees">
+                <MudGrid>
+                    <MudItem xs="2" md="2">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText Align="Align.Center">Fee 1</MudText> <br />
+                                <MudText Align="Align.Center">R650</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+            <MudTabPanel Text="Patient Infections">
+                <MudGrid>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText>NAD</MudText>
+                                <MudChip Color="Color.Success">P</MudChip>
+                                <MudChip Color="Color.Error">N</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Class="mr-2" Color="Color.Info">CRP</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Warning">WBC</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Secondary">Medication</MudButton>
+                                <MudButton Color="Color.Tertiary">Follow Up</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText>E-Coli, Pseudomonas</MudText>
+                                <MudChip Color="Color.Success">P</MudChip>
+                                <MudChip Color="Color.Error">N</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Class="mr-2" Color="Color.Info">CRP</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Warning">WBC</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Secondary">Medication</MudButton>
+                                <MudButton Color="Color.Tertiary">Follow Up</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText>NAD</MudText>
+                                <MudChip Color="Color.Success">P</MudChip>
+                                <MudChip Color="Color.Error">N</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Class="mr-2" Color="Color.Info">CRP</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Warning">WBC</MudButton>
+                                <MudButton Class="mr-2" Color="Color.Secondary">Medication</MudButton>
+                                <MudButton Color="Color.Tertiary">Follow Up</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+
+@*            <MudTabPanel Text="History">
+                <MudGrid>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudChip Color="Color.Success">@admission.ToString("MMMM dd")</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <center>
+                                    <MudButton Class="mr-2" Color="Color.Info">Upload</MudButton>
+                                </center>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudChip Color="Color.Success">@admission.ToString("MMMM dd")</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <center>
+                                    <MudButton Class="mr-2" Color="Color.Info">Upload</MudButton>
+                                </center>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="4" md="4">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudChip Color="Color.Success">@admission.ToString("MMMM dd")</MudChip>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <center>
+                                    <MudButton Class="mr-2" Color="Color.Info">Upload</MudButton>
+                                </center>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>*@
+
+            <MudTabPanel Text="Emergency Contact">
+                <MudGrid>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.EmergencyContactFirstName" Label="First Name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.EmergencyContactLastName" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.Relationship" Label="Relationship" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                    <MudItem xs="6" md="6">
+                        <MudTextField @bind-Value="patient.EmergencyContactNo" Label="Contact Number" Variant="Variant.Outlined"></MudTextField>
+                    </MudItem>
+                </MudGrid>
+            </MudTabPanel>
+        </MudTabs>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public PatientDTO patient = new();
+
+    [Parameter] public int PatientId { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetPatientId(PatientId);
+    }
+
+    public async Task GetPatientId(int patientId)
+    {
+        IResult<PatientDTO> response;
+        var viewPatient = await patientService.GetById(patientId);
+        if (viewPatient.Succeeded)
+        {
+            patient = viewPatient.Data;
+        }
+    }
+}

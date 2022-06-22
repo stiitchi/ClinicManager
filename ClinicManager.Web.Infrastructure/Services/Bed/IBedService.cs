@@ -11,6 +11,8 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
 
         Task<IResult<List<BedDTO>>> GetAllBedsByWardId(int wardId);
 
+        Task<IResult<List<LookupDTO>>> BedsByWardIdLookup(int wardId);
+
         Task<IResult<int>> SaveAsync(BedDTO request);
 
         Task<IResult<List<LookupDTO>>> GetForLookUp();

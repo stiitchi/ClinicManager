@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<BloodGlucoseEntity, BloodGlucoseDTO>> expression = e => new BloodGlucoseDTO
                 {
+                    BloodGlucoseId = e.Id,
                     BloodGlucoseFrequency = e.BloodGlucoseFrequency,
                     BloodGlucoseSignature = e.BloodGlucoseSignature,
                     BloodGlucoseTime = e.BloodGlucoseTime,

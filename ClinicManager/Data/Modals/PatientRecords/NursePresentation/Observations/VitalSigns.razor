@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.PatientId = 1;
-        AddEditObservationModel.VitalSignSignature = "Signature";
-        
+        AddEditObservationModel.VitalSignSignature = "Signature";      
         time = AddEditObservationModel.VitalSignsTime.TimeOfDay;
         response = await patientRecordService.AddVitalSignRecord(AddEditObservationModel);
         if (response.Succeeded)

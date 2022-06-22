@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new NeuroLogicalDTO
                 {
+                    NeuroLogicalId = neuroLogicalRecord.Id,
                     NeuroLogicalFrequency = neuroLogicalRecord.NeuroLogicalFrequency,
                     NeuroLogicalSignature = neuroLogicalRecord.NeuroLogicalSignature,
                     NeuroLogicalTime = neuroLogicalRecord.NeuroLogicalTime,

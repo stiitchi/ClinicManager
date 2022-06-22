@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             {
                 Expression<Func<CommunicationEntity, CommunicationDTO>> expression = e => new CommunicationDTO
                 {
+                    CommunicationId = e.Id,
                     CommunicationFrequency = e.CommunicationFrequency,
                     CommunicationSignature = e.CommunicationSignature,
                     CommunicationTime = e.CommunicationTime,

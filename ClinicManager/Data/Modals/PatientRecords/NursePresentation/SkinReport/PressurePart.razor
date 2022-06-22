@@ -48,9 +48,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditSkinReportModel.PatientId = 1;
         AddEditSkinReportModel.PressurePartCareSignature = "Signature";
-        
         time = AddEditSkinReportModel.PressurePartCareTime.TimeOfDay;
         response = await patientRecordService.AddPressurePartCareTimeRecord(AddEditSkinReportModel);
         if (response.Succeeded)

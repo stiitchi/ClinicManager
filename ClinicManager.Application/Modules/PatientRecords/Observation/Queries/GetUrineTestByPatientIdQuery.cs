@@ -32,6 +32,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new UrineTestDTO
                 {
+                    UrineTestId = urineTestRecord.Id,
                     UrineTestFrequency = urineTestRecord.UrineTestFrequency,
                     UrineTestSignature = urineTestRecord.UrineTestSignature,
                     UrineTestTime = urineTestRecord.UrineTestTime,

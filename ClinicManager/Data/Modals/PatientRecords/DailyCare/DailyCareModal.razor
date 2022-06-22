@@ -54,10 +54,7 @@
     private async Task SaveAsync()
     {
         _processing = true;
-        IResult<int> response;
-        AddEditDailyCareModel.PatientId = 1;
-
-        
+        IResult<int> response;        
         time = AddEditDailyCareModel.TimeAdded.TimeOfDay;
         response = await patientRecordService.AddDailyCareRecord(AddEditDailyCareModel);
         if (response.Succeeded)

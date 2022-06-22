@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
                     throw new Exception("Unable to return 24 Hour Check");
                 var dto = new Previous24HourIntakeDTO
                 {
+                    TotalIntakeId = prev24HourCheck.Id,
                     DateToday = prev24HourCheck.DateToday,
                     TotalIntake = prev24HourCheck.Total24HourIntake,
                     Output24Hour = prev24HourCheck.Previous24HourOutput,

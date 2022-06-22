@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditNutritionModel.PatientId = 1;
-        AddEditNutritionModel.SpecialSignature = "Signature";
-        
+        AddEditNutritionModel.SpecialSignature = "Signature";  
         time = AddEditNutritionModel.SpecialTime.TimeOfDay;
         response = await patientRecordService.AddSpecialRecord(AddEditNutritionModel);
         if (response.Succeeded)

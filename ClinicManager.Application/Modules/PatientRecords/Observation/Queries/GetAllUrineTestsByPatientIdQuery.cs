@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<UrineTestEntity, UrineTestDTO>> expression = e => new UrineTestDTO
                 {
+                    UrineTestId = e.Id,
                     UrineTestFrequency = e.UrineTestFrequency,
                     UrineTestSignature = e.UrineTestSignature,
                     UrineTestTime = e.UrineTestTime,

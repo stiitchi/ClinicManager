@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new TractionDTO
                 {
+                    TractionId = tractionEntry.Id,
                     TractionFreq = tractionEntry.TractionFrequency,
                     TractionTime = tractionEntry.TractionTime,
                     TractionSignature = tractionEntry.TractionSignature,

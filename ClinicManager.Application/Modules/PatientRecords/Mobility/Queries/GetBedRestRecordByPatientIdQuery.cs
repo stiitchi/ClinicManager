@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new BedRestDTO
                 {
+                    BedRestId = bedRestEntry.Id,
                     BedRestFrequency = bedRestEntry.BedRestFrequency,
                     BedRestSignature = bedRestEntry.BedRestSignature,
                     BedRestTime = bedRestEntry.BedRestTime,

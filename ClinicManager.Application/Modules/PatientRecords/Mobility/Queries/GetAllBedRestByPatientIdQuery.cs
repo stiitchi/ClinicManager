@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             {
                 Expression<Func<BedRestEntity, BedRestDTO>> expression = e => new BedRestDTO
                 {
+                    BedRestId = e.Id,
                     BedRestTime = e.BedRestTime,
                     BedRestFrequency = e.BedRestFrequency,
                     BedRestSignature = e.BedRestSignature,

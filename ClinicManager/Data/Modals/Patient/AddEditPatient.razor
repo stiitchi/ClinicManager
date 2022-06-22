@@ -1,12 +1,50 @@
-﻿<MudDialog Style="height:780px;">
+﻿@using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Shared.DTO_s
+@inject IPatientService patientService 
+@inject IWardService wardService 
+@inject IBedService bedService 
+
+<MudDialog>
     <DialogContent>
-        <MudTabs Position="Position.Top">
-            <MudTabPanel Text="Personal Details">
-                <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value1" Label="ID Number" />
+    <EditForm Model="@AddEditPatientModel">
+        <MudExpansionPanels Style="width: 700px; overflow: scroll;">
+            <MudExpansionPanel Icon="@Icons.TwoTone.Report" Text="Admission">
+                 <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudSelect T="string" Label="Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.IDNo" Label="ID Number" />
+                </MudItem>
+                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Id == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
+                    Label="Ward Number" T="int">
+                @foreach (var item in _wards)
+                {
+                    <MudSelectItem T="int" Value="@item.Id" />
+                }
+                </MudSelect>
+                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.Id == i)?.Name ?? string.Empty)" @bind-Value="AddEditPatientModel.BedNo" Variant="Variant.Outlined"
+                    Label="Bed Number" T="int">
+                @foreach (var item in _beds)
+                {
+                    <MudSelectItem T="int" Value="@item.Id" />
+                }
+                </MudSelect>
+                <MudItem sm="12">
+                    <MudDatePicker Variant="Variant.Outlined" @bind-Date="admissionDate" Label="Admission Date" />
+                </MudItem>
+                 <MudItem sm="12">
+                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="dischargeDate" Label="Discharge Date" />
+                </MudItem>
+                 <MudItem sm="12">
+                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="reportDate" Label="Report Date" />
+                </MudItem>
+            </MudExpansionPanel>
+            <MudExpansionPanel Icon="@Icons.TwoTone.PersonPin" Text="Patient Personal Detail">
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Title" @bind-Value="AddEditPatientModel.Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem T="string" Value="@("Mr")" />
                         <MudSelectItem T="string" Value="@("Mrs")" />
                         <MudSelectItem T="string" Value="@("Ms")" />
@@ -15,28 +53,101 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value3" Label="First Name" />
+                    <MudTextField @bind-Value="AddEditPatientModel.FirstName"  Label="First Name" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value4" Label="Last Name" />
+                    <MudTextField @bind-Value="AddEditPatientModel.LastName" Label="Last Name" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudDatePicker Text="Date of Birth" Variant="Variant.Outlined" Date="date"></MudDatePicker>
+                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="dateOfBirth"  Label="Date of Birth" />
                 </MudItem>
-                <MudItem Class="mt-2 mb-2" sm="12">
-                  <MudText Typo="Typo.h6">Emergency Contact Details</MudText>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Icon="@Icons.TwoTone.MedicalInformation" Text="Medical Details">
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.RefferingDoctor" Label="Reffering Doctor" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value5" Label="First Name" />
+                    <MudTextField @bind-Value="AddEditPatientModel.RefferingHospital" Label="Reffering Hospital" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value6" Label="Last Name" />
+                    <MudTextField @bind-Value="AddEditPatientModel.MedicalAidName" Label="Medical Aid Name" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value7" Label="Contact Number" />
+                    <MudTextField @bind-Value="AddEditPatientModel.MedicalAidNo" Label="Medical Aid Number" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudSelect T="string" Label="Relationship" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField @bind-Value="AddEditPatientModel.MedicalAidOption" Label="Medical Aid  Option" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.DependentCode" Label="Dependent Code" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="OT" @bind-Checked="AddEditPatientModel.OT" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="Speech" @bind-Checked="AddEditPatientModel.Speech" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="Psychologist" @bind-Checked="AddEditPatientModel.Psych" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="Dietician" @bind-Checked="AddEditPatientModel.Dietician" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="Social Worker" @bind-Checked="AddEditPatientModel.SocialWorker" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+                <MudItem sm="6">
+                    <MudCheckBox Label="Physiotherapist" @bind-Checked="AddEditPatientModel.Physio" Color="Color.Primary"></MudCheckBox>
+                </MudItem>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Icon="@Icons.TwoTone.ListAlt" Text="Other Details">
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Language" @bind-Value="AddEditPatientModel.Language" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("English")" />
+                        <MudSelectItem T="string" Value="@("Afrikaans")" />
+                        <MudSelectItem T="string" Value="@("Setswana")" />
+                        <MudSelectItem T="string" Value="@("isiZulu")" />
+                        <MudSelectItem T="string" Value="@("Sesotho")" />
+                        <MudSelectItem T="string" Value="@("Sepedi")" />
+                        <MudSelectItem T="string" Value="@("isiNdebele")" />
+                        <MudSelectItem T="string" Value="@("isiXhosa")" />
+                        <MudSelectItem T="string" Value="@("siSwati")" />
+                        <MudSelectItem T="string" Value="@("Tshivenda")" />
+                        <MudSelectItem T="string" Value="@("Xitsonga")" />
+                    </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Gender" Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.Gender" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Male")" />
+                        <MudSelectItem T="string" Value="@("Female")" />
+                        <MudSelectItem T="string" Value="@("Other")" />
+                    </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Race" @bind-Value="AddEditPatientModel.Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Black")" />
+                        <MudSelectItem T="string" Value="@("White")" />
+                        <MudSelectItem T="string" Value="@("Coloured")" />
+                        <MudSelectItem T="string" Value="@("Indian")" />
+                        <MudSelectItem T="string" Value="@("Asian")" />
+                    </MudSelect>
+                </MudItem>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel Icon="@Icons.TwoTone.Dangerous" Text="Emergency Details">
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactFirstName" Label="First Name" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactLastName" Label="Last Name" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactIdNo" Label="ID Number" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudSelect T="string" Label="Relationship" Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.Relationship" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem T="string" Value="@("Mother")" />
                         <MudSelectItem T="string" Value="@("Father")" />
                         <MudSelectItem T="string" Value="@("Brother")" />
@@ -48,174 +159,115 @@
                         <MudSelectItem T="string" Value="@("Other")" />
                     </MudSelect>
                 </MudItem>
-            </MudTabPanel>
-            <MudTabPanel Text="Admission Details">
                 <MudItem sm="12">
-                    <MudDatePicker Text="Admission Date" Variant="Variant.Outlined" Date="date2"></MudDatePicker>
+                    <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactNo" Label="Contact Number" Variant="Variant.Outlined" />
                 </MudItem>
+            </MudExpansionPanel>
+            <MudExpansionPanel Icon="@Icons.TwoTone.MedicalInformation" Text="Wound Care">
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value9" Label="Other Members" />
-                </MudItem>
-                <MudItem sm="12">
-                    <MudSelect T="string" Label="Select Ward" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Ward 1")" />
-                        <MudSelectItem Value="@("Ward 2")" />
-                        <MudSelectItem Value="@("Ward 3")" />
-                        <MudSelectItem Value="@("Ward 4")" />
-                        <MudSelectItem Value="@("Ward 5")" />
-                    </MudSelect>
+                    <MudTextField @bind-Value="AddEditPatientModel.Location" Label="Location" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudSelect T="string" Label="Select Bed" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Bed 1")" />
-                        <MudSelectItem Value="@("Bed 2")" />
-                        <MudSelectItem Value="@("Bed 3")" />
-                        <MudSelectItem Value="@("Bed 4")" />
-                        <MudSelectItem Value="@("Bed 5")" />
-                    </MudSelect>
+                    <MudTextField @bind-Value="AddEditPatientModel.Stage" Label="Stage" Variant="Variant.Outlined" />
                 </MudItem>
-            </MudTabPanel>
-            <MudTabPanel Text="Wound Care">
-                <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="value10" Label="Other Members" />
-                </MudItem>
-                <MudItem sm="12">
-                    <MudSelect T="string" Label="Stage" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Stage 1")" />
-                        <MudSelectItem Value="@("Stage 2")" />
-                        <MudSelectItem Value="@("Stage 3")" />
-                        <MudSelectItem Value="@("Stage 4")" />
-                        <MudSelectItem Value="@("Stage 5")" />
-                    </MudSelect>
-                </MudItem>
-            </MudTabPanel>
-            <MudTabPanel Text="Medical Details">
-                <MudItem sm="12">
-                    <MudSelect T="string" @bind-Value="value11" Label="Province"
-                               Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Gauteng")" />
-                        <MudSelectItem Value="@("North-West")" />
-                        <MudSelectItem Value="@("Kwa-Zulu Natal")" />
-                        <MudSelectItem Value="@("Free State")" />
-                        <MudSelectItem Value="@("Limpopo")" />
-                        <MudSelectItem Value="@("Mpumalanga")" />
-                        <MudSelectItem Value="@("Western Cape")" />
-                        <MudSelectItem Value="@("Eastern Cape")" />
-                        <MudSelectItem Value="@("Northern Cape")" />                     
-                    </MudSelect>
-                </MudItem>
-                @if (value11 != ""){
-                   <MudItem sm="12">
-                    <MudAutocomplete T="string" Label="Search Hospital"
-                                     @bind-Value="value12" SearchFunc="@Search2"
-                        ResetValueOnEmptyText="@resetValueOnEmptyText2"
-                        CoerceText="@coerceText2" CoerceValue="@coerceValue2"
-                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
-                </MudItem>
-                }
-                @if(value12 != "") { 
-                <MudItem sm="12">
-                    <MudAutocomplete T="string" Label="Search Doctor"
-                        @bind-Value="value13" SearchFunc="@Search1"
-                        ResetValueOnEmptyText="@resetValueOnEmptyText"
-                        CoerceText="@coerceText" CoerceValue="@coerceValue"
-                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
-                </MudItem>
-                }
-                @if(value13 != "") { 
-                <MudItem sm="12">
-                    <MudAutocomplete T="string" Label="Search Medical Aid"
-                        @bind-Value="value13" SearchFunc="@Search3"
-                        ResetValueOnEmptyText="@resetValueOnEmptyText"
-                        CoerceText="@coerceText" CoerceValue="@coerceValue"
-                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
-                </MudItem>
-                }
-            </MudTabPanel>
-        </MudTabs>    
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+        </EditForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Info" OnClick="Submit">Ok</MudButton>
+        <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" 
+        ButtonType="ButtonType.Submit" Disabled="@(_processing)" 
+        Style="border-radius:10px 10px 10px 10px"
+        Color="Color.Success" OnClick="SaveAsync">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                <MudText>Add Patient</MudText>
+            }
+        </MudButton>
     </DialogActions>
 </MudDialog>
-
-@code
-{
+@code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
-    void Cancel() => MudDialog.Cancel();
-    public DateTime date = DateTime.Today;
-    public DateTime date2 = DateTime.Today;
-    public DateTime date3 = DateTime.Today;
-    private bool resetValueOnEmptyText;
-    private bool coerceText;
-    private bool coerceValue;
-    private bool resetValueOnEmptyText2;
-    private bool coerceText2;
-    private bool coerceValue2;
-    private bool resetValueOnEmptyText3;
-    private bool coerceText3;
-    private bool coerceValue3;
-    public string value1;
-    public string value2;
-    public string value3;
-    public string value4;
-    public string value5;
-    public string value6;
-    public string value7;
-    public string value8;
-    public string value9;
-    public string value10;
-    public string value11;
-    public string value12;
-    public string value13;
-    public string value14;
+    [Parameter] public PatientDTO AddEditPatientModel { get; set; } = new();
+    private List<LookupDTO> _wards = new();
+    private List<LookupDTO> _beds = new();
 
-    private async Task<IEnumerable<string>> Search2(string value)
+    private bool _processing = false;
+    DateTime? admissionDate { get; set; } = DateTime.Now;
+    DateTime? reportDate { get; set; } = DateTime.Now;
+    DateTime? dischargeDate { get; set; } = DateTime.Now;
+    DateTime? dateOfBirth { get; set; } = DateTime.Now;
+
+    protected async override Task OnInitializedAsync()
     {
-        await Task.Delay(2);
-        if (string.IsNullOrEmpty(value))
-            return new string[0];
-        return hospitals.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        await GetForLookup();
     }
 
-    private async Task<IEnumerable<string>> Search1(string value)
+    public void Cancel()
     {
-        await Task.Delay(2);
-        if (string.IsNullOrEmpty(value))
-            return new string[0];
-        return docs.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        MudDialog.Cancel();
     }
 
-    private async Task<IEnumerable<string>> Search3(string value)
+    private async Task SaveAsync()
     {
-        await Task.Delay(2);
-        if (string.IsNullOrEmpty(value))
-            return new string[0];
-        return medicalAids.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        _processing = true;
+        IResult<int> response;
+        admissionDate = AddEditPatientModel.AdmissionDate;
+        reportDate = AddEditPatientModel.ReportDate;
+        dischargeDate = AddEditPatientModel.DischargeDate;
+        dateOfBirth = AddEditPatientModel.DateOfBirth;
+
+        if (AddEditPatientModel.Id == 0)
+            response = await patientService.SaveAsync(AddEditPatientModel);
+        else
+            response = await patientService.UpdateAsync(AddEditPatientModel);
+
+        if (response.Succeeded)
+        {
+            if (AddEditPatientModel.Id == 0)
+            {
+                _snackBar.Add("Patient Added", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Patient Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }  
+
+    public async Task GetForLookup()
+    {
+        var wards = await wardService.GetForLookUp();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
     }
 
-    private string[] docs =
-{
-        "De Beer", "Nkosi", "Jabulani", "Merdoc",
-        "Smith", "Van Huysteen"
-    };
-
-    private string[] hospitals =
+    public async Task GetAllBedsByWardId(int wardId)
     {
-        "Montana", "Kalafong", "Jakaranda", "Eugene Marias"
-    };
-
-    private string[] medicalAids =
-    {
-        "Discovery", "Best Med", "Bonitas", "Momentum"
-    };
-
-    [Parameter] public string ContentText { get; set; }
-
-    [Parameter] public string ButtonText { get; set; }
-
-    [Parameter] public Color Color { get; set; }
-
+        AddEditPatientModel.WardNo = wardId;
+        var bed = await bedService.BedsByWardIdLookup(wardId);
+        if (bed.Succeeded)
+        {
+            _beds = bed.Data;
+        }
+    }
 }

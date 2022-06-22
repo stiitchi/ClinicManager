@@ -33,6 +33,8 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<AdmissionEntity> Admissions { get; set; }
         DbSet<WardEntity> Wards { get; set; }
         DbSet<BedEntity> Beds { get; set; }
+        DbSet<PatientICDCodeEntity> PatientICDCodes { get; set; }
+        DbSet<PatientDayFeesEntity> PatientDayFees { get; set; }
         DbSet<ICDCodeEntity> ICDCodes { get; set; }
         DbSet<DayFeesEntity> DayFees { get; set; }
         DbSet<UserEntity> Users { get; set; }

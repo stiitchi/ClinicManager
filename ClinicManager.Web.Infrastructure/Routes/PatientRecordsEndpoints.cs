@@ -258,7 +258,7 @@ namespace ClinicManager.Web.Infrastructure.Routes
         }
         public static string GetAllBedBathAssistRecordsByPatientId(int patientId)
         {
-            return $"api/PatientRecord/GetAllBedBathAssistRecordsByPatientId={patientId}";
+            return $"api/PatientRecord/GetAllBedBathAssistRecordsByPatientId?patientId={patientId}";
         }
         public static string GetAllBedBathRecordByPatientId(int patientId)
         {

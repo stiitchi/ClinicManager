@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 Expression<Func<WardDietEntity, FullWardDietDTO>> expression = e => new FullWardDietDTO
                 {
+                    FullWardDietID = e.Id,
                     FullWardDietTime = e.FullWardDietTime,
                     FullWardDietFrequency = e.FullWardDietFrequency,
                     FullWardDietSignature = e.FullWardDietSignature,

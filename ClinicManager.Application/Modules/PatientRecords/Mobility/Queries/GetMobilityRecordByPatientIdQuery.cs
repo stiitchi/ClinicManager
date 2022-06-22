@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new MobileImmobileDTO
                 {
+                    MobileImmobileId = mobilityEntry.Id,
                     MobileImmobileFreq = mobilityEntry.MobileImmobileFrequency,
                     MobileImmobileSignature = mobilityEntry.MobileImmobileSignature,
                     MobileImmobileTime = mobilityEntry.MobileImmobileTime,

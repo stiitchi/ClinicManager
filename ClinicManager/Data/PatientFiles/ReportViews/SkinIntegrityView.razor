@@ -1,4 +1,5 @@
-﻿@using ClinicManager.Shared.DTO_s.Records.Observations
+﻿@page "/skin-integrity/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records.Observations
 @using ClinicManager.Shared.DTO_s.Records.SkinReport
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
@@ -10,10 +11,15 @@
             Skin Integrity View
         </MudText>
     </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+
     @foreach(var report in _reports)
     {
-
-    <MudItem md="3" sm="12">
+    <MudItem md="6" sm="12">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
@@ -70,7 +76,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await GetAllReports(1);
+        await GetAllReports(PatientId);
     }
 
     public async Task GetAllReports(int patientId)

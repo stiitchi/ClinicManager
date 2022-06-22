@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new WoundCareDTO
                 {
+                    WoundCareId = woundCareEntry.Id,
                     WoundCareFreq = woundCareEntry.WoundCareFrequency,
                     WoundCareTime = woundCareEntry.WoundCareTime,
                     WoundCareSignature = woundCareEntry.WoundCareSignature,

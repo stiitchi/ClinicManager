@@ -1,19 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 {
-    public class GetCommunicationRecordByPatientIdQuery : IRequest<Result<List<CommunicationDTO>>>
+    public class GetCommunicationRecordByPatientIdQuery : IRequest<Result<CommunicationDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetCommunicationRecordByPatientIdQueryHandler : IRequestHandler<GetCommunicationRecordByPatientIdQuery, Result<List<CommunicationDTO>>>
+    public class GetCommunicationRecordByPatientIdQueryHandler : IRequestHandler<GetCommunicationRecordByPatientIdQuery, Result<CommunicationDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,30 +20,30 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<CommunicationDTO>>> Handle(GetCommunicationRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CommunicationDTO>> Handle(GetCommunicationRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<CommunicationEntity, CommunicationDTO>> expression = e => new CommunicationDTO
-                {
-                    CommunicationTime = e.CommunicationTime,
-                    CommunicationSignature = e.CommunicationSignature,
-                    CommunicationFrequency = e.CommunicationFrequency,
-                    PatientId = e.PatientId
-                };
+                var communicationRecord = await _context.CommunicationTests.AsNoTracking()
+                   .IgnoreQueryFilters()
+                   .FirstOrDefaultAsync(c => c.PatientId == request.PatientId);
+                if (communicationRecord == null)
+                    throw new Exception("Unable to return Communication Test");
 
-                var communicationEntry = await _context.CommunicationTests
-                        .AsNoTracking()
-                        .IgnoreQueryFilters()
-                        .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId)
-                        .ToListAsync(cancellationToken);
-                return await Result<List<CommunicationDTO>>.SuccessAsync(communicationEntry);
+                var dto = new CommunicationDTO
+                {
+                    CommunicationId = communicationRecord.Id,
+                    CommunicationFrequency = communicationRecord.CommunicationFrequency,
+                    CommunicationSignature = communicationRecord.CommunicationSignature,
+                    CommunicationTime = communicationRecord.CommunicationTime,
+                    PatientId = communicationRecord.PatientId
+                };
+                return await Result<CommunicationDTO>.SuccessAsync(dto);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<CommunicationDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<CommunicationDTO>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

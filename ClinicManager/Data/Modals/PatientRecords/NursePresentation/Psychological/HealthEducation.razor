@@ -48,9 +48,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditPsychModel.PatientId = 1;
         AddEditPsychModel.HealthEducationSignature = "Signature";
-        
         time = AddEditPsychModel.HealthEducationTime.TimeOfDay;
         response = await patientRecordService.AddHealthEducationRecord(AddEditPsychModel);
         if (response.Succeeded)

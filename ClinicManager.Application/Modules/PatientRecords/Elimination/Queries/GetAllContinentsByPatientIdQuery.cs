@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
             {
                 Expression<Func<ContinentEntity, ContinentDTO>> expression = e => new ContinentDTO
                 {
+                    ContinentId = e.Id,
                     ContinentTime = e.ContinentTime,
                     ContinentFreq = e.ContinentFrequency,
                     ContinentSignature = e.ContinentSignature,

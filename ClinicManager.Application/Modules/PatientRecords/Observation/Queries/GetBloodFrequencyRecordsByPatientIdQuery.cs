@@ -1,19 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
 using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 {
-     public class GetBloodFrequencyRecordByPatientIdQuery : IRequest<Result<List<BloodDTO>>>
+     public class GetBloodFrequencyRecordByPatientIdQuery : IRequest<Result<BloodDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetBloodFrequencyRecordByPatientIdQueryHandler : IRequestHandler<GetBloodFrequencyRecordByPatientIdQuery, Result<List<BloodDTO>>>
+    public class GetBloodFrequencyRecordByPatientIdQueryHandler : IRequestHandler<GetBloodFrequencyRecordByPatientIdQuery, Result<BloodDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,30 +20,31 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<BloodDTO>>> Handle(GetBloodFrequencyRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<BloodDTO>> Handle(GetBloodFrequencyRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<BloodEntity, BloodDTO>> expression = e => new BloodDTO
-                {
-                    BloodFrequency = e.BloodFrequency,
-                    BloodSignature = e.BloodSignature,
-                    BloodTime = e.BloodTime,
-                    PatientId = e.PatientId
-                };
+                var bloodRecord = await _context.BloodTests.AsNoTracking()
+                  .IgnoreQueryFilters()
+                  .FirstOrDefaultAsync(c => c.PatientId == request.PatientId,
+                  cancellationToken);
+                if (bloodRecord == null)
+                    throw new Exception("Unable to return Blood Record");
 
-                var bloodEntry = await _context.BloodTests
-                        .AsNoTracking()
-                        .IgnoreQueryFilters()
-                        .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId)
-                        .ToListAsync(cancellationToken);
-                return await Result<List<BloodDTO>>.SuccessAsync(bloodEntry);
+                var dto = new BloodDTO
+                {
+                    BloodId = bloodRecord.Id,
+                    BloodFrequency = bloodRecord.BloodFrequency,
+                    BloodSignature = bloodRecord.BloodSignature,
+                    BloodTime = bloodRecord.BloodTime,
+                    PatientId = bloodRecord.PatientId
+                };
+                return await Result<BloodDTO>.SuccessAsync(dto);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<BloodDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<BloodDTO>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

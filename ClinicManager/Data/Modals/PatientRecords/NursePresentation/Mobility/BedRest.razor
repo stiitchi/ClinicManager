@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditMobilityModel.PatientId = 1;
-        AddEditMobilityModel.BedRestSignature = "Signature";
-        
+        AddEditMobilityModel.BedRestSignature = "Signature";   
         time = AddEditMobilityModel.BedRestTime.TimeOfDay;
         response = await patientRecordService.AddBedRestRecord(AddEditMobilityModel);
         if (response.Succeeded)

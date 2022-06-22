@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.FluidBalance;
 using ClinicManager.Shared.DTO_s.Records;
 using ClinicManager.Shared.Wrappers;
@@ -29,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
             {
                 Expression<Func<Previous24HourIntakeEntity, Previous24HourIntakeDTO>> expression = e => new Previous24HourIntakeDTO
                 {
+                    TotalIntakeId = e.Id,
                     DateToday = e.DateToday,
                     TotalIntake = e.Total24HourIntake,
                     Output24Hour = e.Previous24HourOutput,

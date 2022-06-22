@@ -51,8 +51,6 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditEliminationModel.PatientId = 1;
-   
         response = await patientRecordService.Add24HourIntakeRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {

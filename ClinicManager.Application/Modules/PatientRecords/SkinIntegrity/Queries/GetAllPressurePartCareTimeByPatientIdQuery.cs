@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
             {
                 Expression<Func<PressurePartEntity, PressurePartCareDTO>> expression = e => new PressurePartCareDTO
                 {
+                    PressurePartCareId  = e.Id,
                     PressurePartCareFrequency = e.PressurePartCareFrequency,
                     PressurePartCareSignature = e.PressurePartCareSignature,
                     PressurePartCareTime = e.PressurePartCareTime,

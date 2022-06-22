@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.PatientId = 1;
         AddEditObservationModel.BloodSignature = "Signature";
-        
         time = AddEditObservationModel.BloodTime.TimeOfDay;
         response = await patientRecordService.AddBloodFrequencyRecord(AddEditObservationModel);
         if (response.Succeeded)

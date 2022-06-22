@@ -62,5 +62,16 @@ namespace ClinicManager.API.Controllers
                 DayFeeCode = dayFees.DayFeeCode
             }));
         }
+
+        [HttpPost("AddPatientDayFee")]
+        public async Task<IActionResult> AddPatientDayFee(PatientDayFeeDTO patientDayfee)
+        {
+            return Ok(await _mediator.Send(new AddPatientDayFeeCommand
+            {
+                PatientDayFeeId = patientDayfee.PatientDayFeeId,
+                DayFeeId = patientDayfee.DayFeeId,
+               PatientId = patientDayfee.PatientId
+            }));
+        }
     }
 }

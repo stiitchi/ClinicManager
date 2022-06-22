@@ -66,7 +66,7 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         Task<IResult<List<ComfortSleepReportDTO>>> GetAllComfortSleepRecordsByPatientId(int patientId);
         Task<IResult<List<DailyCareRecordDTO>>> GetAllDailyCareRecordsByPatientId(int patientId);
         Task<IResult<List<CathetherDTO>>> GetAllCathethersByPatientId(int patientId);
-        Task<IResult<List<ComfortSleepReportDTO>>> GetAllContinentsByPatientId(int patientId);
+        Task<IResult<List<ContinentDTO>>> GetAllContinentsByPatientId(int patientId);
         Task<IResult<List<Previous24HourIntakeDTO>>> GetAll24HourIntakesByPatientId(int patientId);
         Task<IResult<List<OralIntakeDTO>>> GetAllOralIntakeChecksByPatientId(int patientId); 
         Task<IResult<List<OralOutputDTO>>> GetAllOralOutputChecksByPatientId(int patientId); 

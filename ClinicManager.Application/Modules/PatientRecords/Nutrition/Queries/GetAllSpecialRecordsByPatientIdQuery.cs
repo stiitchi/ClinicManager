@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 Expression<Func<SpecialEntity, SpecialDTO>> expression = e => new SpecialDTO
                 {
+                    SpecialId = e.Id,
                     SpecialFrequency = e.SpecialFrequency,
                     SpecialSignature = e.SpecialSignature,
                     SpecialTime = e.SpecialTime,

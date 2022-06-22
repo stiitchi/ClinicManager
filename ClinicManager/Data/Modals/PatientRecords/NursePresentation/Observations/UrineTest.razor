@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.PatientId = 1;
-        AddEditObservationModel.UrineTestSignature = "Signature";
-        
+        AddEditObservationModel.UrineTestSignature = "Signature";    
         time = AddEditObservationModel.UrineTestTime.TimeOfDay;
         response = await patientRecordService.AddUrineTestRecord(AddEditObservationModel);
         if (response.Succeeded)

@@ -26,13 +26,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 var npoRecordEntry = await _context.KeepNPOTests.AsNoTracking()
                     .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId && c.KeepNPOFrequency != 0,
+                    .FirstOrDefaultAsync(c => c.PatientId == request.PatientId,
                     cancellationToken);
                 if (npoRecordEntry == null)
                     throw new Exception("Unable to return NPO Record");
 
                 var dto = new KeepNPODTO
                 {
+                    KeepNPOId = npoRecordEntry.Id,
                     KeepNPOFrequency = npoRecordEntry.KeepNPOFrequency,
                     KeepNPOSignature = npoRecordEntry.KeepNPOSignature,
                     KeepNPOTime = npoRecordEntry.KeepNPOTime,

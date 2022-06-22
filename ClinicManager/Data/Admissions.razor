@@ -11,11 +11,18 @@
             <MudText Align="Align.Center" Typo="Typo.h5">
                 Admissions
             </MudText>
-        </MudItem>
-             
-        <MudItem xs="12" md="12" sm="12">
+        </MudItem>         
+        <MudItem xs="12" md="6" sm="6">
+            <MudTextField Label="Search Admission" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
             <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
                        Variant="Variant.Outlined">New Admission</MudButton>
+        </MudItem>
+           <MudItem xs="12" md="3" sm="3">
+            <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
+        </MudItem>
+        <MudItem xs="12" md="3" sm="3">
+            <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
         </MudItem>
         @foreach(var admission in _admissions)
         {

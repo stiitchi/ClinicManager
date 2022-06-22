@@ -429,11 +429,11 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             return await response.ToResult<List<CommunicationDTO>>(); throw new NotImplementedException();
         }
 
-        public async Task<IResult<List<ComfortSleepReportDTO>>> GetAllContinentsByPatientId(int patientId)
+        public async Task<IResult<List<ContinentDTO>>> GetAllContinentsByPatientId(int patientId)
         {
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllContinentsByPatientId(patientId));
-            return await response.ToResult<List<ComfortSleepReportDTO>>(); throw new NotImplementedException();
+            return await response.ToResult<List<ContinentDTO>>(); throw new NotImplementedException();
         }
 
         public async Task<IResult<List<CotsideDTO>>> GetAllCotsideRecordsByPatientId(int patientId)
@@ -614,7 +614,7 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         public async Task<IResult<List<SupportDTO>>> GetAllSupportRecordsByPatientId(int patientId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllStoolChartsByPatientId(patientId));
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllSupportRecordsByPatientId(patientId));
             return await response.ToResult<List<SupportDTO>>(); throw new NotImplementedException();
         }
 

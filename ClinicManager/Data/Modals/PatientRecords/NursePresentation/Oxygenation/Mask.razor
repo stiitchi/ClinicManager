@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditOxygenationModel.PatientId = 1;
         AddEditOxygenationModel.MaskSignature = "Signature";
-        
         time = AddEditOxygenationModel.MaskTime.TimeOfDay;
         response = await patientRecordService.AddMaskTimeRecord(AddEditOxygenationModel);
         if (response.Succeeded)

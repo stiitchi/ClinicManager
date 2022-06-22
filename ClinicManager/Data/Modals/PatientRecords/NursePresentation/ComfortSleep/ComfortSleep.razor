@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditComfortSleepModel.PatientId = 1;
-        AddEditComfortSleepModel.Signature = "Signature";
-        
+        AddEditComfortSleepModel.Signature = "Signature";     
         time = AddEditComfortSleepModel.PainControlDateTime.TimeOfDay;
         response = await patientRecordService.AddComfortSleepRecord(AddEditComfortSleepModel);
         if (response.Succeeded)

@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<NeurologicalEntity, NeuroLogicalDTO>> expression = e => new NeuroLogicalDTO
                 {
+                    NeuroLogicalId = e.Id,
                     NeuroLogicalTime = e.NeuroLogicalTime,
                     NeuroLogicalFrequency = e.NeuroLogicalFrequency,
                     NeuroLogicalSignature = e.NeuroLogicalSignature,

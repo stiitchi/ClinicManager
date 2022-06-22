@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new PostOperativeCareDTO
                 {
+                    PostOperativeCareId = postOperativeEntry.Id,
                     PostOperativeCareFreq = postOperativeEntry.PostOperativeCareFrequency,
                     PostOperativeCareTime = postOperativeEntry.PostOperativeCareTime,
                     PostOperativeCareSignature = postOperativeEntry.PostOperativeCareSignature,

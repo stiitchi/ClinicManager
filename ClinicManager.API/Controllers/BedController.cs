@@ -42,6 +42,12 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllBedsByWardIdQuery { WardId = wardId }));
         }
 
+        [HttpGet("BedsByWardIdLookup")]
+        public async Task<IActionResult> BedsByWardIdLookup(int wardId)
+        {
+            return Ok(await _mediator.Send(new GetBedsByWardIdForLookupQuery { WardId = wardId }));
+        }
+
         [HttpGet("ForLookup")]
         public async Task<IActionResult> ForLookup()
         {

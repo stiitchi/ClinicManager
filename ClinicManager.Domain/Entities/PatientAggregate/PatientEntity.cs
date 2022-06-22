@@ -23,195 +23,194 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
 {
     public class PatientEntity : EntityBase
     {
+        // add notes
+        // add othermembers
+        // add hopsitals and doctors
+        // BG, INR, IVI, INHAL
+
         public PatientEntity()
         { }
         public PatientEntity(
-           int caseInformationNo, int accountNo, DateTime admissionDate,
-           DateTime admissionTime, string fullName, string lastName,
-           string title, string initials, int iDNo, int homeTelNo,
-           int workTelNo, int cellNo, DateTime dateOfBirth,
-           string address, string poBox, int poBoxCode,
-           string occupation, string language, string gender,
-           string race, string employerName, string workAddress,
-           string workAddressPostalCode, string nextOfKin,
-           string contactNo, string relationshipOfKin,
-           string altContactNo, string altContact, string altContactRelationship,
-           string medicalAidNo, string medicalAidName, string medicalAidOption,
-           string authNo, string dependentCode, string medicalAidMemberName,
-           string medicalAidMemberSurname, string medicalAidMemberIdNo,
-           string medicalAidMemberTelNo, string medicalAidMemberCellNo,
-           string medicalAidMemberPostalAddress, string medicalAidMemberCode,
-           string medicalAidMemberOccupation, string medicalAidMemberEmployer,
-           string medicalAidMemberBusinessAddress,
-           string medicalAidMemberBusinessPostalCode)
+           int idNo,
+           string title,
+           string firstName,
+           string lastName,
+           DateTime dateOfBirth,
+           int accountNo,
+           DateTime admissionDate,
+           DateTime dischargeDate,
+           DateTime reportDate,
+           int wardNo,
+           int bedNo,
+           int emergencyContactIdNo,
+           string emergencyContactFirstName,
+           string emergencyContactLastName,
+           string relationship,
+           int contactNo,
+           string refferingDoctor,
+           string refferingHospital,
+           string medicalAidName,
+           int medicalAidNo,
+           string medicalAidOption,
+           string dependentCode,
+           bool OT,
+           bool speechLanguage,
+           bool psychologist,
+           bool dietician,
+           bool socialWorker,
+           bool physio,
+           string location,
+           string language,
+           string stage,
+           string gender,
+           string race
+
+           )
         {
-            _caseInformationNo = caseInformationNo;
-            _accountNo = accountNo;
-            _admissionDate = admissionDate;
-            _admissionTime = admissionTime;
-            _fullName = fullName;
-            _lastName = lastName;
+            _IDNo = idNo;
             _title = title;
-            _initials = initials;
-            _IDNo = iDNo;
-            _homeTelNo = homeTelNo;
-            _workTelNo = workTelNo;
-            _cellNo = cellNo;
+            _firstName = firstName;
+            _lastName = lastName;
             _dateOfBirth = dateOfBirth;
-            _address = address;
-            _poBox = poBox;
-            _poBoxCode = poBoxCode;
-            _occupation = occupation;
+            _accountNO = accountNo;
+            _admissionDate = admissionDate;
+            _dischargeDate = dischargeDate;
+            _reportDate = reportDate;
+            _wardNO = wardNo;
+            _bedNO = bedNo;
+            _emergencyContactIdNo = emergencyContactIdNo;
+            _emergencyContactFirstName = emergencyContactFirstName;
+            _emergencyContactLastName = emergencyContactLastName;
+            _relationship = relationship;
+            _emergencyContactNo = contactNo;
+            _refferingDoctor = refferingDoctor;
+            _refferingHospital = refferingHospital;
+            _medicalAidName = medicalAidName;
+            _medicalAidNo = medicalAidNo;
+            _medicalAidOption = medicalAidOption;
+            _dependentCode = dependentCode;
+            _ot = OT;
+            _speechLanguage = speechLanguage;
+            _psychologist = psychologist;
+            _dietician = dietician;
+            _socialWorker = socialWorker;
+            _physio = physio;
+            _location = location;
             _language = language;
+            _stage = stage;
             _gender = gender;
             _race = race;
-            _employerName = employerName;
-            _workAddress = workAddress;
-            _workAddressPostalCode = workAddressPostalCode;
-            _nextOfKin = nextOfKin;
-            _contactNo = contactNo;
-            _relationshipOfKin = relationshipOfKin;
-            _altContactNo = altContactNo;
-            _altContact = altContact;
-            _altContactRelationship = altContactRelationship;
-            _medicalAidNo = medicalAidNo;
-            _medicalAidName = medicalAidName;
-            _medicalAidOption = medicalAidOption;
-            _authNo = authNo;
-            _dependentCode = dependentCode;
-            _medicalAidMemberName = medicalAidMemberName;
-            _medicalAidMemberSurname = medicalAidMemberSurname;
-            _medicalAidMemberIdNo = medicalAidMemberIdNo;
-            _medicalAidMemberTelNo = medicalAidMemberTelNo;
-            _medicalAidMemberCellNo = medicalAidMemberCellNo;
-            _medicalAidMemberPostalAddress = medicalAidMemberPostalAddress;
-            _medicalAidMemberCode = medicalAidMemberCode;
-            _medicalAidMemberOccupation = medicalAidMemberOccupation;
-            _medicalAidMemberEmployer = medicalAidMemberEmployer;
-            _medicalAidMemberBusinessAddress = medicalAidMemberBusinessAddress;
-            _medicalAidMemberBusinessPostalCode = medicalAidMemberBusinessPostalCode;
         }
 
         public void Set(
-            int caseInformationNo, int accountNo, DateTime admissionDate,
-            DateTime admissionTime, string fullName, string lastName,
-            string title, string initials, int iDNo, int homeTelNo,
-            int workTelNo, int cellNo, DateTime dateOfBirth,
-            string address, string poBox, int poBoxCode,
-            string occupation, string language, string gender,
-            string race, string employerName, string workAddress,
-            string workAddressPostalCode, string nextOfKin,
-            string contactNo, string relationshipOfKin,
-            string altContactNo, string altContact, string altContactRelationship,
-            string medicalAidNo, string medicalAidName, string medicalAidOption,
-            string authNo, string dependentCode, string medicalAidMemberName,
-            string medicalAidMemberSurname, string medicalAidMemberIdNo,
-            string medicalAidMemberTelNo, string medicalAidMemberCellNo,
-            string medicalAidMemberPostalAddress, string medicalAidMemberCode,
-            string medicalAidMemberOccupation, string medicalAidMemberEmployer,
-            string medicalAidMemberBusinessAddress,
-            string medicalAidMemberBusinessPostalCode)
+           int idNo,
+           string title,
+           string firstName,
+           string lastName,
+           DateTime dateOfBirth,
+           int accountNo,
+           DateTime admissionDate,
+           DateTime dischargeDate,
+           DateTime reportDate,
+           int wardNo,
+           int bedNo,
+           int emergencyContactIdNo,
+           string emergencyContactFirstName,
+           string emergencyContactLastName,
+           string relationship,
+           int contactNo,
+           string refferingDoctor,
+           string refferingHospital,
+           string medicalAidName,
+           int medicalAidNo,
+           string medicalAidOption,
+           string dependentCode,
+           bool OT,
+           bool speechLanguage,
+           bool psychologist,
+           bool dietician,
+           bool socialWorker,
+           bool physio,
+           string location,
+           string language,
+           string stage,
+           string gender,
+           string race
+           )
         {
-            _caseInformationNo = caseInformationNo;
-            _accountNo = accountNo;
-            _admissionDate = admissionDate;
-            _admissionTime = admissionTime;
-            _fullName = fullName;
-            _lastName = lastName;
+            _IDNo = idNo;
             _title = title;
-            _initials = initials;
-            _IDNo = iDNo;
-            _homeTelNo = homeTelNo;
-            _workTelNo = workTelNo;
-            _cellNo = cellNo;
+            _firstName = firstName;
+            _lastName = lastName;
             _dateOfBirth = dateOfBirth;
-            _address = address;
-            _poBox = poBox;
-            _poBoxCode = poBoxCode;
-            _occupation = occupation;
+            _accountNO = accountNo;
+            _admissionDate = admissionDate;
+            _dischargeDate = dischargeDate;
+            _reportDate = reportDate;
+            _wardNO = wardNo;
+            _bedNO = bedNo;
+            _emergencyContactIdNo = emergencyContactIdNo;
+            _emergencyContactFirstName = emergencyContactFirstName;
+            _emergencyContactLastName = emergencyContactLastName;
+            _relationship = relationship;
+            _emergencyContactNo = contactNo;
+            _refferingDoctor = refferingDoctor;
+            _refferingHospital = refferingHospital;
+            _medicalAidName = medicalAidName;
+            _medicalAidNo = medicalAidNo;
+            _medicalAidOption = medicalAidOption;
+            _dependentCode = dependentCode;
+            _ot = OT;
+            _speechLanguage = speechLanguage;
+            _psychologist = psychologist;
+            _dietician = dietician;
+            _socialWorker = socialWorker;
+            _physio = physio;
+            _location = location;
             _language = language;
+            _stage = stage;
             _gender = gender;
             _race = race;
-            _employerName = employerName;
-            _workAddress = workAddress;
-            _workAddressPostalCode = workAddressPostalCode;
-            _nextOfKin = nextOfKin;
-            _contactNo = contactNo;
-            _relationshipOfKin = relationshipOfKin;
-            _altContactNo = altContactNo;
-            _altContact = altContact;
-            _altContactRelationship = altContactRelationship;
-            _medicalAidNo = medicalAidNo;
-            _medicalAidName = medicalAidName;
-            _medicalAidOption = medicalAidOption;
-            _authNo = authNo;
-            _dependentCode = dependentCode;
-            _medicalAidMemberName = medicalAidMemberName;
-            _medicalAidMemberSurname = medicalAidMemberSurname;
-            _medicalAidMemberIdNo = medicalAidMemberIdNo;
-            _medicalAidMemberTelNo = medicalAidMemberTelNo;
-            _medicalAidMemberCellNo = medicalAidMemberCellNo;
-            _medicalAidMemberPostalAddress = medicalAidMemberPostalAddress;
-            _medicalAidMemberCode = medicalAidMemberCode;
-            _medicalAidMemberOccupation = medicalAidMemberOccupation;
-            _medicalAidMemberEmployer = medicalAidMemberEmployer;
-            _medicalAidMemberBusinessAddress = medicalAidMemberBusinessAddress;
-            _medicalAidMemberBusinessPostalCode = medicalAidMemberBusinessPostalCode;
         }
 
-        private int _caseInformationNo;
-        public int CaseInformationNo => _caseInformationNo;
+        private bool _speechLanguage;
+        public bool SpeechLanguage => _speechLanguage;
 
-        private int _accountNo;
-        public int AccountNo => _accountNo;
+        private bool _psychologist;
+        public bool Psychologist => _psychologist;
 
-        private DateTime _admissionDate;
-        public DateTime AdmissionDate => _admissionDate;
+        private bool _dietician;
+        public bool Dietician => _dietician;
 
-        private DateTime _admissionTime;
-        public DateTime AdmissionTime => _admissionTime;
+        private bool _socialWorker;
+        public bool SocialWorker => _socialWorker;
 
-        private string _fullName;
-        public string FullName => _fullName;
+        private bool _physio;
+        public bool Physio => _physio;
 
-        private string _lastName;
-        public string LastName => _lastName;
+        private bool _ot;
+        public bool Ot => _ot;
 
-        private string _title;
-        public string Title => _title;
+        private string _dependentCode;
+        public string DependentCode => _dependentCode;
 
-        private string _initials;
-        public string Initials => _initials;
+        private string _refferingDoctor;
+        public string RefferingDoctor => _refferingDoctor;
 
-        private int _IDNo;
-        public int IDNo => _IDNo;
+        private string _refferingHospital;
+        public string RefferingHospital => _refferingHospital;
 
-        private int _homeTelNo;
-        public int HomeTelNo => _homeTelNo;
+        private int _emergencyContactIdNo;
+        public int EmergencyContactIdNo => _emergencyContactIdNo;
 
-        private int _workTelNo;
-        public int WorkTelNo => _workTelNo;
+        private string _emergencyContactFirstName;
+        public string EmergencyContactFirstName => _emergencyContactFirstName;
 
-        private int _cellNo;
-        public int CellNo => _cellNo;
+        private string _emergencyContactLastName;
+        public string EmergencyContactLastName => _emergencyContactLastName;
 
-        private DateTime _dateOfBirth;
-        public DateTime DateOfBirth => _dateOfBirth;
-
-        private string _address;
-        public string Address => _address;
-
-        private string _poBox;
-        public string PoBox => _poBox;
-
-        private int _poBoxCode;
-        public int PoBoxCode => _poBoxCode;
-
-        private string _occupation;
-        public string Occupation => _occupation;
-
-        private string _language;
-        public string Language => _language;
+        private string _relationship;
+        public string Relationship => _relationship;
 
         private string _gender;
         public string Gender => _gender;
@@ -219,35 +218,53 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private string _race;
         public string Race => _race;
 
-        private string _employerName;
-        public string EmployerName => _employerName;
+        private string _language;
+        public string Language => _language;
 
-        private string _workAddress;
-        public string WorkAddress => _workAddress;
+        private string _stage;
+        public string Stage => _stage;
 
-        private string _workAddressPostalCode;
-        public string WorkAddressPostalCode => _workAddressPostalCode;
+        private string _location;
+        public string Location => _location;
 
-        private string _nextOfKin;
-        public string NextOfKin => _nextOfKin;
+        private int _emergencyContactNo;
+        public int EmergencyContactNo => _emergencyContactNo;
 
-        private string _contactNo;
-        public string ContactNo => _contactNo;
+        private int _wardNO;
+        public int WardNO => _wardNO;
 
-        private string _relationshipOfKin;
-        public string RelationshipOfKin => _relationshipOfKin;
+        private int _bedNO;
+        public int BedNO => _bedNO;
 
-        private string _altContactNo;
-        public string AltContactNo => _altContactNo;
+        private DateTime _dateOfBirth;
+        public DateTime DateOfBirth => _dateOfBirth;
 
-        private string _altContact;
-        public string AltContact => _altContact;
+        private DateTime _admissionDate;
+        public DateTime AdmissionDate => _admissionDate;
 
-        private string _altContactRelationship;
-        public string AltContactRelationship => _altContactRelationship;
+        private DateTime _dischargeDate;
+        public DateTime DischargeDate => _dischargeDate;
 
-        private string _medicalAidNo;
-        public string MedicalAidNo => _medicalAidNo;
+        private DateTime _reportDate;
+        public DateTime ReportDate => _reportDate;
+
+        private string _firstName;
+        public string FirstName => _firstName;
+
+        private string _lastName;
+        public string LastName => _lastName;
+
+        private string _title;
+        public string Title => _title;
+
+        private int _IDNo;
+        public int IDNo => _IDNo;
+
+        private int _accountNO;
+        public int AccountNO => _accountNO;
+
+        private int _medicalAidNo;
+        public int MedicalAidNo => _medicalAidNo;
 
         private string _medicalAidName;
         public string MedicalAidName => _medicalAidName;
@@ -255,44 +272,6 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private string _medicalAidOption;
         public string MedicalAidOption => _medicalAidOption;
 
-        private string _authNo;
-        public string AuthNo => _authNo;
-
-        private string _dependentCode;
-        public string DependentCode => _dependentCode;
-
-        private string _medicalAidMemberName;
-        public string MedicalAidMemberName => _medicalAidMemberName;
-
-        private string _medicalAidMemberSurname;
-        public string MedicalAidMemberSurname => _medicalAidMemberSurname;
-
-        private string _medicalAidMemberIdNo;
-        public string MedicalAidMemberIdNo => _medicalAidMemberIdNo;
-
-        private string _medicalAidMemberTelNo;
-        public string MedicalAidMemberTelNo => _medicalAidMemberTelNo;
-
-        private string _medicalAidMemberCellNo;
-        public string MedicalAidMemberCellNo => _medicalAidMemberCellNo;
-
-        private string _medicalAidMemberPostalAddress;
-        public string MedicalAidMemberPostalAddress => _medicalAidMemberPostalAddress;
-
-        private string _medicalAidMemberCode;
-        public string MedicalAidMemberCode => _medicalAidMemberCode;
-
-        private string _medicalAidMemberOccupation;
-        public string MedicalAidMemberOccupation => _medicalAidMemberOccupation;
-
-        private string _medicalAidMemberEmployer;
-        public string MedicalAidMemberEmployer => _medicalAidMemberEmployer;
-
-        private string _medicalAidMemberBusinessAddress;
-        public string MedicalAidMemberBusinessAddress => _medicalAidMemberBusinessAddress;
-
-        private string _medicalAidMemberBusinessPostalCode;
-        public string MedicalAidMemberBusinessPostalCode => _medicalAidMemberBusinessPostalCode;
 
 
 

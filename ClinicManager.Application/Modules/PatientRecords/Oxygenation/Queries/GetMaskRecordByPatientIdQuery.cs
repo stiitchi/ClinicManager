@@ -1,19 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
 using ClinicManager.Shared.DTO_s.Records.Oxygenation;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 {
-    public class GetMaskRecordByPatientIdQuery : IRequest<Result<List<MaskDTO>>>
+    public class GetMaskRecordByPatientIdQuery : IRequest<Result<MaskDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetMaskRecordByPatientIdQueryHandler : IRequestHandler<GetMaskRecordByPatientIdQuery, Result<List<MaskDTO>>>
+    public class GetMaskRecordByPatientIdQueryHandler : IRequestHandler<GetMaskRecordByPatientIdQuery, Result<MaskDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,30 +20,31 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<MaskDTO>>> Handle(GetMaskRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<MaskDTO>> Handle(GetMaskRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<MaskTimeEntity, MaskDTO>> expression = e => new MaskDTO
+                var maskEntry = await _context.MaskTimeTests.AsNoTracking()
+                   .IgnoreQueryFilters()
+                   .FirstOrDefaultAsync(c => c.PatientId == request.PatientId);
+                if (maskEntry == null)
+                    throw new Exception("Unable to return Mask Entry");
+
+                var dto = new MaskDTO
                 {
-                    MaskFrequency = e.MaskFrequency,
-                    MaskSignature = e.MaskSignature,
-                    MaskTime = e.MaskTime,
-                    PatientId = e.PatientId
+                    MaskId = maskEntry.Id,
+                    MaskFrequency = maskEntry.MaskFrequency,
+                    MaskTime = maskEntry.MaskTime,
+                    PatientId = maskEntry.PatientId,
+                    MaskSignature = maskEntry.MaskSignature
                 };
 
-                var maskEntry = await _context.MaskTimeTests
-                        .AsNoTracking()
-                        .IgnoreQueryFilters()
-                        .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId)
-                        .ToListAsync(cancellationToken);
-                return await Result<List<MaskDTO>>.SuccessAsync(maskEntry);
+                return await Result<MaskDTO>.SuccessAsync(dto);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<MaskDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<MaskDTO>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

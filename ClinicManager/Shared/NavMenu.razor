@@ -1,31 +1,64 @@
 ﻿
-   <MudPaper Width="250px" Class="py-3 mb-4" Elevation="0">
+   <MudPaper Width="250px" Class="py-3" Elevation="0">
        <MudNavMenu>
-           <MudNavLink Href="/dashboard">Dashboard</MudNavLink>
+           <MudGrid>
+               <MudItem xs="12" md="12" sm="12">
+                   <MudCard Elevation="0" Square="true" Outlined="true">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudGrid>
+                                <MudItem xs="12" md="12" sm="12">
+                                    <center>
+                                    <MudAvatar  Color="Color.Info" Variant="Variant.Outlined">
+                                        <MudIcon Color="Color.Info" Icon="@Icons.Outlined.Person" Size="Size.Large" />
+                                    </MudAvatar>
+                                        <MudText Typo="Typo.body2">Yolandi Venter</MudText> 
+                                        <MudText Typo="Typo.caption">Admin</MudText>
+                                    </center>
+                                </MudItem>
+                            </MudGrid>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                   </MudCard>
+               </MudItem>
 
-           <MudNavGroup Title="General" Expanded="false">
-           <MudNavLink Href="/wards">Wards</MudNavLink>
-           <MudNavLink Href="/beds">Beds</MudNavLink>
-            </MudNavGroup>
-
-           <MudNavGroup Title="Admissions" Expanded="false">
-           <MudNavLink Href="/admissions">Admissions</MudNavLink>
-           <MudNavLink Href="/patients">Patients</MudNavLink>
-            </MudNavGroup>
-
-           <MudNavGroup Title="Other" Expanded="false">
-           <MudNavLink Href="/day-fees">Day Fees</MudNavLink>
-           <MudNavLink Href="/icd-codes">ICD 10 Codes</MudNavLink>
-            </MudNavGroup>
-         
-           @*<MudNavGroup Title="Forms">
-               <MudNavLink Href="/admission-agreement">Admission Agreement</MudNavLink>
-               <MudNavLink Href="/patient-checklist">Check List</MudNavLink>
-           </MudNavGroup>*@
-
-           <MudNavGroup Title="Forms">
-               <MudNavLink Href="/nursing-careplan">Nursing Care Plan</MudNavLink>
-           </MudNavGroup>
+               <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/dashboard" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Dashboard</MudButton>
+                 </center>
+               </MudItem>
+                <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/wards" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Wards</MudButton>
+                 </center>
+               </MudItem>
+               <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/admissions" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Admissions</MudButton>
+                 </center>
+               </MudItem>
+               <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/patients" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Patients</MudButton>
+                 </center>
+               </MudItem>
+                <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/day-fees" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Day Fees</MudButton>
+                 </center>
+               </MudItem>
+                <MudItem xs="12" md="12" sm="12">
+                <center>
+                    <MudButton Href="/icd-codes" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">ICD 10 Codes</MudButton>
+                 </center>
+               </MudItem>
+           </MudGrid>
 
 
        </MudNavMenu>

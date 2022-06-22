@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new BloodGlucoseDTO
                 {
+                    BloodGlucoseId = bloodGlucoseRecord.Id,
                     BloodGlucoseFrequency = bloodGlucoseRecord.BloodGlucoseFrequency,
                     BloodGlucoseSignature = bloodGlucoseRecord.BloodGlucoseSignature,
                     BloodGlucoseTime = bloodGlucoseRecord.BloodGlucoseTime,

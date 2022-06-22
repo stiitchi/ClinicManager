@@ -22,10 +22,10 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public async Task<Result<int>> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
         {
 
-            var user = await _context.Users.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
-            _context.Users.Remove(user);
+            var patient = await _context.Patients.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+            _context.Patients.Remove(patient);
             await _context.SaveChangesAsync(cancellationToken);
-            return await Result<int>.SuccessAsync(user.Id);
+            return await Result<int>.SuccessAsync(patient.Id);
 
         }
     }

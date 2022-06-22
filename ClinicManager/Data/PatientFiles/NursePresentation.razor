@@ -1,4 +1,5 @@
-﻿@using ClinicManager.Data.Modals.PatientRecords.DailyCare
+﻿@page "/nurse-presentation-add/{PatientId:int}"
+@using ClinicManager.Data.Modals.PatientRecords.DailyCare
 @using ClinicManager.Data.Modals.PatientRecords.NursePresentation.ComfortSleep
 @using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Elimination
 @using ClinicManager.Data.Modals.PatientRecords.NursePresentation.Hygiene
@@ -12,13 +13,30 @@
 @using ClinicManager.Data.Modals.PatientRecords.NursePresentation.SkinReport
 @using ClinicManager.Data.Modals.PatientRecords.SkinIntegrity
 @using ClinicManager.Data.Modals.PatientRecords.StoolChart
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Elimination
+@using ClinicManager.Shared.DTO_s.Records.Hygiene
+@using ClinicManager.Shared.DTO_s.Records.Intervention
+@using ClinicManager.Shared.DTO_s.Records.Mobility
+@using ClinicManager.Shared.DTO_s.Records.Nutrition
+@using ClinicManager.Shared.DTO_s.Records.Observations
+@using ClinicManager.Shared.DTO_s.Records.Oxygenation
+@using ClinicManager.Shared.DTO_s.Records.Psychological
+@using ClinicManager.Shared.DTO_s.Records.Safety
+@using ClinicManager.Shared.DTO_s.Records.SkinIntegrity
 @inject IDialogService DialogService
 
+<MudGrid>
 <MudItem xs="12" md="12" sm="12">
     <MudText Align="Align.Center" Typo="Typo.h6">
         Nurse Presentation
     </MudText>
 </MudItem>
+ <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
 <MudItem md="6" sm="6">
     <MudExpansionPanels>
         <MudExpansionPanel Text="Observations">
@@ -438,13 +456,20 @@
         </MudExpansionPanel>
     </MudExpansionPanels>
 </MudItem>
+</MudGrid>
 
 @code{
+    [Parameter] public int PatientId { get; set; } 
+
                                                  //Comfort Sleep
 
     private void AddComfortSleepTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(ComfortSleep.AddEditComfortSleepModel), new ComfortSleepReportDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<ComfortSleep>("Comfort Sleep Test", parameters, options);
     }
@@ -452,12 +477,20 @@
     private void AddCathetherTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Cathether.AddEditEliminationModel), new CathetherDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Cathether>("Cathether Test", parameters, options);
     }
     private void AddContinentTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Continent.AddEditEliminationModel), new ContinentDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Continent>("Continent Test", parameters, options);
     }
@@ -467,18 +500,30 @@
     private void AddBathAssistTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(BedBathAssist.AddEditEliminationModel), new BedBathAssistDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<BedBathAssist>("Bed Bath Assist Test", parameters, options);
     }
     private void AddBedBathTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(BedBath.AddEditEliminationModel), new BedBathDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<BedBath>("Bed Bath Test", parameters, options);
     }
     private void AddSelfCareTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(SelfCare.AddEditEliminationModel), new SelfCareDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<SelfCare>("Self Care Test", parameters, options);
     }
@@ -486,30 +531,50 @@
     private void AddIsolationTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Isolation.AddEditInterventionModel), new IsolationDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Isolation>("Isolation Test", parameters, options);
     }
     private void AddMedicationTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Medication.AddEditInterventionModel), new MedicationDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Medication>("Medication Test", parameters, options);
     }
     private void AddPostOperativeCareTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(PostOperativeCare.AddEditInterventionModel), new PostOperativeCareDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<PostOperativeCare>("Post Operative Care Test", parameters, options);
     }
     private void AddTractionTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Traction.AddEditInterventionModel), new TractionDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Traction>("Traction Test", parameters, options);
     }
     private void AddWoundCareTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(WoundCare.AddEditInterventionModel), new WoundCareDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<WoundCare>("Wound Care Test", parameters, options);
     }
@@ -518,30 +583,50 @@
     private void AddAssistInChairTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(AssistInChair.AddEditMobilityModel), new AssistIntoChairDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<AssistInChair>("Assist In Chair Test", parameters, options);
     }
     private void AddBedRestTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(BedRest.AddEditMobilityModel), new BedRestDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<BedRest>("Bed Rest Test", parameters, options);
     }
     private void AddExerciseTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Exercise.AddEditMobilityModel), new ExerciseDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Exercise>("Exercise Test", parameters, options);
     }
     private void AddMobileImmobileTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(MobileImmobile.AddEditMobilityModel), new MobileImmobileDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<MobileImmobile>("Mobile/Immobile Test", parameters, options);
     }
     private void AddWalkAssistanceTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(WalkAssistance.AddEditMobilityModel), new WalkWithAssistanceDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<WalkAssistance>("Walk Assistance Test", parameters, options);
     }
@@ -549,18 +634,30 @@
     private void AddFullWardDietTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(FullWardDiet.AddEditNutritionModel), new FullWardDietDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<FullWardDiet>("Full Ward Diet Test", parameters, options);
     }
     private void AddNPORecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(NPOReport.AddEditNutritionModel), new KeepNPODTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<NPOReport>("NPO Record", parameters, options);
     }
     private void AddSpecialRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Special.AddEditNutritionModel), new SpecialDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Special>("Special Record", parameters, options);
     }
@@ -569,36 +666,60 @@
     private void AddUrineTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(UrineTest.AddEditObservationModel), new UrineTestDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<UrineTest>("Urine Test", parameters, options);
     }
     private void AddVitalSignTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(VitalSigns.AddEditObservationModel), new VitalSignDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<VitalSigns>("Vital Sign Test", parameters, options);
     }
     private void AddNeuroVascularTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Neurovascular.AddEditObservationModel), new NeuroVascularDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Neurovascular>("Neuro Vascular Test", parameters, options);
     }
     private void AddNeuroLogicalTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Neurological.AddEditObservationModel), new NeuroLogicalDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Neurological>("Neuro Logical Test", parameters, options);
     }
     private void AddBloodGlucoseTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(BloodGlucose.AddEditObservationModel), new BloodGlucoseDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<BloodGlucose>("Blood Glucose Test", parameters, options);
     }
     private void AddBloodTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Blood.AddEditObservationModel), new BloodDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Blood>("Blood Test", parameters, options);
     }
@@ -607,24 +728,40 @@
     private void AddMaskTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Mask.AddEditOxygenationModel), new MaskDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Mask>("Mask Test", parameters, options);
     }
     private void AddInhalNebsTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(InhalaNebs.AddEditOxygenationModel), new InhalaNebsDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<InhalaNebs>("Inhala Nebs Test", parameters, options);
     }
     private void AddPolyMaskTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(PolyMask.AddEditOxygenationModel), new PolyMaskDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<PolyMask>("Poly Mask Test", parameters, options);
     }
     private void AddNasalCannulaTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(NasalCannula.AddEditOxygenationModel), new NasalCannulaDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<NasalCannula>("Nasal Cannula Test", parameters, options);
     }
@@ -633,18 +770,30 @@
     private void AddCommunicationRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Communication.AddEditPsychModel), new CommunicationDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Communication>("Communication Test", parameters, options);
     }  
     private void AddHealthEducationRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(HealthEducation.AddEditPsychModel), new HealthEducationDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<HealthEducation>("Health Education Test", parameters, options);
     } 
     private void AddSupportRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Support.AddEditPsychModel), new SupportDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Support>("Support Test", parameters, options);
     } 
@@ -653,12 +802,20 @@
     private void AddCheckIDBandsRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(CheckIDBands.AddEditSafetyModel), new CheckIDBandDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<CheckIDBands>("Check ID Bands Test", parameters, options);
     } 
     private void AddCotsideRecord()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Cotside.AddEditSafetyModel), new CotsideDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Cotside>("Cotside Test", parameters, options);
     } 
@@ -667,12 +824,20 @@
     private void AddPressurePartCareTimeReport()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(PressurePart.AddEditSkinReportModel), new PressurePartCareDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<PressurePart>("Pressure Part Report", parameters, options);
     } 
     private void AddRednessReport()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(Redness.AddEditSkinReportModel), new RednessDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<Redness>("Redness Report", parameters, options);
     } 

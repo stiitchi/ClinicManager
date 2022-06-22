@@ -82,8 +82,6 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditStoolChartModel.PatientId = 1;
-
         time = AddEditStoolChartModel.StoolTime.TimeOfDay;
         response = await patientRecordService.AddStoolChartRecord(AddEditStoolChartModel);
         if (response.Succeeded)

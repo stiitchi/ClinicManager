@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<VitalSignEntity, VitalSignDTO>> expression = e => new VitalSignDTO
                 {
+                    VitalSignsId = e.Id,
                     VitalSignsTime = e.VitalSignsTime,
                     VitalSignSignature = e.VitalSignSignature,
                     VitalSignsFrequency = e.VitalSignsFrequency,

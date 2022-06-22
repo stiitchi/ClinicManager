@@ -56,8 +56,6 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditFluidBalanceModel.PatientId = 1;
-        
         time = AddEditFluidBalanceModel.OralOutputTime.TimeOfDay;
         response = await patientRecordService.AddOralOutputTestRecord(AddEditFluidBalanceModel);
         if (response.Succeeded)

@@ -1,19 +1,17 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
 using ClinicManager.Shared.DTO_s.Records.Oxygenation;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 {
-   public class GetPolyMaskRecordByPatientIdQuery : IRequest<Result<List<PolyMaskDTO>>>
+   public class GetPolyMaskRecordByPatientIdQuery : IRequest<Result<PolyMaskDTO>>
     {
         public int PatientId { get; set; }
     }
 
-    public class GetPolyMaskRecordByPatientIdQueryHandler : IRequestHandler<GetPolyMaskRecordByPatientIdQuery, Result<List<PolyMaskDTO>>>
+    public class GetPolyMaskRecordByPatientIdQueryHandler : IRequestHandler<GetPolyMaskRecordByPatientIdQuery, Result<PolyMaskDTO>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -22,30 +20,30 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<PolyMaskDTO>>> Handle(GetPolyMaskRecordByPatientIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PolyMaskDTO>> Handle(GetPolyMaskRecordByPatientIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                Expression<Func<PolyMaskEntity, PolyMaskDTO>> expression = e => new PolyMaskDTO
-                {
-                    PolyMaskFrequency = e.PolyMaskFrequency,
-                    PolyMaskSignature = e.PolyMaskSignature,
-                    PolyMaskTime = e.PolyMaskTime,
-                    PatientId = e.PatientId
-                };
+                var polyMaskEntry = await _context.PolyMaskTests.AsNoTracking()
+                  .IgnoreQueryFilters()
+                  .FirstOrDefaultAsync(c => c.PatientId == request.PatientId);
+                if (polyMaskEntry == null)
+                    throw new Exception("Unable to return Urine Test");
 
-                var polyMaskEntry = await _context.PolyMaskTests
-                        .AsNoTracking()
-                        .IgnoreQueryFilters()
-                        .Select(expression)
-                        .Where(r => r.PatientId == request.PatientId)
-                        .ToListAsync(cancellationToken);
-                return await Result<List<PolyMaskDTO>>.SuccessAsync(polyMaskEntry);
+                var dto = new PolyMaskDTO
+                {
+                    PolyMaskId = polyMaskEntry.Id,
+                    PolyMaskFrequency = polyMaskEntry.PolyMaskFrequency,
+                    PolyMaskSignature = polyMaskEntry.PolyMaskSignature,
+                    PolyMaskTime = polyMaskEntry.PolyMaskTime,
+                    PatientId = polyMaskEntry.PatientId
+                };
+                return await Result<PolyMaskDTO>.SuccessAsync(dto);
 
             }
             catch (Exception ex)
             {
-                return await Result<List<PolyMaskDTO>>.FailAsync(new List<string> { ex.Message });
+                return await Result<PolyMaskDTO>.FailAsync(new List<string> { ex.Message });
             }
         }
     }

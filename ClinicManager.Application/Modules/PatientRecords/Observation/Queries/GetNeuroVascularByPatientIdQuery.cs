@@ -33,6 +33,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new NeuroVascularDTO
                 {
+                    NeuroVascularId = neuroVascularRecord.Id,
                     NeuroVascularTime = neuroVascularRecord.NeuroVascularTime,
                     NeuroVascularSignature = neuroVascularRecord.NeuroVascularSignature,
                     NeuroVascularFrequency = neuroVascularRecord.NeuroVascularFrequency,

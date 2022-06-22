@@ -1,4 +1,4 @@
-﻿@page "/nursing-careplan"
+﻿@page "/patient-view/{PatientId:int}"
 @inject IDialogService DialogService
 @using ClinicManager.Data.Modals.PatientRecords.DailyCare
 @using ClinicManager.Data.Modals.PatientRecords.Fluid_Balance
@@ -7,13 +7,18 @@
 @using ClinicManager.Data.Modals.PatientRecords.StoolChart
 @using ClinicManager.Data.PatientFiles
 @using ClinicManager.Data.PatientFiles.ReportViews
-
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.SkinReport
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Shared.DTO_s
+@inject IPatientService patientService 
 
 <MudContainer>
     <MudGrid Class="mt-8">
         <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
-                Nurse Care Plan
+              Patient View
             </MudText>
         </MudItem>
         <MudItem xs="12" md="6" sm="6">
@@ -25,7 +30,7 @@
                         </MudTooltip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.body1"> Mr. Reynart Grobler</MudText>
+                        <MudText Typo="Typo.body1">@patient.Title @patient.FirstName @patient.LastName</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
             </MudCard>
@@ -46,7 +51,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudAvatar Color="Color.Info">4</MudAvatar>
+                        <MudAvatar Color="Color.Info">@patient.WardNo</MudAvatar>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Ward</MudText>
@@ -58,7 +63,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudAvatar Color="Color.Warning">30</MudAvatar>
+                        <MudAvatar Color="Color.Warning">@patient.BedNo</MudAvatar>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Bed</MudText>
@@ -113,7 +118,7 @@
                                @onclick="@(e => AddProgressNotes())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("progress-notes"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/progress-notes/{PatientId}"))">View</MudButton>
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -127,10 +132,10 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("nurse-presentation"))">Add</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation-add/{PatientId}"))">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("nurse-presentation-view"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">View</MudButton>
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -147,7 +152,7 @@
                                OnClick="(() => AddDailyCareTest())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("daily-care-view"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/daily-care/{PatientId}"))">View</MudButton>
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -161,10 +166,12 @@
                 <MudCardContent>
                     <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("fluid-balance"))">Add</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/fluid-balance-add/{PatientId}"))">Add</MudButton>
+
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("fluid-balance-view"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/fluid-balance-view/{PatientId}"))">View</MudButton>
+
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -181,7 +188,8 @@
                                OnClick="(() => AddSkinIntegrityReport())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("skin-integrity-view"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/skin-integrity/{PatientId}"))">View</MudButton>
+
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -198,55 +206,39 @@
                                OnClick="(() => AddStoolChartReport())">Add</MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
-                               @onclick="@(e => ChangeView("stool-charts-view"))">View</MudButton>
+                               @onclick="@(() => _navigationManager.NavigateTo($"/stool-chart/{PatientId}"))">View</MudButton>
+
                 </MudCardContent>
             </MudCard>
         </MudItem>
-
-
-        @switch (currentView)
-        {
-            case "daily-care-view":
-                <DayCareView/>
-                break;
-            case "progress-notes":
-                <ProgressNotesView />
-                break;
-            case "fluid-balance":
-                <FluidBalanceRecord />
-                break;
-            case "fluid-balance-view":
-                <FluidBalanceView />
-                break;
-            case "nurse-presentation":
-                <NursePresentation />
-                break;
-            case "nurse-presentation-view":
-                <NursePresentationView />
-                break;
-            case "stool-charts-view":
-                <StoolChartView />
-                break;
-            case "skin-integrity-view":
-                <SkinIntegrityView />
-                break;
-            default:
-          
-                break;
-        }
     </MudGrid>
 </MudContainer>
 
 @code {
     public string currentView;
+    [Parameter] public int PatientId { get; set; } 
+    private PatientDTO patient = new();
 
-    public void ChangeView(string view)
+    protected async override Task OnInitializedAsync()
     {
-        currentView = view;
+        await GetPatientById(PatientId);
+    }
+    public async Task GetPatientById(int patientId)
+    {
+        IResult<PatientDTO> response;
+        response = await patientService.GetById(patientId);
+        if (response.Succeeded)
+        {
+            patient = response.Data;
+        }
     }
     private void AddProgressNotes()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(ProgressNotesModal.AddEditObservationModel), new ProgressReportDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<ProgressNotesModal>("Progress Notes", parameters, options);
     }
@@ -254,18 +246,30 @@
     private void AddDailyCareTest()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(DailyCareModal.AddEditDailyCareModel), new DailyCareRecordDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<DailyCareModal>("Daily Care Test", parameters, options);
     }
     private void AddSkinIntegrityReport()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(SkinIntegrityModal.AddEditSafetyModel), new SkinReportDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<SkinIntegrityModal>("Skin Integrity Report", parameters, options);
     }
     private void AddStoolChartReport()
     {
         var parameters = new DialogParameters();
+        parameters.Add(nameof(StoolChartModal.AddEditStoolChartModel), new StoolChartDTO
+        {
+            PatientId = PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<StoolChartModal>("Stool Chart Report", parameters, options);
     } 

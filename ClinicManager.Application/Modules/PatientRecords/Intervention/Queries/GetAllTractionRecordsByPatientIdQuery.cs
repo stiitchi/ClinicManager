@@ -28,6 +28,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             {
                 Expression<Func<TractionEntity, TractionDTO>> expression = e => new TractionDTO
                 {
+                    TractionId = e.Id,
                     TractionFreq = e.TractionFrequency,
                     TractionTime = e.TractionTime,
                     TractionSignature = e.TractionSignature,

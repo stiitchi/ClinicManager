@@ -47,9 +47,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditNutritionModel.PatientId = 1;
         AddEditNutritionModel.KeepNPOSignature = "Signature";
-        
         time = AddEditNutritionModel.KeepNPOTime.TimeOfDay;
         response = await patientRecordService.AddNPORecord(AddEditNutritionModel);
         if (response.Succeeded)

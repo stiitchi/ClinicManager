@@ -6,7 +6,7 @@
 <MudDialog Style="width:400px;">
     <DialogContent>
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
+            <MudTimePicker Variant="Variant.Outlined"  AmPm="true" />
         </MudItem>
         <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditObservationModel.Desc"  Label="Description" Variant="Variant.Outlined" />
@@ -42,18 +42,18 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public ProgressReportDTO AddEditObservationModel { get; set; } = new();
+
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
-
+    public TimeSpan time;
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.PatientId = 1;
 
-        time = AddEditObservationModel.TimeAdded.TimeOfDay;
+        time = AddEditObservationModel.TimeAddedTS;
+
         response = await patientRecordService.AddProgressReportRecord(AddEditObservationModel);
         if (response.Succeeded)
         {

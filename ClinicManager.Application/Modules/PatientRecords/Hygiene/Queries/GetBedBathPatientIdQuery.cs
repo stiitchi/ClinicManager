@@ -32,6 +32,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 
                 var dto = new BedBathDTO
                 {
+                    BedBathId = bedBathEntry.Id,
                     BedBathTime = bedBathEntry.BedBathTime,
                     BedBathFreq = bedBathEntry.BedBathFrequency,
                     BedBathSignature = bedBathEntry.BedBathSignature,
