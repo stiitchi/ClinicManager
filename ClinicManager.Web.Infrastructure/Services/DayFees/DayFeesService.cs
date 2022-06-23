@@ -12,6 +12,13 @@ namespace ClinicManager.Web.Infrastructure.Services.DayFees
         {
         }
 
+        public async Task<IResult<int>> AssignDayFeeToPatient(PatientDayFeeDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.DayFeeEndpoints.AssignToPatient, request);
+            return await response.ToResult<int>();
+        }
+
         public async Task<IResult<int>> DeleteAsync(int id)
         {
             await ConfigureHeaders();
@@ -31,6 +38,13 @@ namespace ClinicManager.Web.Infrastructure.Services.DayFees
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.DayFeeEndpoints.GetAllDayFeesTable(pageNumber, pageSize, searchString, orderBy));
             return await response.ToPaginatedResult<DayFeesDTO>();
+        }
+
+        public async Task<IResult<List<PatientDayFeeDTO>>> GetAllPatientDayFees(int patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.DayFeeEndpoints.GetAllPatientDayFees(patientId));
+            return await response.ToResult<List<PatientDayFeeDTO>>();
         }
 
         public async Task<IResult<DayFeesDTO>> GetById(int id)

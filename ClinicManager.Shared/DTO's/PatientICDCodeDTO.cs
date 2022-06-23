@@ -4,6 +4,8 @@
     {
         public int PatientId { get; set; }
         public int PatientICDCodeId { get; set; }
-        public int ICDCodeId { get; set; }
+        public string ICDCodeId { get; set; }
+        public string? ICDCode { get; set; }
+        public string? ICDCodeDescription { get; set; }
     }
 }

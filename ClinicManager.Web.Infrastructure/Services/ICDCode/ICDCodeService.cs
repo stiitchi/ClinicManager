@@ -11,6 +11,13 @@ namespace ClinicManager.Web.Infrastructure.Services.ICDCode
         public ICDCodeService(HttpClient httpClient, IStateService stateService) : base(httpClient, stateService)
         { }
 
+        public async Task<IResult<int>> AssignICDCodeToPatient(PatientICDCodeDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.ICDCodeEndpoints.AssignToPatient, request);
+            return await response.ToResult<int>();
+        }
+
         public async Task<IResult<int>> DeleteAsync(int id)
         {
             await ConfigureHeaders();
@@ -30,6 +37,13 @@ namespace ClinicManager.Web.Infrastructure.Services.ICDCode
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.ICDCodeEndpoints.GetAllICDCodesTable(pageNumber, pageSize, searchString, orderBy));
             return await response.ToPaginatedResult<ICDCodeDTO>();
+        }
+
+        public async Task<IResult<List<PatientICDCodeDTO>>> GetAllPatientICDCodes(int patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ICDCodeEndpoints.GetAllPatientICDCodes(patientId));
+            return await response.ToResult<List<PatientICDCodeDTO>>();
         }
 
         public async Task<IResult<ICDCodeDTO>> GetById(int id)

@@ -9,6 +9,12 @@ namespace ClinicManager.Web.Infrastructure.Routes
 
         public static string ForLookup = "api/ICDCode/ForLookup";
 
+        public static string AssignToPatient = "api/ICDCode/AddPatientICDCode";
+
+        public static string GetAllPatientICDCodes(int patientId)
+        {
+            return $"api/ICDCode/GetAllPatientICDCodes?patientId={patientId}";
+        }
         public static string GetById(int id)
         {
             return $"api/ICDCode/{id}";

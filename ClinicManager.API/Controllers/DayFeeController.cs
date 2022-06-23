@@ -15,6 +15,12 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllDayFeesQuery { }));
         }
 
+        [HttpGet("GetAllPatientDayFees")]
+        public async Task<IActionResult> GetAllPatientDayFees(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetAllPatientDayFeesQuery { PatientId = patientId }));
+        }
+
         [HttpGet("GetAllDayFeesTable")]
         public async Task<IActionResult> GetAllDayFeesTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
         {
@@ -70,7 +76,7 @@ namespace ClinicManager.API.Controllers
             {
                 PatientDayFeeId = patientDayfee.PatientDayFeeId,
                 DayFeeId = patientDayfee.DayFeeId,
-               PatientId = patientDayfee.PatientId
+                PatientId = patientDayfee.PatientId
             }));
         }
     }

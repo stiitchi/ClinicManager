@@ -9,6 +9,8 @@ namespace ClinicManager.Web.Infrastructure.Services.DayFees
 
         Task<IResult<DayFeesDTO>> GetById(int id);
 
+        Task<IResult<List<PatientDayFeeDTO>>> GetAllPatientDayFees(int patientId);
+
         Task<IResult<int>> SaveAsync(DayFeesDTO request);
 
         Task<IResult<List<LookupDTO>>> GetForLookUp();
@@ -18,6 +20,8 @@ namespace ClinicManager.Web.Infrastructure.Services.DayFees
         Task<IResult<int>> DeleteAsync(int id);
 
         Task<PaginatedResult<DayFeesDTO>> GetAllDayFeesTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
+
+        Task<IResult<int>> AssignDayFeeToPatient(PatientDayFeeDTO request);
 
     }
 }

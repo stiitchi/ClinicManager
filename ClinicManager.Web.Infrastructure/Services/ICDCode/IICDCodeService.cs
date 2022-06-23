@@ -9,6 +9,8 @@ namespace ClinicManager.Web.Infrastructure.Services.ICDCode
 
         Task<IResult<ICDCodeDTO>> GetById(int id);
 
+        Task<IResult<List<PatientICDCodeDTO>>> GetAllPatientICDCodes(int patientId);
+
         Task<IResult<int>> SaveAsync(ICDCodeDTO request);
 
         Task<IResult<List<LookupDTO>>> GetForLookUp();
@@ -18,6 +20,9 @@ namespace ClinicManager.Web.Infrastructure.Services.ICDCode
         Task<IResult<int>> DeleteAsync(int id);
 
         Task<PaginatedResult<ICDCodeDTO>> GetAllICDCodesTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
+
+        Task<IResult<int>> AssignICDCodeToPatient(PatientICDCodeDTO request);
+
 
     }
 }

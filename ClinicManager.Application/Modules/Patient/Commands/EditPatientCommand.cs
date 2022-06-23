@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.Patient.Commands
 {
-    public class EditPatientCommand : IRequest<Result<PatientDTO>>
+    public class EditPatientCommand : IRequest<Result<int>>
     {
         public int PatientId { get; set; }
         public int AccountNo { get; set; }
@@ -44,7 +44,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public bool Physio { get; set; }
     }
 
-    public class EditPatientCommandHandler : IRequestHandler<EditPatientCommand, Result<PatientDTO>>
+    public class EditPatientCommandHandler : IRequestHandler<EditPatientCommand, Result<int>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -53,7 +53,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<PatientDTO>> Handle(EditPatientCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(EditPatientCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -98,11 +98,11 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 );
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<PatientDTO>.SuccessAsync("Patient Added");
+                return await Result<int>.SuccessAsync("Patient Added");
             }
             catch (Exception ex)
             {
-                return await Result<PatientDTO>.FailAsync(ex.Message);
+                return await Result<int>.FailAsync(ex.Message);
             }
         }
     }

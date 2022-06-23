@@ -2,9 +2,13 @@
 @using ClinicManager.Shared.DTO_s
 @using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.DayFees
 @using Modals
 @using ClinicManager.Shared.Wrappers
 @inject IPatientService patientService 
+@inject IICDCodeService icdCodeService 
+@inject IDayFeesService dayFeesService 
 
 <MudGrid>
     <MudItem xs="12" md="12" sm="12">
@@ -100,30 +104,43 @@
 
             <MudTabPanel Text="ICD Codes">
                 <MudGrid>
+                    <MudItem xs="12" md="12" sm="12">
+                        <MudButton OnClick="AddPatientICDCode" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Assign ICD Code</MudButton>
+                    </MudItem>
+                    @foreach(var icdCode in _patientICDCodes)
+                    {               
                     <MudItem xs="2" md="2">
                         <MudCard>
                             <MudCardContent>
-                                <MudText Align="Align.Center"> AO.78</MudText> <br />
-                                <MudText Align="Align.Center">Daily Stay</MudText>
+                                <MudText Align="Align.Center">@icdCode.ICDCode</MudText> <br />
+                                <MudText Align="Align.Center">@icdCode.ICDCodeDescription</MudText>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
+                    }
+
                 </MudGrid>
             </MudTabPanel>
             <MudTabPanel Text="Day Fees">
                 <MudGrid>
+                     <MudItem xs="12" md="12" sm="12">
+                        <MudButton OnClick="AddPatientDayFee" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Assign Day Fee</MudButton>
+                    </MudItem>
+                    @foreach(var dayFee in _patientDayFees)
+                    {
                     <MudItem xs="2" md="2">
                         <MudCard>
                             <MudCardContent>
-                                <MudText Align="Align.Center">Fee 1</MudText> <br />
-                                <MudText Align="Align.Center">R650</MudText>
+                                <MudText Align="Align.Center">@dayFee.DayFeeCode</MudText> <br />
+                                <MudText Align="Align.Center">@dayFee.DayFeeDescription</MudText>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
+                    }
                 </MudGrid>
             </MudTabPanel>
 
-            <MudTabPanel Text="Patient Infections">
+       @*     <MudTabPanel Text="Patient Infections">
                 <MudGrid>
                     <MudItem xs="4" md="4">
                         <MudCard>
@@ -171,7 +188,7 @@
                         </MudCard>
                     </MudItem>
                 </MudGrid>
-            </MudTabPanel>
+            </MudTabPanel>*@
 
 @*            <MudTabPanel Text="History">
                 <MudGrid>
@@ -236,12 +253,16 @@
 
 @code {
     public PatientDTO patient = new();
+    private List<PatientICDCodeDTO> _patientICDCodes = new();
+    private List<PatientDayFeeDTO> _patientDayFees = new();
 
     [Parameter] public int PatientId { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         await GetPatientId(PatientId);
+        await GetAllPatientICDCodes(PatientId);
+        await GetAllPatientDayFees(PatientId);
     }
 
     public async Task GetPatientId(int patientId)
@@ -251,6 +272,24 @@
         if (viewPatient.Succeeded)
         {
             patient = viewPatient.Data;
+        }
+    }
+
+    public async Task GetAllPatientICDCodes(int patientId)
+    {
+        var icdCodes = await icdCodeService.GetAllPatientICDCodes(patientId);
+        if (icdCodes.Succeeded)
+        {
+            _patientICDCodes = icdCodes.Data;
+        }
+    }
+
+      public async Task GetAllPatientDayFees(int patientId)
+    {
+        var dayFees = await dayFeesService.GetAllPatientDayFees(patientId);
+        if (dayFees.Succeeded)
+        {
+            _patientDayFees = dayFees.Data;
         }
     }
 
@@ -297,5 +336,26 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
     }
-        
+
+    private void AddPatientICDCode()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AssignICDCodePatient.AssignICDCode), new PatientICDCodeDTO
+        {
+            PatientId = PatientId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraExtraLarge, };
+        _dialogService.Show<AssignICDCodePatient>("Patient ICD Code", parameters, options);
+    }
+
+    private void AddPatientDayFee()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AssignDayFeesPatient.AssignDayFee), new PatientDayFeeDTO
+        {
+            PatientId = PatientId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraExtraLarge, };
+        _dialogService.Show<AssignDayFeesPatient>("Patient Day Fee", parameters, options);
+    }
 }

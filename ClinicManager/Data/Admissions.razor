@@ -55,7 +55,15 @@
 
     private async Task InvokeModal(int id = 0)
     {
+        Random rnd = new Random();
+        int accountNo = rnd.Next();
+        int caseInformationNo = rnd.Next();
         var parameters = new DialogParameters();
+        parameters.Add(nameof(AdmissionFormModal.AddEditAdmissionModel), new AdmissionDTO
+        {
+            AccountNo = accountNo,
+            CaseInformationNumber = caseInformationNo
+        });
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
         var dialog = _dialogService.Show<AdmissionFormModal>("Admission Form", parameters, options);
         var result = await dialog.Result;

@@ -10,12 +10,12 @@
         <MudExpansionPanels Style="width: 700px; overflow: scroll;">
             <MudExpansionPanel Icon="@Icons.TwoTone.Report" Text="Admission">
                 <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" T="int" For="@(() => AddEditAdmissionModel.CaseInformationNumber)" 
+                    <MudTextField Variant="Variant.Outlined" Disabled="true" T="int" For="@(() => AddEditAdmissionModel.CaseInformationNumber)" 
                         @bind-Value="AddEditAdmissionModel.CaseInformationNumber" 
                         Label="Case Information Number" />
                 </MudItem>
                    <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" T="int" For="@(() => AddEditAdmissionModel.AccountNo)" 
+                    <MudTextField Variant="Variant.Outlined" Disabled="true" T="int" For="@(() => AddEditAdmissionModel.AccountNo)" 
                         @bind-Value="AddEditAdmissionModel.AccountNo" 
                         Label="Account Number" />
                 </MudItem>

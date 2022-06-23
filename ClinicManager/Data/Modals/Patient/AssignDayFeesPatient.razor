@@ -1,0 +1,121 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.DayFees
+@using ClinicManager.Shared.DTO_s
+@inject IDayFeesService dayFeesService 
+
+
+<EditForm Model="@AssignDayFee" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Assign Day Fee
+            </MudText>    
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="string" Label="Day Fees" For="@(() => AssignDayFee.DayFeeId)" @bind-Value="AssignDayFee.DayFeeId">
+                        @foreach (var item in _dayFees)
+                        {
+                            <MudSelectItem T="string" Value="@item.Name" />
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated || _processing)"  Color="Color.Secondary">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                @if (AssignDayFee.PatientDayFeeId != 0)
+                {
+                    <MudText>Update</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public PatientDayFeeDTO AssignDayFee { get; set; } = new();
+    private bool _processing = false;
+    private List<LookupDTO> _dayFees= new();
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllDayFees();
+    }
+
+    public async Task GetAllDayFees()
+    {
+        var dayFeeResult = await dayFeesService.GetForLookUp();
+        if (dayFeeResult.Succeeded)
+        {
+            _dayFees = dayFeeResult.Data;
+        }
+        else
+        {
+            foreach (var message in dayFeeResult.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        if (AssignDayFee.PatientDayFeeId == 0)
+            response = await dayFeesService.AssignDayFeeToPatient(AssignDayFee);
+        else
+            response = await dayFeesService.AssignDayFeeToPatient(AssignDayFee);
+
+        if (response.Succeeded)
+        {
+            if (AssignDayFee.PatientDayFeeId == 0)
+            {
+                _snackBar.Add("Patient Day Fee Saved", Severity.Success);
+                _navigationManager.NavigateTo($"/patient-edit/{AssignDayFee.PatientId}", true);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Patient Day Fee Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }     
+}

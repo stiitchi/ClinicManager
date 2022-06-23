@@ -9,7 +9,7 @@ namespace ClinicManager.Application.Modules.ICDCode.Commands
     public class AssignICDCodeToPatientCommand : IRequest<Result<int>>
     {
         public int PatientICDCodeId { get; set; }
-        public int ICDCodeId { get; set; }
+        public string ICDCodeId { get; set; }
         public int PatientId { get; set; }
     }
 
@@ -26,21 +26,23 @@ namespace ClinicManager.Application.Modules.ICDCode.Commands
         {
             try
             {
-                var patientICDCodes = await _context.ICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientICDCodeId, cancellationToken);
+                var patientICDCodes = await _context.PatientICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.IcdCode == request.ICDCodeId, cancellationToken);
                 if (patientICDCodes != null)
                     throw new Exception("Patient is already assigned to this ICD Code");
 
                 var patient = await _context.Patients.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
-                if (patient != null)
+                if (patient == null)
                     throw new Exception("Patient doesn't exist");
 
-                var ICDCodes = await _context.ICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.ICDCodeId, cancellationToken);
-                if (ICDCodes != null)
+                var ICDCodes = await _context.ICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.IcdCode == request.ICDCodeId, cancellationToken);
+                if (ICDCodes == null)
                     throw new Exception("Patient is already assigned to this ICD Code");
 
                 var patientICDCode = new PatientICDCodeEntity(
                     patient,
-                    ICDCodes
+                    ICDCodes,
+                    ICDCodes.IcdCode,
+                    ICDCodes.IcdDescription
                     );
 
                 await _context.PatientICDCodes.AddAsync(patientICDCode, cancellationToken);

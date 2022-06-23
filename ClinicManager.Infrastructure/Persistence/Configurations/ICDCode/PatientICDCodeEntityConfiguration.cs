@@ -13,6 +13,8 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.ICDCode
 
             conf.HasOne(c => c.Patient).WithMany().HasForeignKey(c => c.PatientId);
             conf.HasOne(c => c.ICDCode).WithMany().HasForeignKey(c => c.IcdCodeId);
+            conf.Property(c => c.IcdCode).IsRequired();
+            conf.Property(c => c.IcdDescription).IsRequired();
             conf.Property(c => c.IsActive).IsRequired();
 
             conf.HasIndex(c => c.Id);

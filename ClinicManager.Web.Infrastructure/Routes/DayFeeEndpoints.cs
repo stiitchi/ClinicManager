@@ -9,6 +9,13 @@ namespace ClinicManager.Web.Infrastructure.Routes
 
         public static string GetAllDayFees = "api/DayFee/GetAllDayFees";
 
+        public static string AssignToPatient = "api/DayFee/AddPatientDayFee";
+
+        public static string GetAllPatientDayFees(int patientId)
+        {
+            return $"api/DayFee/GetAllPatientDayFees?patientId={patientId}";
+        }
+
         public static string GetById(int id)
         {
             return $"api/DayFee/{id}";

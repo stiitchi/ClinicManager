@@ -9,7 +9,7 @@ namespace ClinicManager.Application.Modules.DayFees.Commands
    public class AddPatientDayFeeCommand : IRequest<Result<int>>
     {
         public int PatientDayFeeId { get; set; }
-        public int DayFeeId { get; set; }
+        public string DayFeeId { get; set; }
         public int PatientId { get; set; }
     }
 
@@ -26,7 +26,7 @@ namespace ClinicManager.Application.Modules.DayFees.Commands
         {
             try
             {
-                var patientDayFees = await _context.PatientDayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientDayFeeId, cancellationToken);
+                var patientDayFees = await _context.PatientDayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.DayFeeCode == request.DayFeeId, cancellationToken);
                 if (patientDayFees != null)
                     throw new Exception("Patient is already assigned to this Day Fee");
 
@@ -34,18 +34,20 @@ namespace ClinicManager.Application.Modules.DayFees.Commands
                 if (patient == null)
                     throw new Exception("Patient doesn't exist");
 
-                var dayFees = await _context.DayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.DayFeeId, cancellationToken);
+                var dayFees = await _context.DayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.DayFeeCode == request.DayFeeId, cancellationToken);
                 if (dayFees == null)
                     throw new Exception("Day Fee doesn't exist");
 
-                var patientICDCode = new PatientDayFeesEntity(
+                var patientDayFee = new PatientDayFeesEntity(
                     patient,
-                    dayFees
+                    dayFees,
+                    dayFees.DayFeeCode,
+                    dayFees.DayFeeDescription
                     );
 
-                await _context.PatientDayFees.AddAsync(patientICDCode, cancellationToken);
+                await _context.PatientDayFees.AddAsync(patientDayFee, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<int>.SuccessAsync(patientICDCode.Id);
+                return await Result<int>.SuccessAsync(patientDayFee.Id);
             }
             catch (Exception ex)
             {

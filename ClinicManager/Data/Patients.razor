@@ -56,9 +56,9 @@
                             <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
                             @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
                         </MudTooltip>
-                         <MudTooltip Text="Discharge Patient">
+                        @* <MudTooltip Text="Discharge Patient">
                             <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Warning" Icon="@Icons.Material.TwoTone.Home" />
-                        </MudTooltip>
+                        </MudTooltip>*@
                     </center>
                 </MudCardContent>
             </MudCard>
@@ -75,7 +75,13 @@
 
     private void AddPatient()
     {
+        Random rnd = new Random();
+        int accountNo = rnd.Next();
         var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+        {
+            AccountNo = accountNo
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
     }

@@ -16,6 +16,12 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllICDCodesQuery { }));
         }
 
+        [HttpGet("GetAllPatientICDCodes")]
+        public async Task<IActionResult> GetAllPatientICDCodes(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetAllPatientICDCodesQuery { PatientId = patientId }));
+        }
+
         [HttpGet("GetAllICDCodesTable")]
         public async Task<IActionResult> GetAllICDCodesTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
         {

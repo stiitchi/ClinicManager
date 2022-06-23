@@ -1,0 +1,121 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Shared.DTO_s
+@inject IICDCodeService icdCodeService 
+
+
+<EditForm Model="@AssignICDCode" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Assign ICD Code
+            </MudText>    
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="string" Label="ICD Codes" For="@(() => AssignICDCode.ICDCodeId)" @bind-Value="AssignICDCode.ICDCodeId">
+                        @foreach (var item in _icdCodes)
+                        {
+                            <MudSelectItem T="string" Value="@item.Name" />
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated || _processing)"  Color="Color.Secondary">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                @if (AssignICDCode.PatientICDCodeId != 0)
+                {
+                    <MudText>Update</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public PatientICDCodeDTO AssignICDCode { get; set; } = new();
+    private bool _processing = false;
+    private List<LookupDTO> _icdCodes= new();
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllICDCodes();
+    }
+
+    public async Task GetAllICDCodes()
+    {
+        var icdResult = await icdCodeService.GetForLookUp();
+        if (icdResult.Succeeded)
+        {
+            _icdCodes = icdResult.Data;
+        }
+        else
+        {
+            foreach (var message in icdResult.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        if (AssignICDCode.PatientICDCodeId == 0)
+            response = await icdCodeService.AssignICDCodeToPatient(AssignICDCode);
+        else
+            response = await icdCodeService.AssignICDCodeToPatient(AssignICDCode);
+
+        if (response.Succeeded)
+        {
+            if (AssignICDCode.PatientICDCodeId == 0)
+            {
+                _snackBar.Add("Patient ICD Code Saved", Severity.Success);
+                _navigationManager.NavigateTo($"/patient-edit/{AssignICDCode.PatientId}", true);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Patient ICD Code Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }     
+}

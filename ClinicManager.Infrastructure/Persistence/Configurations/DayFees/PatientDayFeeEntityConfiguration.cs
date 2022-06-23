@@ -13,8 +13,9 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.DayFees
 
             conf.HasOne(c => c.Patient).WithMany().HasForeignKey(c => c.PatientId);
             conf.HasOne(c => c.DayFees).WithMany().HasForeignKey(c => c.DayFeesId);
+            conf.Property(c => c.DayFeeCode).IsRequired();
+            conf.Property(c => c.DayFeeDescription).IsRequired();
             conf.Property(c => c.IsActive).IsRequired();
-
 
             conf.HasIndex(c => c.Id);
             conf.HasIndex(c => c.PatientId);

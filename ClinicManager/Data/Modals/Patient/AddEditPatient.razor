@@ -13,7 +13,7 @@
         <MudExpansionPanels Style="width: 700px; overflow: scroll;">
             <MudExpansionPanel Icon="@Icons.TwoTone.Report" Text="Admission">
                  <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
+                    <MudTextField Variant="Variant.Outlined" Disabled="true" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
                 </MudItem>
                 <MudItem sm="12">
                     <MudTextField Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.IDNo" Label="ID Number" />
@@ -234,10 +234,12 @@
             {
                 _snackBar.Add("Patient Added", Severity.Success);
                 _processing = false;
+                _navigationManager.NavigateTo("/patients");
             }
             else
             {
                 _snackBar.Add("Patient Updated", Severity.Success);
+                _navigationManager.NavigateTo($"/patient-edit/{AddEditPatientModel.Id}", true);
                 _processing = false;
             }
             MudDialog.Close();
