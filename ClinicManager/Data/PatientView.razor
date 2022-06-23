@@ -1,19 +1,24 @@
 ﻿@page "/patient-edit/{PatientId:int}"
 @using ClinicManager.Shared.DTO_s
-@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Web.Infrastructure.Services.Patient
+@using Modals
+@using ClinicManager.Shared.Wrappers
 @inject IPatientService patientService 
 
 <MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+    <MudButton OnClick="EditPatient" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Edit</MudButton>
+    </MudItem>
     <MudItem xs="12" md="12" sm="12">
         <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
             <MudTabPanel Text="Personal Details">
                 <MudGrid>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.IDNo" Label="ID Number" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField Disabled="true" @bind-Value="patient.IDNo" Label="ID Number" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudSelect T="string" @bind-Value="patient.Title" Label="Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelect T="string" @bind-Value="patient.Title" Label="Title" Variant="Variant.Outlined" Disabled="true" AnchorOrigin="Origin.BottomCenter">
                             <MudSelectItem Value="@("Mr")" />
                             <MudSelectItem Value="@("Ms")" />
                             <MudSelectItem Value="@("Miss")" />
@@ -21,13 +26,13 @@
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.FirstName" Label="First Name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.FirstName" Label="First Name" Disabled="true" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.LastName" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.LastName" Label="Last Name" Disabled="true" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudDatePicker Date="patient.DateOfBirth" Variant="Variant.Outlined" Label="Date Of Birth"  />
+                        <MudDatePicker Date="patient.DateOfBirth" Variant="Variant.Outlined" Disabled="true" Label="Date Of Birth"  />
                     </MudItem>
                 </MudGrid>
             </MudTabPanel>
@@ -35,19 +40,19 @@
             <MudTabPanel Text="Admission Details">
                 <MudGrid>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.WardNo" Label="Ward Number" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.WardNo" Label="Ward Number" Disabled="true" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.BedNo" Label="Bed Number" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.BedNo" Label="Bed Number" Disabled="true" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudDatePicker Date="patient.AdmissionDate" Label="Admission Date" Variant="Variant.Outlined"/>
+                        <MudDatePicker Date="patient.AdmissionDate" Label="Admission Date" Disabled="true" Variant="Variant.Outlined"/>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudDatePicker Date="patient.DischargeDate" Label="Discharge Date" Variant="Variant.Outlined"  />
+                        <MudDatePicker Date="patient.DischargeDate" Label="Discharge Date" Disabled="true" Variant="Variant.Outlined"  />
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudDatePicker Date="patient.ReportDate" Label="Report Date" Variant="Variant.Outlined"  />
+                        <MudDatePicker Date="patient.ReportDate" Label="Report Date" Disabled="true" Variant="Variant.Outlined"  />
                     </MudItem>
                 </MudGrid>
             </MudTabPanel>
@@ -55,40 +60,40 @@
             <MudTabPanel Text="Medical Details">
                 <MudGrid>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.RefferingDoctor" Label="Reffering Doctor" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.RefferingDoctor" Disabled="true" Label="Reffering Doctor" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.RefferingHospital" Label="Reffering Hospital" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.RefferingHospital" Disabled="true" Label="Reffering Hospital" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.MedicalAidName" Label="Medical Aid" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.MedicalAidName" Disabled="true" Label="Medical Aid" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.MedicalAidNo" Label="Medical Aid Number" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.MedicalAidNo" Disabled="true" Label="Medical Aid Number" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.MedicalAidOption" Label="Medical Aid Option" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.MedicalAidOption" Disabled="true" Label="Medical Aid Option" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.DependentCode" Label="Dependant Code" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.DependentCode" Disabled="true" Label="Dependant Code" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="OT" @bind-Checked="patient.OT" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="OT" @bind-Checked="patient.OT" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="Speech" @bind-Checked="patient.Speech" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="Speech" @bind-Checked="patient.Speech" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="Psychologist" @bind-Checked="patient.Psych" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="Psychologist" @bind-Checked="patient.Psych" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="Dietician" @bind-Checked="patient.Dietician" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="Dietician" @bind-Checked="patient.Dietician" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="Social Worker" @bind-Checked="patient.SocialWorker" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="Social Worker" @bind-Checked="patient.SocialWorker" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudCheckBox Label="Physiotherapist" @bind-Checked="patient.Physio" Color="Color.Primary"></MudCheckBox>
+                        <MudCheckBox Label="Physiotherapist" @bind-Checked="patient.Physio" Disabled="true" Color="Color.Primary"></MudCheckBox>
                     </MudItem>
                 </MudGrid>
             </MudTabPanel>
@@ -212,16 +217,16 @@
             <MudTabPanel Text="Emergency Contact">
                 <MudGrid>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactFirstName" Label="First Name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.EmergencyContactFirstName" Disabled="true" Label="First Name" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactLastName" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.EmergencyContactLastName" Disabled="true" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.Relationship" Label="Relationship" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.Relationship" Disabled="true" Label="Relationship" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                     <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactNo" Label="Contact Number" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField @bind-Value="patient.EmergencyContactNo" Disabled="true" Label="Contact Number" Variant="Variant.Outlined"></MudTextField>
                     </MudItem>
                 </MudGrid>
             </MudTabPanel>
@@ -248,4 +253,49 @@
             patient = viewPatient.Data;
         }
     }
+
+     private void EditPatient()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+        {
+            Id = patient.Id,
+            AccountNo = patient.AccountNo,
+            AdmissionDate = patient.AdmissionDate,
+            BedNo = patient.BedNo,
+            WardNo = patient.WardNo,
+            DateOfBirth = patient.DateOfBirth,
+            DependentCode = patient.DependentCode,
+            Dietician = patient.Dietician,
+            DischargeDate = patient.DischargeDate,
+            FirstName = patient.FirstName,
+            LastName = patient.LastName,
+            Gender = patient.Gender,
+            EmergencyContactFirstName = patient.EmergencyContactFirstName,
+            EmergencyContactLastName = patient.EmergencyContactLastName,
+            EmergencyContactIdNo = patient.EmergencyContactIdNo,
+            EmergencyContactNo = patient.EmergencyContactNo,
+            Race = patient.Race,
+            Language = patient.Language,
+            Location = patient.Location,
+            MedicalAidName = patient.MedicalAidName,
+            MedicalAidNo = patient.MedicalAidNo,
+            MedicalAidOption = patient.MedicalAidOption,
+            IDNo = patient.IDNo,
+            OT = patient.OT,
+            Speech = patient.Speech,
+            Physio = patient.Physio,
+            Psych = patient.Psych,
+            RefferingDoctor = patient.RefferingDoctor,
+            RefferingHospital = patient.RefferingHospital,
+            Relationship = patient.Relationship,
+            Title = patient.Title,
+            ReportDate = patient.ReportDate,
+            SocialWorker = patient.SocialWorker,
+            Stage = patient.Stage
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+    }
+        
 }

@@ -177,14 +177,13 @@
     <DialogActions>
         <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Filled" 
+        <MudButton DisableElevation Variant="Variant.Outlined" 
         ButtonType="ButtonType.Submit" Disabled="@(_processing)" 
         Style="border-radius:10px 10px 10px 10px"
         Color="Color.Success" OnClick="SaveAsync">
-            @if (_processing)
+            @if (AddEditPatientModel.Id != 0)
             {
-                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                <MudText Class="ms-2">Processing</MudText>
+                <MudText>Edit Patient</MudText>
             }
             else
             {

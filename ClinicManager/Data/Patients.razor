@@ -47,18 +47,17 @@
                 </MudCardContent>
                 <MudCardContent>
                     <center>
-                        <MudTooltip Text="Discharge Patient">
-                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Success" Icon="@Icons.Material.TwoTone.Home" />
-                        </MudTooltip>
-                        <MudTooltip Text="Move Patient">
-                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Warning" Icon="@Icons.Material.TwoTone.MoveUp" />
-                        </MudTooltip>
-                        <MudTooltip Text="Patient Infections">
-                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Error" Icon="@Icons.Filled.AccessibilityNew" />
-                        </MudTooltip>
+                   
+                        <MudTooltip Text="View Patient">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
+                             @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
+                        </MudTooltip>                 
                         <MudTooltip Text="Patient Reports">
                             <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
                             @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                        </MudTooltip>
+                         <MudTooltip Text="Discharge Patient">
+                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Warning" Icon="@Icons.Material.TwoTone.Home" />
                         </MudTooltip>
                     </center>
                 </MudCardContent>
