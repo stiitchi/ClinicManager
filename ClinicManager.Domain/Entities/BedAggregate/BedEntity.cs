@@ -28,9 +28,9 @@ namespace ClinicManager.Domain.Entities.BedAggregate
             _wardId = ward.Id;
         }
 
-        public void AssignPatientToBed(int patientId)
+        public void AssignPatientToBed(PatientEntity patient)
         {
-            _patientId = patientId;
+            _patientId = patient.Id;
         }
 
         public void AssignNurseToBed(int nurseId)
@@ -56,6 +56,9 @@ namespace ClinicManager.Domain.Entities.BedAggregate
 
         private int? _nurseId;
         public int? NurseId => _nurseId;
+
+        private readonly List<PatientBedEntity> _patientBeds = new();
+        public virtual IReadOnlyCollection<PatientBedEntity> PatientBeds => _patientBeds;
 
     }
 }

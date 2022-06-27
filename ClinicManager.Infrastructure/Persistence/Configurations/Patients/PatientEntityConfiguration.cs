@@ -44,6 +44,9 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients
             conf.Property(c => c.Gender);
             conf.Property(c => c.Race);
 
+            var patientBeds = conf.Metadata.FindNavigation(nameof(PatientEntity.PatientBeds));
+            patientBeds.SetPropertyAccessMode(PropertyAccessMode.Field);
+
             var beds = conf.Metadata.FindNavigation(nameof(PatientEntity.Beds));
             beds.SetPropertyAccessMode(PropertyAccessMode.Field);
 

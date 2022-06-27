@@ -60,6 +60,18 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new DeleteBedCommand { Id = id }));
         }
 
+
+        [HttpPost("AssignPatientToBed")]
+        public async Task<IActionResult> AssignPatientToBed(int patientId, int bedId)
+        {
+            return Ok(await _mediator.Send(new AssignBedToPatientCommand
+            {
+                BedId = bedId,
+                PatientId = patientId
+            }));
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Add(BedDTO bed)
         {

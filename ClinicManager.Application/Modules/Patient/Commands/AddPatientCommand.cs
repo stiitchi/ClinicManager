@@ -17,7 +17,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
-        public int IDNo { get; set; }
+        public long IDNo { get; set; }
         public int WardNo { get; set; }
         public int BedNo { get; set; }
         public string Location { get; set; }
@@ -28,7 +28,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string RefferingDoctor { get; set; }
         public string RefferingHospital { get; set; }
         public int EmergencyContactNo { get; set; }
-        public int EmergencyContactIdNo { get; set; }
+        public long EmergencyContactIdNo { get; set; }
         public string EmergencyContactFirstName { get; set; }
         public string EmergencyContactLastName { get; set; }
         public int MedicalAidNo { get; set; }
@@ -97,10 +97,27 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 request.Gender,
                 request.Race
                 );
-  
+
+                var patientName = $"{request.Title} {request.FirstName} {request.LastName}";
+
+                var bed = await _context.Beds.IgnoreQueryFilters()
+                                             .FirstOrDefaultAsync(c => c.Id == request.BedNo, cancellationToken);
+                if (bed == null)
+                    throw new Exception("Bed doesn't exists");
+
+
                 await _context.Patients.AddAsync(patient, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<int>.SuccessAsync(patient.Id);
+
+                var newPatient = await _context.Patients.IgnoreQueryFilters()
+                                                .FirstOrDefaultAsync(c => c.Id == patient.Id, cancellationToken);
+                if (newPatient == null)
+                    throw new Exception("Patient doesn't exists");
+
+                bed.AssignPatientToBed(newPatient);
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return await Result<int>.SuccessAsync(bed.Id);
             }
             catch (Exception ex)
             {

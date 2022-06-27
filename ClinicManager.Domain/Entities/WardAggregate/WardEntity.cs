@@ -38,6 +38,7 @@ namespace ClinicManager.Domain.Entities.WardAggregate
 
         private readonly List<BedEntity> _beds = new();
         public virtual IReadOnlyCollection<BedEntity> Beds => _beds;
+
     }
 }
         

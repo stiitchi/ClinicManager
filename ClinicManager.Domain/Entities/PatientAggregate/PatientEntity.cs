@@ -31,7 +31,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         public PatientEntity()
         { }
         public PatientEntity(
-           int idNo,
+           long idNo,
            string title,
            string firstName,
            string lastName,
@@ -42,7 +42,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
            DateTime reportDate,
            int wardNo,
            int bedNo,
-           int emergencyContactIdNo,
+           long emergencyContactIdNo,
            string emergencyContactFirstName,
            string emergencyContactLastName,
            string relationship,
@@ -103,7 +103,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         }
 
         public void Set(
-           int idNo,
+           long idNo,
            string title,
            string firstName,
            string lastName,
@@ -114,7 +114,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
            DateTime reportDate,
            int wardNo,
            int bedNo,
-           int emergencyContactIdNo,
+           long emergencyContactIdNo,
            string emergencyContactFirstName,
            string emergencyContactLastName,
            string relationship,
@@ -200,8 +200,8 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private string _refferingHospital;
         public string RefferingHospital => _refferingHospital;
 
-        private int _emergencyContactIdNo;
-        public int EmergencyContactIdNo => _emergencyContactIdNo;
+        private long _emergencyContactIdNo;
+        public long EmergencyContactIdNo => _emergencyContactIdNo;
 
         private string _emergencyContactFirstName;
         public string EmergencyContactFirstName => _emergencyContactFirstName;
@@ -257,8 +257,8 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private string _title;
         public string Title => _title;
 
-        private int _IDNo;
-        public int IDNo => _IDNo;
+        private long _IDNo;
+        public long IDNo => _IDNo;
 
         private int _accountNO;
         public int AccountNO => _accountNO;
@@ -274,6 +274,8 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
 
 
 
+        private readonly List<PatientBedEntity> _patientBeds = new();
+        public virtual IReadOnlyCollection<PatientBedEntity> PatientBeds => _patientBeds;
 
         private readonly List<BedEntity> _beds = new();
         public virtual IReadOnlyCollection<BedEntity> Beds => _beds;

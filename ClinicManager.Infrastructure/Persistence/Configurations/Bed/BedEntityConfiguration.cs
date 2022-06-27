@@ -17,6 +17,9 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Bed
             conf.HasOne(c => c.Patient).WithMany(c => c.Beds).HasForeignKey(c => c.PatientId).IsRequired(false);
             conf.Property(c => c.IsActive).IsRequired();
 
+            var patientBeds = conf.Metadata.FindNavigation(nameof(BedEntity.PatientBeds));
+            patientBeds.SetPropertyAccessMode(PropertyAccessMode.Field);
+
             conf.HasIndex(c => c.Id);
             conf.HasIndex(c => c.WardId);
             conf.HasIndex(c => c.NurseId);

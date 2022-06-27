@@ -43,6 +43,7 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<DayFeesEntity> DayFees { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<PatientEntity> Patients { get; set; }
+        public DbSet<PatientBedEntity> PatientBeds { get; set; }
         public DbSet<UserRolesEntity> UserRoles { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<PatientICDCodeEntity> PatientICDCodes { get; set; }

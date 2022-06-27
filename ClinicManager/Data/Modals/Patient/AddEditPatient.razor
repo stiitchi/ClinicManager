@@ -1,4 +1,5 @@
-﻿@using ClinicManager.Web.Infrastructure.Services.Patient
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Web.Infrastructure.Services.Patient
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using ClinicManager.Shared.Wrappers
@@ -11,12 +12,9 @@
     <DialogContent>
     <EditForm Model="@AddEditPatientModel">
         <MudExpansionPanels Style="width: 700px; overflow: scroll;">
-            <MudExpansionPanel Icon="@Icons.TwoTone.Report" Text="Admission">
+            <MudExpansionPanel  Icon="@Icons.Filled.Check" HideIcon="_admissionDone"  Text="Admission">
                  <MudItem sm="12">
                     <MudTextField Variant="Variant.Outlined" Disabled="true" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
-                </MudItem>
-                <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.IDNo" Label="ID Number" />
                 </MudItem>
                 <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Id == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
                     Label="Ward Number" T="int">
@@ -33,16 +31,11 @@
                 }
                 </MudSelect>
                 <MudItem sm="12">
-                    <MudDatePicker Variant="Variant.Outlined" @bind-Date="admissionDate" Label="Admission Date" />
-                </MudItem>
-                 <MudItem sm="12">
-                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="dischargeDate" Label="Discharge Date" />
-                </MudItem>
-                 <MudItem sm="12">
-                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="reportDate" Label="Report Date" />
+                    <MudDatePicker MinDate="DateTime.Today" Variant="Variant.Outlined" @bind-Date="AddEditPatientModel.AdmissionDate" Label="Admission Date" />
                 </MudItem>
             </MudExpansionPanel>
-            <MudExpansionPanel Icon="@Icons.TwoTone.PersonPin" Text="Patient Personal Detail">
+
+            <MudExpansionPanel Icon="@Icons.TwoTone.Check" HideIcon="_personalDone" Text="Patient Personal Detail">
                 <MudItem sm="12">
                     <MudSelect T="string" Label="Title" @bind-Value="AddEditPatientModel.Title" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem T="string" Value="@("Mr")" />
@@ -59,11 +52,14 @@
                     <MudTextField @bind-Value="AddEditPatientModel.LastName" Label="Last Name" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudDatePicker Variant="Variant.Outlined" MinDate="DateTime.Today" @bind-Date="dateOfBirth"  Label="Date of Birth" />
+                    <MudDatePicker Variant="Variant.Outlined" @bind-Date="AddEditPatientModel.DateOfBirth" Label="Date of Birth" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined"  @bind-Value="AddEditPatientModel.IDNo"  Label="ID Number" />
                 </MudItem>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.MedicalInformation" Text="Medical Details">
+            <MudExpansionPanel Icon="@Icons.TwoTone.Check" HideIcon="_medicalDone" Text="Medical Details">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.RefferingDoctor" Label="Reffering Doctor" Variant="Variant.Outlined" />
                 </MudItem>
@@ -102,7 +98,7 @@
                 </MudItem>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.ListAlt" Text="Other Details">
+            <MudExpansionPanel Icon="@Icons.TwoTone.Check" HideIcon="_otherDone" Text="Other Details">
                 <MudItem sm="12">
                     <MudSelect T="string" Label="Language" @bind-Value="AddEditPatientModel.Language" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem T="string" Value="@("English")" />
@@ -127,8 +123,8 @@
                 </MudItem>
                 <MudItem sm="12">
                     <MudSelect T="string" Label="Race" @bind-Value="AddEditPatientModel.Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem T="string" Value="@("Black")" />
                         <MudSelectItem T="string" Value="@("White")" />
+                        <MudSelectItem T="string" Value="@("Black")" />
                         <MudSelectItem T="string" Value="@("Coloured")" />
                         <MudSelectItem T="string" Value="@("Indian")" />
                         <MudSelectItem T="string" Value="@("Asian")" />
@@ -136,7 +132,7 @@
                 </MudItem>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Dangerous" Text="Emergency Details">
+            <MudExpansionPanel Icon="@Icons.TwoTone.Check" HideIcon="_emergencyDone"  Text="Emergency Details">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactFirstName" Label="First Name" Variant="Variant.Outlined" />
                 </MudItem>
@@ -163,12 +159,13 @@
                     <MudTextField @bind-Value="AddEditPatientModel.EmergencyContactNo" Label="Contact Number" Variant="Variant.Outlined" />
                 </MudItem>
             </MudExpansionPanel>
-            <MudExpansionPanel Icon="@Icons.TwoTone.MedicalInformation" Text="Wound Care">
+
+            <MudExpansionPanel Icon="@Icons.TwoTone.Check" HideIcon="_woundCareDone" Text="Wound Care">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.Location" Label="Location" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.Stage" Label="Stage" Variant="Variant.Outlined" />
+                    <MudTextField T="string" Label="Stage" ValueChanged="LastValue" Variant="Variant.Outlined" />
                 </MudItem>
             </MudExpansionPanel>
         </MudExpansionPanels>
@@ -177,10 +174,10 @@
     <DialogActions>
         <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
                    Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Outlined" 
-        ButtonType="ButtonType.Submit" Disabled="@(_processing)" 
+        <MudButton DisableElevation Variant="Variant.Outlined" OnClick="SaveAsync"
+        ButtonType="ButtonType.Submit" Disabled="@(_processing || _lastEntry)" 
         Style="border-radius:10px 10px 10px 10px"
-        Color="Color.Success" OnClick="SaveAsync">
+        Color="Color.Success">
             @if (AddEditPatientModel.Id != 0)
             {
                 <MudText>Edit Patient</MudText>
@@ -195,14 +192,25 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public PatientDTO AddEditPatientModel { get; set; } = new();
+    [Parameter] public PatientBedDTO AddEditPatientBedModel { get; set; } = new();
+    //private FluentValidationValidator _fluentValidationValidator;
+    //private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
     private List<LookupDTO> _wards = new();
     private List<LookupDTO> _beds = new();
+    public int PatientBedId { get; set; }
+
+    private bool _admissionDone = true;
+    private bool _personalDone = true;
+    private bool _medicalDone = true;
+    private bool _otherDone = true;
+    private bool _emergencyDone = true;
+    private bool _woundCareDone = true;
 
     private bool _processing = false;
-    DateTime? admissionDate { get; set; } = DateTime.Now;
-    DateTime? reportDate { get; set; } = DateTime.Now;
-    DateTime? dischargeDate { get; set; } = DateTime.Now;
-    DateTime? dateOfBirth { get; set; } = DateTime.Now;
+    private bool _lastEntry = true;
+    private DateTime? dischargeDate = DateTime.Now;
+    private DateTime? reportDate = DateTime.Now;
 
     protected async override Task OnInitializedAsync()
     {
@@ -214,14 +222,51 @@
         MudDialog.Cancel();
     }
 
+    public async Task LastValue(string stage)
+    {
+        AddEditPatientModel.Stage = stage;
+        if(AddEditPatientModel.Stage != null)
+        {      
+            _lastEntry = false;
+        }
+    }
+
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        admissionDate = AddEditPatientModel.AdmissionDate;
-        reportDate = AddEditPatientModel.ReportDate;
-        dischargeDate = AddEditPatientModel.DischargeDate;
-        dateOfBirth = AddEditPatientModel.DateOfBirth;
+
+        AddEditPatientModel.ReportDate = DateTime.Now;
+        AddEditPatientModel.DischargeDate = DateTime.Now;
+
+    
+
+        if(AddEditPatientModel.IDNo != 0 && AddEditPatientModel.WardNo != 0 && AddEditPatientModel.BedNo != 0 && AddEditPatientModel.AdmissionDate != null)
+        {
+            _admissionDone = false;
+        }
+        if(AddEditPatientModel.Title != null && AddEditPatientModel.FirstName != null && AddEditPatientModel.LastName != null && AddEditPatientModel.DateOfBirth != null)
+        {
+            _personalDone = false;
+        }
+        if(AddEditPatientModel.RefferingDoctor != null && AddEditPatientModel.RefferingHospital != null && AddEditPatientModel.MedicalAidName != null && 
+           AddEditPatientModel.MedicalAidNo != 0 && AddEditPatientModel.MedicalAidOption != null && AddEditPatientModel.DependentCode != null)
+        {
+            _medicalDone = false;
+        }
+        if(AddEditPatientModel.Language != null && AddEditPatientModel.Gender != null && AddEditPatientModel.Race != null)
+        {
+            _otherDone = false;
+        }
+        if(AddEditPatientModel.EmergencyContactFirstName != null && AddEditPatientModel.EmergencyContactLastName != null && AddEditPatientModel.EmergencyContactIdNo != 0
+        && AddEditPatientModel.Relationship != null && AddEditPatientModel.EmergencyContactNo != 0)
+        {
+            _emergencyDone = false;
+        }
+        if(AddEditPatientModel.Stage != null && AddEditPatientModel.Location != null)
+        {
+            _woundCareDone = false;
+        }
 
         if (AddEditPatientModel.Id == 0)
             response = await patientService.SaveAsync(AddEditPatientModel);

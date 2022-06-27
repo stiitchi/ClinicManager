@@ -1,9 +1,11 @@
 ﻿@page "/patients"
 @using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.Bed
 @using Modals
 @using ClinicManager.Shared.DTO_s
 @inject IPatientService patientService 
+@inject IBedService bedService 
 
 <MudContainer>
     <MudGrid Class="mt-8">
@@ -19,15 +21,15 @@
                        Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
                        Variant="Variant.Outlined">New Patient</MudButton>
         </MudItem>
-        <MudItem xs="12" md="3" sm="3">
+    @*    <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
         </MudItem>
         <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
-        </MudItem>
+        </MudItem>*@
         @foreach(var patient in _patients)
         {
-        <MudItem xs="12" md="6" sm="6">
+        <MudItem xs="12" md="4" sm="4">
             <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
                 <MudCardContent>
                     <MudText Align="Align.Center" Typo="Typo.h6">@patient.Title @patient.LastName</MudText>
@@ -38,10 +40,10 @@
                 <MudCardContent>
                     <center>
                         <MudChip Size="Size.Large" Color="Color.Info">
-                            @patient.AdmissionDate.ToString("MMMM dd")
+                            @patient.AdmissionDate.Value.ToString("MMMM dd")
                         </MudChip>
                         <MudChip Size="Size.Large" Color="Color.Secondary">
-                            @patient.DischargeDate.ToShortTimeString()
+                            @patient.DischargeDate.Value.ToShortTimeString()               
                         </MudChip>
                     </center>
                 </MudCardContent>
@@ -69,6 +71,8 @@
 
 @code{
     DateTime? date = DateTime.Today;
+    DateTime admissionDate;
+
     public string Patient;
     private List<PatientDTO> _patients = new();
     private PatientDTO patient = new();
@@ -89,6 +93,7 @@
     protected async override Task OnInitializedAsync()
     {
         await GetAllPatients();
+        admissionDate.ToString("MMMM dd");
     }
 
     public async Task GetAllPatients()

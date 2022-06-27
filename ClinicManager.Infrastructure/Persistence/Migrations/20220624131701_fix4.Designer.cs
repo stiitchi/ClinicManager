@@ -4,6 +4,7 @@ using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220624131701_fix4")]
+    partial class fix4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,6 +277,9 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BedId");
@@ -282,6 +287,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.HasIndex("Id");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("WardId");
 
                     b.ToTable("PatientBeds", "dbo");
                 });
@@ -526,8 +533,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("EmergencyContactIdNo")
-                        .HasColumnType("bigint");
+                    b.Property<int>("EmergencyContactIdNo")
+                        .HasColumnType("int");
 
                     b.Property<string>("EmergencyContactLastName")
                         .IsRequired()
@@ -544,8 +551,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("IDNo")
-                        .HasColumnType("bigint");
+                    b.Property<int>("IDNo")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -2437,9 +2444,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ClinicManager.Domain.Entities.WardAggregate.WardEntity", "Ward")
+                        .WithMany("PatientBeds")
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bed");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("Ward");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.DayFeesAggregate.DayFeesEntity", b =>
@@ -3235,6 +3250,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ClinicManager.Domain.Entities.WardAggregate.WardEntity", b =>
                 {
                     b.Navigation("Beds");
+
+                    b.Navigation("PatientBeds");
                 });
 #pragma warning restore 612, 618
         }

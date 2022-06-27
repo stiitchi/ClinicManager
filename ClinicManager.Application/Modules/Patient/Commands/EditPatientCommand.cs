@@ -17,7 +17,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
-        public int IDNo { get; set; }
+        public long IDNo { get; set; }
         public int WardNo { get; set; }
         public int BedNo { get; set; }
         public string Location { get; set; }
@@ -28,7 +28,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string RefferingDoctor { get; set; }
         public string RefferingHospital { get; set; }
         public int EmergencyContactNo { get; set; }
-        public int EmergencyContactIdNo { get; set; }
+        public long EmergencyContactIdNo { get; set; }
         public string EmergencyContactFirstName { get; set; }
         public string EmergencyContactLastName { get; set; }
         public int MedicalAidNo { get; set; }

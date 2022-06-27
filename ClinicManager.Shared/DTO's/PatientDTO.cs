@@ -5,14 +5,14 @@ namespace ClinicManager.Shared.DTO_s
     {
         public int Id { get; set; }
         public int AccountNo { get; set; }
-        public DateTime AdmissionDate { get; set; }
-        public DateTime DischargeDate { get; set; }
-        public DateTime ReportDate { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? AdmissionDate { get; set; }
+        public DateTime? DischargeDate { get; set; }
+        public DateTime? ReportDate { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
-        public int IDNo { get; set; }
+        public long IDNo { get; set; }
         public int WardNo { get; set; }
         public int BedNo { get; set; }
         public string Location { get; set; }
@@ -23,7 +23,7 @@ namespace ClinicManager.Shared.DTO_s
         public string RefferingDoctor { get; set; }
         public string RefferingHospital { get; set; }
         public int EmergencyContactNo { get; set; }
-        public int EmergencyContactIdNo { get; set; }
+        public long EmergencyContactIdNo { get; set; }
         public string EmergencyContactFirstName { get; set; }
         public string EmergencyContactLastName { get; set; }
         public int MedicalAidNo { get; set; }

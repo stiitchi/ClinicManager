@@ -81,5 +81,12 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             var response = await _httpClient.GetAsync(Routes.BedEndpoints.BedsByWardIdLookup(wardId));
             return await response.ToResult<List<LookupDTO>>();
         }
+
+        public async Task<IResult<int>> AssignPatientToBed(int patientId, int bedId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.BedEndpoints.AssignPatientToBed(patientId, bedId), bedId);
+            return await response.ToResult<int>();
+        }
     }
 }

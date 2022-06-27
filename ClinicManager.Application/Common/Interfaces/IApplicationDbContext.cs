@@ -41,6 +41,7 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<UserRolesEntity> UserRoles { get; set; }
         DbSet<RoleEntity> Roles { get; set; }
         DbSet<PatientEntity> Patients { get; set; }
+        DbSet<PatientBedEntity> PatientBeds { get; set; }
         DbSet<IVEntity> CareplanIVTest { get; set; }
         DbSet<IVSiteEntity> CareplanIVSiteTest { get; set; }
         DbSet<MonitorFluidEntity> MonitorFluidTest { get; set; }

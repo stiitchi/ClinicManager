@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Domain.Entities.PatientAggregate;
-using ClinicManager.Domain.Entities.WardAggregate;
 
 namespace ClinicManager.Domain.Entities.BedAggregate
 {
@@ -9,24 +8,24 @@ namespace ClinicManager.Domain.Entities.BedAggregate
         {
         }
 
-        public PatientBedEntity(PatientEntity patient, WardEntity ward, BedEntity bed)
+        public PatientBedEntity(string patientName, PatientEntity patient, BedEntity bed)
         {
+            _patientName = patientName;
             _patientId = patient.Id;
-            _wardId = ward.Id;
             _bedId = bed.Id;
         }
-        public void Set(PatientEntity patient, WardEntity ward, BedEntity bed)
+        public void Set(string patientName, PatientEntity patient, BedEntity bed)
         {
+            _patientName = patientName;
             _patientId = patient.Id;
-            _wardId = ward.Id;
             _bedId = bed.Id;
         }
+
+        public string PatientName => _patientName;
+        private string _patientName;
         public BedEntity Bed { get; set; }
         public int BedId => _bedId;
         private int _bedId;
-        public WardEntity Ward { get; set; }
-        public int WardId => _wardId;
-        private int _wardId;
         public PatientEntity Patient { get; set; }
         public int PatientId => _patientId;
         private int _patientId;

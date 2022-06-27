@@ -37,7 +37,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
 
                 var bed = await _context.Beds
                     .AsNoTracking()
-                    .Where(x => x.WardId == request.WardId)
+                    .Where(x => x.WardId == request.WardId && x.PatientId == null)
                     .Select(expression)
                     .ToListAsync(cancellationToken);
                 return await Result<List<LookupDTO>>.SuccessAsync(bed);
