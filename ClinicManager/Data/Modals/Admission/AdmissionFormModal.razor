@@ -73,7 +73,7 @@
                         Label="Home Telephone" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField T="int" For="@(() => AddEditAdmissionModel.CellNo)"  
+                    <MudTextField T="int"  Adornment="Adornment.Start" AdornmentText="+27" For="@(() => AddEditAdmissionModel.CellNo)"  
                         @bind-Value="AddEditAdmissionModel.CellNo"
                         Label="Cellphone Number" Variant="Variant.Outlined" />
                 </MudItem>
@@ -83,12 +83,12 @@
                         Label="Work Number" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField T="string" For="@(() => AddEditAdmissionModel.Email)"  
+                    <MudTextField InputType="InputType.Email" T="string" For="@(() => AddEditAdmissionModel.Email)"  
                         @bind-Value="AddEditAdmissionModel.Email"
                         Label="Email" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField T="string" For="@(() => AddEditAdmissionModel.HomeAddress)"  
+                    <MudTextField T="string"  For="@(() => AddEditAdmissionModel.HomeAddress)"  
                         @bind-Value="AddEditAdmissionModel.HomeAddress"
                         Label="Home Address" Variant="Variant.Outlined" />
                 </MudItem>
@@ -97,29 +97,23 @@
                         @bind-Value="AddEditAdmissionModel.HomePostalCode"
                         Label="Postal Code" Variant="Variant.Outlined" />
                 </MudItem>
+                <MudItem sm="12">
+                        <MudTextField T="string" For="@(() => AddEditAdmissionModel.POBox)"  
+                        @bind-Value="AddEditAdmissionModel.POBox"
+                        Label="PO Box" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                        <MudTextField T="int" For="@(() => AddEditAdmissionModel.POBoxCode)"  
+                        @bind-Value="AddEditAdmissionModel.POBoxCode"
+                        Label="PO Box Code" Variant="Variant.Outlined" />
+                </MudItem>
             </MudExpansionPanel>
 
             <MudExpansionPanel Icon="@Icons.TwoTone.ListAlt" Text="Other Details">
                 <MudItem sm="12">
-                    <MudPaper>
-                        <MudTextField T="string" For="@(() => AddEditAdmissionModel.POBox)"  
-                        @bind-Value="AddEditAdmissionModel.POBox"
-                        Label="PO Box" Variant="Variant.Outlined" />
-                    </MudPaper>
-                </MudItem>
-                <MudItem sm="12">
-                    <MudPaper>
-                        <MudTextField T="int" For="@(() => AddEditAdmissionModel.POBoxCode)"  
-                        @bind-Value="AddEditAdmissionModel.POBoxCode"
-                        Label="PO Box Code" Variant="Variant.Outlined" />
-                    </MudPaper>
-                </MudItem>
-                <MudItem sm="12">
-                    <MudPaper>
                         <MudTextField T="string" For="@(() => AddEditAdmissionModel.Occupation)"  
                         @bind-Value="AddEditAdmissionModel.Occupation"
                         Label="Occupation" Variant="Variant.Outlined" />
-                    </MudPaper>
                 </MudItem>
                 <MudItem sm="12">
                     <MudSelect T="string" Label="Language" @bind-Value="AddEditAdmissionModel.Language" 
@@ -343,8 +337,8 @@
     </EditForm>
     </DialogContent>
     <DialogActions>
-        <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(_processing)" OnClick="SaveAsync"  Color="Color.Success">
+        <MudButton DisableElevation Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(_processing)" OnClick="SaveAsync"  Color="Color.Success">
             @if (_processing)
             {
                 <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />

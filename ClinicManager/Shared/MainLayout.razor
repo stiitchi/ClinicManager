@@ -1,6 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using ClinicManager.Theme
+@using MudBlazor.ThemeManager
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="_themeManager.Theme"  />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -27,4 +29,14 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    private ThemeManagerTheme _themeManager = new ThemeManagerTheme
+    {
+        Theme = new MudBlazorTheme(),
+        DrawerClipMode = DrawerClipMode.Always,
+        FontFamily = "Montserrat",
+        DefaultBorderRadius = 6,
+        AppBarElevation = 1,
+        DrawerElevation = 1,
+    };
 }

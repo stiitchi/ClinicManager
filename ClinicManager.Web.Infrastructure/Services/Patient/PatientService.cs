@@ -40,6 +40,13 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
             return await response.ToResult<List<LookupDTO>>();
         }
 
+        public async Task<IResult<PatientDTO>> GetPatientByIDNumber(long patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientEndpoint.GetPatientByIDNumber(patientId));
+            return await response.ToResult<PatientDTO>();
+        }
+
         public async Task<IResult<int>> SaveAsync(PatientDTO request)
         {
             await ConfigureHeaders();

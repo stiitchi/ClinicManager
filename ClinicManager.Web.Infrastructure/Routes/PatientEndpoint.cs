@@ -13,5 +13,10 @@ namespace ClinicManager.Web.Infrastructure.Routes
         {
             return $"api/Patient/{id}";
         }
+
+        public static string GetPatientByIDNumber(long patientId)
+        {
+            return $"api/Patient/GetPatientByIDNumber?patientId={patientId}";
+        }
     }
 }

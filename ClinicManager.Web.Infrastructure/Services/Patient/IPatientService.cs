@@ -9,6 +9,8 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
 
         Task<IResult<PatientDTO>> GetById(int id);
 
+        Task<IResult<PatientDTO>> GetPatientByIDNumber(long patientId);
+
         Task<IResult<int>> SaveAsync(PatientDTO request);
 
         Task<IResult<List<LookupDTO>>> GetForLookUp();

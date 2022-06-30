@@ -19,16 +19,23 @@ builder.Services.AddSwaggerGen(c=>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClinicManager.API", Version = "v1" });
 });
 var jwtSection = config.GetSection("AppSettings");
-builder.Services.Configure<ClinicManager.API.AppSettings>(jwtSection);
+builder.Services.Configure<ClinicManager.Application.AppSettings>(jwtSection);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClinicManager.API v1"));
-}
+//if (app.Environment.IsDevelopment())
+//{
+    app.UseDeveloperExceptionPage();   
+//}
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClinicManager.API v1"));
+
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.Run();
+
 
 using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>()
                .CreateScope())
@@ -66,15 +73,4 @@ void AddAdminUser(ApplicationDbContext db)
     }
 }
 
-app.UseHttpsRedirection();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-
-app.Run();

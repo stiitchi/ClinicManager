@@ -5,6 +5,7 @@ namespace ClinicManager.Shared.DTO_s
     {
         public int Id { get; set; }
         public int AccountNo { get; set; }
+        public int CaseInformationNumber { get; set; }
         public DateTime? AdmissionDate { get; set; }
         public DateTime? DischargeDate { get; set; }
         public DateTime? ReportDate { get; set; }

@@ -27,6 +27,12 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetPatientByIdQuery { Id = id }));
         }
 
+        [HttpGet("GetPatientByIDNumber")]
+        public async Task<IActionResult> GetPatientByIDNumber(long patientId)
+        {
+            return Ok(await _mediator.Send(new GetPatientByIDNumberQuery { PatientIDNumber = patientId }));
+        }
+
         [HttpGet("ForLookup")]
         public async Task<IActionResult> ForLookup()
         {

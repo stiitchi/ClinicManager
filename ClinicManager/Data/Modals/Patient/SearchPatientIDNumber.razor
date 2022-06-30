@@ -1,0 +1,165 @@
+﻿@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Shared.DTO_s
+@inject IPatientService patientService     
+@inject IBedService bedService 
+@inject IWardService wardService 
+
+
+<MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Search Patient
+            </MudText>    
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+            <MudItem Class="mb-2" sm="12">
+                    <MudTextField Variant="Variant.Outlined"  T="long" @bind-Value="Search.IDNumber"
+                     Label="ID Number" />
+             </MudItem> 
+            <MudItem Class="mb-2" sm="12">
+                <center>
+                    <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
+                        Color="Color.Info" OnClick="() => SearchPatientById()">Search ID Number</MudButton>
+                </center>
+             </MudItem> 
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudGrid>
+            @if(showWardBeds != false)
+            {
+            <MudItem Class="mb-2" sm="12">
+            <MudText Typo="Typo.caption" Align="Align.Center">Patient has not been admitted, Assign a Bed</MudText>
+             </MudItem> 
+            <MudItem Class="mb-2" sm="12">
+                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Id == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
+                    Label="Ward Number" T="int">
+                @foreach (var item in _wards)
+                {
+                    <MudSelectItem T="int" Value="@item.Id" />
+                }
+                </MudSelect>
+                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.Id == i)?.Name ?? string.Empty)" @bind-Value="PatientModel.BedNo" Variant="Variant.Outlined"
+                    Label="Bed Number" T="int">
+                @foreach (var item in _beds)
+                {
+                    <MudSelectItem T="int" Value="@item.Id" />
+                }
+                </MudSelect>
+        </MudItem> 
+            }
+            </MudGrid>
+        </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public SearchDTO Search { get; set; } = new();
+    private bool _processing = false;
+    public PatientDTO PatientModel = new();
+    private List<LookupDTO> _wards = new();
+    private List<LookupDTO> _beds = new();
+
+    private bool showWardBeds = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetForLookup();
+    }
+    public async Task SearchPatientById()
+    {
+        var id = Search.IDNumber; 
+        var patient = await patientService.GetPatientByIDNumber(id);             
+        if (patient.Data == null)
+        {
+        showWardBeds = true;
+        Random rnd = new Random();
+        int accountNo = rnd.Next();
+        int caseInformationNo = rnd.Next();
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+        {
+            AccountNo = accountNo,
+            CaseInformationNumber = caseInformationNo,
+            BedNo = PatientModel.BedNo,
+            WardNo = PatientModel.WardNo,
+            IDNo = PatientModel.IDNo,
+
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+
+        }
+        else
+        {
+
+        showWardBeds = false;
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+        {
+            Id = patient.Data.Id,
+            AccountNo = patient.Data.AccountNo,
+            CaseInformationNumber = patient.Data.CaseInformationNumber,
+            AdmissionDate = patient.Data.AdmissionDate,
+            BedNo = patient.Data.BedNo,
+            WardNo = patient.Data.WardNo,
+            DateOfBirth = patient.Data.DateOfBirth,
+            DependentCode = patient.Data.DependentCode,
+            Dietician = patient.Data.Dietician,
+            DischargeDate = patient.Data.DischargeDate,
+            FirstName = patient.Data.FirstName,
+            LastName = patient.Data.LastName,
+            Gender = patient.Data.Gender,
+            EmergencyContactFirstName = patient.Data.EmergencyContactFirstName,
+            EmergencyContactLastName = patient.Data.EmergencyContactLastName,
+            EmergencyContactIdNo = patient.Data.EmergencyContactIdNo,
+            EmergencyContactNo = patient.Data.EmergencyContactNo,
+            Race = patient.Data.Race,
+            Language = patient.Data.Language,
+            MedicalAidName = patient.Data.MedicalAidName,
+            MedicalAidNo = patient.Data.MedicalAidNo,
+            MedicalAidOption = patient.Data.MedicalAidOption,
+            IDNo = patient.Data.IDNo,
+            OT = patient.Data.OT,
+            Speech = patient.Data.Speech,
+            Physio = patient.Data.Physio,
+            Psych = patient.Data.Psych,
+            RefferingDoctor = patient.Data.RefferingDoctor,
+            RefferingHospital = patient.Data.RefferingHospital,
+            Relationship = patient.Data.Relationship,
+            Title = patient.Data.Title,
+            ReportDate = patient.Data.ReportDate,
+            SocialWorker = patient.Data.SocialWorker,
+            Location = patient.Data.Location,
+            Stage = patient.Data.Stage
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+        }
+    }
+
+      public async Task GetForLookup()
+    {
+        var wards = await wardService.GetForLookUp();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
+    }
+
+    public async Task GetAllBedsByWardId(int wardId)
+    {
+        PatientModel.WardNo = wardId;
+        var bed = await bedService.BedsByWardIdLookup(wardId);
+        if (bed.Succeeded)
+        {
+            _beds = bed.Data;
+        }
+    }
+}

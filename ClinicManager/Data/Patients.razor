@@ -14,14 +14,14 @@
                 Patients
             </MudText>
         </MudItem>
-        <MudItem xs="12" md="6" sm="6">
-            <MudTextField Label="Search Patient" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+        <MudItem xs="12" md="12" sm="12">
+@*            <MudTextField Label="Search Patient" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>*@
             <MudButton Color="Color.Info" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
                        Variant="Variant.Outlined">New Patient</MudButton>
         </MudItem>
-    @*    <MudItem xs="12" md="3" sm="3">
+ @*       <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
         </MudItem>
         <MudItem xs="12" md="3" sm="3">
@@ -81,13 +81,12 @@
     {
         Random rnd = new Random();
         int accountNo = rnd.Next();
+        int caseInformationNo = rnd.Next();
         var parameters = new DialogParameters();
-        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
-        {
-            AccountNo = accountNo
-        });
+        parameters.Add(nameof(SearchPatientIDNumber.Search), new SearchDTO {});
+
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+        _dialogService.Show<SearchPatientIDNumber>("Search Patient", parameters, options);
     }
 
     protected async override Task OnInitializedAsync()

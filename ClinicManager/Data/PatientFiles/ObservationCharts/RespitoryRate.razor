@@ -1,0 +1,81 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Shared.DTO_s
+@inject IICDCodeService icdCodeService 
+
+
+<EditForm Model="@AddRespitoryChartModel" OnValidSubmit="SaveAsync">
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+               Respitory Rate Chart
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField T="double" For="@(() => AddRespitoryChartModel.RespitoryChartEntry)" @bind-Value="AddRespitoryChartModel.RespitoryChartEntry" Label="Respitory Chart Entry" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Secondary">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else    
+            {
+                <MudText>Save</MudText>
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public RespitoryChartDTO AddRespitoryChartModel { get; set; } = new();
+    private bool _processing = false;
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task SaveAsync()
+    {
+        //_processing = true;
+        //IResult<int> response;
+        //if (AddEditICDModel.ICDCodeId == 0)
+        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
+        //else
+        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
+
+        //if (response.Succeeded)
+        //{
+        //    if (AddEditICDModel.ICDCodeId == 0)
+        //    {
+        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
+        //        _processing = false;
+        //    }
+        //    else
+        //    {
+        //        _snackBar.Add("ICD Code Updated", Severity.Success);
+        //        _processing = false;
+        //    }
+        //    MudDialog.Close();
+        //}
+        //else
+        //{
+        //    foreach (var message in response.Messages)
+        //    {
+        //        _snackBar.Add(message, Severity.Error);
+        //    }
+        //}
+    }     
+}

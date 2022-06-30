@@ -13,23 +13,14 @@
     <EditForm Model="@AddEditPatientModel">
         <MudExpansionPanels Style="width: 700px; overflow: scroll;">
             <MudExpansionPanel  Icon="@Icons.Filled.Check" HideIcon="_admissionDone"  Text="Admission">
-                 <MudItem sm="12">
+                <MudItem sm="12">
+                    <MudTextField Variant="Variant.Outlined" Disabled="true" T="int" For="@(() => AddEditPatientModel.CaseInformationNumber)" 
+                        @bind-Value="AddEditPatientModel.CaseInformationNumber" 
+                        Label="Case Information Number" />
+                </MudItem> 
+                <MudItem sm="12">
                     <MudTextField Variant="Variant.Outlined" Disabled="true" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
                 </MudItem>
-                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Id == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
-                    Label="Ward Number" T="int">
-                @foreach (var item in _wards)
-                {
-                    <MudSelectItem T="int" Value="@item.Id" />
-                }
-                </MudSelect>
-                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.Id == i)?.Name ?? string.Empty)" @bind-Value="AddEditPatientModel.BedNo" Variant="Variant.Outlined"
-                    Label="Bed Number" T="int">
-                @foreach (var item in _beds)
-                {
-                    <MudSelectItem T="int" Value="@item.Id" />
-                }
-                </MudSelect>
                 <MudItem sm="12">
                     <MudDatePicker MinDate="DateTime.Today" Variant="Variant.Outlined" @bind-Date="AddEditPatientModel.AdmissionDate" Label="Admission Date" />
                 </MudItem>
@@ -188,11 +179,14 @@
             }
         </MudButton>
     </DialogActions>
-</MudDialog>
+        </MudDialog>
+
+
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public PatientDTO AddEditPatientModel { get; set; } = new();
     [Parameter] public PatientBedDTO AddEditPatientBedModel { get; set; } = new();
+    [Parameter] public SearchDTO Search { get; set; } = new();
     //private FluentValidationValidator _fluentValidationValidator;
     //private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
 
@@ -238,8 +232,6 @@
 
         AddEditPatientModel.ReportDate = DateTime.Now;
         AddEditPatientModel.DischargeDate = DateTime.Now;
-
-    
 
         if(AddEditPatientModel.IDNo != 0 && AddEditPatientModel.WardNo != 0 && AddEditPatientModel.BedNo != 0 && AddEditPatientModel.AdmissionDate != null)
         {

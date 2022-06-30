@@ -37,6 +37,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
            string lastName,
            DateTime dateOfBirth,
            int accountNo,
+           //int caseInfomationNo,
            DateTime admissionDate,
            DateTime dischargeDate,
            DateTime reportDate,
@@ -73,6 +74,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _lastName = lastName;
             _dateOfBirth = dateOfBirth;
             _accountNO = accountNo;
+            //_caseInfomationNo = caseInfomationNo;
             _admissionDate = admissionDate;
             _dischargeDate = dischargeDate;
             _reportDate = reportDate;
@@ -109,6 +111,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
            string lastName,
            DateTime dateOfBirth,
            int accountNo,
+           //int caseInfomationNo,
            DateTime admissionDate,
            DateTime dischargeDate,
            DateTime reportDate,
@@ -144,6 +147,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _lastName = lastName;
             _dateOfBirth = dateOfBirth;
             _accountNO = accountNo;
+            //_caseInfomationNo = caseInfomationNo;
             _admissionDate = admissionDate;
             _dischargeDate = dischargeDate;
             _reportDate = reportDate;
@@ -259,6 +263,9 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
 
         private long _IDNo;
         public long IDNo => _IDNo;
+
+        private int _caseInfomationNo;
+        public int CaseInfomationNo => _caseInfomationNo;
 
         private int _accountNO;
         public int AccountNO => _accountNO;

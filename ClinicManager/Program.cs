@@ -15,7 +15,7 @@ const string ClientName = "ClinicManager.API";
 var config = builder.Configuration;
 
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor().AddHubOptions(config => config.MaximumReceiveMessageSize = 1048576);
 builder.Services.AddMudServices();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IStateService, StateService>();
@@ -40,11 +40,10 @@ builder.Services.AddScoped(sp => sp
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+app.UseDeveloperExceptionPage();
+app.UseExceptionHandler("/Error");
+app.UseHsts();
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -57,4 +56,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapBlazorHub();
     endpoints.MapFallbackToPage("/_Host");
 });
+
+
 app.Run();

@@ -18,12 +18,12 @@
             <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
                        Variant="Variant.Outlined">New Admission</MudButton>
         </MudItem>
-    @*       <MudItem xs="12" md="3" sm="3">
+           <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
         </MudItem>
         <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
-        </MudItem>*@
+        </MudItem>
         @foreach(var admission in _admissions)
         {
         <MudItem xs="12" md="6" sm="6">
