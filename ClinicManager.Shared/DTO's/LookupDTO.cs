@@ -9,5 +9,6 @@ namespace ClinicManager.Shared.DTO_s
         public string Prop2 { get; set; }
         public string Prop3 { get; set; }
         public string Prop4 { get; set; }
+        public int PropInt { get; set; }
     }
 }

@@ -7,7 +7,6 @@
 @inject IBedService bedService 
 @inject IWardService wardService 
 
-
 <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
@@ -34,21 +33,32 @@
             @if(showWardBeds != false)
             {
             <MudItem Class="mb-2" sm="12">
-            <MudText Typo="Typo.caption" Align="Align.Center">Patient has not been admitted, Assign a Bed</MudText>
+                @if(existingId != false)
+                {
+                <center>
+                    <MudText Typo="Typo.caption" >Patient exists, assign a bed</MudText>
+                </center>                
+                }
+                else
+                {         
+                <center>
+                    <MudText Typo="Typo.caption" >Patient does not exist, assign a bed</MudText>
+                </center>
+                }           
              </MudItem> 
             <MudItem Class="mb-2" sm="12">
-                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Id == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
+                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.PropInt == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
                     Label="Ward Number" T="int">
                 @foreach (var item in _wards)
                 {
-                    <MudSelectItem T="int" Value="@item.Id" />
+                    <MudSelectItem T="int" Value="@item.PropInt" />
                 }
                 </MudSelect>
-                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.Id == i)?.Name ?? string.Empty)" @bind-Value="PatientModel.BedNo" Variant="Variant.Outlined"
+                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.PropInt == i)?.Name ?? string.Empty)"  Variant="Variant.Outlined" ValueChanged="BedAssigned"
                     Label="Bed Number" T="int">
                 @foreach (var item in _beds)
                 {
-                    <MudSelectItem T="int" Value="@item.Id" />
+                    <MudSelectItem T="int" Value="@item.PropInt" />
                 }
                 </MudSelect>
         </MudItem> 
@@ -62,11 +72,13 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public SearchDTO Search { get; set; } = new();
     private bool _processing = false;
+    private bool bedSelected = false;
     public PatientDTO PatientModel = new();
     private List<LookupDTO> _wards = new();
     private List<LookupDTO> _beds = new();
 
     private bool showWardBeds = false;
+    public bool existingId = false;
 
     protected async override Task OnInitializedAsync()
     {
@@ -78,73 +90,124 @@
         var patient = await patientService.GetPatientByIDNumber(id);             
         if (patient.Data == null)
         {
-        showWardBeds = true;
-        Random rnd = new Random();
-        int accountNo = rnd.Next();
-        int caseInformationNo = rnd.Next();
-        var parameters = new DialogParameters();
-        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
-        {
-            AccountNo = accountNo,
-            CaseInformationNumber = caseInformationNo,
-            BedNo = PatientModel.BedNo,
-            WardNo = PatientModel.WardNo,
-            IDNo = PatientModel.IDNo,
-
-        });
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
-
+            showWardBeds = true;
+            if(bedSelected != false && PatientModel.BedNo != 0)
+            {
+                Random rnd = new Random();
+                int accountNo = rnd.Next();
+                int caseInformationNo = rnd.Next();
+                var parameters = new DialogParameters();
+                parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+                {
+                AccountNo = accountNo,
+                CaseInformationNumber = caseInformationNo,
+                BedNo = PatientModel.BedNo,
+                WardNo = PatientModel.WardNo,
+                IDNo = id,
+                });
+                var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+                _dialogService.Show<AddEditPatient>($"New Patient - Ward {PatientModel.WardNo} Bed {PatientModel.BedNo} ", parameters, options);
+                MudDialog.Close();
+            }
         }
         else
         {
+            if(patient.Data.IDNo != 0)
+            {
+                existingId = true;
+            }
+            showWardBeds = true;
+            if (bedSelected != false && PatientModel.BedNo != 0)
+            {
+                var parameters = new DialogParameters();
+                parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+                    {
+                    Id = patient.Data.Id,
+                    AccountNo = patient.Data.AccountNo,
+                    AdmissionDate = patient.Data.AdmissionDate,
+                    BedNo = patient.Data.BedNo,
+                    WardNo = patient.Data.WardNo,
+                    DateOfBirth = patient.Data.DateOfBirth,
+                    DependentCode = patient.Data.DependentCode,
+                    Dietician = patient.Data.Dietician,
+                    DischargeDate = patient.Data.DischargeDate,
+                    FirstName = patient.Data.FirstName,
+                    LastName = patient.Data.LastName,
+                    Gender = patient.Data.Gender,
+                    AuthNo = patient.Data.AuthNo,
+                    CaseInformationNumber = patient.Data.CaseInformationNumber,
+                    City = patient.Data.City,
+                    Email = patient.Data.Email,
+                    EmployerName = patient.Data.EmployerName,
+                    Initials = patient.Data.Initials,           
+                    Race = patient.Data.Race,
+                    Language = patient.Data.Language,
+                    MainMedicalAidMemberBusinessCity = patient.Data.MainMedicalAidMemberBusinessCity,
+                    MainMedicalAidMemberBusinessPostalCode = patient.Data.MainMedicalAidMemberBusinessPostalCode,
+                    MainMedicalAidMemberBusinessProvince = patient.Data.MainMedicalAidMemberBusinessProvince,
+                    MainMedicalAidMemberBusinessStreetAddress = patient.Data.MainMedicalAidMemberStreetAddress,
+                    MainMedicalAidMemberCellNo = patient.Data.MainMedicalAidMemberCellNo,
+                    MainMedicalAidMemberCity = patient.Data.MainMedicalAidMemberCity,
+                    MainMedicalAidMemberEmployer = patient.Data.MainMedicalAidMemberEmployer,
+                    MainMedicalAidMemberFirstName = patient.Data.MainMedicalAidMemberFirstName,
+                    MainMedicalAidMemberLastName = patient.Data.MainMedicalAidMemberLastName,
+                    MainMedicalAidMemberIdNumber = patient.Data.MainMedicalAidMemberIdNumber,
+                    MainMedicalAidMemberOccupation = patient.Data.MainMedicalAidMemberOccupation,
+                    MainMedicalAidMemberPostalAddress = patient.Data.MainMedicalAidMemberPostalAddress,
+                    MainMedicalAidMemberPostalAddressCode = patient.Data.MainMedicalAidMemberPostalAddressCode,
+                    MainMedicalAidMemberProvince = patient.Data.MainMedicalAidMemberProvince,
+                    MainMedicalAidMemberRelationship = patient.Data.MainMedicalAidMemberRelationship,
+                    MainMedicalAidMemberStreetAddress = patient.Data.MainMedicalAidMemberStreetAddress,
+                    MainMedicalAidMemberSuburb = patient.Data.MainMedicalAidMemberSuburb,
+                    MainMedicalAidMemberTelNo = patient.Data.MainMedicalAidMemberTelNo,
+                    NextOfKin = patient.Data.NextOfKin,
+                    NextOfKinAltContactNo = patient.Data.NextOfKinAltContactNo,
+                    NextOfKinContactNo = patient.Data.NextOfKinContactNo,
+                    Occupation = patient.Data.Occupation,
+                    OtherContact = patient.Data.OtherContact,
+                    OtherContactNo = patient.Data.OtherContactNo,
+                    OtherContactAltContactNo = patient.Data.OtherContactAltContactNo,
+                    OtherContactRelationship = patient.Data.OtherContactRelationship,
+                    PatientCellNo = patient.Data.PatientCellNo,
+                    PatientTelNo = patient.Data.PatientTelNo,
+                    PatientWorkTelNo = patient.Data.PatientWorkTelNo,
+                    PoBox = patient.Data.PoBox,
+                    PoBoxCode = patient.Data.PoBoxCode,
+                    PostalCode = patient.Data.PostalCode,
+                    Province = patient.Data.Province,
+                    RelationshipOfKin = patient.Data.RelationshipOfKin,
+                    StreetAddress = patient.Data.StreetAddress,
+                    Suburb = patient.Data.Suburb,
+                    WorkAddress = patient.Data.WorkAddress,
+                    WorkAddressCity = patient.Data.WorkAddressCity,
+                    WorkAddressCode = patient.Data.WorkAddressCode,
+                    WorkAddressProvince = patient.Data.WorkAddressProvince,
+                    WoundLocation = patient.Data.WoundLocation,
+                    MedicalAidName = patient.Data.MedicalAidName,
+                    MedicalAidNo = patient.Data.MedicalAidNo,
+                    MedicalAidOption = patient.Data.MedicalAidOption,
+                    IDNo = patient.Data.IDNo,
+                    OT = patient.Data.OT,
+                    Speech = patient.Data.Speech,
+                    Physio = patient.Data.Physio,
+                    Psych = patient.Data.Psych,
+                    RefferingDoctor = patient.Data.RefferingDoctor,
+                    RefferingHospital = patient.Data.RefferingHospital,
+                    Relationship = patient.Data.Relationship,
+                    Title = patient.Data.Title,
+                    ReportDate = patient.Data.ReportDate,
+                    SocialWorker = patient.Data.SocialWorker,
+                    Stage = patient.Data.Stage
+                    });
 
-        showWardBeds = false;
-        var parameters = new DialogParameters();
-        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
-        {
-            Id = patient.Data.Id,
-            AccountNo = patient.Data.AccountNo,
-            CaseInformationNumber = patient.Data.CaseInformationNumber,
-            AdmissionDate = patient.Data.AdmissionDate,
-            BedNo = patient.Data.BedNo,
-            WardNo = patient.Data.WardNo,
-            DateOfBirth = patient.Data.DateOfBirth,
-            DependentCode = patient.Data.DependentCode,
-            Dietician = patient.Data.Dietician,
-            DischargeDate = patient.Data.DischargeDate,
-            FirstName = patient.Data.FirstName,
-            LastName = patient.Data.LastName,
-            Gender = patient.Data.Gender,
-            EmergencyContactFirstName = patient.Data.EmergencyContactFirstName,
-            EmergencyContactLastName = patient.Data.EmergencyContactLastName,
-            EmergencyContactIdNo = patient.Data.EmergencyContactIdNo,
-            EmergencyContactNo = patient.Data.EmergencyContactNo,
-            Race = patient.Data.Race,
-            Language = patient.Data.Language,
-            MedicalAidName = patient.Data.MedicalAidName,
-            MedicalAidNo = patient.Data.MedicalAidNo,
-            MedicalAidOption = patient.Data.MedicalAidOption,
-            IDNo = patient.Data.IDNo,
-            OT = patient.Data.OT,
-            Speech = patient.Data.Speech,
-            Physio = patient.Data.Physio,
-            Psych = patient.Data.Psych,
-            RefferingDoctor = patient.Data.RefferingDoctor,
-            RefferingHospital = patient.Data.RefferingHospital,
-            Relationship = patient.Data.Relationship,
-            Title = patient.Data.Title,
-            ReportDate = patient.Data.ReportDate,
-            SocialWorker = patient.Data.SocialWorker,
-            Location = patient.Data.Location,
-            Stage = patient.Data.Stage
-        });
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+                var patientName = $" Patient - {patient.Data.FirstName} {patient.Data.LastName} [Ward {PatientModel.WardNo} Bed {PatientModel.BedNo}]";
+                var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+                _dialogService.Show<AddEditPatient>(patientName, parameters, options);
+            }
         }
     }
 
-      public async Task GetForLookup()
+    public async Task GetForLookup()
     {
         var wards = await wardService.GetForLookUp();
         if (wards.Succeeded)
@@ -156,10 +219,20 @@
     public async Task GetAllBedsByWardId(int wardId)
     {
         PatientModel.WardNo = wardId;
-        var bed = await bedService.BedsByWardIdLookup(wardId);
+
+        var ward = await wardService.GetWardsByWardNumber(wardId);
+        var wardNumber = ward.Data.WardId;
+        var bed = await bedService.BedsByWardIdLookup(wardNumber);
         if (bed.Succeeded)
         {
             _beds = bed.Data;
         }
+    }
+
+    public async Task BedAssigned(int bedNo)
+    {
+        PatientModel.BedNo = bedNo;
+        bedSelected = true;
+        await SearchPatientById();
     }
 }

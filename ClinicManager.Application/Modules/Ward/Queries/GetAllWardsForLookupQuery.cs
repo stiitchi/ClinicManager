@@ -30,11 +30,13 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                     Id = e.Id,
                     Name = e.RoomNumber.ToString(),
                     Prop1 = e.TotalBeds.ToString(),
-                    Prop2 = e.WardNumber.ToString()
+                    Prop2 = e.WardNumber.ToString(),
+                    PropInt = e.WardNumber
                 };
 
                 var wards = await _context.Wards
                     .AsNoTracking()
+
                     .Select(expression)
                     .ToListAsync(cancellationToken);
                 return await Result<List<LookupDTO>>.SuccessAsync(wards);

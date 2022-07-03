@@ -11,7 +11,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
         public class GetAllBedsByWardIdQuery : IRequest<Result<List<BedDTO>>>
         {
         public int WardId { get; set; }
-    }
+        }
 
         public class GetAllBedsByWardIdQueryHandler : IRequestHandler<GetAllBedsByWardIdQuery, Result<List<BedDTO>>>
         {

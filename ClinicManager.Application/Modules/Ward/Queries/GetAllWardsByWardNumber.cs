@@ -6,27 +6,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.Ward.Queries
 {
-    public class GetWardByIdQuery : IRequest<Result<WardDTO>>
+    public class GetAllWardsByWardNumber : IRequest<Result<WardDTO>>
     {
-        public int Id { get; set; }
+        public int WardNumber { get; set; }
     }
 
-    public class GetWardByIdQueryHandler : IRequestHandler<GetWardByIdQuery, Result<WardDTO>>
+    public class GetAllWardsByWardNumberHandler : IRequestHandler<GetAllWardsByWardNumber, Result<WardDTO>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetWardByIdQueryHandler(IApplicationDbContext context)
+        public GetAllWardsByWardNumberHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<WardDTO>> Handle(GetWardByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<WardDTO>> Handle(GetAllWardsByWardNumber request, CancellationToken cancellationToken)
         {
             try
             {
                 var ward = await _context.Wards.AsNoTracking()
                     .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+                    .FirstOrDefaultAsync(c => c.WardNumber == request.WardNumber, cancellationToken);
 
                 if (ward == null)
                     throw new Exception("Unable to return Ward");

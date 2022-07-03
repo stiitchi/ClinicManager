@@ -233,18 +233,7 @@
 
             <MudTabPanel Text="Emergency Contact">
                 <MudGrid>
-                    <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactFirstName" Disabled="true" Label="First Name" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
-                    <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactLastName" Disabled="true" Label="Last Name" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
-                    <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.Relationship" Disabled="true" Label="Relationship" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
-                    <MudItem xs="6" md="6">
-                        <MudTextField @bind-Value="patient.EmergencyContactNo" Disabled="true" Label="Contact Number" Variant="Variant.Outlined"></MudTextField>
-                    </MudItem>
+                   
                 </MudGrid>
             </MudTabPanel>
         </MudTabs>
@@ -310,13 +299,55 @@
             FirstName = patient.FirstName,
             LastName = patient.LastName,
             Gender = patient.Gender,
-            EmergencyContactFirstName = patient.EmergencyContactFirstName,
-            EmergencyContactLastName = patient.EmergencyContactLastName,
-            EmergencyContactIdNo = patient.EmergencyContactIdNo,
-            EmergencyContactNo = patient.EmergencyContactNo,
+            AuthNo = patient.AuthNo,
+            CaseInformationNumber = patient.CaseInformationNumber,
+            City = patient.City,
+            Email = patient.Email,
+            EmployerName = patient.EmployerName,
+            Initials = patient.Initials,           
             Race = patient.Race,
             Language = patient.Language,
-            Location = patient.Location,
+            MainMedicalAidMemberBusinessCity = patient.MainMedicalAidMemberBusinessCity,
+            MainMedicalAidMemberBusinessPostalCode = patient.MainMedicalAidMemberBusinessPostalCode,
+            MainMedicalAidMemberBusinessProvince = patient.MainMedicalAidMemberBusinessProvince,
+            MainMedicalAidMemberBusinessStreetAddress = patient.MainMedicalAidMemberStreetAddress,
+            MainMedicalAidMemberCellNo = patient.MainMedicalAidMemberCellNo,
+            MainMedicalAidMemberCity = patient.MainMedicalAidMemberCity,
+            MainMedicalAidMemberEmployer = patient.MainMedicalAidMemberEmployer,
+            MainMedicalAidMemberFirstName = patient.MainMedicalAidMemberFirstName,
+            MainMedicalAidMemberLastName = patient.MainMedicalAidMemberLastName,
+            MainMedicalAidMemberIdNumber = patient.MainMedicalAidMemberIdNumber,
+            MainMedicalAidMemberOccupation = patient.MainMedicalAidMemberOccupation,
+            MainMedicalAidMemberPostalAddress = patient.MainMedicalAidMemberPostalAddress,
+            MainMedicalAidMemberPostalAddressCode = patient.MainMedicalAidMemberPostalAddressCode,
+            MainMedicalAidMemberProvince = patient.MainMedicalAidMemberProvince,
+            MainMedicalAidMemberRelationship = patient.MainMedicalAidMemberRelationship,
+            MainMedicalAidMemberStreetAddress = patient.MainMedicalAidMemberStreetAddress,
+            MainMedicalAidMemberSuburb = patient.MainMedicalAidMemberSuburb,
+            MainMedicalAidMemberTelNo = patient.MainMedicalAidMemberTelNo,
+            NextOfKin = patient.NextOfKin,
+            NextOfKinAltContactNo = patient.NextOfKinAltContactNo,
+            NextOfKinContactNo = patient.NextOfKinContactNo,
+            Occupation = patient.Occupation,
+            OtherContact = patient.OtherContact,
+            OtherContactNo = patient.OtherContactNo,
+            OtherContactAltContactNo = patient.OtherContactAltContactNo,
+            OtherContactRelationship = patient.OtherContactRelationship,
+            PatientCellNo = patient.PatientCellNo,
+            PatientTelNo = patient.PatientTelNo,
+            PatientWorkTelNo = patient.PatientWorkTelNo,
+            PoBox = patient.PoBox,
+            PoBoxCode = patient.PoBoxCode,
+            PostalCode = patient.PostalCode,
+            Province = patient.Province,
+            RelationshipOfKin = patient.RelationshipOfKin,
+            StreetAddress = patient.StreetAddress,
+            Suburb = patient.Suburb,
+            WorkAddress = patient.WorkAddress,
+            WorkAddressCity = patient.WorkAddressCity,
+            WorkAddressCode = patient.WorkAddressCode,
+            WorkAddressProvince = patient.WorkAddressProvince,
+            WoundLocation = patient.WoundLocation,
             MedicalAidName = patient.MedicalAidName,
             MedicalAidNo = patient.MedicalAidNo,
             MedicalAidOption = patient.MedicalAidOption,

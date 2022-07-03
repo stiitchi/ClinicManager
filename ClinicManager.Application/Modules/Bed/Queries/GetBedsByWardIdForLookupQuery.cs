@@ -31,8 +31,9 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                     Id = e.Id,
                     Name = e.BedNumber.ToString(),
                     Prop1 = e.WardId.ToString(),
-                    Prop2 = e.NurseId.ToString(),
-                    Prop3 = e.PatientId.ToString()
+                    Prop2 = e.WardNumber.ToString(),
+                    Prop3 = e.PatientId.ToString(),
+                    PropInt = e.BedNumber
                 };
 
                 var bed = await _context.Beds

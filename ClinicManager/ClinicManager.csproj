@@ -27,4 +27,8 @@
     <ProjectReference Include="..\ClinicManager.Web.Infrastructure\ClinicManager.Web.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Modals\Admission\" />
+  </ItemGroup>
+
 </Project>

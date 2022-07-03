@@ -8,6 +8,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Ward
         Task<IResult<List<WardDTO>>> GetAll();
 
         Task<IResult<WardDTO>> GetById(int id);
+        Task<IResult<WardDTO>> GetWardsByWardNumber(int wardNumber);
 
         Task<IResult<int>> SaveAsync(WardDTO request);
 
