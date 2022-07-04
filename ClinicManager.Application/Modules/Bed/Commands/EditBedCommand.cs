@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +30,7 @@ namespace ClinicManager.Application.Modules.Bed.Commands
                 if (bed == null)
                     throw new Exception("Bed does not exist");
 
-                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == Convert.ToInt32(request.WardNumber), cancellationToken);
+                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == request.WardNumber, cancellationToken);
                 if (ward == null)
                     throw new Exception("Ward doesn't exist");
 

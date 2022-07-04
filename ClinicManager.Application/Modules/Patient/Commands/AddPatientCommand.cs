@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string Title { get; set; }
         public string Initials { get; set; }
         public long IDNo { get; set; }
-        public int WardNo { get; set; }
+        public string WardNo { get; set; }
         public int BedNo { get; set; }
         public string PatientTelNo { get; set; }
         public string PatientCellNo { get; set; }
@@ -56,7 +56,6 @@ namespace ClinicManager.Application.Modules.Patient.Commands
 
         public string WoundLocation { get; set; }
         public string Stage { get; set; }
-        public string Relationship { get; set; }
         public string RefferingDoctor { get; set; }
         public string RefferingHospital { get; set; }
 
@@ -190,7 +189,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 var patientName = $"{request.Title} {request.FirstName} {request.LastName}";
 
                 var bed = await _context.Beds.IgnoreQueryFilters()
-                                             .FirstOrDefaultAsync(c => c.Id == request.BedNo, cancellationToken);
+                                             .FirstOrDefaultAsync(c => c.BedNumber == request.BedNo, cancellationToken);
                 if (bed == null)
                     throw new Exception("Bed doesn't exists");
 

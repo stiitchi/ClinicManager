@@ -31,7 +31,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         public PatientEntity()
         { }
         public PatientEntity(
-           int wardNo,
+           string wardNo,
            int bedNo,
            int caseInformationNumber,
            int accountNo,
@@ -181,7 +181,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _mainMemberBusinessPostalCode = memberBusinessAddressPostalCode;
         }
         public void Set(
-          int wardNo,
+          string wardNo,
           int bedNo,
           int caseInformationNumber,
           int accountNo,
@@ -445,8 +445,8 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private int _emergencyContactNo;
         public int EmergencyContactNo => _emergencyContactNo;
 
-        private int _wardNO;
-        public int WardNO => _wardNO;
+        private string _wardNO;
+        public string WardNO => _wardNO;
 
         private int _bedNO;
         public int BedNO => _bedNO;

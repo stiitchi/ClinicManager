@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string Title { get; set; }
         public string Initials { get; set; }
         public long IDNo { get; set; }
-        public int WardNo { get; set; }
+        public string WardNo { get; set; }
         public int BedNo { get; set; }
         public string PatientTelNo { get; set; }
         public string PatientCellNo { get; set; }

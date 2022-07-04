@@ -26,7 +26,8 @@ namespace ClinicManager.Application.Modules.DayFees.Commands
         {
             try
             {
-                var patientDayFees = await _context.PatientDayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.DayFeeCode == request.DayFeeId, cancellationToken);
+                var patientDayFees = await _context.PatientDayFees.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.DayFeeCode == request.DayFeeId && c.PatientId == request.PatientId
+                ,cancellationToken);
                 if (patientDayFees != null)
                     throw new Exception("Patient is already assigned to this Day Fee");
 

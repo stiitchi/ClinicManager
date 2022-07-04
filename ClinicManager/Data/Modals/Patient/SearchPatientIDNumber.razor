@@ -30,38 +30,16 @@
         </DialogContent>
         <DialogActions>
             <MudGrid>
-            @if(showWardBeds != false)
+            @if(showMessage != false)
             {
             <MudItem Class="mb-2" sm="12">
-                @if(existingId != false)
+                @if(existingId == false)
                 {
-                <center>
-                    <MudText Typo="Typo.caption" >Patient exists, assign a bed</MudText>
-                </center>                
-                }
-                else
-                {         
-                <center>
-                    <MudText Typo="Typo.caption" >Patient does not exist, assign a bed</MudText>
-                </center>
-                }           
+               <center>
+                    <MudText Typo="Typo.caption" >Patient does not exist</MudText>
+                </center>              
+                }          
              </MudItem> 
-            <MudItem Class="mb-2" sm="12">
-                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.PropInt == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
-                    Label="Ward Number" T="int">
-                @foreach (var item in _wards)
-                {
-                    <MudSelectItem T="int" Value="@item.PropInt" />
-                }
-                </MudSelect>
-                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.PropInt == i)?.Name ?? string.Empty)"  Variant="Variant.Outlined" ValueChanged="BedAssigned"
-                    Label="Bed Number" T="int">
-                @foreach (var item in _beds)
-                {
-                    <MudSelectItem T="int" Value="@item.PropInt" />
-                }
-                </MudSelect>
-        </MudItem> 
             }
             </MudGrid>
         </DialogActions>
@@ -72,43 +50,21 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public SearchDTO Search { get; set; } = new();
     private bool _processing = false;
-    private bool bedSelected = false;
     public PatientDTO PatientModel = new();
     private List<LookupDTO> _wards = new();
     private List<LookupDTO> _beds = new();
 
-    private bool showWardBeds = false;
+    private bool showMessage = false;
     public bool existingId = false;
 
-    protected async override Task OnInitializedAsync()
-    {
-        await GetForLookup();
-    }
     public async Task SearchPatientById()
     {
         var id = Search.IDNumber; 
         var patient = await patientService.GetPatientByIDNumber(id);             
         if (patient.Data == null)
         {
-            showWardBeds = true;
-            if(bedSelected != false && PatientModel.BedNo != 0)
-            {
-                Random rnd = new Random();
-                int accountNo = rnd.Next();
-                int caseInformationNo = rnd.Next();
-                var parameters = new DialogParameters();
-                parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
-                {
-                AccountNo = accountNo,
-                CaseInformationNumber = caseInformationNo,
-                BedNo = PatientModel.BedNo,
-                WardNo = PatientModel.WardNo,
-                IDNo = id,
-                });
-                var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-                _dialogService.Show<AddEditPatient>($"New Patient - Ward {PatientModel.WardNo} Bed {PatientModel.BedNo} ", parameters, options);
-                MudDialog.Close();
-            }
+            showMessage = true;
+            existingId = false;      
         }
         else
         {
@@ -116,8 +72,8 @@
             {
                 existingId = true;
             }
-            showWardBeds = true;
-            if (bedSelected != false && PatientModel.BedNo != 0)
+            showMessage = true;
+            if (patient.Data.BedNo != 0)
             {
                 var parameters = new DialogParameters();
                 parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
@@ -193,46 +149,16 @@
                     Psych = patient.Data.Psych,
                     RefferingDoctor = patient.Data.RefferingDoctor,
                     RefferingHospital = patient.Data.RefferingHospital,
-                    Relationship = patient.Data.Relationship,
                     Title = patient.Data.Title,
                     ReportDate = patient.Data.ReportDate,
                     SocialWorker = patient.Data.SocialWorker,
                     Stage = patient.Data.Stage
                     });
 
-                var patientName = $" Patient - {patient.Data.FirstName} {patient.Data.LastName} [Ward {PatientModel.WardNo} Bed {PatientModel.BedNo}]";
+                var patientName = $" Patient - {patient.Data.FirstName} {patient.Data.LastName}";
                 var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
                 _dialogService.Show<AddEditPatient>(patientName, parameters, options);
             }
         }
-    }
-
-    public async Task GetForLookup()
-    {
-        var wards = await wardService.GetForLookUp();
-        if (wards.Succeeded)
-        {
-            _wards = wards.Data;
-        }
-    }
-
-    public async Task GetAllBedsByWardId(int wardId)
-    {
-        PatientModel.WardNo = wardId;
-
-        var ward = await wardService.GetWardsByWardNumber(wardId);
-        var wardNumber = ward.Data.WardId;
-        var bed = await bedService.BedsByWardIdLookup(wardNumber);
-        if (bed.Succeeded)
-        {
-            _beds = bed.Data;
-        }
-    }
-
-    public async Task BedAssigned(int bedNo)
-    {
-        PatientModel.BedNo = bedNo;
-        bedSelected = true;
-        await SearchPatientById();
     }
 }

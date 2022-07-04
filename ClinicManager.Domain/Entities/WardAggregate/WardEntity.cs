@@ -9,13 +9,13 @@ namespace ClinicManager.Domain.Entities.WardAggregate
         {
         }
 
-        public WardEntity(int wardNumber, int roomNumber, int totalBeds)
+        public WardEntity(string wardNumber, int roomNumber, int totalBeds)
         {
             _wardNumber = wardNumber;
             _roomNumber = roomNumber;
             _totalBeds = totalBeds;
         }
-        public void Set(int wardNumber, int roomNumber, int totalBeds)
+        public void Set(string wardNumber, int roomNumber, int totalBeds)
         {
             _wardNumber = wardNumber;
             _roomNumber = roomNumber;
@@ -27,8 +27,8 @@ namespace ClinicManager.Domain.Entities.WardAggregate
             _beds.Add(beds);
         }
 
-        private int _wardNumber;
-        public int WardNumber => _wardNumber;
+        private string _wardNumber;
+        public string WardNumber => _wardNumber;
 
         private int _roomNumber;
         public int RoomNumber => _roomNumber;

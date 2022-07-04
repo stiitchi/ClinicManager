@@ -20,7 +20,6 @@ namespace ClinicManager.Data.Modals.Patient.Validation
             RuleFor(x => x.Language).NotEmpty().WithMessage("Please specify a Language");
             RuleFor(x => x.Stage).NotEmpty().WithMessage("Please specify a Stage");
             RuleFor(x => x.Gender).NotEmpty().WithMessage("Please specify a Gender");
-            RuleFor(x => x.Relationship).NotEmpty().WithMessage("Please specify a Relationship");
             RuleFor(x => x.RefferingDoctor).NotEmpty().WithMessage("Please specify a Reffering Doctor");
             RuleFor(x => x.MedicalAidName).NotEmpty().WithMessage("Please specify a Medical Aid Name");
             RuleFor(x => x.MedicalAidOption).NotEmpty().WithMessage("Please specify a Medical Aid Option");

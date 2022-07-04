@@ -30,7 +30,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpGet("GetWardsByWardNumber")]
-        public async Task<IActionResult> GetWardsByWardNumber(int wardNumber)
+        public async Task<IActionResult> GetWardsByWardNumber(string wardNumber)
         {
             return Ok(await _mediator.Send(new GetAllWardsByWardNumber { WardNumber = wardNumber }));
         }

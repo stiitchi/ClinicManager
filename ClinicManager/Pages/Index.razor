@@ -1,1 +1,70 @@
 ﻿@page "/"
+@using ClinicManager.Data.Modals.Wards
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IWardService wardService 
+@inject IBedService bedService 
+
+<MudGrid>
+   @foreach (var ward in _wards)
+    {    
+           <MudItem xs="3" md="3" sm="3">
+                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                               <MudChip>Ward @ward.WardNumber</MudChip>
+                               <MudChip>Room @ward.RoomNumber</MudChip>
+                               <MudButton Class="ml-4" @onclick="@(() => ViewIndexWards(ward.WardId))" Variant="Variant.Outlined">View</MudButton>
+                            </CardHeaderAvatar>                  
+                        </MudCardHeader>
+                    </MudCard>
+            </MudItem>   
+    }
+</MudGrid>
+
+
+@code{
+    private List<WardDTO> _wards = new();
+    private List<BedDTO> _beds = new();
+    private WardDTO ward = new();
+    private int wardId;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllWards();
+    }
+
+
+    public void ViewIndexWards(int wardId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(IndexWards.Ward), new WardDTO
+        {
+        WardId = wardId 
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<IndexWards>($"Ward {wardId}", parameters, options);
+    }
+
+
+    public async Task GetAllWards()
+    {
+        var wards = await wardService.GetAll();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
+    }
+
+    public async Task GetAllBedsByWardId(int wardId)
+    {
+        var beds = await bedService.GetAllBedsByWardId(wardId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+}

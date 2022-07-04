@@ -30,8 +30,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                     Id = e.Id,
                     Name = e.RoomNumber.ToString(),
                     Prop1 = e.TotalBeds.ToString(),
-                    Prop2 = e.WardNumber.ToString(),
-                    PropInt = e.WardNumber
+                    Prop2 = e.WardNumber
                 };
 
                 var wards = await _context.Wards

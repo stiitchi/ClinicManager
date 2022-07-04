@@ -29,7 +29,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Commands
             string record = "";
             switch (request.CareRecord)
             {
-                case "Bedbath Shower":
+                case "Bed Bath Shower":
                     record = "BedbathShower";
                     break;
                 case "Linen Change":

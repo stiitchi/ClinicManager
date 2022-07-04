@@ -26,7 +26,7 @@
                 <MudCardHeader>
                     <CardHeaderAvatar>
                         <MudTooltip Text="Patient Age">
-                            <MudAvatar Color="Color.Info">45</MudAvatar>
+                            <MudAvatar Color="Color.Info">@Age</MudAvatar>
                         </MudTooltip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
@@ -51,7 +51,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudAvatar Color="Color.Info">@patient.WardNo</MudAvatar>
+                        <MudChip Color="Color.Info">@patient.WardNo</MudChip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Ward</MudText>
@@ -63,7 +63,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudAvatar Color="Color.Warning">@patient.BedNo</MudAvatar>
+                        <MudChip Color="Color.Warning">@patient.BedNo</MudChip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Bed</MudText>
@@ -218,10 +218,19 @@
     public string currentView;
     [Parameter] public int PatientId { get; set; } 
     private PatientDTO patient = new();
+    private int Age;
 
     protected async override Task OnInitializedAsync()
     {
         await GetPatientById(PatientId);
+        await CalculateAge();
+    }
+
+    public async Task CalculateAge()
+    {
+        var date = DateTime.Now;
+        var age = date.Year - patient.DateOfBirth.Value.Year;
+        Age = age;
     }
     public async Task GetPatientById(int patientId)
     {

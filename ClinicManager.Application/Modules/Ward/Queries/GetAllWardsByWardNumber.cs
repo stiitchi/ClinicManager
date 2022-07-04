@@ -8,7 +8,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
 {
     public class GetAllWardsByWardNumber : IRequest<Result<WardDTO>>
     {
-        public int WardNumber { get; set; }
+        public string WardNumber { get; set; }
     }
 
     public class GetAllWardsByWardNumberHandler : IRequestHandler<GetAllWardsByWardNumber, Result<WardDTO>>

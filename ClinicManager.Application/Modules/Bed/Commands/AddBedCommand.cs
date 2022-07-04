@@ -27,14 +27,12 @@ namespace ClinicManager.Application.Modules.Bed.Commands
         {
             try
             {
-                var wardNumber = Convert.ToInt32(request.WardNumber);
-
                 var beds = await _context.Beds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.BedNumber == request.BedNumber &&
                                                                                              c.WardNumber == request.WardNumber,cancellationToken);
                 if (beds != null)
                     throw new Exception("Bed already exists");
 
-                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == wardNumber, cancellationToken);
+                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == request.WardNumber, cancellationToken);
                 if (ward == null)
                     throw new Exception("Ward doesn't exist");
 

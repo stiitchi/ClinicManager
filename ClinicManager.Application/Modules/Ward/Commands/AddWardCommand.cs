@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Domain.Entities.BedAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
@@ -10,7 +9,7 @@ namespace ClinicManager.Application.Modules.Ward.Commands
     public class AddWardCommand : IRequest<Result<int>>
     {
         public int WardId { get; set; }
-        public int WardNumber { get; set; }
+        public string WardNumber { get; set; }
         public int RoomNumber { get; set; }
         public int TotalBeds { get; set; }
     }

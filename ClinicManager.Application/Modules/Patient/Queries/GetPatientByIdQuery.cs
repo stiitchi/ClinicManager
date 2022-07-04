@@ -60,7 +60,6 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     Language = patient.Language,
                     Gender = patient.Gender,
                     Suburb = patient.Suburb,
-                    Relationship = patient.Relationship,
                     Race = patient.Race,
                     EmployerName = patient.EmployerName,
                     WorkAddress = patient.WorkAddress,

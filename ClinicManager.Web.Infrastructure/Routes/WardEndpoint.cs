@@ -13,7 +13,7 @@ namespace ClinicManager.Web.Infrastructure.Routes
         {
             return $"api/Ward/{id}";
         }
-        public static string GetWardsByWardNumber(int wardNumber)
+        public static string GetWardsByWardNumber(string wardNumber)
         {
             return $"api/Ward/GetWardsByWardNumber?wardNumber={wardNumber}";
         }

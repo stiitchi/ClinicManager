@@ -54,7 +54,6 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     City = patient.City,
                     Province = patient.Province,
                     Suburb = patient.Suburb,
-                    Relationship = patient.Relationship,
                     PostalCode = patient.PostalCode,
                     PoBox = patient.PoBox,
                     PoBoxCode = patient.PoBoxCode,

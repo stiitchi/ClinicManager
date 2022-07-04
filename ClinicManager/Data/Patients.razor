@@ -20,6 +20,9 @@
             <MudButton Color="Color.Info" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
                        Variant="Variant.Outlined">New Patient</MudButton>
+            <MudButton Color="Color.Warning" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
+                       Variant="Variant.Outlined">Search Patient</MudButton>
         </MudItem>
  @*       <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
@@ -79,15 +82,23 @@
 
     private void AddPatient()
     {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("New Patient", parameters, options);
+    }
+
+    private void SearchPatient()
+    {
         Random rnd = new Random();
         int accountNo = rnd.Next();
         int caseInformationNo = rnd.Next();
         var parameters = new DialogParameters();
         parameters.Add(nameof(SearchPatientIDNumber.Search), new SearchDTO {});
-
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<SearchPatientIDNumber>("Search Patient", parameters, options);
     }
+
 
     protected async override Task OnInitializedAsync()
     {

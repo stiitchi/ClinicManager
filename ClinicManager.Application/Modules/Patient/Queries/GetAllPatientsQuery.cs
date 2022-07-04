@@ -51,7 +51,6 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     PostalCode = e.PostalCode,
                     PoBox = e.PoBox,
                     PoBoxCode = e.PoBoxCode,
-                    Relationship = e.Relationship,
                     Suburb = e.Suburb,
                     Occupation = e.Occupation,
                     Language = e.Language,

@@ -47,7 +47,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Ward
             return await response.ToResult<List<LookupDTO>>();
         }
 
-        public async Task<IResult<WardDTO>> GetWardsByWardNumber(int wardNumber)
+        public async Task<IResult<WardDTO>> GetWardsByWardNumber(string wardNumber)
         {
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.WardEndpoint.GetWardsByWardNumber(wardNumber));

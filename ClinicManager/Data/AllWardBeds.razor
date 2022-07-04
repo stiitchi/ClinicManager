@@ -1,4 +1,4 @@
-﻿@page "/all-WardBeds/{WardId:int}/{WardNumber:int}"
+﻿@page "/all-WardBeds/{WardId:int}"
 @using ClinicManager.Data.Modals.Beds
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using Modals
@@ -9,7 +9,7 @@
     <MudGrid Class="mt-8">
         <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
-                Ward @WardNumber Beds
+                Ward @WardId Beds
             </MudText>
         </MudItem>
           <MudItem xs="12" md="6" sm="6">
@@ -87,7 +87,6 @@
 
 @code{
     [Parameter] public int WardId { get; set; } 
-    [Parameter] public int WardNumber { get; set; } 
     DateTime? date = DateTime.Today;
     public string SearchField;
     private List<BedDTO> _beds = new();

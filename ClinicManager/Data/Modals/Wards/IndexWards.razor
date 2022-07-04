@@ -1,0 +1,59 @@
+﻿@using ClinicManager.Data.Modals.Wards
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject IWardService wardService 
+@inject IBedService bedService 
+
+                       
+<MudDialog Style="width:400px;">
+    <DialogContent>
+<MudGrid>
+               <MudItem xs="12" md="6" sm="12">
+                        <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                 @foreach(var bed in _beds)
+                                 {
+                                        @bed.BedNumber
+                                 }
+                           </CardHeaderAvatar>        
+                            </MudCardHeader>
+                        </MudCard>
+                </MudItem>          
+</MudGrid>
+
+    </DialogContent>
+</MudDialog>
+
+@code{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    private List<WardDTO> _wards = new();
+    private List<BedDTO> _beds = new();
+    [Parameter] public WardDTO Ward { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllWards();
+        await GetAllBedsByWardId(Ward.WardId);
+    }
+
+    public async Task GetAllWards()
+    {
+        var wards = await wardService.GetAll();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
+    }
+
+    public async Task GetAllBedsByWardId(int wardId)
+    {
+        var beds = await bedService.GetAllBedsByWardId(wardId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+    }

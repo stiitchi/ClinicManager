@@ -26,7 +26,8 @@ namespace ClinicManager.Application.Modules.ICDCode.Commands
         {
             try
             {
-                var patientICDCodes = await _context.PatientICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.IcdCode == request.ICDCodeId, cancellationToken);
+                var patientICDCodes = await _context.PatientICDCodes.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.IcdCode == request.ICDCodeId && c.PatientId == request.PatientId
+                , cancellationToken);
                 if (patientICDCodes != null)
                     throw new Exception("Patient is already assigned to this ICD Code");
 

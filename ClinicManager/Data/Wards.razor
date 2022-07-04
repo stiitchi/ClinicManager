@@ -35,18 +35,18 @@
                     <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
                         <MudCardHeader>
                             <CardHeaderAvatar>
-                                <MudAvatar Color="Color.Secondary">@ward.WardNumber</MudAvatar>
+                                <MudChip Color="Color.Secondary"> Ward @ward.WardNumber</MudChip>
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudChip Size="Size.Large" Color="Color.Info">
                                     @ward.TotalBeds Beds
                                 </MudChip>
-                                <MudChip Size="Size.Large" Color="Color.Success">
+                            @*    <MudChip Size="Size.Large" Color="Color.Success">
                                     28 Available
                                 </MudChip>
                                 <MudChip Size="Size.Large" Color="Color.Error">
                                     2 Occupied
-                                </MudChip>
+                                </MudChip>*@
                             </CardHeaderContent>
                         </MudCardHeader>
                     </MudCard>
@@ -83,7 +83,7 @@
             <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
         </MudTd>  
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-WardBeds/{@context.WardId}/{@context.WardNumber}"))">View Beds</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-WardBeds/{@context.WardId}"))">View Beds</MudButton>
        </MudTd>
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
          <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.WardId))">Edit</MudButton>
