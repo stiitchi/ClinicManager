@@ -433,12 +433,14 @@
 
     protected async override Task OnInitializedAsync()
     {
+        if(AddEditPatientModel.CaseInformationNumber == 0 && AddEditPatientModel.AccountNo == 0)
+        {
         Random rnd = new Random();
         int accountNo = rnd.Next();
         int caseInformationNo = rnd.Next();       
         AddEditPatientModel.CaseInformationNumber = caseInformationNo;
         AddEditPatientModel.AccountNo = accountNo;
-
+        }
         await GetForLookup();
     }
     public void Cancel()

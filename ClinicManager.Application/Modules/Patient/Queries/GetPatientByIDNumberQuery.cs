@@ -82,7 +82,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     AuthNo = patient.AuthNo,
                     DependentCode = patient.DependentCode,
                     WoundLocation = patient.WoundLocation,
-                    Stage = patient.Stage,
+                    Stage = patient.WoundStage,
                     OT = patient.Ot,
                     Speech = patient.SpeechLanguage,
                     Psych = patient.Psychologist,

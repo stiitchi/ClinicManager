@@ -37,6 +37,7 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients
             conf.Property(c => c.Language).IsRequired();
             conf.Property(c => c.Gender).IsRequired();
             conf.Property(c => c.Race).IsRequired();
+            conf.Property(c => c.Suburb).IsRequired();
             conf.Property(c => c.EmployerName).IsRequired();
             conf.Property(c => c.WorkAddress).IsRequired();
             conf.Property(c => c.WorkAddressCity).IsRequired();

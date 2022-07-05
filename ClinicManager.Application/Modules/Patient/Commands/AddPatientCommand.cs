@@ -129,6 +129,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 request.PatientWorkTelNo,
                 request.Email,
                 request.StreetAddress,
+                request.Suburb,
                 request.City,
                 request.Province,
                 request.PostalCode,

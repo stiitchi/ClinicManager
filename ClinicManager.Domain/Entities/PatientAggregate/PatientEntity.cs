@@ -49,6 +49,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
            string telNoWork,
            string email,
            string streetAddress,
+           string suburb,
            string city,
            string province, 
            string postalCode,
@@ -124,6 +125,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _patientWorkTelNo = telNoWork;
             _email = email;
             _streetAddress = streetAddress;
+            _suburb = suburb;
             _city = city;
             _province = province;
             _postalCode = postalCode;
@@ -199,6 +201,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
           string telNoWork,
           string email,
           string streetAddress,
+          string suburb,
           string city,
           string province,
           string postalCode,
@@ -274,6 +277,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _patientWorkTelNo = telNoWork;
             _email = email;
             _streetAddress = streetAddress;
+            _suburb = suburb;
             _city = city;
             _province = province;
             _postalCode = postalCode;
@@ -373,8 +377,6 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private string _refferingHospital;
         public string RefferingHospital => _refferingHospital;
 
-
-
         private string _relationship;
         public string Relationship => _relationship;
 
@@ -386,12 +388,6 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
 
         private string _language;
         public string Language => _language;
-
-        private string _stage;
-        public string Stage => _stage;
-
-        private string _location;
-        public string Location => _location;
 
         private string _poBox;
         public string PoBox => _poBox;
