@@ -1,0 +1,79 @@
+﻿@page "/comfort-sleep-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Comfort Sleep Reportss
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _comfortSleepReports.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_comfortSleepReports.Any())
+{
+   <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _comfortSleepReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.ComfortSleepRecordId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Comfort Sleep Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.Frequency<br/>
+                                Time Added: <MudChip>@report.PainControlDateTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Comfort Sleep Records Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<ComfortSleepReportDTO> _comfortSleepReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllComfortSleepRecords(PatientId);
+    }
+
+    public async Task GetAllComfortSleepRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllComfortSleepRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _comfortSleepReports = reports.Data;
+        }
+    }
+}

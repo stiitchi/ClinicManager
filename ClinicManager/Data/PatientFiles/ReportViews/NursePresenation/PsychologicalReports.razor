@@ -1,0 +1,145 @@
+﻿@page "/psychological-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Psychological
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Psychological Reportss
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _communicationReports.Count() > 0 ||
+    _healthEducationReports.Count() > 0 ||
+    _supportReports.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_communicationReports.Any() || _healthEducationReports.Any() || _supportReports.Any())
+{
+     <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _communicationReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.CommunicationId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Communication Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.CommunicationFrequency<br/>
+                                Time Added: <MudChip>@report.CommunicationTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _healthEducationReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.HealthEducationId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Health Education Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.HealthEducationFrequency<br/>
+                                Time Added: <MudChip>@report.HealthEducationTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _supportReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.SupportId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Support Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.SupportFrequency<br/>
+                                Time Added: <MudChip>@report.SupportTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Psychological Reports Found</MudText> 
+    </MudItem>
+}
+
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<CommunicationDTO> _communicationReports = new();
+    private List<HealthEducationDTO> _healthEducationReports = new();
+    private List<SupportDTO> _supportReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllCommunicationRecords(PatientId);
+        await GetAllHealthEducationRecords(PatientId);
+        await GetAllSupportRecords(PatientId);
+    }
+
+    public async Task GetAllCommunicationRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllCommunicationRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _communicationReports = reports.Data;
+        }
+    }
+    public async Task GetAllHealthEducationRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllHealthEducationByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _healthEducationReports = reports.Data;
+        }
+    }
+    public async Task GetAllSupportRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllSupportRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _supportReports = reports.Data;
+        }
+    }
+}

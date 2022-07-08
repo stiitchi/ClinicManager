@@ -8,9 +8,6 @@
 <MudDialog Style="width:400px;">
     <DialogContent>
         <EditForm Model="AddEditStoolChartModel" OnValidSubmit="SaveAsync">
-        <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
                 <MudItem sm="12">
                     <MudSelect T="string" Label="Bowel Amount" @bind-Value="AddEditStoolChartModel.BowelAmount" 
                     Variant="Variant.Outlined"
@@ -75,14 +72,16 @@
     [Parameter] public StoolChartDTO AddEditStoolChartModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
+    public DateTime today = DateTime.Now;
     public TimeSpan time = DateTime.Now.TimeOfDay;
-    
+
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        time = AddEditStoolChartModel.StoolTime.TimeOfDay;
+        AddEditStoolChartModel.StoolTime = today;
+        AddEditStoolChartModel.StoolDate = today;
+
         response = await patientRecordService.AddStoolChartRecord(AddEditStoolChartModel);
         if (response.Succeeded)
         {

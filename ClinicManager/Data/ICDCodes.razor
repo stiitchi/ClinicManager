@@ -17,30 +17,34 @@
             <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
                        Variant="Variant.Outlined">New ICD Code</MudButton>
         </MudItem>
+
                <MudItem xs="12" md="6" sm="6">
-                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
-                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
-                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
-                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                    <MudTooltip Text="Table View">
+                        <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                                       Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                    </MudTooltip>
+                    <MudTooltip Text="Grid View">
+                        <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                                       Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                    </MudTooltip>
             </MudItem>
+
     @if (!isTableView)
     {
         @foreach (var icdCode in _icdCodes)
         {
             <MudItem md="3" sm="6">
-                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                    <MudCardContent>
+                <MudCard Elevation="5" Style="height:150px">
+                    <MudCardHeader>
+                        <CardHeaderContent>
                         <MudText Align="Align.Center" Typo="Typo.h6">@icdCode.ICDCode</MudText>
-                    </MudCardContent>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                        <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(icdCode.ICDCodeId))" Variant="Variant.Outlined">Edit</MudButton>
+                        </CardHeaderActions>
+                    </MudCardHeader>
                     <MudCardContent>
-                        <center>
-                            <MudText Align="Align.Center" Typo="Typo.body1">@icdCode.Description</MudText>
-                        </center>
-                    </MudCardContent>
-                    <MudCardContent>
-                        <center>
-                            <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
-                        </center>
+                        <MudText Align="Align.Center" Typo="Typo.body2">@icdCode.Description</MudText>
                     </MudCardContent>
                 </MudCard>
             </MudItem>

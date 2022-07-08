@@ -21,1310 +21,160 @@
             Nurse Presentation Views
         </MudText>
     </MudItem>
+
     <MudItem xs="12" md="12" sm="12">
       <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem>
-@if (_comfortSleepReports.Any())
-{
-   <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>
-         <MudExpansionPanel Text="Comfort Sleep">
-            <MudGrid>
-                @foreach (var report in _comfortSleepReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.ComfortSleepRecordId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Comfort Sleep Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.Frequency<br/>
-                                Time Added: <MudChip>@report.PainControlDateTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/observation-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Observation Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-
-@if (_bloodReports.Any() || _bloodGlucoseReports.Any() || _neurologicalReports.Any() || _neurovascularReports.Any() || _urineTestReports.Any() || _vitalSignReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>
-                    <MudExpansionPanel Text="Observations">
-                        <MudGrid>
-                            @foreach (var report in _bloodReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Error">@report.BloodId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Blood Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.BloodFrequency <br/>
-                                            Time Added: <MudChip>@report.BloodTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-
-                            @foreach (var report in _bloodGlucoseReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Info">@report.BloodGlucoseId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Blood Glucose Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.BloodGlucoseFrequency <br/>
-                                            Time Added: <MudChip>@report.BloodGlucoseTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-
-                            @foreach (var report in _neurologicalReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Secondary">@report.NeuroLogicalId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Neurological Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.NeuroLogicalFrequency <br/>
-                                            Time Added: <MudChip>@report.NeuroLogicalTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-
-                            @foreach (var report in _neurovascularReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Success">@report.NeuroVascularId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Neurovascular Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.NeuroVascularFrequency <br/>
-                                            Time Added: <MudChip>@report.NeuroVascularTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-
-                            @foreach (var report in _urineTestReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Warning">@report.UrineTestId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Urine Test Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.UrineTestFrequency <br/>
-                                            Time Added: <MudChip>@report.UrineTestTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-
-                            @foreach (var report in _vitalSignReports)
-                            {
-                                <MudItem md="3" sm="3">
-                                    <MudCard>
-                                        <MudCardHeader>
-                                            <CardHeaderAvatar>
-                                                <MudAvatar Color="Color.Info">@report.VitalSignsId</MudAvatar>
-                                            </CardHeaderAvatar>
-                                            <CardHeaderContent>
-                                                <MudText Align="Align.Center" Typo="Typo.inherit">
-                                                    Vital Sign Report
-                                                </MudText>
-                                            </CardHeaderContent>
-                                        </MudCardHeader>
-                                        <MudCardContent>
-                                            Frequency: @report.VitalSignsFrequency <br/>
-                                            Time Added: <MudChip>@report.VitalSignsTime.ToString("HH:mm")</MudChip> 
-                                        </MudCardContent>
-                                    </MudCard>
-                                </MudItem>
-                            }
-                        </MudGrid>
-             </MudExpansionPanel>
-         </MudExpansionPanels>
-       </MudItem>
-         }
-
-@if (_cathetherReports.Any() || _continentReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>
-         <MudExpansionPanel Text="Elimination">
-            <MudGrid>
-                @foreach (var report in _cathetherReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.CatheterId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Cathether Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.CatheterFreq <br/>
-                                Time Added: <MudChip>@report.CatheterTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _continentReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.ContinentId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Continents Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.ContinentFreq <br/>
-                                Time Added: <MudChip>@report.ContinentTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/oxygenation-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Oxygenation Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_npoReports.Any() || _fullWardDietReports.Any() || _specialReports.Any())
-{
-      <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>
-         <MudExpansionPanel Text="Nutrition">
-            <MudGrid>
-                @foreach (var report in _npoReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.KeepNPOId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        NPO Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.KeepNPOFrequency<br/>
-                                Time Added: <MudChip>@report.KeepNPOTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _fullWardDietReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.FullWardDietID</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Full Ward Diet Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.FullWardDietFrequency<br/>
-                                Time Added: <MudChip>@report.FullWardDietTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _specialReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.SpecialId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Special Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.SpecialId<br/>
-                                Time Added: <MudChip>@report.SpecialTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/nutrition-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Nutrition Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-@if (_bedBathAssistReports.Any() || _bedBathReports.Any() || _selfCareReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>         
-         <MudExpansionPanel Text="Hygiene">
-            <MudGrid>
-                @foreach (var report in _bedBathAssistReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.BedBathAssistId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Bed Bath Assist Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.BedBathAssistFreq <br/>
-                                Time Added: <MudChip>@report.BedBathAssistTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _bedBathReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.BedBathId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Bed Bath Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.BedBathFreq<br/>
-                                Time Added: <MudChip>@report.BedBathTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _selfCareReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.SelfCareId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Self Care Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.SelfCareFreq<br/>
-                                Time Added: <MudChip>@report.SelfCareTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/hygiene-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Hygiene Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-@if (_isolationReports.Any() || _medicationReports.Any() || _postOperativeReports.Any() || _tractionReports.Any() || _woundCareReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>      
-         <MudExpansionPanel Text="Intervention">
-            <MudGrid>
-                @foreach (var report in _isolationReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.IsolationId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Isolation Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.IsolationFreq<br/>
-                                Time Added: <MudChip>@report.IsolationTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _medicationReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.MedicationId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Medication Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.MedicationFreq<br/>
-                                Time Added: <MudChip>@report.MedicationTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _postOperativeReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.PostOperativeCareId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Post Operative Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.PostOperativeCareFreq <br/>
-                                Time Added: <MudChip>@report.PostOperativeCareTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _tractionReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.TractionId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Traction Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.TractionFreq<br/>
-                                Time Added: <MudChip>@report.TractionTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _woundCareReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.WoundCareId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Wound Care Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.WoundCareFreq<br/>
-                                Time Added: <MudChip>@report.WoundCareTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/skin-integrity-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Skin Integrity Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_assistChairReports.Any() || _bedRestReports.Any() || _exerciseReports.Any() || _mobileReports.Any() || _walkAssitanceReports.Any())
-{
-     <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>        
-         <MudExpansionPanel Text="Mobility">
-            <MudGrid>
-                @foreach (var report in _assistChairReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.AssistIntoChairId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Assist In Chair Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.AssistIntoChairFrequency<br/>
-                                Time Added: <MudChip>@report.AssistIntoChairTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _bedRestReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.BedRestId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Bed Rest Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.BedRestFrequency<br/>
-                                Time Added: <MudChip>@report.BedRestTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _exerciseReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.ExercisesId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Exercise Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.ExercisesFrequency<br/>
-                                Time Added: <MudChip>@report.ExercisesTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _mobileReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.MobileImmobileId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Mobility Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.MobileImmobileFreq<br/>
-                                Time Added: <MudChip>@report.MobileImmobileTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _walkAssitanceReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.WalkWithAssistanceId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Walk Assistance Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.WalkWithAssistanceFrequency<br/>
-                                Time Added: <MudChip>@report.WalkWithAssistanceTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/psychological-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Psychological Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_inhalaReports.Any() || _nasalCannulaReport.Any() || _polyMaskReports.Any() || _maskReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>        
-         <MudExpansionPanel Text="Oxygenation">
-            <MudGrid>
-                @foreach (var report in _inhalaReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.InhalaNebsId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Inhala Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.InhalaNebsFrequency<br/>
-                                Time Added: <MudChip>@report.InhalaNebsTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _nasalCannulaReport)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.NasalCannulaId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Nasal Cannula Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.NasalCannulaFrequency <br/>
-                                Time Added: <MudChip>@report.NasalCannulaTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _polyMaskReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.PolyMaskId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Poly Mask Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.PolyMaskFrequency<br/>
-                                Time Added: <MudChip>@report.PolyMaskTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _maskReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.MaskId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Mask Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.MaskFrequency <br/>
-                                Time Added: <MudChip>@report.MaskTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/comfort-sleep-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Comfort Sleep Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_communicationReports.Any() || _healthEducationReports.Any() || _supportReports.Any())
-{
-     <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>         
-         <MudExpansionPanel Text="Psychological">
-            <MudGrid>
-                @foreach (var report in _communicationReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.CommunicationId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Communication Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.CommunicationFrequency<br/>
-                                Time Added: <MudChip>@report.CommunicationTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _healthEducationReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.HealthEducationId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Health Education Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.HealthEducationFrequency<br/>
-                                Time Added: <MudChip>@report.HealthEducationTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _supportReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.SupportId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Support Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.SupportFrequency<br/>
-                                Time Added: <MudChip>@report.SupportTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/mobility-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Mobility Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_checkIdBandReports.Any() || _cotsideReports.Any())
-{
-    <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>  
-         <MudExpansionPanel Text="Safety">
-            <MudGrid>
-                @foreach (var report in _checkIdBandReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.CheckIDBandsId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        ID Band Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.CheckIDBandsFrequency<br/>
-                                Time Added: <MudChip>@report.CheckIDBandsTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _cotsideReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.CotsidesId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Health Education Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.CotsidesFrequency<br/>
-                                Time Added: <MudChip>@report.CotsidesTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/safety-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Safety Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
-
-@if (_pressurePartReports.Any() || _rednessReports.Any())
-{
-     <MudItem xs="12" md="12" sm="12">
-        <MudExpansionPanels>       
-         <MudExpansionPanel Text="Skin Integrity">
-            <MudGrid>
-                @foreach (var report in _pressurePartReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.PressurePartCareId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Pressure Part Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.PressurePartCareFrequency<br/>
-                                Time Added: <MudChip>@report.PressurePartCareTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-                @foreach (var report in _rednessReports)
-                {
-                    <MudItem md="3" sm="3">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Info">@report.ReportRednessId</MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                                        Redness Report
-                                    </MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                Frequency: @report.ReportRednessFrequency<br/>
-                                Time Added: <MudChip>@report.ReportRednessTime.ToString("HH:mm")</MudChip> 
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
-         </MudExpansionPanel>
-     </MudExpansionPanels>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/special-intervention-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Special Intervention Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
     </MudItem>
-}
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/elimination-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Elimination Reports</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
 </MudGrid>
+
+
 
 @code {
     [Parameter] public int PatientId { get; set; } 
-
-    //Comfort Sleep
-    private List<ComfortSleepReportDTO> _comfortSleepReports = new();
-    //Elimination
-    private List<CathetherDTO> _cathetherReports = new();
-    private List<ContinentDTO> _continentReports = new();
-    //Hygiene
-    private List<BedBathAssistDTO> _bedBathAssistReports = new();
-    private List<BedBathDTO> _bedBathReports = new();
-    private List<SelfCareDTO> _selfCareReports = new();
-    //Intervention
-    private List<IsolationDTO> _isolationReports = new();
-    private List<MedicationDTO> _medicationReports = new();
-    private List<PostOperativeCareDTO> _postOperativeReports = new();
-    private List<TractionDTO> _tractionReports = new();
-    private List<WoundCareDTO> _woundCareReports = new();
-    //Mobility
-    private List<AssistIntoChairDTO> _assistChairReports = new();
-    private List<BedRestDTO> _bedRestReports = new();
-    private List<ExerciseDTO> _exerciseReports = new();
-    private List<MobileImmobileDTO> _mobileReports = new();
-    private List<WalkWithAssistanceDTO> _walkAssitanceReports = new();
-    //Nutrition
-    private List<FullWardDietDTO> _fullWardDietReports = new();
-    private List<KeepNPODTO> _npoReports = new();
-    private List<SpecialDTO> _specialReports = new();
-    //Observation
-    private List<BloodDTO> _bloodReports = new();
-    private List<BloodGlucoseDTO> _bloodGlucoseReports = new();
-    private List<NeuroLogicalDTO> _neurologicalReports = new();
-    private List<NeuroVascularDTO> _neurovascularReports = new();
-    private List<UrineTestDTO> _urineTestReports = new();
-    private List<VitalSignDTO> _vitalSignReports = new();
-    //Oxygenation
-    private List<MaskDTO> _maskReports = new();
-    private List<PolyMaskDTO> _polyMaskReports = new();
-    private List<NasalCannulaDTO> _nasalCannulaReport = new();
-    private List<InhalaNebsDTO> _inhalaReports = new();
-    //Psychological
-    private List<CommunicationDTO> _communicationReports = new();
-    private List<HealthEducationDTO> _healthEducationReports = new();
-    private List<SupportDTO> _supportReports = new();
-    //Safety
-    private List<CheckIDBandDTO> _checkIdBandReports = new();
-    private List<CotsideDTO> _cotsideReports = new();
-    //Skin Integrity Report
-    private List<PressurePartCareDTO> _pressurePartReports = new();
-    private List<RednessDTO> _rednessReports = new();
-
-
-    protected async override Task OnInitializedAsync()
-    {
-        //Comfort Sleep
-        await GetAllComfortSleepRecords(PatientId);
-        //Elimination
-        await GetAllCathetherReports(PatientId);
-        await GetAllContinentReports(PatientId);
-        //Hygiene
-        await GetAllBedBathAssistRecords(PatientId);
-        await GetAllBedBathRecords(PatientId);
-        await GetAllSelfCareRecords(PatientId);
-        //Intervention
-        await GetAllIsolationRecords(PatientId);
-        await GetAllMedicationRecords(PatientId);
-        await GetAllPostOperativeCareRecords(PatientId);
-        await GetAllTractionRecords(PatientId);
-        await GetAllWoundCareRecords(PatientId);
-        //Mobility
-        await GetAllAssistInChairRecords(PatientId);
-        await GetAllBedRestRecords(PatientId);
-        await GetAllExerciseRecords(PatientId);
-        await GetAllMobilityRecords(PatientId);
-        await GetAllWalkAssistanceRecords(PatientId);
-        //Nutrition
-        await GetAllFullWardDietRecords(PatientId);
-        await GetAllNPORecords(PatientId);
-        await GetAllSpecialRecords(PatientId);
-        //Observation
-        await GetAllBloodReports(PatientId);
-        await GetAllBloodGlucoseReports(PatientId);
-        await GetAllGetNeurologicalReports(PatientId);
-        await GetAllGetNeurologicalReports(PatientId);
-        await GetAllGetNeurovascularReports(PatientId);
-        await GetAllGetUrineTestReports(PatientId);
-        await GetAllGetVitalSignReports(PatientId);
-        //Oxygenation
-        await GetAllMaskReports(PatientId);
-        await GetAllPolyMaskReports(PatientId);
-        await GetAllNassalCannulReports(PatientId);
-        await GetAllInhalaReports(PatientId);
-        //Psychological
-        await GetAllCommunicationRecords(PatientId);
-        await GetAllHealthEducationRecords(PatientId);
-        await GetAllSupportRecords(PatientId);
-        //Safety
-        await GetAllIDBandReports(PatientId);
-        await GetAllCotsideReports(PatientId);
-        //Skin Integrity Report
-        await GetAllPressurePartCareTimeRecords(PatientId);
-        await GetAllRednessRecords(PatientId);
-
-
-    }
-    //Comfort Sleep
-
-     public async Task GetAllComfortSleepRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllComfortSleepRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _comfortSleepReports = reports.Data;
-        }
-    }
-    //Skin Integrity Report
-    public async Task GetAllPressurePartCareTimeRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllPressurePartCareTimeByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _pressurePartReports = reports.Data;
-        }
-    }
-    public async Task GetAllRednessRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllRednessReportsById(patientId);
-        if (reports.Succeeded)
-        {
-            _rednessReports = reports.Data;
-        }
-    }
-
-    //Psychological
-    public async Task GetAllCommunicationRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllCommunicationRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _communicationReports = reports.Data;
-        }
-    }
-    public async Task GetAllHealthEducationRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllHealthEducationByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _healthEducationReports = reports.Data;
-        }
-    }
-    public async Task GetAllSupportRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllSupportRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _supportReports = reports.Data;
-        }
-    }
-//Nutrition
-    public async Task GetAllFullWardDietRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllFullWardDietByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _fullWardDietReports = reports.Data;
-        }
-    }
-    public async Task GetAllNPORecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllNPORecordByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _npoReports = reports.Data;
-        }
-    }
-    public async Task GetAllSpecialRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllSpecialRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _specialReports = reports.Data;
-        }
-    }
-//Mobility
-    public async Task GetAllAssistInChairRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllAssistInChairRecordByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _assistChairReports = reports.Data;
-        }
-    }
-    public async Task GetAllBedRestRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllBedRestRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _bedRestReports = reports.Data;
-        }
-    }
-    public async Task GetAllExerciseRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllExerciseRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _exerciseReports = reports.Data;
-        }
-    }
-    public async Task GetAllMobilityRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllByMobilityRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _mobileReports = reports.Data;
-        }
-    }
-    public async Task GetAllWalkAssistanceRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllWalkAssistanceRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _walkAssitanceReports = reports.Data;
-        }
-    }
-//Intervention
-    public async Task GetAllIsolationRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllIsolationRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _isolationReports = reports.Data;
-        }
-    }
-    public async Task GetAllMedicationRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllMedicationRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _medicationReports = reports.Data;
-        }
-    }
-    public async Task GetAllPostOperativeCareRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllPostOperativeCareRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _postOperativeReports = reports.Data;
-        }
-    }
-    public async Task GetAllTractionRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllTractionRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _tractionReports = reports.Data;
-        }
-    }
-    public async Task GetAllWoundCareRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllWoundCareRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _woundCareReports = reports.Data;
-        }
-    }
-
-//Hygiene
-    public async Task GetAllBedBathAssistRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllBedBathAssistRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _bedBathAssistReports = reports.Data;
-        }
-    } 
-    public async Task GetAllBedBathRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllBedBathRecordByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _bedBathReports = reports.Data;
-        }
-    } 
-    public async Task GetAllSelfCareRecords(int patientId)
-    {
-        var reports = await patientRecordService.GetAllSelfCareRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _selfCareReports = reports.Data;
-        }
-    } 
-//Elimination
-    public async Task GetAllCathetherReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllCathethersByPatientId(patientId);
-        if (reports.Succeeded)
-            
-            _cathetherReports = reports.Data;
-        }
-    
-    public async Task GetAllContinentReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllContinentsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _continentReports = reports.Data;
-        }
-    } 
-//Oxygenation
-    public async Task GetAllMaskReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllMaskByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _maskReports = reports.Data;
-        }
-    } 
-    public async Task GetAllPolyMaskReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllPolyMaskByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _polyMaskReports = reports.Data;
-        }
-    } 
-    public async Task GetAllNassalCannulReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllNassalCannulRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _nasalCannulaReport = reports.Data;
-        }
-    } 
-    public async Task GetAllInhalaReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllInhalaByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _inhalaReports = reports.Data;
-        }
-    } 
-
-//Observations
-    public async Task GetAllBloodReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllBloodFrequencyRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _bloodReports = reports.Data;
-        }
-    }  
-    public async Task GetAllBloodGlucoseReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllBloodGlucoseRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _bloodGlucoseReports = reports.Data;
-        }
-    }
-    public async Task GetAllGetNeurologicalReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllNeuroLogicalRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _neurologicalReports = reports.Data;
-        }
-    }
-     public async Task GetAllGetNeurovascularReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllNeuroVascularPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _neurovascularReports = reports.Data;
-        }
-    }
-    public async Task GetAllGetUrineTestReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllUrineTestsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _urineTestReports = reports.Data;
-        }
-    }
-    public async Task GetAllGetVitalSignReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllVitalSignRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _vitalSignReports = reports.Data;
-        }
-    }
-//Safety
-    public async Task GetAllIDBandReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllCheckIDBandRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _checkIdBandReports = reports.Data;
-        }
-    } 
-    public async Task GetAllCotsideReports(int patientId)
-    {
-        var reports = await patientRecordService.GetAllCotsideRecordsByPatientId(patientId);
-        if (reports.Succeeded)
-        {
-            _cotsideReports = reports.Data;
-        }
-    } 
 }

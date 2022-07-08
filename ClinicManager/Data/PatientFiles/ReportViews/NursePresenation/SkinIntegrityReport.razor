@@ -1,0 +1,110 @@
+﻿@page "/skin-integrity-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.SkinIntegrity
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Skin Integrity Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _pressurePartReports.Count() > 0 ||
+    _rednessReports.Count() > 0 
+)
+{
+@if (_pressurePartReports.Any() || _rednessReports.Any())
+{
+<MudItem xs="12" md="12" sm="12">
+        <MudGrid>
+                @foreach (var report in _pressurePartReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.PressurePartCareId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Pressure Part Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.PressurePartCareFrequency<br/>
+                                Time Added: <MudChip>@report.PressurePartCareTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _rednessReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.ReportRednessId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Redness Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.ReportRednessFrequency<br/>
+                                Time Added: <MudChip>@report.ReportRednessTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+</MudGrid>
+</MudItem>
+    }
+}
+else
+{
+<MudItem xs="12" md="12" sm="12">
+    <MudText Align="Align.Center" Typo="Typo.body1">No Skin Integrity Records Found</MudText> 
+</MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<PressurePartCareDTO> _pressurePartReports = new();
+    private List<RednessDTO> _rednessReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllPressurePartCareTimeRecords(PatientId);
+        await GetAllRednessRecords(PatientId);
+    }
+
+    public async Task GetAllPressurePartCareTimeRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllPressurePartCareTimeByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _pressurePartReports = reports.Data;
+        }
+    }
+    public async Task GetAllRednessRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllRednessReportsById(patientId);
+        if (reports.Succeeded)
+        {
+            _rednessReports = reports.Data;
+        }
+    } 
+}

@@ -16,57 +16,65 @@
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem>
-
-    @foreach(var report in _reports)
+    @if (_reports.Count() > 0)
     {
-    <MudItem md="6" sm="12">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">  @report.SkinIntegrityId</MudAvatar>
-                </CardHeaderAvatar>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudTabs>
-                    <MudTabPanel Text="Sacrum">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                @report.SacrumDescription
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Hips">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                @report.HipsDescription
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Heals">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                @report.HealsDescription
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                      <MudTabPanel Text="Other">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                @report.OtherDescription
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                    <MudTabPanel Text="Comments">
-                        <center>
-                            <MudText Class="mt-5" Typo="Typo.body1">
-                                @report.Comments
-                            </MudText>
-                        </center>
-                    </MudTabPanel>
-                </MudTabs>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
+        @foreach (var report in _reports)
+        {
+            <MudItem md="6" sm="12">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Color="Color.Info">  @report.SkinIntegrityId</MudAvatar>
+                        </CardHeaderAvatar>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudTabs>
+                            <MudTabPanel Text="Sacrum">
+                                <center>
+                                    <MudText Class="mt-5" Typo="Typo.body1">
+                                        @report.SacrumDescription
+                                    </MudText>
+                                </center>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Hips">
+                                <center>
+                                    <MudText Class="mt-5" Typo="Typo.body1">
+                                        @report.HipsDescription
+                                    </MudText>
+                                </center>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Heals">
+                                <center>
+                                    <MudText Class="mt-5" Typo="Typo.body1">
+                                        @report.HealsDescription
+                                    </MudText>
+                                </center>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Other">
+                                <center>
+                                    <MudText Class="mt-5" Typo="Typo.body1">
+                                        @report.OtherDescription
+                                    </MudText>
+                                </center>
+                            </MudTabPanel>
+                            <MudTabPanel Text="Comments">
+                                <center>
+                                    <MudText Class="mt-5" Typo="Typo.body1">
+                                        @report.Comments
+                                    </MudText>
+                                </center>
+                            </MudTabPanel>
+                        </MudTabs>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    }
+    else
+    {
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.body1">No Skin Integrity Reports Found</MudText> 
+       </MudItem>
     }
 </MudGrid>
 

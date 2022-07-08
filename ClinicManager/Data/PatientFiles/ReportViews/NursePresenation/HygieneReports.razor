@@ -1,0 +1,142 @@
+﻿@page "/hygiene-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Hygiene
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Hygiene Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _bedBathAssistReports.Count() > 0 ||
+    _bedBathReports.Count() > 0 ||
+    _selfCareReports.Count() > 0
+)
+{
+    @if (_bedBathAssistReports.Any() || _bedBathReports.Any() || _selfCareReports.Any())
+    {
+        <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _bedBathAssistReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.BedBathAssistId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Bed Bath Assist Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.BedBathAssistFreq <br/>
+                                Time Added: <MudChip>@report.BedBathAssistTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _bedBathReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.BedBathId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Bed Bath Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.BedBathFreq<br/>
+                                Time Added: <MudChip>@report.BedBathTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _selfCareReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.SelfCareId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Self Care Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.SelfCareFreq<br/>
+                                Time Added: <MudChip>@report.SelfCareTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudItem>
+    }
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Hygiene Reports Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<BedBathAssistDTO> _bedBathAssistReports = new();
+    private List<BedBathDTO> _bedBathReports = new();
+    private List<SelfCareDTO> _selfCareReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllBedBathAssistRecords(PatientId);
+        await GetAllBedBathRecords(PatientId);
+        await GetAllSelfCareRecords(PatientId);
+    }
+
+    public async Task GetAllBedBathAssistRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllBedBathAssistRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _bedBathAssistReports = reports.Data;
+        }
+    } 
+    public async Task GetAllBedBathRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllBedBathRecordByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _bedBathReports = reports.Data;
+        }
+    } 
+    public async Task GetAllSelfCareRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllSelfCareRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _selfCareReports = reports.Data;
+        }
+    } 
+}

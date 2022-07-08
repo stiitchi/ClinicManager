@@ -9,22 +9,33 @@
                        
 <MudDialog Style="width:400px;">
     <DialogContent>
-<MudGrid>
-               <MudItem xs="12" md="6" sm="12">
-                        <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                 @foreach(var bed in _beds)
-                                 {
-                                        @bed.BedNumber
-                                 }
-                           </CardHeaderAvatar>        
-                            </MudCardHeader>
-                        </MudCard>
-                </MudItem>          
-</MudGrid>
+    <MudGrid>
+        @foreach(var bed in _beds)
+        {
+        <MudItem xs="3" md="3" sm="3">
+                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                    <MudCardHeader>
+                    <CardHeaderContent>
+                         <center>
+                        <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
+                        @bed.BedNumber
+                        </center>
+                    </CardHeaderContent>
+                    </MudCardHeader>
+                </MudCard>
+        </MudItem>          
+        }
+        </MudGrid>
+   </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Error"
+                               Style="border-radius:10px 10px 10px 10px; width:150px">Occupied</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                               Style="border-radius:10px 10px 10px 10px; width:150px">Unoccupied</MudButton>
 
-    </DialogContent>
+    </DialogActions>
 </MudDialog>
 
 @code{

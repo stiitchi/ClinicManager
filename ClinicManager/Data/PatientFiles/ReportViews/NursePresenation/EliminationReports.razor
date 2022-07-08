@@ -1,0 +1,110 @@
+﻿@page "/elimination-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Elimination
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Eimination Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _cathetherReports.Count() > 0 ||
+    _continentReports.Count() > 0 
+)
+{
+@if (_cathetherReports.Any() || _continentReports.Any())
+    {
+    <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _cathetherReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.CatheterId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Cathether Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.CatheterFreq <br/>
+                                Time Added: <MudChip>@report.CatheterTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _continentReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.ContinentId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Continents Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.ContinentFreq <br/>
+                                Time Added: <MudChip>@report.ContinentTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+    }
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Elimination Records Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<CathetherDTO> _cathetherReports = new();
+    private List<ContinentDTO> _continentReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllCathetherReports(PatientId);
+        await GetAllContinentReports(PatientId);
+    }
+
+    public async Task GetAllCathetherReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllCathethersByPatientId(patientId);
+        if (reports.Succeeded)
+            
+            _cathetherReports = reports.Data;
+        }
+    
+    public async Task GetAllContinentReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllContinentsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _continentReports = reports.Data;
+        }
+    }  
+}

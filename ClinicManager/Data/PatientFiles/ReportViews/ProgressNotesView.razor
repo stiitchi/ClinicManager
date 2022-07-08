@@ -15,25 +15,36 @@
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem>
-     @foreach (var report in _reports)
-            {
-            <MudItem md="3" sm="3">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderAvatar>
-                            <MudAvatar Color="Color.Info" >@report.ProgressReportId</MudAvatar>
-                        </CardHeaderAvatar>
-                    </MudCardHeader>
-                    <MudCardContent>
-                       Allergy:  @report.Allergy <br/>
-                       Risk Factor:  @report.RiskFactor <br/>
-                       Description : @report.Desc
-                    </MudCardContent>
-                </MudCard>
-            </MudItem>
-            }
+    @if(_reports.Count() > 0)
+    {    
+        @foreach (var report in _reports)
+        {
+                <MudItem md="3" sm="3">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Info" >@report.ProgressReportId</MudAvatar>
+                            </CardHeaderAvatar>
+                        </MudCardHeader>
+                        <MudCardContent>
+                           Allergy:  @report.Allergy <br/>
+                           Risk Factor:  @report.RiskFactor <br/>
+                           Description : @report.Desc <br/>
+                           Date: <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip> <br/>
+                           Time: <MudChip Class="mr-2">@report.TimeAdded.ToString("HH:mm")</MudChip> <br/>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+        }
+    }
+    else
+    {
 
-</MudGrid>
+       <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.body1">No Progress Notes Found</MudText> 
+       </MudItem>
+    }
+    </MudGrid>
 
   
 @code {

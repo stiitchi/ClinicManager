@@ -1,0 +1,208 @@
+﻿@page "/special-intervention-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Intervention
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Special Intervention Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _isolationReports.Count() > 0 ||
+    _medicationReports.Count() > 0 ||
+    _postOperativeReports.Count() > 0 ||
+    _tractionReports.Count() > 0 ||
+    _woundCareReports.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_isolationReports.Any() || _medicationReports.Any() || _postOperativeReports.Any() || _tractionReports.Any() || _woundCareReports.Any())
+{
+    <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _isolationReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.IsolationId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Isolation Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.IsolationFreq<br/>
+                                Time Added: <MudChip>@report.IsolationTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _medicationReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.MedicationId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Medication Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.MedicationFreq<br/>
+                                Time Added: <MudChip>@report.MedicationTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _postOperativeReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.PostOperativeCareId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Post Operative Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.PostOperativeCareFreq <br/>
+                                Time Added: <MudChip>@report.PostOperativeCareTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _tractionReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.TractionId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Traction Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.TractionFreq<br/>
+                                Time Added: <MudChip>@report.TractionTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _woundCareReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.WoundCareId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Wound Care Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.WoundCareFreq<br/>
+                                Time Added: <MudChip>@report.WoundCareTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Special Intervention Reports Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<IsolationDTO> _isolationReports = new();
+    private List<MedicationDTO> _medicationReports = new();
+    private List<PostOperativeCareDTO> _postOperativeReports = new();
+    private List<TractionDTO> _tractionReports = new();
+    private List<WoundCareDTO> _woundCareReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllIsolationRecords(PatientId);
+        await GetAllMedicationRecords(PatientId);
+        await GetAllPostOperativeCareRecords(PatientId);
+        await GetAllTractionRecords(PatientId);
+        await GetAllWoundCareRecords(PatientId);
+    }
+
+      public async Task GetAllIsolationRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllIsolationRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _isolationReports = reports.Data;
+        }
+    }
+    public async Task GetAllMedicationRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllMedicationRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _medicationReports = reports.Data;
+        }
+    }
+    public async Task GetAllPostOperativeCareRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllPostOperativeCareRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _postOperativeReports = reports.Data;
+        }
+    }
+    public async Task GetAllTractionRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllTractionRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _tractionReports = reports.Data;
+        }
+    }
+    public async Task GetAllWoundCareRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllWoundCareRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _woundCareReports = reports.Data;
+        }
+    }
+}

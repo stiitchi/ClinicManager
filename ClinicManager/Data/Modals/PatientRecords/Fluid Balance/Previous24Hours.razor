@@ -17,7 +17,8 @@
           <MudItem xs="8" md="12" sm="12">
             <MudTextField  Adornment="Adornment.End" AdornmentText="ml" @bind-Value="AddEditEliminationModel.TotalIntake"  Label="Overall Total" Variant="Variant.Outlined" />
         </MudItem>
-        <MudItem xs="8" md="12" sm="12">
+
+@*        <MudItem xs="8" md="12" sm="12">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Info" Class="mt-2"
                        Style="border-radius:10px 10px 10px 10px"
@@ -25,7 +26,8 @@
             <MudCard Outlined="true" Class="mt-2"
                      Style="width:350px; height:100px;
                      border-radius:10px 10px 10px 10px" />
-        </MudItem>
+        </MudItem>*@
+
         </EditForm>
     </DialogContent>
     <DialogActions>
@@ -44,13 +46,14 @@
     [Parameter] public Previous24HourIntakeDTO AddEditEliminationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
+        AddEditEliminationModel.DateToday = today;
+
         response = await patientRecordService.Add24HourIntakeRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {

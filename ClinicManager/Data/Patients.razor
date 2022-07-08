@@ -30,6 +30,9 @@
         <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
         </MudItem>*@
+
+    @if(_patients != null)
+    {     
         @foreach(var patient in _patients)
         {
         <MudItem xs="12" md="4" sm="4">
@@ -68,7 +71,13 @@
                 </MudCardContent>
             </MudCard>
         </MudItem>
+            }
         }
+        else
+        {
+            <MudText Align="Align.Center" Typo="Typo.body1">No Patients Found</MudText>          
+        }
+
     </MudGrid>
 </MudContainer>
 

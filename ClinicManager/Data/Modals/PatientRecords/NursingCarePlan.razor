@@ -1,5 +1,6 @@
 ﻿@page "/patient-view/{PatientId:int}"
 @inject IDialogService DialogService
+@using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Data.Modals.PatientRecords.DailyCare
 @using ClinicManager.Data.Modals.PatientRecords.Fluid_Balance
 @using ClinicManager.Data.Modals.PatientRecords.ProgressReport
@@ -20,6 +21,10 @@
             <MudText Align="Align.Center" Typo="Typo.h5">
               Patient View
             </MudText>
+        </MudItem>
+         <MudItem xs="12" md="12" sm="12">
+            <MudButton OnClick="AddPatientICDCode" Class="mr-2" Variant="Variant.Outlined" Color="Color.Warning" Style="border-radius:10px 10px 10px 10px">Assign ICD Code</MudButton> 
+            <MudButton OnClick="AddPatientDayFee"  Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Assign Day Fee</MudButton> 
         </MudItem>
         <MudItem xs="12" md="6" sm="6">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
@@ -51,7 +56,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudChip Color="Color.Info">@patient.WardNo</MudChip>
+                        <MudChip Size="Size.Large" Color="Color.Info">@patient.WardNo</MudChip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Ward</MudText>
@@ -63,7 +68,7 @@
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudChip Color="Color.Warning">@patient.BedNo</MudChip>
+                        <MudChip Size="Size.Large"Color="Color.Warning">@patient.BedNo</MudChip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Bed</MudText>
@@ -282,4 +287,26 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         DialogService.Show<StoolChartModal>("Stool Chart Report", parameters, options);
     } 
+
+    private void AddPatientICDCode()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AssignICDCodePatient.AssignICDCode), new PatientICDCodeDTO
+        {
+            PatientId = PatientId
+        });
+        var options = new DialogOptions() { CloseButton = false, MaxWidth = MaxWidth.ExtraExtraLarge, };
+        _dialogService.Show<AssignICDCodePatient>("Patient ICD Code", parameters, options);
+    }
+
+    private void AddPatientDayFee()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AssignDayFeesPatient.AssignDayFee), new PatientDayFeeDTO
+        {
+            PatientId = PatientId
+        });
+        var options = new DialogOptions() { CloseButton = false, MaxWidth = MaxWidth.ExtraExtraLarge, };
+        _dialogService.Show<AssignDayFeesPatient>("Patient Day Fee", parameters, options);
+    }
 }

@@ -16,10 +16,11 @@
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem>
-
+@if (_reports.Count() > 0)
+    {
     @foreach(var report in _reports)
     {
-    <MudItem md="3" sm="3">
+    <MudItem md="4" sm="4">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
@@ -30,48 +31,93 @@
                    @report.StoolTime.ToString("HH:mm")
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>          
-                @if(report.NormalBowelMovement == true)
-                {
-                <MudText Typo="Typo.body2"> Normal Bowel Movement: <MudChip Color="Color.Success">Yes</MudChip> <br/> </MudText>
-                }
-                else
-                {
-                 <MudText Typo="Typo.body2"> Normal Bowel Movement: <MudChip Color="Color.Success">No</MudChip> <br/> </MudText>
-                }
-               Bowel Amount <MudChip Color="Color.Warning">@report.BowelAmount</MudChip> <br/>
-               Mucous Amount <MudChip Color="Color.Info">@report.MuscousAmount</MudChip> <br/>
-               Consistency
-               @switch(@report.Consistency) 
-                {
-                  case "Type1":
-                     <MudChip Color="Color.Secondary">Severe Constipation</MudChip>
-                    break;
-                  case "Type2":
-                     <MudChip Color="Color.Secondary">Mild Constipation</MudChip>
-                    break;
-                    case "Type3":
-                     <MudChip Color="Color.Secondary">Normal</MudChip>
-                    break;
-                    case "Type4":
-                     <MudChip Color="Color.Secondary">Normal</MudChip>
-                    break;
-                    case "Type5":
-                     <MudChip Color="Color.Secondary">Lacking Fibre</MudChip>
-                    break;
-                    case "Type6":
-                     <MudChip Color="Color.Secondary">Mild Diarrhea</MudChip>
-                    break;
-                    case "Type7":
-                     <MudChip Color="Color.Secondary">Severe Diarrhea</MudChip>
-                    break;
-                  default:
+            <MudCardContent>
+                <MudGrid>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2"> Normal Bowel Movement </MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                    @if(report.NormalBowelMovement == true)
+                    {
+                    <MudChip Color="Color.Success">Yes</MudChip>
+                    }
+                    else
+                    {
+                     <MudChip Color="Color.Success">No</MudChip>
+                    }
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2"> Bowel Amount </MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Warning">@report.BowelAmount</MudChip>
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2"> Mucous Amount </MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Info">@report.MuscousAmount</MudChip>
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Consistency</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                    @switch(@report.Consistency) 
+                    {
+                      case "Type1":
+                         <MudChip Color="Color.Secondary">Severe Constipation</MudChip>
+                        break;
+                      case "Type2":
+                         <MudChip Color="Color.Secondary">Mild Constipation</MudChip>
+                        break;
+                        case "Type3":
+                         <MudChip Color="Color.Secondary">Normal</MudChip>
+                        break;
+                        case "Type4":
+                         <MudChip Color="Color.Secondary">Normal</MudChip>
+                        break;
+                        case "Type5":
+                         <MudChip Color="Color.Secondary">Lacking Fibre</MudChip>
+                        break;
+                        case "Type6":
+                         <MudChip Color="Color.Secondary">Mild Diarrhea</MudChip>
+                        break;
+                        case "Type7":
+                         <MudChip Color="Color.Secondary">Severe Diarrhea</MudChip>
+                        break;
+                      default:
                   
-                    break;
-                }
-            </MudCardContent>
+                        break;
+                    }
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Blood</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">          
+                    @if(report.Blood == true)
+                    {       
+                    <MudChip Color="Color.Error">Yes</MudChip>                       
+                    }
+                    else
+                    {
+                    <MudChip Color="Color.Success">No</MudChip>                                          
+                    }
+                  </MudItem>
+                </MudGrid>             
+                </MudCardContent>
         </MudCard>
     </MudItem>
+    }
+}
+else
+    {
+       <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.body1">No Stool Chart Reports Found</MudText> 
+       </MudItem>
     }
 </MudGrid>
 

@@ -18,29 +18,32 @@
         </MudItem>
 
             <MudItem xs="12" md="6" sm="6">
-                <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
-                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
-                <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
-                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                <MudTooltip Text="Table View">
+                        <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                                       Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                    </MudTooltip>
+                    <MudTooltip Text="Grid View">
+                        <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                                       Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                </MudTooltip>
             </MudItem>
+
         @if (!isTableView)
         {
             @foreach (var dayFee in _dayFees)
             {
                 <MudItem xs="12" md="3" sm="3">
-                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                        <MudCardContent>
+                    <MudCard Elevation="5">
+                        <MudCardHeader>
+                            <CardHeaderContent>
                             <MudText Align="Align.Center" Typo="Typo.h6">@dayFee.DayFeeCode</MudText>
-                        </MudCardContent>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                            <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(dayFee.DayFeeID))" Variant="Variant.Outlined">Edit</MudButton>
+                            </CardHeaderActions>
+                        </MudCardHeader>
                         <MudCardContent>
-                            <center>
-                                <MudText Align="Align.Center" Typo="Typo.body1">@dayFee.Description</MudText>
-                            </center>
-                        </MudCardContent>
-                        <MudCardContent>
-                            <center>
-                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
-                            </center>
+                            <MudText Align="Align.Center" Typo="Typo.body2">@dayFee.Description</MudText>
                         </MudCardContent>
                     </MudCard>
                 </MudItem>

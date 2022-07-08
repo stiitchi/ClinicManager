@@ -1,0 +1,107 @@
+﻿@page "/iv-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.FluidBalance
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+           IV Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/fluid-balance-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>  
+@if (_ivReports.Count() > 0)
+{
+<MudGrid>
+        @foreach (var report in _ivReports)
+        {
+            <MudItem md="4" sm="4">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudText Align="Align.Center" Typo="Typo.inherit">
+                                IV Test Report
+                            </MudText>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            Intake     @report.intravenousIntakeTime.ToString("HH:mm") <br/>
+                            Completed  @report.intravenousIntakeTimeCompleted.ToString("HH:mm")
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem md="6" sm="6">
+                                Check Type
+                            </MudItem>
+                            <MudItem md="6" sm="6">
+                                <MudChip Class="mr-2">@report.intravenousCheckType</MudChip>
+                            </MudItem>
+                            <MudItem md="6" sm="6">
+                                <MudText Typo="Typo.body2">Start Volume</MudText>
+                            </MudItem>
+                            <MudItem md="6" sm="6">
+                                <MudChip Color="Color.Warning">@report.intravenousStartVolume</MudChip>
+                            </MudItem>
+
+                            <MudItem md="6" sm="6">
+                                <MudText Typo="Typo.body2">Complete Volume</MudText>
+                            </MudItem>
+                            <MudItem md="6" sm="6">
+                                <MudChip Color="Color.Info">@report.intravenousCompleteVolume</MudChip>
+                            </MudItem>
+
+                            <MudItem md="6" sm="6">
+                                <MudText Typo="Typo.body2">Running Total</MudText>
+                            </MudItem>
+                            <MudItem md="6" sm="6">
+                                <MudChip Class="mr-2">@report.intravenousRunningTotal</MudChip>
+                            </MudItem>
+
+                            <MudItem md="6" sm="6">
+                                <MudText Typo="Typo.body2">Description</MudText>
+                            </MudItem>
+                            <MudItem md="6" sm="6">   
+                                <MudChip Class="mr-2">@report.intravenousDesc</MudChip>
+                            </MudItem>
+                        </MudGrid>             
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No IV Test Reports Found</MudText> 
+    </MudItem>
+}
+           
+
+
+@code {
+    private List<FluidBalanceIVCheckDTO> _ivReports = new();
+
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllIVTestReports(PatientId);
+    }
+
+    public async Task GetAllIVTestReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllIVCheckByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _ivReports = reports.Data;
+        }
+    }  
+}

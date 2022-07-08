@@ -1,0 +1,208 @@
+﻿@page "/mobility-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Mobility
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Mobility Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _assistChairReports.Count() > 0 ||
+    _bedRestReports.Count() > 0 ||
+    _exerciseReports.Count() > 0 ||
+    _mobileReports.Count() > 0 ||
+    _walkAssitanceReports.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_assistChairReports.Any() || _bedRestReports.Any() || _exerciseReports.Any() || _mobileReports.Any() || _walkAssitanceReports.Any())
+{
+     <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _assistChairReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.AssistIntoChairId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Assist In Chair Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.AssistIntoChairFrequency<br/>
+                                Time Added: <MudChip>@report.AssistIntoChairTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _bedRestReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.BedRestId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Bed Rest Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.BedRestFrequency<br/>
+                                Time Added: <MudChip>@report.BedRestTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _exerciseReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.ExercisesId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Exercise Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.ExercisesFrequency<br/>
+                                Time Added: <MudChip>@report.ExercisesTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _mobileReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.MobileImmobileId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Mobility Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.MobileImmobileFreq<br/>
+                                Time Added: <MudChip>@report.MobileImmobileTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _walkAssitanceReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.WalkWithAssistanceId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Walk Assistance Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.WalkWithAssistanceFrequency<br/>
+                                Time Added: <MudChip>@report.WalkWithAssistanceTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Mobility Records Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<AssistIntoChairDTO> _assistChairReports = new();
+    private List<BedRestDTO> _bedRestReports = new();
+    private List<ExerciseDTO> _exerciseReports = new();
+    private List<MobileImmobileDTO> _mobileReports = new();
+    private List<WalkWithAssistanceDTO> _walkAssitanceReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllAssistInChairRecords(PatientId);
+        await GetAllBedRestRecords(PatientId);
+        await GetAllExerciseRecords(PatientId);
+        await GetAllMobilityRecords(PatientId);
+        await GetAllWalkAssistanceRecords(PatientId);
+    }
+
+    public async Task GetAllAssistInChairRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllAssistInChairRecordByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _assistChairReports = reports.Data;
+        }
+    }
+    public async Task GetAllBedRestRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllBedRestRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _bedRestReports = reports.Data;
+        }
+    }
+    public async Task GetAllExerciseRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllExerciseRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _exerciseReports = reports.Data;
+        }
+    }
+    public async Task GetAllMobilityRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllByMobilityRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _mobileReports = reports.Data;
+        }
+    }
+    public async Task GetAllWalkAssistanceRecords(int patientId)
+    {
+        var reports = await patientRecordService.GetAllWalkAssistanceRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _walkAssitanceReports = reports.Data;
+        }
+    }
+}

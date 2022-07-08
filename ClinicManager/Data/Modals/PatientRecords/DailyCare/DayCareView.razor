@@ -15,24 +15,33 @@
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem>
+    @if (_reports.Count() > 0)
+    {
+        @foreach (var report in _reports)
+        {
+            <MudItem md="3" sm="3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudChip Color="Color.Info">@report.CareRecord</MudChip>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip>
+                        <MudChip>@report.TimeAdded.ToString("HH:mm")</MudChip>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    }
+    else
+    {
 
-    @foreach(var report in _reports)
-    {     
-    <MudItem md="3" sm="3">
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudChip Color="Color.Info"> @report.CareRecord</MudChip>
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip>
-                <MudChip>@report.TimeAdded.ToString("HH:mm")</MudChip>
-            </MudCardContent>
-        </MudCard>
-    </MudItem>
+       <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.body1">No Daily Care Records Found</MudText> 
+       </MudItem>
     }
 
 </MudGrid>

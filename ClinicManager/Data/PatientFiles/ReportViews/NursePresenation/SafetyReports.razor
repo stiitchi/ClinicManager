@@ -1,0 +1,111 @@
+﻿@page "/safety-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Safety
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Safety Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _checkIdBandReports.Count() > 0 ||
+    _cotsideReports.Count() > 0 
+)
+{
+@if (_checkIdBandReports.Any() || _cotsideReports.Any())
+{
+    <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _checkIdBandReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.CheckIDBandsId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        ID Band Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.CheckIDBandsFrequency<br/>
+                                Time Added: <MudChip>@report.CheckIDBandsTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _cotsideReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.CotsidesId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Health Education Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.CotsidesFrequency<br/>
+                                Time Added: <MudChip>@report.CotsidesTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+    }
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Safety Reports Found</MudText> 
+    </MudItem>
+}
+
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<CheckIDBandDTO> _checkIdBandReports = new();
+    private List<CotsideDTO> _cotsideReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllIDBandReports(PatientId);
+        await GetAllCotsideReports(PatientId);
+    }
+
+    public async Task GetAllIDBandReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllCheckIDBandRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _checkIdBandReports = reports.Data;
+        }
+    } 
+    public async Task GetAllCotsideReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllCotsideRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _cotsideReports = reports.Data;
+        }
+    } 
+}

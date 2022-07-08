@@ -19,14 +19,17 @@
                        Variant="Variant.Outlined">New Ward</MudButton>
         </MudItem>
 
-            <MudItem xs="12" md="6" sm="6">
+        <MudItem xs="12" md="6" sm="6">
+            <MudTooltip Text="Table View">
                 <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
-                               Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                                Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+            </MudTooltip>
+            <MudTooltip Text="Grid View">
                 <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
-                               Icon="@Icons.Material.Filled.GridView"></MudIconButton>
-            </MudItem>
+                                Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+            </MudTooltip>
+        </MudItem>
         
-
         @if (!isTableView)
         {
             @foreach (var ward in _wards)
@@ -35,7 +38,7 @@
                     <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
                         <MudCardHeader>
                             <CardHeaderAvatar>
-                                <MudChip Color="Color.Secondary"> Ward @ward.WardNumber</MudChip>
+                                <MudChip Size="Size.Large" Color="Color.Warning"> Ward @ward.WardNumber</MudChip>
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudChip Size="Size.Large" Color="Color.Info">
@@ -48,14 +51,19 @@
                                     2 Occupied
                                 </MudChip>*@
                             </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Class="mt-3" Color="Color.Secondary" Icon="@Icons.Filled.Bed" @onclick="@(() => _navigationManager.NavigateTo($"/all-WardBeds/{ward.WardId}"))"/>
+                            <MudIconButton Class="mt-3" Color="Color.Dark" Icon="@Icons.Filled.Edit" @onclick="@(() => InvokeModal(ward.WardId))"/>
+                            <MudIconButton Class="mt-3" Color="Color.Error" Icon="@Icons.Filled.Delete" @onclick="@(() => Delete(ward.WardId))"/>
+                        </CardHeaderActions>
                         </MudCardHeader>
                     </MudCard>
                 </MudItem>
             }
         }
-
-
     </MudGrid>
+
+
     @if (isTableView)
     {
         <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_wards"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<WardDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<WardDTO, bool>(Search)" @ref="_table">

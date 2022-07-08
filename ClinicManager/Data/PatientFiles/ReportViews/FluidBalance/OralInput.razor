@@ -1,0 +1,94 @@
+﻿@page "/oral-input-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.FluidBalance
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Oral Input Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/fluid-balance-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>  
+@if (_oralInputReports.Count() > 0)
+{
+<MudGrid>
+    @foreach (var report in _oralInputReports)
+    {
+   
+    <MudItem md="3" sm="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudText Typo="Typo.inherit">
+                     Oral Input Report
+                    </MudText>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudChip>@report.OralIntakeTime.ToString("HH:mm")</MudChip> 
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                  <MudItem md="6" sm="6">
+                      Total 
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                   <MudChip Class="mr-2">@report.OralIntakeMl ml</MudChip>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Total Volume</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Warning">@report.OralIntakeVolume ml</MudChip>
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Running Volume</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Info">@report.RunningIntakeTotal ml</MudChip>
+                  </MudItem>
+                </MudGrid>             
+                </MudCardContent>
+        </MudCard>
+    </MudItem>
+    }
+</MudGrid>
+
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Oral Input Reports Found</MudText> 
+    </MudItem>
+}
+           
+
+
+@code {
+    private List<OralIntakeDTO> _oralInputReports = new();
+
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllOralIntakeReports(PatientId);
+    }
+
+    public async Task GetAllOralIntakeReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllOralIntakeChecksByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _oralInputReports = reports.Data;
+        }
+    }
+}

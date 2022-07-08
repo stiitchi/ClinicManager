@@ -1,0 +1,177 @@
+﻿@page "/oxygenation-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Oxygenation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Oxygenation Reportss
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/nurse-presentation/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _inhalaReports.Count() > 0 ||
+    _nasalCannulaReport.Count() > 0 ||
+    _polyMaskReports.Count() > 0 ||
+    _maskReports.Count() > 0 
+)
+{
+<MudGrid>
+  @if (_inhalaReports.Any() || _nasalCannulaReport.Any() || _polyMaskReports.Any() || _maskReports.Any())
+{
+    <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var report in _inhalaReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.InhalaNebsId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Inhala Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.InhalaNebsFrequency<br/>
+                                Time Added: <MudChip>@report.InhalaNebsTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _nasalCannulaReport)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.NasalCannulaId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Nasal Cannula Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.NasalCannulaFrequency <br/>
+                                Time Added: <MudChip>@report.NasalCannulaTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _polyMaskReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.PolyMaskId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Poly Mask Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.PolyMaskFrequency<br/>
+                                Time Added: <MudChip>@report.PolyMaskTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                @foreach (var report in _maskReports)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Info">@report.MaskId</MudAvatar>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                        Mask Report
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                Frequency: @report.MaskFrequency <br/>
+                                Time Added: <MudChip>@report.MaskTime.ToString("HH:mm")</MudChip> 
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Oxygenation Reports Found</MudText> 
+    </MudItem>
+}
+
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<MaskDTO> _maskReports = new();
+    private List<PolyMaskDTO> _polyMaskReports = new();
+    private List<NasalCannulaDTO> _nasalCannulaReport = new();
+    private List<InhalaNebsDTO> _inhalaReports = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllMaskReports(PatientId);
+        await GetAllPolyMaskReports(PatientId);
+        await GetAllNassalCannulReports(PatientId);
+        await GetAllInhalaReports(PatientId);
+    }
+
+    public async Task GetAllMaskReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllMaskByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _maskReports = reports.Data;
+        }
+    } 
+    public async Task GetAllPolyMaskReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllPolyMaskByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _polyMaskReports = reports.Data;
+        }
+    } 
+    public async Task GetAllNassalCannulReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllNassalCannulRecordsByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _nasalCannulaReport = reports.Data;
+        }
+    } 
+    public async Task GetAllInhalaReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAllInhalaByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _inhalaReports = reports.Data;
+        }
+    } 
+}

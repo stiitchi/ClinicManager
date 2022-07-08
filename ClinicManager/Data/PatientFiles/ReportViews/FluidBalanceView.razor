@@ -15,102 +15,59 @@
       <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                Style="border-radius:10px 10px 10px 10px"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
-    </MudItem>
-    @foreach(var report in _ivReports)
-    { 
-    <MudItem md="3" sm="6">
-        <MudCard Style="height:100%">
+    </MudItem> 
+       <MudItem md="6" sm="6">
+        <MudCard>
             <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">@report.IVTestId</MudAvatar>
-                </CardHeaderAvatar>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/oral-input-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
                 <CardHeaderContent>
-                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                        IV Test Report
-                    </MudText>
+                <MudText>Oral Input Reports</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-                Check Type: <MudChip Class="mr-2">@report.intravenousCheckType</MudChip> <br/>
-                Intake Time: <MudChip Class="mr-2">@report.intravenousIntakeTime.ToString("HH:mm")</MudChip> <br/>
-                Completed Time: <MudChip Class="mr-2">@report.intravenousIntakeTimeCompleted.ToString("HH:mm")</MudChip> <br/>
-                Start Volume: @report.intravenousStartVolume <br/>
-                Complete Volume: @report.intravenousCompleteVolume <br/>
-                Running Total: @report.intravenousRunningTotal <br/>
-                Description : @report.intravenousDesc
-            </MudCardContent>
         </MudCard>
     </MudItem>
-    }
-    @foreach(var report in _oralInputReports)
-    { 
-    <MudItem md="3" sm="6">
-        <MudCard Style="height:100%">
+    <MudItem md="6" sm="6">
+        <MudCard>
             <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">@report.OralIntakeTestId</MudAvatar>
-                </CardHeaderAvatar>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/oral-output-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
                 <CardHeaderContent>
-                    @report.OralCheckType
+                <MudText>Oral Output Reports</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-               Total ML: @report.OralIntakeMl <br/> 
-               Total Volume: @report.OralIntakeVolume <br/>
-               Running Total: @report.RunningIntakeTotal <br/>
-               Time: <MudChip>@report.OralIntakeTime.ToString("HH:mm")</MudChip> 
-            </MudCardContent>
         </MudCard>
     </MudItem>
-    }
-    @foreach(var report in _oralOutputReports)
-    { 
-    <MudItem md="3" sm="6">
-        <MudCard Style="height:100%">
+     <MudItem md="6" sm="6">
+        <MudCard>
             <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">@report.OralOutputTestId</MudAvatar>
-                </CardHeaderAvatar>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/iv-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
                 <CardHeaderContent>
-                    <MudText Align="Align.Center" Typo="Typo.inherit">
-                        Oral Output Report
-                    </MudText>
+                <MudText>IV Test Reports</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-               Total ML: @report.OralOutputMl <br/>
-                @if(report.IsUrine == true)
-                {
-                <MudText Typo="Typo.inherit">Is Urine: Yes</MudText> <br/>
-                }
-                else
-                {
-                <MudText Typo="Typo.inherit">Is Urine: No</MudText> <br/>
-                }
-               Running Total: @report.RunningOutputTotal <br/>
-               Time: <MudChip>@report.OralOutputTime.ToString("HH:mm")</MudChip> 
-            </MudCardContent>
         </MudCard>
     </MudItem>
-    }
-    @foreach(var report in _24HourReports)
-    { 
-    <MudItem md="3" sm="6">
-        <MudCard Style="height:100%">
+    <MudItem md="6" sm="6">
+        <MudCard>
             <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Info">@report.TotalIntakeId</MudAvatar>
-                </CardHeaderAvatar>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/intake-reports/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>24 Hour Reports</MudText>
+                </CardHeaderContent>
             </MudCardHeader>
-            <MudCardContent>
-               Intake 24 Hour: @report.Intake24Hour <br/>         
-               Output 24 Hour: @report.Output24Hour <br/>
-               Overall Total:  @report.TotalIntake  <br/>
-              <MudChip>@report.DateToday.ToString("MMMM:dd")</MudChip>
-            </MudCardContent>
         </MudCard>
     </MudItem>
-    }
 </MudGrid>
 
 @code {

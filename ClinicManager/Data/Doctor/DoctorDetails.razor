@@ -1,0 +1,151 @@
+﻿@page "/doctor-details"
+
+<MudGrid>
+    <MudItem sm="3" md="3">
+        <MudCard Outlined="true" Square="true" Style="height:300px">
+            <MudGrid>
+                <MudItem sm="12" md="12">
+                    <center>
+                    <MudIcon Style="height:150px; width:100px"  Icon="@Icons.Outlined.PersonOutline"/> 
+                    </center>
+                </MudItem>
+                 <MudItem sm="12" md="12">
+                   <MudText Align="Align.Center">Dr Jurie Marias</MudText> <br/>
+                   <MudText Align="Align.Center">56</MudText> <br/>
+                   <MudText Align="Align.Center">Ward 2A</MudText> <br/>
+                </MudItem>
+            </MudGrid>
+        </MudCard>
+    </MudItem>
+    <MudItem sm="9" md="9">
+        <MudCard Elevation="3" Outlined="true" Square="true" Style="height:300px">
+            <MudGrid>
+                <MudItem sm="12" md="12">
+                   <MudText Class="mt-4" Align="Align.Center">Current Patients</MudText> 
+                </MudItem>
+                 <MudItem sm="12" md="12">
+                  <MudCard Class="mb-2 ml-2 mr-2" Elevation="4" Outlined="true">
+                      <MudCardHeader>
+                          <CardHeaderContent>
+                              Riaan Nigrini
+                          </CardHeaderContent>
+                          <CardHeaderActions>
+                              <MudChip Color="Color.Warning">Ward 2A</MudChip>
+                              <MudChip Color="Color.Secondary">Bed 76</MudChip>
+                          </CardHeaderActions>
+                      </MudCardHeader>
+                  </MudCard>
+                    <MudCard Class="mb-2 ml-2 mr-2" Elevation="4" Outlined="true">
+                      <MudCardHeader>
+                          <CardHeaderContent>
+                              Marelize Klopper
+                          </CardHeaderContent>
+                          <CardHeaderActions>
+                              <MudChip Color="Color.Warning">Ward 2A</MudChip>
+                              <MudChip Color="Color.Secondary">Bed 89</MudChip>
+                          </CardHeaderActions>
+                      </MudCardHeader>
+                  </MudCard>
+                </MudItem>
+            </MudGrid>
+        </MudCard>
+    </MudItem>
+    <MudItem sm="3" md="3">
+            <MudItem sm="12" md="12">
+                <MudCard Elevation="4" Outlined="true">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Align="Align.Center">Checked In Today</MudText> 
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                             <MudChip Class="mt-3" Color="Color.Info">@date.ToString("MMMM dd")</MudChip>                            
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem md="6" sm="6">
+                                <MudChip Color="Color.Success" Class="mt-3">@date.ToString("HH:mm")</MudChip>                       
+                            </MudItem>
+                             <MudItem md="6" sm="6">
+                                <MudChip Color="Color.Error" Class="mt-3">@date.ToString("HH:mm")</MudChip> 
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+    </MudItem>
+    <MudItem sm="9" md="9">
+        <MudCard Elevation="3" Outlined="true" Square="true">
+            <MudGrid>
+                    <MudItem sm="4" md="4">
+                        <center>
+                        <MudButton Color="Color.Secondary"  Class="mt-4" Style="border-radius:10px 10px 10px 10px"
+                        Variant="Variant.Outlined">Weekly</MudButton>
+                        </center>
+                    </MudItem>
+                    <MudItem sm="4" md="4">
+                        <MudText Class="mt-3" Align="Align.Center">Check In History</MudText>    
+                    </MudItem>
+                    <MudItem sm="4" md="4">
+                        <center>
+                        <MudButton Color="Color.Warning"  Class="mt-3" Style="border-radius:10px 10px 10px 10px"
+                        Variant="Variant.Outlined">Monthly</MudButton>
+                        </center>
+                    </MudItem>                  
+
+                 <MudItem sm="6" md="6">
+                        <MudGrid>
+                             <MudItem sm="12" md="12">
+                              <MudCard Class="mb-2 ml-2 mr-2" Elevation="4" Outlined="true">
+                                  <MudCardHeader>
+                                      <CardHeaderAvatar>                   
+                                            <MudChip Color="Color.Info">@date.ToString("MMMM dd")</MudChip>                    
+                                     </CardHeaderAvatar>
+                                      <CardHeaderContent>
+                                        <MudText Class="mt-3 mr-2">Checked In                     
+                                            <MudChip Color="Color.Success">@date.ToString("HH:mm")</MudChip>    
+                                        </MudText> 
+                                        <MudText Class="mt-3 flex-md-row -2">Checked Out                     
+                                            <MudChip Color="Color.Error">@date.ToString("HH:mm")</MudChip>    
+                                        </MudText>   
+                                         <MudText Class="mt-3 flex-md-row -2">Hours Worked                    
+                                            <MudChip Color="Color.Secondary">7</MudChip>    
+                                        </MudText> 
+                                      </CardHeaderContent>
+                                  </MudCardHeader>
+                              </MudCard>
+                            </MudItem>
+                        </MudGrid>
+                </MudItem>
+                <MudItem sm="6" md="6">
+                        <MudGrid>
+                             <MudItem sm="12" md="12">
+                              <MudCard Class="mb-2 ml-2 mr-2" Elevation="4" Outlined="true">
+                                  <MudCardHeader>
+                                      <CardHeaderAvatar>                   
+                                            <MudChip Color="Color.Info">@date.ToString("MMMM dd")</MudChip>                    
+                                     </CardHeaderAvatar>
+                                      <CardHeaderContent>
+                                        <MudText Class="mt-3 mr-2">Checked In                     
+                                            <MudChip Color="Color.Success">@date.ToString("HH:mm")</MudChip>    
+                                        </MudText> 
+                                        <MudText Class="mt-3 flex-md-row -2">Checked Out                     
+                                            <MudChip Color="Color.Error">@date.ToString("HH:mm")</MudChip>    
+                                        </MudText>   
+                                         <MudText Class="mt-3 flex-md-row -2">Hours Worked                    
+                                            <MudChip Color="Color.Secondary">7</MudChip>    
+                                        </MudText> 
+                                      </CardHeaderContent>
+                                  </MudCardHeader>
+                              </MudCard>
+                            </MudItem>
+                        </MudGrid>
+                </MudItem>
+            </MudGrid>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    DateTime date = DateTime.Now;
+}

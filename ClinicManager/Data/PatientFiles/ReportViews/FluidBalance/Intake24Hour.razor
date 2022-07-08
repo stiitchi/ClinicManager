@@ -1,0 +1,93 @@
+﻿@page "/intake-reports/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.FluidBalance
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+           24 Hour Intake Reports
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/fluid-balance-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>  
+@if (_24HourReports.Count() > 0)
+{
+<MudGrid>
+      @foreach (var report in _24HourReports)
+    {
+   <MudItem md="3" sm="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudText Typo="Typo.inherit">
+                     24 Hour Report
+                    </MudText>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudChip>@report.DateToday.ToString("MMMM dd")</MudChip> 
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                  <MudItem md="6" sm="6">
+                       Intake 24 Hour
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                   <MudChip Class="mr-2">@report.Intake24Hour ml</MudChip>
+                  </MudItem>
+
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Output 24 Hour</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Warning">@report.Output24Hour ml</MudChip>
+                  </MudItem>
+
+                   <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Overall Total</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Warning">@report.TotalIntake ml</MudChip>
+                  </MudItem>
+                </MudGrid>             
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    }
+</MudGrid>  
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No 24 Hour Reports Found</MudText> 
+    </MudItem>
+}
+           
+
+
+@code {
+    private List<Previous24HourIntakeDTO> _24HourReports = new();
+
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllOral24HourReports(PatientId);
+    }
+
+    public async Task GetAllOral24HourReports(int patientId)
+    {
+        var reports = await patientRecordService.GetAll24HourIntakesByPatientId(patientId);
+        if (reports.Succeeded)
+        {
+            _24HourReports = reports.Data;
+        }
+    }
+}

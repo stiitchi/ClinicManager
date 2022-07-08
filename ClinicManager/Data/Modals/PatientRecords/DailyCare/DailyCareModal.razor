@@ -8,9 +8,6 @@
     <DialogContent>
         <EditForm Model="AddEditDailyCareModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
             <MudSelect T="string" Label="Record Type" @bind-Value="AddEditDailyCareModel.CareRecord" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
             <MudSelectItem Value="@("Bed Bath Shower")" />
             <MudSelectItem Value="@("Linen Change")" />
@@ -48,14 +45,15 @@
     [Parameter] public DailyCareRecordDTO AddEditDailyCareModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;        
-        time = AddEditDailyCareModel.TimeAdded.TimeOfDay;
+        AddEditDailyCareModel.TimeAdded = today;
+        AddEditDailyCareModel.DateAdded = today;
+
         response = await patientRecordService.AddDailyCareRecord(AddEditDailyCareModel);
         if (response.Succeeded)
         {

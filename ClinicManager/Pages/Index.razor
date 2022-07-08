@@ -10,17 +10,22 @@
 <MudGrid>
    @foreach (var ward in _wards)
     {    
-           <MudItem xs="3" md="3" sm="3">
-                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                        <MudCardHeader>
-                            <CardHeaderAvatar>
-                               <MudChip>Ward @ward.WardNumber</MudChip>
-                               <MudChip>Room @ward.RoomNumber</MudChip>
-                               <MudButton Class="ml-4" @onclick="@(() => ViewIndexWards(ward.WardId))" Variant="Variant.Outlined">View</MudButton>
-                            </CardHeaderAvatar>                  
-                        </MudCardHeader>
-                    </MudCard>
-            </MudItem>   
+    <MudItem xs="3" md="3" sm="3">
+            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">Ward @ward.WardNumber</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info" @onclick="@(() => ViewIndexWards(ward.WardId, ward.WardNumber))" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>   
     }
 </MudGrid>
 
@@ -38,7 +43,7 @@
     }
 
 
-    public void ViewIndexWards(int wardId)
+    public void ViewIndexWards(int wardId, string wardNumber)
     {
         var parameters = new DialogParameters();
         parameters.Add(nameof(IndexWards.Ward), new WardDTO
@@ -46,7 +51,7 @@
         WardId = wardId 
         });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<IndexWards>($"Ward {wardId}", parameters, options);
+        _dialogService.Show<IndexWards>($"Ward {wardNumber}", parameters, options);
     }
 
 
@@ -56,15 +61,6 @@
         if (wards.Succeeded)
         {
             _wards = wards.Data;
-        }
-    }
-
-    public async Task GetAllBedsByWardId(int wardId)
-    {
-        var beds = await bedService.GetAllBedsByWardId(wardId);
-        if (beds.Succeeded)
-        {
-            _beds = beds.Data;
         }
     }
 }

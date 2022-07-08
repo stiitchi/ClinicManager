@@ -274,8 +274,8 @@
                     </MudItem>
                     @foreach(var icdCode in _patientICDCodes)
                     {               
-                    <MudItem xs="2" md="2">
-                        <MudCard>
+                    <MudItem xs="3" md="3">
+                        <MudCard Style="height:170px">
                             <MudCardContent>
                                 <MudText Align="Align.Center">@icdCode.ICDCode</MudText> <br />
                                 <MudText Align="Align.Center">@icdCode.ICDCodeDescription</MudText>
@@ -293,8 +293,8 @@
                     </MudItem>
                     @foreach(var dayFee in _patientDayFees)
                     {
-                    <MudItem xs="2" md="2">
-                        <MudCard>
+                    <MudItem xs="3" md="3">
+                     <MudCard Style="height:130px">
                             <MudCardContent>
                                 <MudText Align="Align.Center">@dayFee.DayFeeCode</MudText> <br />
                                 <MudText Align="Align.Center">@dayFee.DayFeeDescription</MudText>
