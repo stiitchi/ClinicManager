@@ -8,9 +8,6 @@
     <DialogContent>
         <EditForm Model="AddEditMobilityModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditMobilityModel.AssistIntoChairFrequency"  Label="Frequency" Variant="Variant.Outlined" />
         </MudItem>
   @*      <MudItem xs="8" md="12" sm="12">
@@ -40,17 +37,13 @@
     [Parameter] public AssistIntoChairDTO AddEditMobilityModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditMobilityModel.PatientId = 1;
-        AddEditMobilityModel.AssistIntoChairSignature = "Signature";
-        
-        time = AddEditMobilityModel.AssistIntoChairTime.TimeOfDay;
+        AddEditMobilityModel.AssistIntoChairTime = today;
         response = await patientRecordService.AddAssistInChairRecord(AddEditMobilityModel);
         if (response.Succeeded)
         {

@@ -37,14 +37,12 @@
     [Parameter] public CathetherDTO AddEditEliminationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
-        IResult<int> response;
-        AddEditEliminationModel.CatheterSignature = "Signature";
-        
+        IResult<int> response;      
         AddEditEliminationModel.CatheterTime = today;
         response = await patientRecordService.AddCathetherRecord(AddEditEliminationModel);
         if (response.Succeeded)

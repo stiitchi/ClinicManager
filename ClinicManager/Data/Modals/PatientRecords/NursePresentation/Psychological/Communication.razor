@@ -9,9 +9,6 @@
     <DialogContent>
         <EditForm Model="AddEditPsychModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditPsychModel.CommunicationFrequency"  Label="Frequency" Variant="Variant.Outlined" />
         </MudItem>
 @*        <MudItem xs="8" md="12" sm="12">
@@ -41,15 +38,13 @@
     [Parameter] public CommunicationDTO AddEditPsychModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditPsychModel.CommunicationSignature = "Signature";    
-        time = AddEditPsychModel.CommunicationTime.TimeOfDay;
+        AddEditPsychModel.CommunicationTime = today;
         response = await patientRecordService.AddCommunicationRecord(AddEditPsychModel);
         if (response.Succeeded)
         {

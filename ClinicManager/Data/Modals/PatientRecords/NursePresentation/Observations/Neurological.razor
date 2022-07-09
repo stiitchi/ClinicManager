@@ -8,9 +8,6 @@
     <DialogContent>
         <EditForm Model="AddEditObservationModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditObservationModel.NeuroLogicalFrequency"  Label="Frequency" Variant="Variant.Outlined" />
         </MudItem>
 @*        <MudItem xs="8" md="12" sm="12">
@@ -40,15 +37,13 @@
     [Parameter] public NeuroLogicalDTO AddEditObservationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditObservationModel.NeuroLogicalSignature = "Signature";
-        time = AddEditObservationModel.NeuroLogicalTime.TimeOfDay;
+        AddEditObservationModel.NeuroLogicalTime = today;
         response = await patientRecordService.AddNeuroLogicalRecord(AddEditObservationModel);
         if (response.Succeeded)
         {

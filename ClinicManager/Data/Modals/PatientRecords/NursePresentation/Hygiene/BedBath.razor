@@ -8,9 +8,6 @@
     <DialogContent>
         <EditForm Model="AddEditEliminationModel" OnValidSubmit="SaveAsync">
         <MudItem xs="8" md="12" sm="12">
-            <MudTimePicker Variant="Variant.Outlined" Time="time" AmPm="true" />
-        </MudItem>
-        <MudItem xs="8" md="12" sm="12">
             <MudTextField @bind-Value="AddEditEliminationModel.BedBathFreq"  Label="Frequency" Variant="Variant.Outlined" />
         </MudItem>
     @*    <MudItem xs="8" md="12" sm="12">
@@ -40,16 +37,13 @@
     [Parameter] public BedBathDTO AddEditEliminationModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
-    public DateTime today = DateTime.Today;
-    public TimeSpan time = DateTime.Now.TimeOfDay;
+    public DateTime today = DateTime.Now;
 
     private async Task SaveAsync()
     {
         _processing = true;
         IResult<int> response;
-        AddEditEliminationModel.BedBathSignature = "Signature";
-        
-        time = AddEditEliminationModel.BedBathTime.TimeOfDay;
+        AddEditEliminationModel.BedBathTime = today;
         response = await patientRecordService.AddBedBathRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {
