@@ -43,7 +43,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditSafetyModel.CotsidesTime = today;
+        AddEditSafetyModel.CheckIDBandsTime = today;
         response = await patientRecordService.AddCheckIDBandsRecord(AddEditSafetyModel);
         if (response.Succeeded)
         {

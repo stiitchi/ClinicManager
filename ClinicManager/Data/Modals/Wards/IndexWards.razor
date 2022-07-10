@@ -10,6 +10,8 @@
 <MudDialog Style="width:400px;">
     <DialogContent>
     <MudGrid>
+@if(_beds.Count() > 0)
+    {
         @foreach(var bed in _beds)
         {
         <MudItem xs="3" md="3" sm="3">
@@ -25,15 +27,26 @@
                 </MudCard>
         </MudItem>          
         }
+}
+else
+{
+                
+    <MudText Align="Align.Center" Typo="Typo.body1">No Beds Available</MudText>
+}
+
         </MudGrid>
    </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               @onclick="@(() => GetAllWards())"
                                Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Error"
+                               @onclick="@(() => GetAllOccupiedBedsByWardId(Ward.WardId))"
                                Style="border-radius:10px 10px 10px 10px; width:150px">Occupied</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
-                               Style="border-radius:10px 10px 10px 10px; width:150px">Unoccupied</MudButton>
+                               Style="border-radius:10px 10px 10px 10px; width:150px"
+                               @onclick="@(() => GetAllUnoccupiedBedsByWardId(Ward.WardId))"
+                               >Unoccupied</MudButton>
 
     </DialogActions>
 </MudDialog>
@@ -56,6 +69,24 @@
         if (wards.Succeeded)
         {
             _wards = wards.Data;
+        }
+    }
+
+    public async Task GetAllOccupiedBedsByWardId(int wardId)
+    {
+        var beds = await bedService.GetAllOccupiedBedsByWardId(wardId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+
+     public async Task GetAllUnoccupiedBedsByWardId(int wardId)
+    {
+        var beds = await bedService.GetAllUnoccupiedBedsByWardId(wardId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
         }
     }
 

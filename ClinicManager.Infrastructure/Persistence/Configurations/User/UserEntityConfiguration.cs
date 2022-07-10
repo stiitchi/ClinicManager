@@ -1,12 +1,12 @@
-﻿using ClinicManager.Domain.Entities.UserAggregate;
+﻿using ClinicManager.Domain.Entities.NurseAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ClinicManager.Infrastructure.Persistence.Configurations.User
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
+    public class UserEntityConfiguration : IEntityTypeConfiguration<NurseEntity>
     {
-        public void Configure(EntityTypeBuilder<UserEntity> conf)
+        public void Configure(EntityTypeBuilder<NurseEntity> conf)
         {
             conf.ToTable("Users", "dbo");
             conf.HasKey(c => c.Id);
@@ -22,11 +22,6 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.User
             conf.Property(c => c.ActivationToken).IsRequired(false);
             conf.Property(c => c.EmailConfirmed);
 
-            var userRoles = conf.Metadata.FindNavigation(nameof(UserEntity.UserRoles));
-            userRoles.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            var beds = conf.Metadata.FindNavigation(nameof(UserEntity.Beds));
-            beds.SetPropertyAccessMode(PropertyAccessMode.Field);
 
 
             conf.HasIndex(c => c.Id);

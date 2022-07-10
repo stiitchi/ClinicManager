@@ -10,6 +10,8 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
         Task<IResult<BedDTO>> GetById(int id);
 
         Task<IResult<List<BedDTO>>> GetAllBedsByWardId(int wardId);
+        Task<IResult<List<BedDTO>>> GetAllOccupiedBedsByWardId(int wardId);
+        Task<IResult<List<BedDTO>>> GetAllUnoccupiedBedsByWardId(int wardId);
 
         Task<IResult<List<LookupDTO>>> BedsByWardIdLookup(int wardId);
 
@@ -21,7 +23,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
 
         Task<IResult<int>> UpdateAsync(BedDTO request);
 
-        Task<IResult<int>> DeleteAsync(int id);
+        Task<IResult<int>> DeleteAsync(int id, int wardId);
 
         Task<PaginatedResult<BedDTO>> GetAllBedsTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
 

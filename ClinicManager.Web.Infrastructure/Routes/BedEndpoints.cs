@@ -16,10 +16,24 @@ namespace ClinicManager.Web.Infrastructure.Routes
             return $"api/Bed/AssignPatientToBed?patientId={patientId}&bedId={bedId}";
         }
 
+        public static string Delete(int id, int wardId)
+        {
+            return $"api/Bed/Delete?id={id}&wardId={wardId}";
+        }
         public static string GetById(int id)
         {
             return $"api/Bed/{id}";
         }
+
+        public static string GetAllUnoccupiedBedsByWardId(int wardId)
+        {
+            return $"api/Bed/GetAllUnoccupiedBedsByWardId?wardId={wardId}";
+        }
+        public static string GetAllOccupiedBedsByWardId(int wardId)
+        {
+            return $"api/Bed/GetAllOccupiedBedsByWardId?wardId={wardId}";
+        }
+
 
         public static string GetAllBedsByWardId(int wardId)
         {

@@ -8,6 +8,7 @@ namespace ClinicManager.Application.Modules.Bed.Commands
    public class DeleteBedCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
+        public int WardId { get; set; }
     }
 
     public class DeleteBedCommandHandler : IRequestHandler<DeleteBedCommand, Result<int>>
@@ -21,12 +22,14 @@ namespace ClinicManager.Application.Modules.Bed.Commands
 
         public async Task<Result<int>> Handle(DeleteBedCommand request, CancellationToken cancellationToken)
         {
+            var ward = await _context.Wards.Where(a => a.Id == request.WardId).FirstOrDefaultAsync();
 
+            ward.DeleteBedToWard(1);
+            ward.AddUnoccupied(1);
             var bed  = await _context.Beds.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
             _context.Beds.Remove(bed);
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(bed.Id);
-
         }
     }
 }

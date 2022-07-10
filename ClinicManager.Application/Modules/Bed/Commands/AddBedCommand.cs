@@ -42,6 +42,9 @@ namespace ClinicManager.Application.Modules.Bed.Commands
                     ward
                     );
 
+                ward.AddBedToWard(1);
+                ward.AddOccupied(1);
+
                 await _context.Beds.AddAsync(bed, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 return await Result<int>.SuccessAsync(ward.Id);

@@ -12,10 +12,10 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
         {
         }
 
-        public async Task<IResult<int>> DeleteAsync(int id)
+        public async Task<IResult<int>> DeleteAsync(int id, int wardId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.DeleteAsync(Routes.BedEndpoints.GetById(id));
+            var response = await _httpClient.DeleteAsync(Routes.BedEndpoints.Delete(id, wardId));
             return await response.ToResult<int>();
         }
 
@@ -44,6 +44,18 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
         {
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByWardId(wardId));
+            return await response.ToResult<List<BedDTO>>();
+        }
+        public async Task<IResult<List<BedDTO>>> GetAllOccupiedBedsByWardId(int wardId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllOccupiedBedsByWardId(wardId));
+            return await response.ToResult<List<BedDTO>>();
+        }
+        public async Task<IResult<List<BedDTO>>> GetAllUnoccupiedBedsByWardId(int wardId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllUnoccupiedBedsByWardId(wardId));
             return await response.ToResult<List<BedDTO>>();
         }
 

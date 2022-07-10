@@ -35,7 +35,6 @@ namespace ClinicManager.Application.Modules.Ward.Queries
 
                 var wards = await _context.Wards
                     .AsNoTracking()
-
                     .Select(expression)
                     .ToListAsync(cancellationToken);
                 return await Result<List<LookupDTO>>.SuccessAsync(wards);

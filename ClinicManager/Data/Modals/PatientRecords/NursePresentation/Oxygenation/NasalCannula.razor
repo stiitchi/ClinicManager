@@ -42,6 +42,7 @@
     private async Task SaveAsync()
     {
         _processing = true;
+        IResult<int> response;
         AddEditOxygenationModel.NasalCannulaTime = today;
         response = await patientRecordService.AddNasalCannulRecord(AddEditOxygenationModel);
         if (response.Succeeded)

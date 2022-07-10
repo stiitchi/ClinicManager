@@ -13,6 +13,8 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Ward
             conf.Property(c => c.RoomNumber).IsRequired();
             conf.Property(c => c.WardNumber).IsRequired();
             conf.Property(c => c.TotalBeds).IsRequired();
+            conf.Property(c => c.OccupiedBeds).IsRequired();
+            conf.Property(c => c.UnOccupiedBeds).IsRequired();
 
             var beds = conf.Metadata.FindNavigation(nameof(WardEntity.Beds));
             beds.SetPropertyAccessMode(PropertyAccessMode.Field);

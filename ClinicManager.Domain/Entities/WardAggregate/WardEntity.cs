@@ -22,6 +22,22 @@ namespace ClinicManager.Domain.Entities.WardAggregate
             _totalBeds = totalBeds;
         }
 
+        public void AddOccupied(int total)
+        {
+            _occupiedBeds = total + 1;
+        }
+        public void AddUnoccupied(int total)
+        {
+            _unOccupiedBeds = total - 1;
+        }
+        public void AddBedToWard(int total)
+        {     
+            _totalBeds = total + 1;
+        }
+        public void DeleteBedToWard(int total)
+        {
+            _totalBeds = total - 1;
+        }
         public void CreateBeds(BedEntity beds)
         {
             _beds.Add(beds);
@@ -35,6 +51,12 @@ namespace ClinicManager.Domain.Entities.WardAggregate
 
         private int _totalBeds;         
         public int TotalBeds => _totalBeds;
+
+        private int _occupiedBeds;
+        public int OccupiedBeds => _occupiedBeds;
+
+        private int _unOccupiedBeds;
+        public int UnOccupiedBeds => _unOccupiedBeds;
 
         private readonly List<BedEntity> _beds = new();
         public virtual IReadOnlyCollection<BedEntity> Beds => _beds;

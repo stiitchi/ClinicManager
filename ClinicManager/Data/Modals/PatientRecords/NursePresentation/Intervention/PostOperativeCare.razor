@@ -42,6 +42,7 @@
     private async Task SaveAsync()
     {
         _processing = true;
+        IResult<int> response;
         AddEditInterventionModel.PostOperativeCareTime = today;
         response = await patientRecordService.AddPostOperativeCareRecord(AddEditInterventionModel);
         if (response.Succeeded)

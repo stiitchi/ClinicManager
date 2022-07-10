@@ -43,7 +43,7 @@
     {
         _processing = true;
         IResult<int> response;
-        AddEditNutritionModel.AssistIntoChairTime = today;
+        AddEditNutritionModel.SpecialTime = today;
         response = await patientRecordService.AddSpecialRecord(AddEditNutritionModel);
         if (response.Succeeded)
         {

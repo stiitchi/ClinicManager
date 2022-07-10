@@ -37,26 +37,9 @@ namespace ClinicManager.Application.Modules.Ward.Commands
                     request.TotalBeds
                     );
 
-                //var bed = new BedEntity(
-                //    0,
-                //    0,
-                //    ward.WardNumber.ToString(),
-                //    ward
-                //    );
-
                 await _context.Wards.AddAsync(ward, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                //for (int i = 0; i < ward.TotalBeds; i++)
-                //{
-                //    ward.CreateBeds(bed);
-                //}
-
-                //foreach (var item in ward.Beds)
-                //{
-                //    await _context.Beds.AddAsync(item, cancellationToken);
-                //    await _context.SaveChangesAsync(cancellationToken);
-                //}
 
                 return await Result<int>.SuccessAsync(ward.Id);
             }

@@ -41,6 +41,7 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllWardsForLookupQuery()));
         }
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

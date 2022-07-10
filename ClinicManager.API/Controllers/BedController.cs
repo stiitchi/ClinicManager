@@ -42,6 +42,18 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllBedsByWardIdQuery { WardId = wardId }));
         }
 
+        [HttpGet("GetAllOccupiedBedsByWardId")]
+        public async Task<IActionResult> GetAllOccupiedBedsByWardId(int wardId)
+        {
+            return Ok(await _mediator.Send(new GetAllOccupiedBedsByWardIdQuery { WardId = wardId }));
+        }
+
+        [HttpGet("GetAllUnoccupiedBedsByWardId")]
+        public async Task<IActionResult> GetAllUnoccupiedBedsByWardId(int wardId)
+        {
+            return Ok(await _mediator.Send(new GetAllUnoccupiedBedsByWardIdQuery { WardId = wardId }));
+        }
+
         [HttpGet("BedsByWardIdLookup")]
         public async Task<IActionResult> BedsByWardIdLookup(int wardId)
         {
@@ -54,10 +66,10 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllBedsForLookupQuery()));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int id, int wardId)
         {
-            return Ok(await _mediator.Send(new DeleteBedCommand { Id = id }));
+            return Ok(await _mediator.Send(new DeleteBedCommand { Id = id, WardId = wardId }));
         }
 
 
