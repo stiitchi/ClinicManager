@@ -1,0 +1,168 @@
+﻿@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@using ClinicManager.Shared.DTO_s.Records
+@inject IPatientRecordService patientRecordService 
+
+
+<MudDialog Style="width:400px;">
+    <DialogContent>
+        <MudItem md="12" sm="12">
+            <MudGrid>
+                <MudItem md="12" sm="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudButton Color="Color.Dark" 
+                                Style="border-radius:10px 10px 10px 10px" Class="mr-2" OnClick="ViewRespitoryChart"
+                                Variant="Variant.Outlined">Create</MudButton>
+                            </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                <MudText Class="mt-3">Respitory Chart</MudText>                       
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+                <MudItem md="12" sm="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudButton Color="Color.Dark" 
+                                Style="border-radius:10px 10px 10px 10px" Class="mr-2" OnClick="ViewBloodOxygenChart"
+                                Variant="Variant.Outlined">Create</MudButton>
+                            </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                <MudText Class="mt-3">Blood Oxygen Chart</MudText>                                                
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+                <MudItem md="12" sm="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudButton Color="Color.Dark" 
+                                Style="border-radius:10px 10px 10px 10px" Class="mr-2" OnClick="ViewBloodPressureChart"
+                                Variant="Variant.Outlined">Create</MudButton>
+                            </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                <MudText Class="mt-3">Blood Pressure Chart</MudText>                                                                             
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+                <MudItem md="12" sm="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudButton Color="Color.Dark" 
+                                Style="border-radius:10px 10px 10px 10px" Class="mr-2" OnClick="ViewHeartRateChart"
+                                Variant="Variant.Outlined">Create</MudButton>
+                            </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                <MudText Class="mt-3">Heart Rate Chart</MudText>                                                                                                      
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+                <MudItem md="12" sm="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudButton Color="Color.Dark" 
+                                Style="border-radius:10px 10px 10px 10px" Class="mr-2" OnClick="ViewTempChart"
+                                Variant="Variant.Outlined">Create</MudButton>
+                            </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                <MudText Class="mt-3">Temperature Chart</MudText>                                                                                                      
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public DailyCareRecordDTO AddEditDailyCareModel { get; set; } = new();
+    void Cancel() => MudDialog.Cancel();
+    private bool _processing = false;
+    public DateTime today = DateTime.Now;
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;        
+        AddEditDailyCareModel.TimeAdded = today;
+        AddEditDailyCareModel.DateAdded = today;
+
+        response = await patientRecordService.AddDailyCareRecord(AddEditDailyCareModel);
+        if (response.Succeeded)
+        {
+            _snackBar.Add("Daily Care Record Saved", Severity.Success);
+            _processing = false;
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+                MudDialog.Close();
+            }
+        }
+    }   
+
+    private void ViewRespitoryChart()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(RespitoryRate.AddRespitoryChartModel), new RespitoryChartDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<RespitoryRate>("Respitory Chart", parameters, options);
+         MudDialog.Close();
+    }
+
+    private void ViewBloodOxygenChart()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(BloodOxygenRate.AddBloodOxygenChartModel), new BloodOxygenDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<BloodOxygenRate>("Blood Oxygen Chart", parameters, options);
+         MudDialog.Close();
+    }
+
+    private void ViewBloodPressureChart()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(BloodPressureRate.AddBloodPressureChartModel), new BloodPressureDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<BloodPressureRate>("Blood Oxygen Chart", parameters, options);
+         MudDialog.Close();
+    }
+
+    private void ViewHeartRateChart()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(HeartRate.AddHeartRateChartModel), new HeartRateDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<HeartRate>("Blood Oxygen Chart", parameters, options);
+         MudDialog.Close();
+    }
+
+    private void ViewTempChart()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(TemperatureCheckRate.AddTempChartModel), new TemperatureRateDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<TemperatureCheckRate>("Blood Oxygen Chart", parameters, options);
+         MudDialog.Close();
+    }
+}

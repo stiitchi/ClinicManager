@@ -7,6 +7,7 @@
 @using ClinicManager.Data.Modals.PatientRecords.SkinIntegrity
 @using ClinicManager.Data.Modals.PatientRecords.StoolChart
 @using ClinicManager.Data.PatientFiles
+@using ClinicManager.Data.PatientFiles.ObservationCharts
 @using ClinicManager.Data.PatientFiles.ReportViews
 @using ClinicManager.Shared.DTO_s.Records
 @using ClinicManager.Shared.DTO_s.Records.SkinReport
@@ -22,9 +23,18 @@
               Patient View
             </MudText>
         </MudItem>
+        <MudItem xs="12" md="12" sm="12">
+          <MudButton Variant="Variant.Outlined" Color="Color.Info" Class="mr-2"
+                           Style="border-radius:10px 10px 10px 10px"
+                           @onclick="@(() => _navigationManager.NavigateTo("/patients"))">Back</MudButton>
+          <MudButton Variant="Variant.Outlined" Color="Color.Warning" Class="mr-2"
+                           Style="border-radius:10px 10px 10px 10px"
+                           @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{PatientId}"))">Edit Patient</MudButton>
+        </MudItem>
          <MudItem xs="12" md="12" sm="12">
             <MudButton OnClick="AddPatientICDCode" Class="mr-2" Variant="Variant.Outlined" Color="Color.Warning" Style="border-radius:10px 10px 10px 10px">Assign ICD Code</MudButton> 
-            <MudButton OnClick="AddPatientDayFee"  Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Assign Day Fee</MudButton> 
+            <MudButton OnClick="AddPatientDayFee"  Class="mr-2" Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Assign Day Fee</MudButton> 
+            <MudButton OnClick="AddVitalSignChart" Class="mr-2" Variant="Variant.Outlined" Color="Color.Dark"      Style="border-radius:10px 10px 10px 10px">Create Vital Sign Chart</MudButton>
         </MudItem>
         <MudItem xs="12" md="6" sm="6">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
@@ -246,6 +256,14 @@
             patient = response.Data;
         }
     }
+
+    private void AddVitalSignChart()
+    {
+        var parameters = new DialogParameters();
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        DialogService.Show<ChartSelectorModal>("Chart", parameters, options);
+    }
+
     private void AddProgressNotes()
     {
         var parameters = new DialogParameters();

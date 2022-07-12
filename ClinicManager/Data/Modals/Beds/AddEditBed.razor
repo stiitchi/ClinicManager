@@ -43,8 +43,8 @@
             </MudGrid>
         </DialogContent>
         <DialogActions>
-            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Secondary">
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Success">
             @if (_processing)
             {
                 <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />

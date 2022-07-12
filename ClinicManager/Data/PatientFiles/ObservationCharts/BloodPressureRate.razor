@@ -6,21 +6,21 @@
 @inject IICDCodeService icdCodeService 
 
 
-<EditForm Model="@AddRespitoryChartModel" OnValidSubmit="SaveAsync">
+<EditForm Model="@AddBloodPressureChartModel" OnValidSubmit="SaveAsync">
     <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-               Respitory Rate Chart
+               Blood Pressure Chart
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>
                 <MudItem xs="5">
-                    <MudTextField T="double" For="@(() => AddRespitoryChartModel.RespitoryChartEntry)" @bind-Value="AddRespitoryChartModel.RespitoryChartEntry" Label="Chart Entry" />
+                    <MudTextField T="double" For="@(() => AddBloodPressureChartModel.BloodPressureChartEntry)" @bind-Value="AddBloodPressureChartModel.BloodPressureChartEntry" Label="Chart Entry" />
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddRespitoryChartModel.RespitoryChartEntry))">Add Value</MudButton>
+                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddBloodPressureChartModel.BloodPressureChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -68,7 +68,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public RespitoryChartDTO AddRespitoryChartModel { get; set; } = new();
+    [Parameter] public BloodPressureDTO AddBloodPressureChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;
@@ -89,9 +89,9 @@
 
     public void AddToChart(double chartEntry)
     {
-        if (chartEntry > 40)
+        if (chartEntry < 35 || chartEntry > 250)
         {
-            _snackBar.Add("Entry cannot be more than 40", Severity.Error);
+            _snackBar.Add("Entry cannot be less than 35 or more than 250", Severity.Error);
         }
         else
         {
@@ -102,11 +102,12 @@
             double[] Data = ChartValues.ToArray();
             isDisabled = false;
         }
+
     }
     public void DrawChart()
     {
         double[] Data = ChartValues.ToArray();       
-        Series.Add(new ChartSeries() { Name = "Respitory Rate", Data = Data });
+        Series.Add(new ChartSeries() { Name = "Blood Pressure", Data = Data });
         chartDrawn = true;
         CanSave = false;
     }
