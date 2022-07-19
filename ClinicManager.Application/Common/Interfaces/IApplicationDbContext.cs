@@ -1,6 +1,7 @@
 ﻿using ClinicManager.Domain.Entities.AdmissionAggregate;
 using ClinicManager.Domain.Entities.BedAggregate;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
+using ClinicManager.Domain.Entities.DoctorsAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
@@ -38,6 +39,7 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<ICDCodeEntity> ICDCodes { get; set; }
         DbSet<DayFeesEntity> DayFees { get; set; }
         DbSet<UserEntity> Users { get; set; }
+        DbSet<DoctorEntity> Doctors { get; set; }
         DbSet<UserRolesEntity> UserRoles { get; set; }
         DbSet<RoleEntity> Roles { get; set; }
         DbSet<PatientEntity> Patients { get; set; }

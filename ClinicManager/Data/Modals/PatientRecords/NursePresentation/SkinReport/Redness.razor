@@ -45,6 +45,8 @@
         _processing = true;
         IResult<int> response;
         AddEditSkinReportModel.ReportRednessTime = today;
+        AddEditSkinReportModel.ReportRednessSignature = "signature";  
+
         response = await patientRecordService.AddRednessReportRecord(AddEditSkinReportModel);
         if (response.Succeeded)
         {

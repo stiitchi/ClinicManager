@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditNutritionModel.FullWardDietTime = today;
+        AddEditNutritionModel.FullWardDietSignature = "signature";
+
         response = await patientRecordService.AddFullWardDietRecord(AddEditNutritionModel);
         if (response.Succeeded)
         {

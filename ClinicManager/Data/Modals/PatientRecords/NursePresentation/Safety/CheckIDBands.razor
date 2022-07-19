@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditSafetyModel.CheckIDBandsTime = today;
+        AddEditSafetyModel.CheckIDBandsSignature = "signature";  
+
         response = await patientRecordService.AddCheckIDBandsRecord(AddEditSafetyModel);
         if (response.Succeeded)
         {

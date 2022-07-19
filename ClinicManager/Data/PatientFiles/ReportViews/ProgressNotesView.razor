@@ -25,13 +25,33 @@
                             <CardHeaderAvatar>
                                 <MudAvatar Color="Color.Info" >@report.ProgressReportId</MudAvatar>
                             </CardHeaderAvatar>
+                            <CardHeaderActions>
+                                 <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip> 
+                                 <MudChip Class="mr-2">@report.TimeAdded.ToString("HH:mm")</MudChip>
+                            </CardHeaderActions>
+
                         </MudCardHeader>
                         <MudCardContent>
-                           Allergy:  @report.Allergy <br/>
-                           Risk Factor:  @report.RiskFactor <br/>
-                           Description : @report.Desc <br/>
-                           Date: <MudChip Class="mr-2">@report.DateAdded.ToString("MMMM dd")</MudChip> <br/>
-                           Time: <MudChip Class="mr-2">@report.TimeAdded.ToString("HH:mm")</MudChip> <br/>
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Allergy</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.Allergy</MudChip>
+                                    </MudItem>
+                                     <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Risk Factor</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.RiskFactor</MudChip>
+                                    </MudItem>
+                                     <MudItem md="12" sm="12">
+                                         <center><MudText Typo="Typo.body2">Description</MudText></center>                                      
+                                    </MudItem>
+                                    <MudItem md="12" sm="12">
+                                        <MudText Typo="Typo.body2">@report.Desc</MudText>
+                                    </MudItem>
+                                </MudGrid>
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
@@ -39,7 +59,6 @@
     }
     else
     {
-
        <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.body1">No Progress Notes Found</MudText> 
        </MudItem>

@@ -3,6 +3,7 @@ using ClinicManager.Domain.Entities;
 using ClinicManager.Domain.Entities.AdmissionAggregate;
 using ClinicManager.Domain.Entities.BedAggregate;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
+using ClinicManager.Domain.Entities.DoctorsAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
@@ -42,6 +43,7 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<ICDCodeEntity> ICDCodes { get; set; }
         public DbSet<DayFeesEntity> DayFees { get; set; }
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<DoctorEntity> Doctors { get; set; }
         public DbSet<PatientEntity> Patients { get; set; }
         public DbSet<PatientBedEntity> PatientBeds { get; set; }
         public DbSet<UserRolesEntity> UserRoles { get; set; }

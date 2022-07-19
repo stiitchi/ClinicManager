@@ -1,0 +1,69 @@
+﻿@page "/all-nurse-selector"
+@using ClinicManager.Shared.DTO_s
+
+<MudGrid>
+    <MudItem md="6" sm="6">
+          <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">All Nurses</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info"@onclick="@(() => _navigationManager.NavigateTo("/all-nurses"))" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>
+    <MudItem md="6" sm="6">
+             <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">Nurses By Ward</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo("/ward-nurses"))" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>
+    <MudItem md="6" sm="6">
+             <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">Nurse Records</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo("/nurse-records"))" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>
+      <MudItem md="6" sm="6">
+             <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">Assign Nurse To Ward</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo("/nurse-records"))" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>
+</MudGrid>

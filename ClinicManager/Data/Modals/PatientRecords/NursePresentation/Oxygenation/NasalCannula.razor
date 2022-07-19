@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditOxygenationModel.NasalCannulaTime = today;
+        AddEditOxygenationModel.NasalCannulaSignature = "signature";  
+
         response = await patientRecordService.AddNasalCannulRecord(AddEditOxygenationModel);
         if (response.Succeeded)
         {

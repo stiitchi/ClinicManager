@@ -44,8 +44,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.CommunicationFrequency<br/>
-                                Time Added: <MudChip>@report.CommunicationTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CommunicationFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CommunicationTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -65,8 +77,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.HealthEducationFrequency<br/>
-                                Time Added: <MudChip>@report.HealthEducationTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.HealthEducationFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.HealthEducationTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -86,8 +110,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.SupportFrequency<br/>
-                                Time Added: <MudChip>@report.SupportTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.SupportFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.SupportTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>

@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditInterventionModel.TractionTime = today;
+        AddEditInterventionModel.TractionSignature = "signature";  
+
         response = await patientRecordService.AddTractionRecord(AddEditInterventionModel);
         if (response.Succeeded)
         {

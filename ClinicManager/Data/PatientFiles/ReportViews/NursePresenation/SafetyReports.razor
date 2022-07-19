@@ -42,8 +42,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.CheckIDBandsFrequency<br/>
-                                Time Added: <MudChip>@report.CheckIDBandsTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CheckIDBandsFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CheckIDBandsTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -63,8 +75,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.CotsidesFrequency<br/>
-                                Time Added: <MudChip>@report.CotsidesTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CotsidesFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.CotsidesTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>

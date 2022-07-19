@@ -45,6 +45,8 @@
         _processing = true;
         IResult<int> response;
         AddEditPsychModel.SupportTime = today;
+        AddEditPsychModel.SupportSignature = "signature";  
+
         response = await patientRecordService.AddSupportRecord(AddEditPsychModel);
         if (response.Succeeded)
         {

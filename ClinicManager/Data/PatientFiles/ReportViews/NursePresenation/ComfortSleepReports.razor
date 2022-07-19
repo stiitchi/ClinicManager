@@ -41,8 +41,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.Frequency<br/>
-                                Time Added: <MudChip>@report.PainControlDateTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.Frequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.PainControlDateTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>

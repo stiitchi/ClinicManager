@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;      
         AddEditEliminationModel.CatheterTime = today;
+        AddEditEliminationModel.CatheterSignature = "signature";
+
         response = await patientRecordService.AddCathetherRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {

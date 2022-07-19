@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditSafetyModel.CotsidesTime = today;
+        AddEditSafetyModel.CotsidesSignature = "signature";  
+
         response = await patientRecordService.AddCotsideRecord(AddEditSafetyModel);
         if (response.Succeeded)
         {

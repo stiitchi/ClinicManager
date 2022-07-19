@@ -1,7 +1,9 @@
 using ClinicManager.Web.Infrastructure.Services.Admission;
 using ClinicManager.Web.Infrastructure.Services.Bed;
 using ClinicManager.Web.Infrastructure.Services.DayFees;
+using ClinicManager.Web.Infrastructure.Services.Doctor;
 using ClinicManager.Web.Infrastructure.Services.ICDCode;
+using ClinicManager.Web.Infrastructure.Services.Nurses;
 using ClinicManager.Web.Infrastructure.Services.Patient;
 using ClinicManager.Web.Infrastructure.Services.PatientRecords;
 using ClinicManager.Web.Infrastructure.Services.State;
@@ -24,6 +26,8 @@ builder.Services.AddScoped<IBedService, BedService>();
 builder.Services.AddScoped<IDayFeesService, DayFeesService>();
 builder.Services.AddScoped<IICDCodeService, ICDCodeService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<INurseService, NurseService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IPatientRecordService, PatientRecordService>();
 builder.Services.AddScoped<IWardService, WardService>();
 builder.Services.AddScoped(sp => sp

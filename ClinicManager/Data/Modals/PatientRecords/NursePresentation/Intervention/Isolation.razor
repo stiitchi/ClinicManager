@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditInterventionModel.IsolationTime = today;  
+        AddEditInterventionModel.IsolationSignature = "signature";  
+
         response = await patientRecordService.AddIsolationRecord(AddEditInterventionModel);
         if (response.Succeeded)
         {

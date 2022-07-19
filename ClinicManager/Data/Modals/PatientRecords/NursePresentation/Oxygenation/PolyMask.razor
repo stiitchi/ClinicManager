@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditOxygenationModel.PolyMaskTime = today;
+        AddEditOxygenationModel.PolyMaskSignature = "signature";  
+
         response = await patientRecordService.AddPolyMaskRecord(AddEditOxygenationModel);
         if (response.Succeeded)
         {

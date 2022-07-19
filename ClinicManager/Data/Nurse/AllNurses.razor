@@ -1,0 +1,246 @@
+﻿@page "/all-nurses"
+@using ClinicManager.Data.Modals.Beds
+@using ClinicManager.Data.Modals.Nurse
+@using ClinicManager.Web.Infrastructure.Services.Nurses
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@using Skye.Web.Shared.Dialogs
+@inject INurseService nurseService
+@inject IWardService wardService 
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Nurses 
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6" sm="6">
+            <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                            Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+            <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                            Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+        </MudItem>
+
+        @if (!isTableView)
+        {
+            @foreach (var nurse in _nurses)
+            {
+            <MudItem md="3" sm="6">
+                <MudCard Elevation="5" Style="height:150px">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                        <MudText Align="Align.Center" Typo="Typo.body2">@nurse.FirstName @nurse.LastName</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Class="mt-3" Color="Color.Dark" Icon="@Icons.Filled.Edit" @onclick="@(() => InvokeModal(nurse.Id))"/>
+                            <MudIconButton Class="mt-3" Color="Color.Error" Icon="@Icons.Filled.Delete" @onclick="@(() => Delete(nurse.Id))"/>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h6"> Ward @nurse.WardId</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+            }
+        }
+    </MudGrid>
+    @if (isTableView)
+    {
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_nurses"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<UserDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<UserDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+        <div class="justify-center mud-text-align-center">
+            <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+        </div>
+        <MudSpacer />
+            <MudTextField Label="Search Beds" @bind-Value="SearchField" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="BedDTO" SortLabel="BedNumber">Bed Number</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="First Name">
+            <MudHighlighter Text="@context.FirstName" HighlightedText="@_searchString" />
+        </MudTd>
+         <MudTd DataLabel="Last Name">
+            <MudHighlighter Text="@context.LastName" HighlightedText="@_searchString" />
+        </MudTd>
+         <MudTd DataLabel="Email">
+            <MudHighlighter Text="@context.Email" HighlightedText="@_searchString" />
+        </MudTd>
+         <MudTd DataLabel="Mobile Number">
+            <MudHighlighter Text="@context.MobileNo" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+       </MudTd>
+       <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.Id))">Delete</MudButton>
+       </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager RowsPerPageString="Rows" />
+    </PagerContent>
+    </MudTable>
+    }
+
+@code{
+    public string SearchField;
+    private List<UserDTO> _nurses = new();
+    public bool isTableView = true;
+    private UserDTO nurse = new();
+    private MudTable<UserDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllNurses();
+    }
+
+    public async Task GetAllNurses()
+    {
+        var nurses = await nurseService.GetAllNurses();
+        if (nurses.Succeeded)
+        {
+            _nurses = nurses.Data;
+        }
+
+    }
+
+    public void SetViewGrid()
+    {
+        isTableView = false;
+    }
+    public void SetViewTable()
+    {
+        isTableView = true;
+    }
+
+        private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        if (id != 0)
+        {
+            nurse = _nurses.FirstOrDefault(c => c.Id == id);
+            if (nurse != null)
+            {
+                parameters.Add(nameof(AddEditNurse.AddEditNurseModel), new UserDTO
+                {
+                FirstName = nurse.FirstName,
+                LastName = nurse.LastName,
+                Email = nurse.Email,
+                MobileNo = nurse.MobileNo
+                });
+            }
+        }
+        else{
+                parameters.Add(nameof(AddEditNurse.AddEditNurseModel), new UserDTO
+                {
+                });
+        }
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<AddEditNurse>(id == 0 ? "Add Nurse" : "Edit Nurse", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await _table.ReloadServerData();
+        }
+    }
+    private bool Search(UserDTO user) => FilterFunc(user, _searchString);
+
+    private bool FilterFunc(UserDTO user, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (user.FirstName.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (user.LastName?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (user.Email?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (user.MobileNo?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+        private async Task GetAllNurses(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await nurseService.GetAllNursesTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _nurses = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+    private void OnSearch(string text)
+    {
+        _searchString = text;
+        _table.ReloadServerData();
+    }
+
+    private async Task<TableData<UserDTO>> ServerReload(TableState state)
+    {
+        if (!string.IsNullOrWhiteSpace(_searchString))
+        {
+            state.Page = 0;
+        }
+        _state = state;
+        await GetAllNurses(state);
+        return new TableData<UserDTO> { TotalItems = _totalItems, Items = _nurses };
+    }
+
+        private async Task Delete(int id)
+    {
+        string deleteContent = $"Delete Nurse {_nurses.FirstOrDefault(c => c.Id == id).FirstName}";
+        var parameters = new DialogParameters
+        {
+            {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var response = await nurseService.DeleteAsync(id);
+            if (response.Succeeded)
+            {
+                await _table.ReloadServerData();
+                _snackBar.Add("Nurse Deleted", Severity.Success);
+            }
+            else
+            {
+                foreach (var message in response.Messages)
+                {
+                    _snackBar.Add(message, Severity.Error);
+                }
+            }
+        }
+    }
+}

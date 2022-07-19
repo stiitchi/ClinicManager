@@ -1,5 +1,6 @@
 ﻿
 using ClinicManager.Domain.Entities.BedAggregate;
+using ClinicManager.Domain.Entities.DoctorsAggregate;
 
 namespace ClinicManager.Domain.Entities.WardAggregate
 {
@@ -60,6 +61,9 @@ namespace ClinicManager.Domain.Entities.WardAggregate
 
         private readonly List<BedEntity> _beds = new();
         public virtual IReadOnlyCollection<BedEntity> Beds => _beds;
+
+        private readonly List<DoctorEntity> _doctors = new();
+        public virtual IReadOnlyCollection<DoctorEntity> Doctors => _doctors;
 
     }
 }

@@ -1,12 +1,12 @@
-﻿using ClinicManager.Domain.Entities.NurseAggregate;
+﻿using ClinicManager.Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ClinicManager.Infrastructure.Persistence.Configurations.User
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<NurseEntity>
+    public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<NurseEntity> conf)
+        public void Configure(EntityTypeBuilder<UserEntity> conf)
         {
             conf.ToTable("Users", "dbo");
             conf.HasKey(c => c.Id);

@@ -1,5 +1,6 @@
 ﻿using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
+using ClinicManager.Domain.Entities.WardAggregate;
 
 namespace ClinicManager.Domain.Entities.DoctorsAggregate
 {
@@ -9,27 +10,38 @@ namespace ClinicManager.Domain.Entities.DoctorsAggregate
         {
         }
 
-        public DoctorEntity(PatientEntity patient, UserEntity doctor, RoleEntity role)
+        public DoctorEntity(string firstName, string lastName, string email, string mobileNo)
         {
-            _patientId = patient.Id;
-            _doctorId = doctor.Id;
-            _roleId = role.Id;
+            _firstName = firstName;
+            _lastName = lastName;
+            _email = email;
+            _mobileNo = mobileNo;
         }
-        public void Set(PatientEntity patient, UserEntity doctor, RoleEntity role)
+        public void Set(string firstName, string lastName, string email, string mobileNo)
         {
-            _patientId = patient.Id;
-            _doctorId = doctor.Id;
-            _roleId = role.Id;
+            _firstName = firstName;
+            _lastName = lastName;
+            _email = email;
+            _mobileNo = mobileNo;
+        }
+        public void SetEmail(string email)
+        {
+            _email = email;
         }
 
-        public UserEntity Doctor { get; set; }
-        public int DoctorId => _doctorId;
-        private int _doctorId;
-        public RoleEntity Role { get; set; }
-        public int RoleId => _roleId;
-        private int _roleId;
-        public PatientEntity Patient { get; set; }
-        public int PatientId => _patientId;
-        private int _patientId;
+        private string _email;
+        public string Email => _email;
+
+        private string _mobileNo;
+        public string MobileNo => _mobileNo;
+
+        private string _firstName;
+        public string FirstName => _firstName;
+
+        private string _lastName;
+        public string LastName => _lastName;
+        public WardEntity Ward { get; set; }
+        public int WardId => _wardId;
+        private int _wardId;
     }
 }

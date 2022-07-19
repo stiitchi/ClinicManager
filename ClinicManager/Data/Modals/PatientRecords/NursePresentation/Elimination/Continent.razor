@@ -44,8 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditEliminationModel.ContinentSignature = "Signature";
-
         AddEditEliminationModel.ContinentTime = today;
+
         response = await patientRecordService.AddContinentRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {

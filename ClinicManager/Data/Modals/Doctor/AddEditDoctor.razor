@@ -1,0 +1,64 @@
+﻿@using ClinicManager.Shared.DTO_s
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Doctor
+@using ClinicManager.Shared.DTO_s.Records
+@inject IDoctorService doctorService 
+
+
+<MudDialog Style="width:400px;">
+    <DialogContent>
+        <EditForm Model="AddEditDoctorModel" OnValidSubmit="SaveAsync">
+        <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditDoctorModel.FirstName"  Label="First Name" Variant="Variant.Outlined" />
+        </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditDoctorModel.LastName"  Label="Last Name" Variant="Variant.Outlined" />
+        </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditDoctorModel.Email" InputType="InputType.Email" Label="Email" Variant="Variant.Outlined" />
+        </MudItem>
+            <MudItem xs="8" md="12" sm="12">
+            <MudTextField @bind-Value="AddEditDoctorModel.MobileNo" Adornment="Adornment.Start" InputType="InputType.Telephone" AdornmentText="+27" Label="Mobile Number" Variant="Variant.Outlined" />
+        </MudItem>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined"
+                   Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                   Style="border-radius:10px 10px 10px 10px"
+                    OnClick="(() => SaveAsync())">Add Doctor</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public UserDTO AddEditDoctorModel { get; set; } = new();
+    void Cancel() => MudDialog.Cancel();
+    private bool _processing = false;
+    public DateTime today = DateTime.Now;
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+
+        response = await doctorService.SaveAsync(AddEditDoctorModel);
+        if (response.Succeeded)
+        {
+            _snackBar.Add($"New Doctor Added", Severity.Success);
+            _processing = false;
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+                MudDialog.Close();
+            }
+        }
+    }     
+}

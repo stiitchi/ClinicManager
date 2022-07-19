@@ -19,6 +19,9 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Ward
             var beds = conf.Metadata.FindNavigation(nameof(WardEntity.Beds));
             beds.SetPropertyAccessMode(PropertyAccessMode.Field);
 
+            var doctors = conf.Metadata.FindNavigation(nameof(WardEntity.Doctors));
+            doctors.SetPropertyAccessMode(PropertyAccessMode.Field);
+
             conf.Property(c => c.IsActive).IsRequired();
 
             conf.HasIndex(c => c.Id);

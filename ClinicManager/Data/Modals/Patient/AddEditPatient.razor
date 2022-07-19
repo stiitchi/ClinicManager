@@ -361,12 +361,16 @@
             </MudExpansionPanel>
 
             <MudExpansionPanel Icon="@Icons.TwoTone.Check"  Text="Business Details">
+            <MudTabs>
+                <MudTabPanel Text="General">
                  <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberOccupation" Label="Member Occupation" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberEmployer" Label="Employer" Variant="Variant.Outlined" />
                 </MudItem>
+                   </MudTabPanel>         
+                <MudTabPanel Text="Location">
                   <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberBusinessStreetAddress" Label="Business Street Address" Variant="Variant.Outlined" />
                 </MudItem>
@@ -390,6 +394,8 @@
                         <MudSelectItem T="string" Value="@("Northern Cape")" />
                     </MudSelect>
                 </MudItem>
+                   </MudTabPanel>         
+               </MudTabs>
             </MudExpansionPanel>
         </MudExpansionPanels>
         </EditForm>

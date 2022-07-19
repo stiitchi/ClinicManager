@@ -44,6 +44,9 @@
         _processing = true;
         IResult<int> response;
         AddEditObservationModel.NeuroLogicalTime = today;
+        AddEditObservationModel.NeuroLogicalSignature = "signature";
+
+
         response = await patientRecordService.AddNeuroLogicalRecord(AddEditObservationModel);
         if (response.Succeeded)
         {

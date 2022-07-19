@@ -1,5 +1,4 @@
-﻿
-using ClinicManager.Domain.Entities.BedAggregate;
+﻿using ClinicManager.Domain.Entities.BedAggregate;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
@@ -88,6 +87,9 @@ namespace ClinicManager.Domain.Entities.UserAggregate
         private int _patientId;
         public int PatientId => _patientId;
 
+        private int _wardId;
+        public int WardId => _wardId;
+
         private int _doctorId;
         public int DoctorId => _doctorId;
 
@@ -108,6 +110,7 @@ namespace ClinicManager.Domain.Entities.UserAggregate
 
         private string _firstName;
         public string FirstName => _firstName;
+
         private string _lastName;
         public string LastName => _lastName;
 

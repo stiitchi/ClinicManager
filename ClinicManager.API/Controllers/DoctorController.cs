@@ -15,6 +15,13 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllDoctorsQuery { }));
         }
 
+        [HttpGet("GetAllDoctorTable")]
+        public async Task<IActionResult> GetAllDoctorsTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
+        {
+            var doctors = await _mediator.Send(new GetAllDoctorsTableQuery(pageNumber, pageSize, searchString, orderBy));
+            return Ok(doctors);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

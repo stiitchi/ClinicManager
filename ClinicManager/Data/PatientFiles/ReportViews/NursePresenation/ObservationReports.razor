@@ -8,7 +8,7 @@
 <MudGrid>
     <MudItem xs="12" md="12" sm="12">
         <MudText Align="Align.Center" Typo="Typo.h6">
-            Observation Reportss
+            Observation Reports
         </MudText>
     </MudItem>
     <MudItem xs="12" md="12" sm="12">
@@ -47,8 +47,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.BloodFrequency <br/>
-                                Time Added: <MudChip>@report.BloodTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                      <MudItem md="6" sm="6">
+                                            <MudText Typo="Typo.body2">Frequency</MudText>
+                                      </MudItem>
+                                      <MudItem md="6" sm="6">
+                                            <MudChip Color="Color.Warning">@report.BloodFrequency</MudChip>
+                                      </MudItem>
+                                      <MudItem md="6" sm="6">
+                                            <MudText Typo="Typo.body2">Time Added</MudText>
+                                      </MudItem>
+                                      <MudItem md="6" sm="6">
+                                            <MudChip Color="Color.Warning">@report.BloodTime.ToString("HH:mm")</MudChip>
+                                      </MudItem>
+                                 </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -69,8 +81,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.BloodGlucoseFrequency <br/>
-                                Time Added: <MudChip>@report.BloodGlucoseTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.BloodGlucoseFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.BloodGlucoseTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -91,8 +115,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.NeuroLogicalFrequency <br/>
-                                Time Added: <MudChip>@report.NeuroLogicalTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.NeuroLogicalFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.NeuroLogicalTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -113,8 +149,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.NeuroVascularFrequency <br/>
-                                Time Added: <MudChip>@report.NeuroVascularTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.NeuroVascularFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.NeuroVascularTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -135,8 +183,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.UrineTestFrequency <br/>
-                                Time Added: <MudChip>@report.UrineTestTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.UrineTestFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.UrineTestTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -157,8 +217,20 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                Frequency: @report.VitalSignsFrequency <br/>
-                                Time Added: <MudChip>@report.VitalSignsTime.ToString("HH:mm")</MudChip> 
+                                <MudGrid>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Frequency</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.VitalSignsFrequency</MudChip>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudText Typo="Typo.body2">Time Added</MudText>
+                                    </MudItem>
+                                    <MudItem md="6" sm="6">
+                                        <MudChip Color="Color.Warning">@report.VitalSignsTime.ToString("HH:mm")</MudChip>
+                                    </MudItem>
+                                </MudGrid>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>

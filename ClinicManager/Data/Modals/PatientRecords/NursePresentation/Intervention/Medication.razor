@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditInterventionModel.MedicationTime = today;
+        AddEditInterventionModel.MedicationSignature = "signature";  
+
         response = await patientRecordService.AddMedicationRecord(AddEditInterventionModel);
         if (response.Succeeded)
         {

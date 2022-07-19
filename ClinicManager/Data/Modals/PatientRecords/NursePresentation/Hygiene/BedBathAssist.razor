@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditEliminationModel.BedBathAssistTime = today;
+        AddEditEliminationModel.BedBathAssistSignature = "Signature";
+
         response = await patientRecordService.AddBedBathAssist(AddEditEliminationModel);
         if (response.Succeeded)
         {

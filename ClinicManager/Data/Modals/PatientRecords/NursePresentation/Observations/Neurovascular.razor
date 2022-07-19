@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditObservationModel.NeuroVascularTime = today;
+        AddEditObservationModel.NeuroVascularSignature = "signature";
+
         response = await patientRecordService.AddNeuroVascularRecord(AddEditObservationModel);
         if (response.Succeeded)
         {

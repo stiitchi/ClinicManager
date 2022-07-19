@@ -361,6 +361,56 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("PatientDayFees", "dbo");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.DoctorsAggregate.DoctorEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MobileNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("WardEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("WardEntityId");
+
+                    b.HasIndex("WardId");
+
+                    b.ToTable("Doctors", "dbo");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.DoctorsAggregate.PatientDoctorEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -2646,6 +2696,21 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.DoctorsAggregate.DoctorEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.WardAggregate.WardEntity", null)
+                        .WithMany("Doctors")
+                        .HasForeignKey("WardEntityId");
+
+                    b.HasOne("ClinicManager.Domain.Entities.WardAggregate.WardEntity", "Ward")
+                        .WithMany()
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ward");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.DoctorsAggregate.PatientDoctorEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.UserAggregate.UserEntity", "Doctor")
@@ -3409,6 +3474,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ClinicManager.Domain.Entities.WardAggregate.WardEntity", b =>
                 {
                     b.Navigation("Beds");
+
+                    b.Navigation("Doctors");
                 });
 #pragma warning restore 612, 618
         }

@@ -43,7 +43,9 @@
     {
         _processing = true;
         IResult<int> response;
+        AddEditEliminationModel.BedBathSignature = "Signature";
         AddEditEliminationModel.BedBathTime = today;
+
         response = await patientRecordService.AddBedBathRecord(AddEditEliminationModel);
         if (response.Succeeded)
         {

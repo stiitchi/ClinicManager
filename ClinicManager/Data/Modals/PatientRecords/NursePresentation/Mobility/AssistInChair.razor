@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditMobilityModel.AssistIntoChairTime = today;
+        AddEditMobilityModel.AssistIntoChairSignature = "signature";  
+
         response = await patientRecordService.AddAssistInChairRecord(AddEditMobilityModel);
         if (response.Succeeded)
         {

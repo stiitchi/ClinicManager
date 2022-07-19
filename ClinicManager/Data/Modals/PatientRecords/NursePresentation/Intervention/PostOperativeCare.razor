@@ -44,6 +44,8 @@
         _processing = true;
         IResult<int> response;
         AddEditInterventionModel.PostOperativeCareTime = today;
+        AddEditInterventionModel.PostOperativeCareSignature = "signature";  
+
         response = await patientRecordService.AddPostOperativeCareRecord(AddEditInterventionModel);
         if (response.Succeeded)
         {
