@@ -40,6 +40,7 @@
                             </CardHeaderContent>
                             <CardHeaderActions>
                             <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(dayFee.DayFeeID))" Variant="Variant.Outlined">Edit</MudButton>
+                            <MudButton Color="Color.Error" @onclick="@(() => Delete(dayFee.DayFeeID))" Variant="Variant.Outlined">Delete</MudButton>
                             </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>

@@ -67,6 +67,11 @@ namespace ClinicManager.Web.Infrastructure.Services.Doctor
             return await response.ToResult<int>();
         }
 
+        public Task<IResult<int>> SaveAsync(UserDTO request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IResult<int>> UpdateAsync(UserDTO request)
         {
             await ConfigureHeaders();

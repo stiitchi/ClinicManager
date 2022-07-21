@@ -9,10 +9,16 @@
 @inject IBedService bedService 
 
 <MudDialog>
+     <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3" />
+            New Patient
+        </MudText>    
+    </TitleContent>
     <DialogContent>
     <EditForm Model="@AddEditPatientModel">
         <MudExpansionPanels Style="width: 700px; overflow: scroll;">
-            <MudExpansionPanel  Icon="@Icons.Filled.Check"  Text="Admission">
+            <MudExpansionPanel HideIcon="isBedSelected" Icon="@Icons.Filled.Check"  Text="Admission">
                 <MudItem sm="12">
                     <MudTextField Variant="Variant.Outlined" Disabled="true" T="int" @bind-Value="AddEditPatientModel.CaseInformationNumber" 
                         Label="Case Information Number" />
@@ -20,28 +26,28 @@
                 <MudItem sm="12">
                     <MudTextField Variant="Variant.Outlined" Disabled="true" @bind-Value="AddEditPatientModel.AccountNo" Label="Account Number" />
                 </MudItem>
-                <MudItem Class="mb-2" sm="12">
-                <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Prop2 == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
-                    Label="Ward Number" T="string">
-                @foreach (var item in _wards)
-                {
-                    <MudSelectItem T="string" Value="@item.Prop2" />
-                }
-                </MudSelect>
-                <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.PropInt == i)?.Name ?? string.Empty)"  Variant="Variant.Outlined" @bind-Value="AddEditPatientModel.BedNo"
-                    Label="Bed Number" T="int">
-                @foreach (var item in _beds)
-                {
-                    <MudSelectItem T="int" Value="@item.PropInt" />
-                }
-                </MudSelect>
-                 </MudItem> 
                 <MudItem sm="12">
                     <MudDatePicker MinDate="DateTime.Today" Variant="Variant.Outlined" @bind-Date="AddEditPatientModel.AdmissionDate" Label="Admission Date" />
                 </MudItem>
+                <MudItem  Class="mb-2" sm="12">
+                    <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Prop2 == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
+                        Label="Ward Number" T="string">
+                    @foreach (var item in _wards)
+                    {
+                        <MudSelectItem T="string" Value="@item.Prop2" />
+                    }
+                    </MudSelect>
+                    <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.PropInt == i)?.Name ?? string.Empty)"  Variant="Variant.Outlined" ValueChanged="BedSelector"
+                        Label="Bed Number" T="int">
+                    @foreach (var item in _beds)
+                    {
+                        <MudSelectItem T="int" Value="@item.PropInt" />
+                    }
+                    </MudSelect>
+                </MudItem>       
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Check" Text="Patient Personal Detail">
+            <MudExpansionPanel HideIcon="isPostalCodeSelected" Icon="@Icons.TwoTone.Check" Text="Patient Personal Detail">
                 <MudTabs>
                 <MudTabPanel Text="Personal">
                 <MudItem sm="12">
@@ -109,13 +115,13 @@
                     </MudSelect>
                 </MudItem>
                   <MudItem sm="12">
-                    <MudTextField Variant="Variant.Outlined"  @bind-Value="AddEditPatientModel.PostalCode"  Label="Postal Code" />
+                    <MudTextField Variant="Variant.Outlined" T="string" ValueChanged="PostalCodeSelector" Label="Postal Code" />
                 </MudItem>
                 </MudTabPanel>
                 </MudTabs>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Check" Text="Other Details">
+            <MudExpansionPanel HideIcon="isWorkAddressSelected" Icon="@Icons.TwoTone.Check" Text="Other Details">
             <MudTabs>
                 <MudTabPanel Text="Traits">
                  <MudItem sm="12">
@@ -187,13 +193,13 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.WorkAddressCode" Label="Work Postal Code" Variant="Variant.Outlined" />
+                    <MudTextField T="string" ValueChanged="WorkAddressSelector" Label="Work Postal Code" Variant="Variant.Outlined" />
                 </MudItem>
                  </MudTabPanel>
                 </MudTabs>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Check" Text="Family Details">
+            <MudExpansionPanel HideIcon="isOtherContactNoSelected" Icon="@Icons.TwoTone.Check" Text="Family Details">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.NextOfKin" Label="Next Of Kin" Variant="Variant.Outlined" />
                 </MudItem>
@@ -238,11 +244,11 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.OtherContactAltContactNo" Label="Other Contact Alternative Number" Variant="Variant.Outlined" />
+                    <MudTextField T="string" ValueChanged="OtherContactNoSelector" Label="Other Contact Alternative Number" Variant="Variant.Outlined" />
                 </MudItem>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Check" Text="Medical Details">
+            <MudExpansionPanel HideIcon="isAuthNoSelected" Icon="@Icons.TwoTone.Check" Text="Medical Details">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.RefferingDoctor" Label="Reffering Doctor" Variant="Variant.Outlined" />
                 </MudItem>
@@ -262,16 +268,16 @@
                     <MudTextField @bind-Value="AddEditPatientModel.DependentCode" Label="Dependent Code" Variant="Variant.Outlined" />
                 </MudItem>
                   <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.AuthNo" Label="Authorization Number" Variant="Variant.Outlined" />
+                    <MudTextField T="string" ValueChanged="AuthNoSelector" Label="Authorization Number" Variant="Variant.Outlined" />
                 </MudItem>              
             </MudExpansionPanel>
 
-                <MudExpansionPanel Icon="@Icons.TwoTone.Check"  Text="Additional Medical Details">
+                <MudExpansionPanel HideIcon="isStageSelected"  Icon="@Icons.TwoTone.Check"  Text="Additional Medical Details">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.WoundLocation" Label="Wound Location" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.Stage" Label="Wound Stage" Variant="Variant.Outlined" />
+                    <MudTextField T="string" ValueChanged="StageSelector" Label="Wound Stage" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem sm="6">
                     <MudCheckBox Label="OT" @bind-Checked="AddEditPatientModel.OT" Color="Color.Primary"></MudCheckBox>
@@ -293,7 +299,7 @@
                 </MudItem>          
             </MudExpansionPanel>
 
-               <MudExpansionPanel Icon="@Icons.TwoTone.Check" Text="Main Member/ Accountable Person">
+               <MudExpansionPanel HideIcon="isMedMemberPostalCodeSelected" Icon="@Icons.TwoTone.Check" Text="Main Member/ Accountable Person">
                 <MudTabs>
                 <MudTabPanel Text="Accountable Person">
                 <MudItem sm="12">
@@ -354,13 +360,13 @@
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberPostalAddress" Label="Postal Address" Variant="Variant.Outlined" />
                 </MudItem>  
                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberPostalAddressCode" Label="Postal Address Code" Variant="Variant.Outlined" />
+                    <MudTextField T="string"  ValueChanged="MemberPostalAddressCode" Label="Postal Address Code" Variant="Variant.Outlined" />
                 </MudItem>
                 </MudTabPanel>         
                </MudTabs>
             </MudExpansionPanel>
 
-            <MudExpansionPanel Icon="@Icons.TwoTone.Check"  Text="Business Details">
+            <MudExpansionPanel HideIcon="isCitySelected" Icon="@Icons.TwoTone.Check"  Text="Business Details">
             <MudTabs>
                 <MudTabPanel Text="General">
                  <MudItem sm="12">
@@ -376,10 +382,7 @@
                 </MudItem>
                  <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberBusinessPostalCode" Label="Postal Code" Variant="Variant.Outlined" />
-                </MudItem>
-                 <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberBusinessCity" Label="City" Variant="Variant.Outlined" />
-                </MudItem>
+                </MudItem>     
                  <MudItem sm="12">
                     <MudSelect T="string" Label="Province" @bind-Value="AddEditPatientModel.MainMedicalAidMemberBusinessProvince"
                     Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
@@ -393,6 +396,9 @@
                         <MudSelectItem T="string" Value="@("Western Cape")" />
                         <MudSelectItem T="string" Value="@("Northern Cape")" />
                     </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField T="string" ValueChanged="MainMedicalAidMemberBusinessCity" Label="City" Variant="Variant.Outlined" />
                 </MudItem>
                    </MudTabPanel>         
                </MudTabs>
@@ -434,6 +440,15 @@
 
     private bool _processing = false;
 
+    private bool isBedSelected = true;
+    private bool isPostalCodeSelected = true;
+    private bool isWorkAddressSelected = true;
+    private bool isOtherContactNoSelected = true;
+    private bool isAuthNoSelected = true;
+    private bool isStageSelected = true;
+    private bool isMedMemberPostalCodeSelected = true;
+    private bool isCitySelected = true;
+    
     private DateTime? dischargeDate = DateTime.Now;
     private DateTime? reportDate = DateTime.Now;
 
@@ -500,8 +515,49 @@
             {
                 _wards = wards.Data;
             }
-        }
+        }    
 
+        public async Task BedSelector(int bedId)
+        {
+            AddEditPatientModel.BedNo = bedId;
+            isBedSelected = false;
+        }
+        public async Task PostalCodeSelector(string postalCode)
+        {
+            AddEditPatientModel.PostalCode = postalCode;
+            isPostalCodeSelected = false;
+        }
+        public async Task WorkAddressSelector(string workAddressCode)
+        {
+            AddEditPatientModel.WorkAddressCode = workAddressCode;
+            isWorkAddressSelected = false;
+        }
+        public async Task OtherContactNoSelector(string altContactNo)
+        {
+            AddEditPatientModel.OtherContactAltContactNo = altContactNo;
+            isOtherContactNoSelected = false;
+        }
+        public async Task AuthNoSelector(string authNo)
+        {
+            AddEditPatientModel.AuthNo = authNo;
+            isAuthNoSelected = false;
+        }
+        public async Task StageSelector(string stage)
+        {
+            AddEditPatientModel.Stage = stage;
+            isStageSelected = false;
+        }
+        public async Task MemberPostalAddressCode(string postalAddress)
+        {
+            AddEditPatientModel.MainMedicalAidMemberPostalAddressCode = postalAddress;
+            isMedMemberPostalCodeSelected = false;
+        }
+        public async Task MainMedicalAidMemberBusinessCity(string mainMedicalAidMemberBusinessCity)
+        {
+            AddEditPatientModel.MainMedicalAidMemberBusinessCity = mainMedicalAidMemberBusinessCity;
+            isCitySelected = false;
+        }
+       
         public async Task GetAllBedsByWardId(string wardId)
         {
             AddEditPatientModel.WardNo = wardId;

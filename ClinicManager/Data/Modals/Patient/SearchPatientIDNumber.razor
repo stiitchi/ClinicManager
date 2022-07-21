@@ -17,7 +17,7 @@
         <DialogContent>
             <MudGrid>
             <MudItem Class="mb-2" sm="12">
-                    <MudTextField Variant="Variant.Outlined"  T="long" @bind-Value="Search.IDNumber"
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="IdNumber"
                      Label="ID Number" />
              </MudItem> 
             <MudItem Class="mb-2" sm="12">
@@ -49,17 +49,17 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public SearchDTO Search { get; set; } = new();
-    private bool _processing = false;
     public PatientDTO PatientModel = new();
     private List<LookupDTO> _wards = new();
     private List<LookupDTO> _beds = new();
-
+    private bool _processing = false;
     private bool showMessage = false;
     public bool existingId = false;
+    private string IdNumber;
 
     public async Task SearchPatientById()
     {
-        var id = Search.IDNumber; 
+        var id = Convert.ToInt64(IdNumber);  
         var patient = await patientService.GetPatientByIDNumber(id);             
         if (patient.Data == null)
         {
@@ -154,7 +154,7 @@
                     SocialWorker = patient.Data.SocialWorker,
                     Stage = patient.Data.Stage
                     });
-
+                    MudDialog.Close();
                 var patientName = $" Patient - {patient.Data.FirstName} {patient.Data.LastName}";
                 var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
                 _dialogService.Show<AddEditPatient>(patientName, parameters, options);

@@ -3,30 +3,79 @@
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using ClinicManager.Shared.DTO_s
-@using Skye.Web.Shared.Dialogs
 @inject IWardService wardService 
 @inject IBedService bedService 
 
 <MudGrid>
-   @foreach (var ward in _wards)
-    {    
-    <MudItem xs="3" md="3" sm="3">
-            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+
+    <MudItem md="6" sm="6">
+            <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <center>
-                        <MudChip Size="Size.Large" Color="Color.Warning">Ward @ward.WardNumber</MudChip>
+                        <MudChip Size="Size.Large" Color="Color.Secondary">Current Patients</MudChip>
                         </center>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <center>
-                        <MudButton Color="Color.Info" @onclick="@(() => ViewIndexWards(ward.WardId, ward.WardNumber))" Variant="Variant.Outlined">View</MudButton>
+                        <MudButton Color="Color.Info" Variant="Variant.Outlined">View</MudButton>
                     </center>
                 </MudCardContent>
             </MudCard>
     </MudItem>   
-    }
+    <MudItem md="6" sm="6">
+            <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Info">Staff</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <center>
+                        <MudButton Color="Color.Info" Variant="Variant.Outlined">View</MudButton>
+                    </center>
+                </MudCardContent>
+            </MudCard>
+    </MudItem> 
+       <MudItem md="12" sm="12">
+            <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <center>
+                        <MudChip Size="Size.Large" Color="Color.Warning">Wards</MudChip>
+                        </center>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                   <MudGrid>
+                        @foreach (var ward in _wards)
+                        {  
+                         <MudItem xs="3" md="3" sm="3">
+                            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                                <MudCardHeader>
+                                    <CardHeaderContent>
+                                        <center>
+                                        <MudChip Size="Size.Large" Color="Color.Warning">@ward.WardNumber</MudChip>
+                                        </center>
+                                    </CardHeaderContent>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <center>
+                                        <MudButton Color="Color.Info" @onclick="@(() => ViewIndexWards(ward.WardId, ward.WardNumber))" Variant="Variant.Outlined">View</MudButton>
+                                    </center>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>  
+                        }
+                   </MudGrid>
+                </MudCardContent>
+            </MudCard>
+    </MudItem>
+    
+   
 </MudGrid>
 
 

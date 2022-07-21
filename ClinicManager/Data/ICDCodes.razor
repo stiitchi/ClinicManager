@@ -41,6 +41,7 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                         <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(icdCode.ICDCodeId))" Variant="Variant.Outlined">Edit</MudButton>
+                        <MudButton Color="Color.Error" @onclick="@(() => Delete(icdCode.ICDCodeId))" Variant="Variant.Outlined">Delete</MudButton>
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
