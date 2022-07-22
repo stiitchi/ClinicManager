@@ -1,9 +1,9 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
 @using ClinicManager.Shared.Wrappers
-@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
-@inject IICDCodeService icdCodeService 
+@inject IChartService chartService 
 
 
 <EditForm Model="@AddRespitoryChartModel" OnValidSubmit="SaveAsync">
@@ -113,33 +113,33 @@
 
     private async Task SaveAsync()
     {
-        //_processing = true;
-        //IResult<int> response;
-        //if (AddEditICDModel.ICDCodeId == 0)
-        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
-        //else
-        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
+        _processing = true;
+        IResult<int> response;
+        if (AddRespitoryChartModel.RespitoryChartId == 0)
+            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
+        else
+            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
 
-        //if (response.Succeeded)
-        //{
-        //    if (AddEditICDModel.ICDCodeId == 0)
-        //    {
-        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    else
-        //    {
-        //        _snackBar.Add("ICD Code Updated", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    MudDialog.Close();
-        //}
-        //else
-        //{
-        //    foreach (var message in response.Messages)
-        //    {
-        //        _snackBar.Add(message, Severity.Error);
-        //    }
-        //}
+        if (response.Succeeded)
+        {
+            if (AddRespitoryChartModel.RespitoryChartId == 0)
+            {
+                _snackBar.Add("New Respitory Rate Chart Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Respitory Rate Chart Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
     }     
 }

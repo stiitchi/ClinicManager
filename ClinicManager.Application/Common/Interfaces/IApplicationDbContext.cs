@@ -1,5 +1,7 @@
 ﻿using ClinicManager.Domain.Entities.AdmissionAggregate;
 using ClinicManager.Domain.Entities.BedAggregate;
+using ClinicManager.Domain.Entities.ChartsAggregate;
+using ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
 using ClinicManager.Domain.Entities.DoctorsAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
@@ -44,6 +46,9 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<RoleEntity> Roles { get; set; }
         DbSet<PatientEntity> Patients { get; set; }
         DbSet<PatientBedEntity> PatientBeds { get; set; }
+
+        //Reports
+
         DbSet<IVEntity> CareplanIVTest { get; set; }
         DbSet<IVSiteEntity> CareplanIVSiteTest { get; set; }
         DbSet<MonitorFluidEntity> MonitorFluidTest { get; set; }
@@ -93,5 +98,14 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<RednessEntity> RednessTests { get; set; }
         DbSet<StoolChartEntity> StoolChartTests { get; set; }
         DbSet<CotsideEntity> CotsideRecords { get; set; }
+        //Charts
+        DbSet<BloodOxygenChartEntity> BloodOxygenCharts { get; set; }
+        DbSet<BloodPressureChartEntity> BloodPressureCharts { get; set; }
+        DbSet<RespitoryRateChartEntity> RespitoryRateCharts { get; set; }
+        DbSet<HeartRateChartEntity> HeartRateCharts { get; set; }
+        DbSet<TemperatureChartEntity> TemperatureCharts { get; set; }
+        //Chart Entries
+        DbSet<BloodOxygenChartEntryEntity> BloodOxygenChartEntries { get; set; }
+
     }
 }

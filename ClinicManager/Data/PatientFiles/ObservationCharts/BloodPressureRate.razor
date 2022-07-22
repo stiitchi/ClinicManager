@@ -69,6 +69,7 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public BloodPressureDTO AddBloodPressureChartModel { get; set; } = new();
+    [Parameter] public int PatientId { get; set; } 
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;

@@ -68,6 +68,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public int PatientId { get; set; } 
     [Parameter] public TemperatureRateDTO AddTempChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;

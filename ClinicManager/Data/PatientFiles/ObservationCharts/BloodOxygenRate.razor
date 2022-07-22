@@ -1,9 +1,10 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
-@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
-@inject IICDCodeService icdCodeService 
+@inject IChartService chartService 
 
 
 <EditForm Model="@AddBloodOxygenChartModel" OnValidSubmit="SaveAsync">
@@ -67,7 +68,7 @@
 </EditForm>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } 
     [Parameter] public BloodOxygenDTO AddBloodOxygenChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;
@@ -75,7 +76,7 @@
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
-
+    public BloodOxygenChartEntryDTO BloodOxygenChartEntryModel { get; set; } = new();
     private int Index = -1; 
 
     public List<ChartSeries> Series = new List<ChartSeries>(){};
@@ -114,33 +115,48 @@
 
     private async Task SaveAsync()
     {
-        //_processing = true;
-        //IResult<int> response;
-        //if (AddEditICDModel.ICDCodeId == 0)
-        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
-        //else
-        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
 
-        //if (response.Succeeded)
-        //{
-        //    if (AddEditICDModel.ICDCodeId == 0)
-        //    {
-        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    else
-        //    {
-        //        _snackBar.Add("ICD Code Updated", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    MudDialog.Close();
-        //}
-        //else
-        //{
-        //    foreach (var message in response.Messages)
-        //    {
-        //        _snackBar.Add(message, Severity.Error);
-        //    }
-        //}
+
+        _processing = true;
+        IResult<int> response;
+        AddBloodOxygenChartModel.Time = "";
+        if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
+            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
+        else
+            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
+
+        if (response.Succeeded)
+        {
+            foreach(var entry in ChartValues)
+            {
+            var id = response.Data;
+            _processing = true;
+            IResult<int> resp;
+            BloodOxygenChartEntryModel.BloodOxygenChartEntry = entry;          
+            BloodOxygenChartEntryModel.BloodOxygenChartEntryId = id;          
+            resp = await chartService.AddBloodOxygenChartEntry(BloodOxygenChartEntryModel);
+
+        }
+
+
+            if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
+            {
+                _snackBar.Add("New Blood Oxygen Chart Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Blood Oxygen Chart Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
     }     
 }

@@ -3,6 +3,7 @@
     public class BloodPressureDTO
     {
         public int BloodPressureChartId { get; set; }
+        public int PatientId { get; set; }
         public double BloodPressureChartEntry { get; set; }
         public string Time { get; set; }
     }

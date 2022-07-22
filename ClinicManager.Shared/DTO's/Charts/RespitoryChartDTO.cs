@@ -3,6 +3,7 @@
     public class RespitoryChartDTO
     {
         public int RespitoryChartId { get; set; }
+        public int PatientId { get; set; }
         public double RespitoryChartEntry { get; set; }
         public string Time { get; set; }
     }

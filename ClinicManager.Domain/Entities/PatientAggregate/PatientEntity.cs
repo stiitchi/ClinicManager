@@ -1,4 +1,5 @@
 ﻿using ClinicManager.Domain.Entities.BedAggregate;
+using ClinicManager.Domain.Entities.ChartsAggregate;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
@@ -563,6 +564,21 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
 
         private bool _ot;
         public bool Ot => _ot;
+
+        private readonly List<BloodOxygenChartEntity> _bloodOxygenCharts = new();
+        public virtual IReadOnlyCollection<BloodOxygenChartEntity> BloodOxygenCharts => _bloodOxygenCharts;
+
+        private readonly List<BloodPressureChartEntity> _bloodPressureCharts = new();
+        public virtual IReadOnlyCollection<BloodPressureChartEntity> BloodPressureCharts => _bloodPressureCharts;
+
+        private readonly List<HeartRateChartEntity> _heartRateCharts = new();
+        public virtual IReadOnlyCollection<HeartRateChartEntity> HeartRateCharts => _heartRateCharts;
+
+        private readonly List<RespitoryRateChartEntity> _respitoryRateCharts = new();
+        public virtual IReadOnlyCollection<RespitoryRateChartEntity> RespitoryRateCharts => _respitoryRateCharts;
+
+        private readonly List<TemperatureChartEntity> _temperatureCharts = new();
+        public virtual IReadOnlyCollection<TemperatureChartEntity> TemperatureCharts => _temperatureCharts;
 
         private readonly List<PatientBedEntity> _patientBeds = new();
         public virtual IReadOnlyCollection<PatientBedEntity> PatientBeds => _patientBeds;

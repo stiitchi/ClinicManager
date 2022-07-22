@@ -1,4 +1,5 @@
-﻿@using ClinicManager.Shared.DTO_s.Charts
+﻿@using ClinicManager.Shared.DTO_s
+@using ClinicManager.Shared.DTO_s.Charts
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.PatientRecords
 @using ClinicManager.Shared.DTO_s.Records
@@ -92,39 +93,18 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public DailyCareRecordDTO AddEditDailyCareModel { get; set; } = new();
+    [Parameter] public ChartSelectorDTO ChartSelectorModel { get; set; } = new();
     void Cancel() => MudDialog.Cancel();
     private bool _processing = false;
     public DateTime today = DateTime.Now;
 
-    private async Task SaveAsync()
-    {
-        _processing = true;
-        IResult<int> response;        
-        AddEditDailyCareModel.TimeAdded = today;
-        AddEditDailyCareModel.DateAdded = today;
-
-        response = await patientRecordService.AddDailyCareRecord(AddEditDailyCareModel);
-        if (response.Succeeded)
-        {
-            _snackBar.Add("Daily Care Record Saved", Severity.Success);
-            _processing = false;
-            MudDialog.Close();
-        }
-        else
-        {
-            foreach (var message in response.Messages)
-            {
-                _snackBar.Add(message, Severity.Error);
-                MudDialog.Close();
-            }
-        }
-    }   
-
     private void ViewRespitoryChart()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(RespitoryRate.AddRespitoryChartModel), new RespitoryChartDTO { });
+        parameters.Add(nameof(RespitoryRate.AddRespitoryChartModel), new RespitoryChartDTO
+        {
+            PatientId  = ChartSelectorModel.PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<RespitoryRate>("Respitory Chart", parameters, options);
          MudDialog.Close();
@@ -133,7 +113,10 @@
     private void ViewBloodOxygenChart()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(BloodOxygenRate.AddBloodOxygenChartModel), new BloodOxygenDTO { });
+        parameters.Add(nameof(BloodOxygenRate.AddBloodOxygenChartModel), new BloodOxygenDTO
+        {
+            PatientId = ChartSelectorModel.PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<BloodOxygenRate>("Blood Oxygen Chart", parameters, options);
          MudDialog.Close();
@@ -142,27 +125,36 @@
     private void ViewBloodPressureChart()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(BloodPressureRate.AddBloodPressureChartModel), new BloodPressureDTO { });
+        parameters.Add(nameof(BloodPressureRate.AddBloodPressureChartModel), new BloodPressureDTO
+        {
+            PatientId = ChartSelectorModel.PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<BloodPressureRate>("Blood Oxygen Chart", parameters, options);
+        _dialogService.Show<BloodPressureRate>("Blood Pressure Chart", parameters, options);
          MudDialog.Close();
     }
 
     private void ViewHeartRateChart()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(HeartRate.AddHeartRateChartModel), new HeartRateDTO { });
+        parameters.Add(nameof(HeartRate.AddHeartRateChartModel), new HeartRateDTO
+        {
+            PatientId = ChartSelectorModel.PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<HeartRate>("Blood Oxygen Chart", parameters, options);
+        _dialogService.Show<HeartRate>("Heart Rate Chart", parameters, options);
          MudDialog.Close();
     }
 
     private void ViewTempChart()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(TemperatureCheckRate.AddTempChartModel), new TemperatureRateDTO { });
+        parameters.Add(nameof(TemperatureCheckRate.AddTempChartModel), new TemperatureRateDTO
+        {
+            PatientId = ChartSelectorModel.PatientId
+        });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<TemperatureCheckRate>("Blood Oxygen Chart", parameters, options);
+        _dialogService.Show<TemperatureCheckRate>("Temperature Chart", parameters, options);
          MudDialog.Close();
     }
 }

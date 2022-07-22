@@ -83,7 +83,22 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients
             conf.Property(c => c.MainMemberBusinessCity).IsRequired();
             conf.Property(c => c.MainMemberBusinessProvince).IsRequired();
             conf.Property(c => c.MainMemberBusinessPostalCode).IsRequired();
-      
+
+
+            var bloodOxygenCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.BloodOxygenCharts));
+            bloodOxygenCharts.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var bloodPressureCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.BloodPressureCharts));
+            bloodPressureCharts.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var heartRateCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.HeartRateCharts));
+            heartRateCharts.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var respitoryRateCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.RespitoryRateCharts));
+            respitoryRateCharts.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var temperatureCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.TemperatureCharts));
+            temperatureCharts.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             var patientBeds = conf.Metadata.FindNavigation(nameof(PatientEntity.PatientBeds));
             patientBeds.SetPropertyAccessMode(PropertyAccessMode.Field);

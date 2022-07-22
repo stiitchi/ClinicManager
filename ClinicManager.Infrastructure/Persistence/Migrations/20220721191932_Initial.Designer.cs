@@ -4,6 +4,7 @@ using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220721191932_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,32 +346,6 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("BloodPressureCharts", "dbo");
-                });
-
-            modelBuilder.Entity("ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry.BloodOxygenChartEntryEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<double>("BloodOxygenChartEntry")
-                        .HasColumnType("float");
-
-                    b.Property<int>("BloodOxygenChartId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BloodOxygenChartId");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("BloodOxygenChartEntries", "dbo");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.ChartsAggregate.HeartRateChartEntity", b =>
@@ -2864,17 +2840,6 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry.BloodOxygenChartEntryEntity", b =>
-                {
-                    b.HasOne("ClinicManager.Domain.Entities.ChartsAggregate.BloodOxygenChartEntity", "BloodOxygenChart")
-                        .WithMany("BloodOxygenChartEntries")
-                        .HasForeignKey("BloodOxygenChartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BloodOxygenChart");
-                });
-
             modelBuilder.Entity("ClinicManager.Domain.Entities.ChartsAggregate.HeartRateChartEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.PatientAggregate.PatientEntity", "Patient")
@@ -3589,11 +3554,6 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ClinicManager.Domain.Entities.BedAggregate.BedEntity", b =>
                 {
                     b.Navigation("PatientBeds");
-                });
-
-            modelBuilder.Entity("ClinicManager.Domain.Entities.ChartsAggregate.BloodOxygenChartEntity", b =>
-                {
-                    b.Navigation("BloodOxygenChartEntries");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.PatientAggregate.PatientEntity", b =>
