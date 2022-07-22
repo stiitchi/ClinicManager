@@ -34,10 +34,24 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
             return await response.ToResult<int>();
         }
 
+        public async Task<IResult<int>> AddBloodPressureChartEntry(BloodPressureChartEntryDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddBloodPressureChartEntry, request);
+            return await response.ToResult<int>();
+        }
+
         public async Task<IResult<int>> AddHeartRateChart(HeartRateDTO request)
         {
             await ConfigureHeaders();
             var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddHeartRateChart, request);
+            return await response.ToResult<int>();
+        }
+
+        public async Task<IResult<int>> AddHeartRateChartEntry(HeartRateChartEntryDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddHeartRateChartEntry, request);
             return await response.ToResult<int>();
         }
 
@@ -48,10 +62,24 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
             return await response.ToResult<int>();
         }
 
+        public async Task<IResult<int>> AddRespitoryRateChartEntry(RespitoryRateChartEntryDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddRespitoryRateChartEntry, request);
+            return await response.ToResult<int>();
+        }
+
         public async Task<IResult<int>> AddTemperatureRate(TemperatureRateDTO request)
         {
             await ConfigureHeaders();
             var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddTemperatureRate, request);
+            return await response.ToResult<int>();
+        }
+
+        public async Task<IResult<int>> AddTemperatureRateChartEntry(TemperatureRateEntryDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.ChartEndpoints.AddTemperatureRateChartEntry, request);
             return await response.ToResult<int>();
         }
 
@@ -62,11 +90,25 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
             return await response.ToResult<List<BloodOxygenDTO>>(); throw new NotImplementedException();
         }
 
+        public async Task<IResult<List<BloodOxygenChartEntryDTO>>> GetAllBloodOxygenChartEntriesByBloodOxygenId(int bloodOxygenChartId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllBloodOxygenChartEntriesByBloodOxygenId(bloodOxygenChartId));
+            return await response.ToResult<List<BloodOxygenChartEntryDTO>>();
+        }
+
         public async Task<IResult<List<BloodPressureDTO>>> GetAllBloodPressureChart()
         {
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllBloodPressureCharts);
             return await response.ToResult<List<BloodPressureDTO>>(); throw new NotImplementedException();
+        }
+
+        public async Task<IResult<List<BloodPressureChartEntryDTO>>> GetAllBloodPressureChartEntriesByBloodPressureId(int bloodPressureChartId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllBloodPressureChartEntriesByBloodPressureId(bloodPressureChartId));
+            return await response.ToResult<List<BloodPressureChartEntryDTO>>();
         }
 
         public async Task<IResult<List<HeartRateDTO>>> GetAllHeartRateChart()
@@ -76,11 +118,32 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
             return await response.ToResult<List<HeartRateDTO>>(); throw new NotImplementedException();
         }
 
+        public async Task<IResult<List<HeartRateChartEntryDTO>>> GetAllHeartRateChartEntriesByHeartRateId(int heartRateChartId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllHeartRateChartEntriesByHeartRateId(heartRateChartId));
+            return await response.ToResult<List<HeartRateChartEntryDTO>>();
+        }
+
+        public async Task<IResult<List<RespitoryRateChartEntryDTO>>> GetAllRespitoryChartEntriesByRespitoryId(int respitoryRateChartId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllRespitoryChartEntriesByRespitoryId(respitoryRateChartId));
+            return await response.ToResult<List<RespitoryRateChartEntryDTO>>();
+        }
+
         public async Task<IResult<List<RespitoryChartDTO>>> GetAllRespitoryRateChart()
         {
             await ConfigureHeaders();
             var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllRespitoryCharts);
             return await response.ToResult<List<RespitoryChartDTO>>(); throw new NotImplementedException();
+        }
+
+        public async Task<IResult<List<TemperatureRateEntryDTO>>> GetAllTemperatureChartEntriesByTemperatureId(int temperatureChartId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.ChartEndpoints.GetAllTemperatureChartEntriesByTemperatureId(temperatureChartId));
+            return await response.ToResult<List<TemperatureRateEntryDTO>>();
         }
 
         public async Task<IResult<List<TemperatureRateDTO>>> GetAllTemperatureRate()

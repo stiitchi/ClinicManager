@@ -13,6 +13,10 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
         Task<IResult<int>> AddTemperatureRate(TemperatureRateDTO request);
 
         Task<IResult<int>> AddBloodOxygenChartEntry(BloodOxygenChartEntryDTO request);
+        Task<IResult<int>> AddBloodPressureChartEntry(BloodPressureChartEntryDTO request);
+        Task<IResult<int>> AddHeartRateChartEntry(HeartRateChartEntryDTO request);
+        Task<IResult<int>> AddRespitoryRateChartEntry(RespitoryRateChartEntryDTO request);
+        Task<IResult<int>> AddTemperatureRateChartEntry(TemperatureRateEntryDTO request);
 
         Task<IResult<List<BloodOxygenDTO>>> GetAllBloodOxygenChart();
         Task<IResult<List<BloodPressureDTO>>> GetAllBloodPressureChart();
@@ -27,6 +31,12 @@ namespace ClinicManager.Web.Infrastructure.Services.Chart
         Task<IResult<RespitoryChartDTO>> GetRespitoryChartById(int id);
         Task<IResult<TemperatureRateDTO>> GetTemperatureRateById(int id);
 
+
+        Task<IResult<List<BloodOxygenChartEntryDTO>>> GetAllBloodOxygenChartEntriesByBloodOxygenId(int bloodOxygenChartId);
+        Task<IResult<List<BloodPressureChartEntryDTO>>> GetAllBloodPressureChartEntriesByBloodPressureId(int bloodPressureChartId);
+        Task<IResult<List<HeartRateChartEntryDTO>>> GetAllHeartRateChartEntriesByHeartRateId(int heartRateChartId);
+        Task<IResult<List<RespitoryRateChartEntryDTO>>> GetAllRespitoryChartEntriesByRespitoryId(int respitoryRateChartId);
+        Task<IResult<List<TemperatureRateEntryDTO>>> GetAllTemperatureChartEntriesByTemperatureId(int temperatureChartId);
 
     }
 }

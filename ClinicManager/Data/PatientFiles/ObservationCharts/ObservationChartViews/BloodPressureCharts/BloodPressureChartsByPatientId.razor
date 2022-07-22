@@ -1,0 +1,101 @@
+﻿@page "/blood-pressure-charts/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Chart
+@inject IChartService chartService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Blood Pressure Charts
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _bloodPressureCharts.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_bloodPressureCharts.Any())
+{
+   <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var chart in _bloodPressureCharts)
+                {
+                    <MudItem md="3" sm="3">
+                          <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudText Typo="Typo.inherit">
+                                    @*<MudChip Color="Color.Warning">@chart.Time</MudChip>*@                        
+                                    </MudText>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent> 
+                                      <center>
+                                            Blood Pressure Chart @chart.BloodPressureChartId
+                                        </center>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem md="12" sm="12">
+                                        <center>
+                                        <MudButton Color="Color.Dark" 
+                                        Style="border-radius:10px 10px 10px 10px" @onclick="@(() => ViewBloodPressureChart(@chart.BloodPressureChartId))"
+                                        Variant="Variant.Outlined">View</MudButton>
+                                        </center>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Blood Pressure Charts Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<BloodPressureDTO> _bloodPressureCharts = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllBloodPressureCharts();
+    }
+
+    private void ViewBloodPressureChart(int bloodPressureChartId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ViewBloodPressureRateChart.AddBloodPressureChartModel ), new BloodPressureDTO
+        {
+            BloodPressureChartId = bloodPressureChartId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<ViewBloodPressureRateChart>("Blood Pressure Rate Chart", parameters, options);
+    }
+
+    public async Task GetAllBloodPressureCharts()
+    {
+        var charts = await chartService.GetAllBloodPressureChart();
+        if (charts.Succeeded)
+        {
+            _bloodPressureCharts = charts.Data;
+        }
+    }
+}

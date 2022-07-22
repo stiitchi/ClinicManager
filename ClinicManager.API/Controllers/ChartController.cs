@@ -1,4 +1,5 @@
 ﻿using ClinicManager.Application.Modules.ChartEntry.Command;
+using ClinicManager.Application.Modules.ChartEntry.Queries;
 using ClinicManager.Application.Modules.Charts.Commands;
 using ClinicManager.Application.Modules.Charts.Queries;
 using ClinicManager.Shared.DTO_s.Charts;
@@ -16,33 +17,22 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddBloodOxygenChartCommand
             {
-             BloodOxygenChartId = bloodOxygen.BloodOxygenChartId,
-             BloodOxygenChartEntry = bloodOxygen.BloodOxygenChartEntry,
-             Time = bloodOxygen.Time,
-             PatientId = bloodOxygen.PatientId
+             BloodOxygenChartId         = bloodOxygen.BloodOxygenChartId,
+             BloodOxygenChartEntry      = bloodOxygen.BloodOxygenChartEntry,
+             Time                       = bloodOxygen.Time,
+             PatientId                  = bloodOxygen.PatientId
             }));
-        }
-
-        [HttpPost("AddBloodOxygenChartEntry")]
-        public async Task<IActionResult> AddBloodOxygenChartEntry(BloodOxygenChartEntryDTO bloodOxygenEntry)
-        {
-            return Ok(await _mediator.Send(new AddBloodOxygenChartEntryCommand
-            {
-                BloodOxygenChartId = bloodOxygenEntry.BloodOxygenChartEntryId,
-                BloodOxygenChartEntry = bloodOxygenEntry.BloodOxygenChartEntry
-            }));
-        }
-        
+        }   
 
         [HttpPost("AddBloodPressureChart")]
         public async Task<IActionResult> AddBloodPressureChart(BloodPressureDTO bloodPressure)
         {
             return Ok(await _mediator.Send(new AddBloodPressureChartCommand
             {
-                BloodPressureChartId = bloodPressure.BloodPressureChartId,
-                BloodPressureChartEntry = bloodPressure.BloodPressureChartEntry,
-                Time = bloodPressure.Time,
-                PatientId = bloodPressure.PatientId
+                BloodPressureChartId            = bloodPressure.BloodPressureChartId,
+                BloodPressureChartEntry         = bloodPressure.BloodPressureChartEntry,
+                Time                            = bloodPressure.Time,
+                PatientId                       = bloodPressure.PatientId
             }));
         }
 
@@ -51,10 +41,10 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddHeartRateChartCommand
             {
-                HeartRateChartId = heartRate.HeartRateChartId,
-                HeartRateChartEntry = heartRate.HeartRateChartEntry,
-                Time = heartRate.Time,
-                PatientId = heartRate.PatientId
+                HeartRateChartId             = heartRate.HeartRateChartId,
+                HeartRateChartEntry          = heartRate.HeartRateChartEntry,
+                Time                         = heartRate.Time,
+                PatientId                    = heartRate.PatientId
             }));
         }
 
@@ -63,10 +53,10 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddRespitoryRateChartCommand
             {
-                RespitoryChartId = respitoryChart.RespitoryChartId,
+                RespitoryChartId    = respitoryChart.RespitoryChartId,
                 RespitoryChartEntry = respitoryChart.RespitoryChartEntry,
-                Time = respitoryChart.Time,
-                PatientId = respitoryChart.PatientId
+                Time                = respitoryChart.Time,
+                PatientId           = respitoryChart.PatientId
             }));
         }
 
@@ -75,12 +65,69 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddTemperatureRateCommand
             {
-                TempRatetId = temperatureRate.TempRatetId,
-                TempRateEntry = temperatureRate.TempRateEntry,
-                Time = temperatureRate.Time,
-                PatientId = temperatureRate.PatientId
+                TempRatetId          = temperatureRate.TempRatetId,
+                TempRateEntry        = temperatureRate.TempRateEntry,
+                Time                 = temperatureRate.Time,
+                PatientId            = temperatureRate.PatientId
             }));
         }
+        //Chart Entries
+        [HttpPost("AddBloodPressureChartEntry")]
+        public async Task<IActionResult> AddBloodPressureChartEntry(BloodPressureChartEntryDTO bloodPressureChartEntry)
+        {
+            return Ok(await _mediator.Send(new AddBloodPressureChartEntryCommand
+            {
+                BloodPressureChartId            = bloodPressureChartEntry.BloodPressureChartId,
+                BloodPressureChartEntryId       = bloodPressureChartEntry.BloodPressureChartEntryId,
+                BloodPressureChartEntry         = bloodPressureChartEntry.BloodPressureChartEntry
+            }));
+        }
+
+        [HttpPost("AddBloodOxygenChartEntry")]
+        public async Task<IActionResult> AddBloodOxygenChartEntry(BloodOxygenChartEntryDTO bloodOxygenEntry)
+        {
+            return Ok(await _mediator.Send(new AddBloodOxygenChartEntryCommand
+            {
+                BloodOxygenChartId          = bloodOxygenEntry.BloodOxygenChartId,
+                BloodOxygenChartEntry       = bloodOxygenEntry.BloodOxygenChartEntry,
+                BloodOxygenChartEntryId     = bloodOxygenEntry.BloodOxygenChartEntryId
+            }));
+        }
+
+        [HttpPost("AddHeartRateChartEntry")]
+        public async Task<IActionResult> AddHeartRateChartEntry(HeartRateChartEntryDTO heartRateChartEntry)
+        {
+            return Ok(await _mediator.Send(new AddHeartRateChartEntryCommand
+            {
+                HeartRateChartId            = heartRateChartEntry.HeartRateChartId,
+                HeartRateChartEntryId       = heartRateChartEntry.HeartRateChartEntryId,
+                HeartRateChartEntry         = heartRateChartEntry.HeartRateChartEntry
+            }));
+        }
+
+        [HttpPost("AddRespitoryRateChartEntry")]
+        public async Task<IActionResult> AddRespitoryRateChartEntry(RespitoryRateChartEntryDTO respitoryRateChartEntry)
+        {
+            return Ok(await _mediator.Send(new AddRespitoryRateChartEntryCommand
+            {
+                RespitoryRateChartId            = respitoryRateChartEntry.RespitoryRateChartId,
+                RespitoryRateChartEntryId       = respitoryRateChartEntry.RespitoryRateChartEntryId,
+                RespitoryRateChartEntry         = respitoryRateChartEntry.RespitoryRateChartEntry
+            }));
+        }
+
+        [HttpPost("AddTemperatureRateChartEntry")]
+        public async Task<IActionResult> AddTemperatureRateEntry(TemperatureRateEntryDTO temperatureRateEntry)
+        {
+            return Ok(await _mediator.Send(new AddTemperatureChartEntryCommand
+            {
+                TemperatureRateId           = temperatureRateEntry.TemperatureRateId,
+                TemperatureRateEntryId      = temperatureRateEntry.TemperatureRateEntryId,
+                TemperatureRateEntry        = temperatureRateEntry.TemperatureRateEntry
+            }));
+        }
+
+        //Get All Charts
 
         [HttpGet("GetAllBloodOxygenCharts")]
         public async Task<IActionResult> GetAllBloodOxygenCharts()
@@ -112,6 +159,8 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllTemperatureChartsQuery { }));
         }
 
+        //Charts By Id
+
         [HttpGet("GetBloodOxygenChartsById")]
         public async Task<IActionResult> GetBloodOxygenChartsById(int id)
         {
@@ -140,6 +189,38 @@ namespace ClinicManager.API.Controllers
         public async Task<IActionResult> GetTemperatureChartById(int id)
         {
             return Ok(await _mediator.Send(new GetTemperatureChartByIdQuery { Id = id }));
+        }
+
+        //Get Chart Entries By ChartId
+
+        [HttpGet("GetAllBloodOxygenChartEntriesByBloodOxygenId")]
+        public async Task<IActionResult> GetAllBloodOxygenChartEntriesByBloodOxygenId(int bloodOxygenChartId)
+        {
+            return Ok(await _mediator.Send(new GetAllBloodOxygenChartEntriesByBloodOxygenIdQuery { BloodOxygenChartId = bloodOxygenChartId }));
+        }
+
+        [HttpGet("GetAllBloodPressureChartEntriesByBloodPressureId")]
+        public async Task<IActionResult> GetAllBloodPressureChartEntriesByBloodPressureId(int bloodPressureChartId)
+        {
+            return Ok(await _mediator.Send(new GetAllBloodPressureChartEntriesByBloodPressureIdQuery { BloodPressureChartId = bloodPressureChartId }));
+        }
+
+        [HttpGet("GetAllHeartRateChartEntriesByHeartRateId")]
+        public async Task<IActionResult> GetAllHeartRateChartEntriesByHeartRateId(int heartRateChartId)
+        {
+            return Ok(await _mediator.Send(new GetAllHeartRateChartEntriesByHeartRateIdQuery { HeartRateChartId = heartRateChartId }));
+        }
+
+        [HttpGet("GetAllRespitoryChartEntriesByRespitoryId")]
+        public async Task<IActionResult> GetAllRespitoryChartEntriesByRespitoryId(int respitoryRateChartId)
+        {
+            return Ok(await _mediator.Send(new GetAllRespitoryChartEntriesByRespitoryIdQuery { RespitoryRateChartId = respitoryRateChartId }));
+        }
+
+        [HttpGet("GetAllTemperatureChartEntriesByTemperatureId")]
+        public async Task<IActionResult> GetAllTemperatureChartEntriesByTemperatureId(int temperatureChartId)
+        {
+            return Ok(await _mediator.Send(new GetAllTemperatureChartEntriesByTemperatureIdQuery { TemperatureChartId = temperatureChartId }));
         }
     }
 }

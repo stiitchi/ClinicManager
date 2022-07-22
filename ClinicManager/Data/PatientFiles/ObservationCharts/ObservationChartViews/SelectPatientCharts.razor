@@ -1,0 +1,103 @@
+﻿@page "/patient-charts/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Elimination
+@using ClinicManager.Shared.DTO_s.Records.FluidBalance
+@using ClinicManager.Shared.DTO_s.Records.Hygiene
+@using ClinicManager.Shared.DTO_s.Records.Intervention
+@using ClinicManager.Shared.DTO_s.Records.Mobility
+@using ClinicManager.Shared.DTO_s.Records.Nutrition
+@using ClinicManager.Shared.DTO_s.Records.Observations
+@using ClinicManager.Shared.DTO_s.Records.Oxygenation
+@using ClinicManager.Shared.DTO_s.Records.Psychological
+@using ClinicManager.Shared.DTO_s.Records.Safety
+@using ClinicManager.Shared.DTO_s.Records.SkinIntegrity
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+           Observation Chart Views
+        </MudText>
+    </MudItem>
+
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/blood-oxygen-charts/{PatientId}"))"
+                           Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                    <MudText>Blood Oxygen Charts</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/blood-pressure-charts/{PatientId}"))"
+                           Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                    <MudText>Blood Pressure Charts</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/heart-rate-charts/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Heart Rate Charts</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/respitory-rate-charts/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Respitory Rate Charts</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderActions>
+                          <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/temperature-rate-charts/{PatientId}"))"
+                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                </CardHeaderActions>
+                <CardHeaderContent>
+                <MudText>Temperature Charts</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+    </MudItem>
+  
+</MudGrid>
+
+
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+}

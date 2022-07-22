@@ -10,7 +10,7 @@
 <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3" />
                 Search Patient
             </MudText>    
         </TitleContent>
@@ -76,7 +76,7 @@
             if (patient.Data.BedNo != 0)
             {
                 var parameters = new DialogParameters();
-                parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+                parameters.Add(nameof(EditPatient.AddEditPatientModel), new PatientDTO
                     {
                     Id = patient.Data.Id,
                     AccountNo = patient.Data.AccountNo,
@@ -157,7 +157,7 @@
                     MudDialog.Close();
                 var patientName = $" Patient - {patient.Data.FirstName} {patient.Data.LastName}";
                 var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-                _dialogService.Show<AddEditPatient>(patientName, parameters, options);
+                _dialogService.Show<EditPatient>(patientName, parameters, options);
             }
         }
     }

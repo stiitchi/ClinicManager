@@ -32,9 +32,9 @@
                            @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{PatientId}"))">Edit Patient</MudButton>
         </MudItem>
          <MudItem xs="12" md="12" sm="12">
-            <MudButton OnClick="AddPatientICDCode" Class="mr-2" Variant="Variant.Outlined" Color="Color.Warning" Style="border-radius:10px 10px 10px 10px">Assign ICD Code</MudButton> 
+            <MudButton OnClick="AddPatientICDCode" Class="mr-2" Variant="Variant.Outlined" Color="Color.Warning"   Style="border-radius:10px 10px 10px 10px">Assign ICD Code</MudButton> 
             <MudButton OnClick="AddPatientDayFee"  Class="mr-2" Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Assign Day Fee</MudButton> 
-            <MudButton OnClick="AddVitalSignChart" Class="mr-2" Variant="Variant.Outlined" Color="Color.Dark"      Style="border-radius:10px 10px 10px 10px">Create Vital Sign Chart</MudButton>
+            <MudButton OnClick="AddVitalSignChart" Class="mr-2" Variant="Variant.Outlined" Color="Color.Dark"      Style="border-radius:10px 10px 10px 10px">Create Observation Chart</MudButton>
         </MudItem>
         <MudItem xs="12" md="6" sm="6">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
@@ -62,7 +62,7 @@
                 </MudCardHeader>
             </MudCard>
         </MudItem>
-        <MudItem xs="12" md="6" sm="6">
+        <MudItem xs="12" md="4" sm="4">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
@@ -74,7 +74,7 @@
                 </MudCardHeader>
             </MudCard>
         </MudItem>
-        <MudItem xs="12" md="6" sm="6">
+        <MudItem xs="12" md="4" sm="4">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
@@ -82,6 +82,18 @@
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Typo="Typo.body1">Bed</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+            <MudItem xs="12" md="4" sm="4">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudChip Size="Size.Large" Color="Color.Secondary">Observation Charts</MudChip>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudButton Class="mr-2" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px" @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">View</MudButton>
                     </CardHeaderContent>
                 </MudCardHeader>
             </MudCard>

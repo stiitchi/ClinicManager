@@ -1,26 +1,27 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
-@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
-@inject IICDCodeService icdCodeService 
+@inject IChartService chartService 
 
 
-<EditForm Model="@AddHeartRateChartModel" OnValidSubmit="SaveAsync">
+<EditForm Model="@AddRespitoryChartModel" OnValidSubmit="SaveAsync">
     <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-               Heart Rate Chart
+               Respitory Rate Chart
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>
                 <MudItem xs="5">
-                    <MudTextField T="double" For="@(() => AddHeartRateChartModel.HeartRateChartEntry)" Clearable="true" @bind-Value="AddHeartRateChartModel.HeartRateChartEntry" Label="Chart Entry" />
+                    <MudTextField T="double" For="@(() => AddRespitoryChartModel.RespitoryChartEntry)" @bind-Value="AddRespitoryChartModel.RespitoryChartEntry" Label="Chart Entry" />
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddHeartRateChartModel.HeartRateChartEntry))">Add Value</MudButton>
+                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddRespitoryChartModel.RespitoryChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -68,14 +69,14 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public int PatientId { get; set; } 
-    [Parameter] public HeartRateDTO AddHeartRateChartModel { get; set; } = new();
+    [Parameter] public RespitoryChartDTO AddRespitoryChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
+    public RespitoryRateChartEntryDTO RespitoryRateChartEntryModel { get; set; } = new();
 
     private int Index = -1; 
 
@@ -90,9 +91,9 @@
 
     public void AddToChart(double chartEntry)
     {
-        if (chartEntry < 35 || chartEntry > 190)
+        if (chartEntry > 40)
         {
-            _snackBar.Add("Entry cannot be less than 35 or more than 190", Severity.Error);
+            _snackBar.Add("Entry cannot be more than 40", Severity.Error);
         }
         else
         {
@@ -103,45 +104,57 @@
             double[] Data = ChartValues.ToArray();
             isDisabled = false;
         }
-
     }
+
     public void DrawChart()
     {
         double[] Data = ChartValues.ToArray();       
-        Series.Add(new ChartSeries() { Name = "Heart Rate", Data = Data });
+        Series.Add(new ChartSeries() { Name = "Respitory Rate", Data = Data });
         chartDrawn = true;
         CanSave = false;
     }
 
     private async Task SaveAsync()
     {
-        //_processing = true;
-        //IResult<int> response;
-        //if (AddEditICDModel.ICDCodeId == 0)
-        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
-        //else
-        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
+        _processing = true;
+        IResult<int> response;
+        AddRespitoryChartModel.Time = "";
+        if (AddRespitoryChartModel.RespitoryChartId == 0)
+            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
+        else
+            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
 
-        //if (response.Succeeded)
-        //{
-        //    if (AddEditICDModel.ICDCodeId == 0)
-        //    {
-        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    else
-        //    {
-        //        _snackBar.Add("ICD Code Updated", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    MudDialog.Close();
-        //}
-        //else
-        //{
-        //    foreach (var message in response.Messages)
-        //    {
-        //        _snackBar.Add(message, Severity.Error);
-        //    }
-        //}
+        if (response.Succeeded)
+        {
+            foreach(var entry in ChartValues)
+            {
+            var id = response.Data;
+            _processing = true;
+            IResult<int> resp;
+            RespitoryRateChartEntryModel.RespitoryRateChartEntry = entry;          
+            RespitoryRateChartEntryModel.RespitoryRateChartId = id;          
+            resp = await chartService.AddRespitoryRateChartEntry(RespitoryRateChartEntryModel);
+            }
+
+            if (AddRespitoryChartModel.RespitoryChartId == 0)
+            {
+                _snackBar.Add("New Respitory Rate Chart Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Respitory Rate Chart Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
     }     
+
 }

@@ -1,0 +1,101 @@
+﻿@page "/heart-rate-charts/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Chart
+@inject IChartService chartService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Heart Rate Charts
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _heartRateCharts.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_heartRateCharts.Any())
+{
+   <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var chart in _heartRateCharts)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudText Typo="Typo.inherit">
+                                    @*<MudChip Color="Color.Warning">@chart.Time</MudChip>*@
+                                    </MudText>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent> 
+                                <center>
+                                    Heart Rate Chart @chart.HeartRateChartId
+                                </center>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem md="12" sm="12">
+                                        <center>
+                                        <MudButton Color="Color.Dark" 
+                                        Style="border-radius:10px 10px 10px 10px" @onclick="@(() => ViewHeartChart(@chart.HeartRateChartId))"
+                                        Variant="Variant.Outlined">View</MudButton>
+                                        </center>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Heart Rate Charts Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<HeartRateDTO> _heartRateCharts = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllHeartRateCharts();
+    }
+
+    private void ViewHeartChart(int heartRateChartId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ViewHeartRateChart.AddHeartRateChartModel ), new HeartRateDTO
+        {
+            HeartRateChartId = heartRateChartId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<ViewHeartRateChart>("Heart Rate Chart", parameters, options);
+    }
+
+    public async Task GetAllHeartRateCharts()
+    {
+        var charts = await chartService.GetAllHeartRateChart();
+        if (charts.Succeeded)
+        {
+            _heartRateCharts = charts.Data;
+        }
+    }
+}

@@ -10,6 +10,10 @@
         public static string AddTemperatureRate = "api/Chart/AddTemperatureRate";
         //Chart Entries
         public static string AddBloodOxygenChartEntry = "api/Chart/AddBloodOxygenChartEntry";
+        public static string AddBloodPressureChartEntry = "api/Chart/AddBloodPressureChartEntry";
+        public static string AddHeartRateChartEntry = "api/Chart/AddHeartRateChartEntry";
+        public static string AddRespitoryRateChartEntry = "api/Chart/AddRespitoryRateChartEntry";
+        public static string AddTemperatureRateChartEntry = "api/Chart/AddTemperatureRateChartEntry";
         //Get All
         public static string GetAllBloodOxygenCharts = "api/Chart/GetAllBloodOxygenCharts";
         public static string GetAllBloodPressureCharts = "api/Chart/GetAllBloodPressureCharts";
@@ -41,5 +45,33 @@
         {
             return $"api/Chart/GetTemperatureChartById?id={id}";
         }
+
+        //Get Chart Entries By Chart ID
+
+        public static string GetAllBloodOxygenChartEntriesByBloodOxygenId(int bloodOxygenChartId)
+        {
+            return $"api/Chart/GetAllBloodOxygenChartEntriesByBloodOxygenId?bloodOxygenChartId={bloodOxygenChartId}";
+        }
+
+        public static string GetAllBloodPressureChartEntriesByBloodPressureId(int bloodPressureChartId)
+        {
+            return $"api/Chart/GetAllBloodPressureChartEntriesByBloodPressureId?bloodPressureChartId={bloodPressureChartId}";
+        }
+
+        public static string GetAllHeartRateChartEntriesByHeartRateId(int heartRateChartId)
+        {
+            return $"api/Chart/GetAllHeartRateChartEntriesByHeartRateId?heartRateChartId={heartRateChartId}";
+        }
+
+        public static string GetAllRespitoryChartEntriesByRespitoryId(int respitoryRateChartId)
+        {
+            return $"api/Chart/GetAllRespitoryChartEntriesByRespitoryId?respitoryRateChartId={respitoryRateChartId}";
+        }
+
+        public static string GetAllTemperatureChartEntriesByTemperatureId(int temperatureChartId)
+        {
+            return $"api/Chart/GetAllTemperatureChartEntriesByTemperatureId?temperatureChartId={temperatureChartId}";
+        }
     }
+
 }

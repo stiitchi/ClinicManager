@@ -1,0 +1,114 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Chart
+@using ClinicManager.Shared.DTO_s
+@inject IChartService chartService 
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Temperature Rate Chart
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            @if(ChartValues.Count() > 0)
+            {
+                <MudGrid>
+                @foreach(var item in ChartValues)
+                {
+                    <MudItem xs="2">
+                        <MudCard Elevation="4">
+                            <MudCardContent>
+                                <MudText Align="Align.Center">@item</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+                </MudGrid>
+            }                   
+            <MudItem xs="12">
+                @if(chartDrawn == true)
+                {
+                <MudChart ChartType="ChartType.Line"  ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="350px"></MudChart>
+                }
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+    <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } 
+    [Parameter] public TemperatureRateDTO AddTemperatureChartModel { get; set; } = new();
+    private bool _processing = false;
+    private bool chartDrawn = false;
+    private bool isDisabled = true;
+    private bool CanSave = true;
+    double[] Data = {};
+    public List<double> ChartValues = new List<double>();
+    private int Index = -1; 
+
+    public List<ChartSeries> Series = new List<ChartSeries>(){};
+
+    public string[] XAxisLabels = {"08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetEntries();
+    }
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    public async Task GetEntries()
+    {
+        var response = await chartService.GetAllTemperatureChartEntriesByTemperatureId(AddTemperatureChartModel.TempRatetId);
+        if (response.Succeeded)
+        {  
+            foreach(var entry in response.Data)
+            {
+                await AddToChart(entry.TemperatureRateEntry);
+            }
+            await DrawChart();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+      public async Task AddToChart(double chartEntry)
+    {
+        if (chartEntry < 30 || chartEntry > 45)
+        {
+            _snackBar.Add("Entry cannot be less than 30 or more than 45", Severity.Error);
+        }
+        else
+        {
+            for (int records = 0; records < 1; records++)
+            {
+                ChartValues.Add(chartEntry);
+            }
+            double[] Data = ChartValues.ToArray();
+            isDisabled = false;
+        }
+    }
+
+    public async Task DrawChart()
+    {
+        double[] Data = ChartValues.ToArray();       
+        Series.Add(new ChartSeries() { Name = "Temperature Rate", Data = Data });
+        chartDrawn = true;
+        CanSave = false;
+    }   
+}

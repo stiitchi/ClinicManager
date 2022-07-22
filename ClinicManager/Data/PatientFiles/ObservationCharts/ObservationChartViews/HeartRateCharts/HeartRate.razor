@@ -1,26 +1,27 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
 @using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
 @inject IChartService chartService 
 
 
-<EditForm Model="@AddRespitoryChartModel" OnValidSubmit="SaveAsync">
+<EditForm Model="@AddHeartRateChartModel" OnValidSubmit="SaveAsync">
     <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-               Respitory Rate Chart
+               Heart Rate Chart
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>
                 <MudItem xs="5">
-                    <MudTextField T="double" For="@(() => AddRespitoryChartModel.RespitoryChartEntry)" @bind-Value="AddRespitoryChartModel.RespitoryChartEntry" Label="Chart Entry" />
+                    <MudTextField T="double" For="@(() => AddHeartRateChartModel.HeartRateChartEntry)" Clearable="true" @bind-Value="AddHeartRateChartModel.HeartRateChartEntry" Label="Chart Entry" />
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddRespitoryChartModel.RespitoryChartEntry))">Add Value</MudButton>
+                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddHeartRateChartModel.HeartRateChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -68,13 +69,15 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public RespitoryChartDTO AddRespitoryChartModel { get; set; } = new();
+    [Parameter] public int PatientId { get; set; } 
+    [Parameter] public HeartRateDTO AddHeartRateChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
+    public HeartRateChartEntryDTO HeartRateChartEntryModel { get; set; } = new();
 
     private int Index = -1; 
 
@@ -89,9 +92,9 @@
 
     public void AddToChart(double chartEntry)
     {
-        if (chartEntry > 40)
+        if (chartEntry < 35 || chartEntry > 190)
         {
-            _snackBar.Add("Entry cannot be more than 40", Severity.Error);
+            _snackBar.Add("Entry cannot be less than 35 or more than 190", Severity.Error);
         }
         else
         {
@@ -102,11 +105,12 @@
             double[] Data = ChartValues.ToArray();
             isDisabled = false;
         }
+
     }
     public void DrawChart()
     {
         double[] Data = ChartValues.ToArray();       
-        Series.Add(new ChartSeries() { Name = "Respitory Rate", Data = Data });
+        Series.Add(new ChartSeries() { Name = "Heart Rate", Data = Data });
         chartDrawn = true;
         CanSave = false;
     }
@@ -115,23 +119,25 @@
     {
         _processing = true;
         IResult<int> response;
-        if (AddRespitoryChartModel.RespitoryChartId == 0)
-            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
+        AddHeartRateChartModel.Time = "";
+        if (AddHeartRateChartModel.HeartRateChartEntry == 0)
+            response = await chartService.AddHeartRateChart(AddHeartRateChartModel);
         else
-            response = await chartService.AddRespitoryRateChart(AddRespitoryChartModel);
+            response = await chartService.AddHeartRateChart(AddHeartRateChartModel);
 
         if (response.Succeeded)
         {
-            if (AddRespitoryChartModel.RespitoryChartId == 0)
+            foreach(var entry in ChartValues)
             {
-                _snackBar.Add("New Respitory Rate Chart Saved", Severity.Success);
-                _processing = false;
+            var id = response.Data;
+            _processing = true;
+            IResult<int> resp;
+            HeartRateChartEntryModel.HeartRateChartEntry = entry;          
+            HeartRateChartEntryModel.HeartRateChartId = id;          
+            resp = await chartService.AddHeartRateChartEntry(HeartRateChartEntryModel);
             }
-            else
-            {
-                _snackBar.Add("Respitory Rate Chart Updated", Severity.Success);
-                _processing = false;
-            }
+                _snackBar.Add("Heart Rate Chart Saved", Severity.Success);
+                _processing = false;  
             MudDialog.Close();
         }
         else
@@ -141,5 +147,5 @@
                 _snackBar.Add(message, Severity.Error);
             }
         }
-    }     
+}
 }

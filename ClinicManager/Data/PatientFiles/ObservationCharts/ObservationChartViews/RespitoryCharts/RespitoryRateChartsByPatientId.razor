@@ -1,0 +1,101 @@
+﻿@page "/respitory-rate-charts/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Chart
+@inject IChartService chartService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Respitory Rate Charts
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _respitoryRateCharts.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_respitoryRateCharts.Any())
+{
+   <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var chart in _respitoryRateCharts)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                                    <MudText Align="Align.Center" Typo="Typo.inherit">
+                                    @*<MudChip Color="Color.Warning">@chart.Time</MudChip>*@
+                                    </MudText>
+                                </CardHeaderAvatar>
+                                <CardHeaderContent> 
+                                <center>
+                                     Respitory Chart @chart.RespitoryChartId
+                                 </center>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem md="12" sm="12">
+                                        <center>
+                                        <MudButton Color="Color.Dark" 
+                                        Style="border-radius:10px 10px 10px 10px" @onclick="@(() => ViewRespitoryChart(@chart.RespitoryChartId))"
+                                        Variant="Variant.Outlined">View</MudButton>
+                                        </center>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Respitory Rate Charts Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<RespitoryChartDTO> _respitoryRateCharts = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllRespitoryCharts();
+    }
+
+    private void ViewRespitoryChart(int respitoryChartId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ViewRespitoryRateChart.AddRespitoryRateChartModel ), new RespitoryChartDTO
+        {
+            RespitoryChartId = respitoryChartId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<ViewRespitoryRateChart>("Respitory Rate Chart", parameters, options);
+    }
+
+    public async Task GetAllRespitoryCharts()
+    {
+        var charts = await chartService.GetAllRespitoryRateChart();
+        if (charts.Succeeded)
+        {
+            _respitoryRateCharts = charts.Data;
+        }
+    }
+}

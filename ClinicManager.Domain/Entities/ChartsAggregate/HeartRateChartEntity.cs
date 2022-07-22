@@ -1,4 +1,5 @@
-﻿using ClinicManager.Domain.Entities.PatientAggregate;
+﻿using ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry;
+using ClinicManager.Domain.Entities.PatientAggregate;
 
 namespace ClinicManager.Domain.Entities.ChartsAggregate
 {
@@ -24,5 +25,8 @@ namespace ClinicManager.Domain.Entities.ChartsAggregate
         public PatientEntity Patient;
         private int _patientId;
         public int PatientId => _patientId;
+
+        public virtual IReadOnlyCollection<HeartRateChartEntryEntity> HeartRateChartEntries => _heartRateChartEntries;
+        private readonly List<HeartRateChartEntryEntity> _heartRateChartEntries = new();
     }
 }

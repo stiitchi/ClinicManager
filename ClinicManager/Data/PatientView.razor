@@ -12,7 +12,7 @@
 
 <MudGrid>
     <MudItem xs="12" md="12" sm="12">
-   <MudButton Class="mr-2" OnClick="EditPatient" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Edit</MudButton>
+   <MudButton Class="mr-2" OnClick="EditPatients" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Edit</MudButton>
     <MudButton Class="mr-2" OnClick="ShowDetails" Variant="Variant.Outlined" Color="Color.Warning" Style="border-radius:10px 10px 10px 10px">Details</MudButton>
     <MudButton Class="mr-2" OnClick="ShowRecords" Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Records</MudButton>
     </MudItem>
@@ -464,10 +464,10 @@
         }
     }
 
-     private void EditPatient()
+     private void EditPatients()
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO
+        parameters.Add(nameof(EditPatient.AddEditPatientModel), new PatientDTO
         {
             Id = patient.Id,
             AccountNo = patient.AccountNo,
@@ -546,7 +546,7 @@
             Stage = patient.Stage
         });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<AddEditPatient>("Patient Details", parameters, options);
+        _dialogService.Show<EditPatient>("Patient Details", parameters, options);
     }
 
     private void AddPatientICDCode()

@@ -106,6 +106,9 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<TemperatureChartEntity> TemperatureCharts { get; set; }
         //Chart Entries
         DbSet<BloodOxygenChartEntryEntity> BloodOxygenChartEntries { get; set; }
-
+        DbSet<BloodPressureChartEntryEntity> BloodPressureChartEntries { get; set; }
+        DbSet<RespitoryRateChartEntryEntity> RespitoryRateChartEntries { get; set; }
+        DbSet<HeartRateChartEntryEntity> HeartRateChartEntries { get; set; }
+        DbSet<TemperatureChartEntryEntity> TemperatureChartEntries { get; set; }
     }
 }

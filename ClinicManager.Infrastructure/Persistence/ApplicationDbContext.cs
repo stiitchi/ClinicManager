@@ -112,6 +112,10 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<TemperatureChartEntity> TemperatureCharts { get; set; }
         //Chart Entries
         public DbSet<BloodOxygenChartEntryEntity> BloodOxygenChartEntries { get; set; }
+        public DbSet<BloodPressureChartEntryEntity> BloodPressureChartEntries { get; set; }
+        public DbSet<RespitoryRateChartEntryEntity> RespitoryRateChartEntries { get; set; }
+        public DbSet<HeartRateChartEntryEntity> HeartRateChartEntries { get; set; }
+        public DbSet<TemperatureChartEntryEntity> TemperatureChartEntries { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,26 +1,27 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
-@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
-@inject IICDCodeService icdCodeService 
+@inject IChartService chartService 
 
 
-<EditForm Model="@AddBloodPressureChartModel" OnValidSubmit="SaveAsync">
+<EditForm Model="@AddBloodOxygenChartModel" OnValidSubmit="SaveAsync">
     <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-               Blood Pressure Chart
+               Blood Oxygen Chart
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>
                 <MudItem xs="5">
-                    <MudTextField T="double" For="@(() => AddBloodPressureChartModel.BloodPressureChartEntry)" @bind-Value="AddBloodPressureChartModel.BloodPressureChartEntry" Label="Chart Entry" />
+                    <MudTextField T="double" For="@(() => AddBloodOxygenChartModel.BloodOxygenChartEntry)" @bind-Value="AddBloodOxygenChartModel.BloodOxygenChartEntry" Label="Chart Entry" />
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddBloodPressureChartModel.BloodPressureChartEntry))">Add Value</MudButton>
+                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddBloodOxygenChartModel.BloodOxygenChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -67,16 +68,15 @@
 </EditForm>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public BloodPressureDTO AddBloodPressureChartModel { get; set; } = new();
-    [Parameter] public int PatientId { get; set; } 
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } 
+    [Parameter] public BloodOxygenDTO AddBloodOxygenChartModel { get; set; } = new();
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
-
+    public BloodOxygenChartEntryDTO BloodOxygenChartEntryModel { get; set; } = new();
     private int Index = -1; 
 
     public List<ChartSeries> Series = new List<ChartSeries>(){};
@@ -90,9 +90,9 @@
 
     public void AddToChart(double chartEntry)
     {
-        if (chartEntry < 35 || chartEntry > 250)
+        if (chartEntry < 80 || chartEntry > 100)
         {
-            _snackBar.Add("Entry cannot be less than 35 or more than 250", Severity.Error);
+            _snackBar.Add("Entry cannot be less than 80 or more than 100", Severity.Error);
         }
         else
         {
@@ -103,45 +103,55 @@
             double[] Data = ChartValues.ToArray();
             isDisabled = false;
         }
-
     }
     public void DrawChart()
     {
         double[] Data = ChartValues.ToArray();       
-        Series.Add(new ChartSeries() { Name = "Blood Pressure", Data = Data });
+        Series.Add(new ChartSeries() { Name = "Blood Oxygen", Data = Data });
         chartDrawn = true;
         CanSave = false;
     }
 
     private async Task SaveAsync()
     {
-        //_processing = true;
-        //IResult<int> response;
-        //if (AddEditICDModel.ICDCodeId == 0)
-        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
-        //else
-        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
+        _processing = true;
+        IResult<int> response;
+        AddBloodOxygenChartModel.Time = "";
+        if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
+            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
+        else
+            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
 
-        //if (response.Succeeded)
-        //{
-        //    if (AddEditICDModel.ICDCodeId == 0)
-        //    {
-        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    else
-        //    {
-        //        _snackBar.Add("ICD Code Updated", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    MudDialog.Close();
-        //}
-        //else
-        //{
-        //    foreach (var message in response.Messages)
-        //    {
-        //        _snackBar.Add(message, Severity.Error);
-        //    }
-        //}
+        if (response.Succeeded)
+        {
+            foreach(var entry in ChartValues)
+            {
+            var id = response.Data;
+            _processing = true;
+            IResult<int> resp;
+            BloodOxygenChartEntryModel.BloodOxygenChartEntry = entry;          
+            BloodOxygenChartEntryModel.BloodOxygenChartId = id;          
+            resp = await chartService.AddBloodOxygenChartEntry(BloodOxygenChartEntryModel);
+            }
+
+            if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
+            {
+                _snackBar.Add("New Blood Oxygen Chart Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Blood Oxygen Chart Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
     }     
 }

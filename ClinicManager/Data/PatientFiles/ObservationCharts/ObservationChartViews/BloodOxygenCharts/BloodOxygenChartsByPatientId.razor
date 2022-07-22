@@ -1,0 +1,101 @@
+﻿@page "/blood-oxygen-charts/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Chart
+@inject IChartService chartService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Blood Oxygen Charts
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius:10px 10px 10px 10px"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">Back</MudButton>
+    </MudItem>
+</MudGrid>
+@if
+(
+    _bloodOxygenCharts.Count() > 0 
+)
+{
+<MudGrid>
+ @if (_bloodOxygenCharts.Any())
+{
+   <MudItem xs="12" md="12" sm="12">
+            <MudGrid>
+                @foreach (var chart in _bloodOxygenCharts)
+                {
+                    <MudItem md="3" sm="3">
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderAvatar>
+                           @*         <MudChip Color="Color.Warning">@chart.Time</MudChip>*@                 
+                                </CardHeaderAvatar>
+                                <CardHeaderContent> 
+                                    <MudText Typo="Typo.inherit">
+                                        <center>                                    
+                                        Blood Oxygen Chart @chart.BloodOxygenChartId
+                                        </center>
+                                    </MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudGrid>
+                                    <MudItem md="12" sm="12">
+                                        <center>                                   
+                                        <MudButton Color="Color.Dark" 
+                                        Style="border-radius:10px 10px 10px 10px" @onclick="@(() => ViewBloodOxygenChart(@chart.BloodOxygenChartId))"
+                                        Variant="Variant.Outlined">View</MudButton>
+                                        </center>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+    </MudItem>
+}
+</MudGrid>
+}
+else
+{
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.body1">No Blood Oxygen Charts Found</MudText> 
+    </MudItem>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; } 
+    private List<BloodOxygenDTO> _bloodOxygenCharts = new();
+
+    protected async override Task OnInitializedAsync()
+    {     
+        await GetAllBloodOxygenCharts();
+    }
+
+    private void ViewBloodOxygenChart(int bloodOxygenChartId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ViewBloodOxygenRateChart.AddBloodOxygenChartModel ), new BloodOxygenDTO
+        {
+            BloodOxygenChartId = bloodOxygenChartId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<ViewBloodOxygenRateChart>("Blood Oxygen Rate Chart", parameters, options);
+    }
+
+    public async Task GetAllBloodOxygenCharts()
+    {
+        var charts = await chartService.GetAllBloodOxygenChart();
+        if (charts.Succeeded)
+        {
+            _bloodOxygenCharts = charts.Data;
+        }
+    }
+}

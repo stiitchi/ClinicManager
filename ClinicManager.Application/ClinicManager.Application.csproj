@@ -22,8 +22,4 @@
     <ProjectReference Include="..\ClinicManager.Shared\ClinicManager.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\ChartEntry\Queries\" />
-  </ItemGroup>
-
 </Project>

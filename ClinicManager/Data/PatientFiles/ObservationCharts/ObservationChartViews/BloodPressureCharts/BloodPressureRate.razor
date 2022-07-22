@@ -7,21 +7,21 @@
 @inject IChartService chartService 
 
 
-<EditForm Model="@AddBloodOxygenChartModel" OnValidSubmit="SaveAsync">
+<EditForm Model="@AddBloodPressureChartModel" OnValidSubmit="SaveAsync">
     <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-               Blood Oxygen Chart
+               Blood Pressure Chart
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>
                 <MudItem xs="5">
-                    <MudTextField T="double" For="@(() => AddBloodOxygenChartModel.BloodOxygenChartEntry)" @bind-Value="AddBloodOxygenChartModel.BloodOxygenChartEntry" Label="Chart Entry" />
+                    <MudTextField T="double" For="@(() => AddBloodPressureChartModel.BloodPressureChartEntry)" @bind-Value="AddBloodPressureChartModel.BloodPressureChartEntry" Label="Chart Entry" />
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddBloodOxygenChartModel.BloodOxygenChartEntry))">Add Value</MudButton>
+                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddBloodPressureChartModel.BloodPressureChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -68,15 +68,17 @@
 </EditForm>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; } 
-    [Parameter] public BloodOxygenDTO AddBloodOxygenChartModel { get; set; } = new();
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public BloodPressureDTO AddBloodPressureChartModel { get; set; } = new();
+    [Parameter] public int PatientId { get; set; } 
     private bool _processing = false;
     private bool chartDrawn = false;
     private bool isDisabled = true;
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
-    public BloodOxygenChartEntryDTO BloodOxygenChartEntryModel { get; set; } = new();
+    public BloodPressureChartEntryDTO BloodPressureChartEntryModel { get; set; } = new();
+
     private int Index = -1; 
 
     public List<ChartSeries> Series = new List<ChartSeries>(){};
@@ -90,9 +92,9 @@
 
     public void AddToChart(double chartEntry)
     {
-        if (chartEntry < 80 || chartEntry > 100)
+        if (chartEntry < 35 || chartEntry > 250)
         {
-            _snackBar.Add("Entry cannot be less than 80 or more than 100", Severity.Error);
+            _snackBar.Add("Entry cannot be less than 35 or more than 250", Severity.Error);
         }
         else
         {
@@ -103,27 +105,25 @@
             double[] Data = ChartValues.ToArray();
             isDisabled = false;
         }
-
     }
+
     public void DrawChart()
     {
         double[] Data = ChartValues.ToArray();       
-        Series.Add(new ChartSeries() { Name = "Blood Oxygen", Data = Data });
+        Series.Add(new ChartSeries() { Name = "Blood Pressure", Data = Data });
         chartDrawn = true;
         CanSave = false;
     }
 
     private async Task SaveAsync()
     {
-
-
         _processing = true;
         IResult<int> response;
-        AddBloodOxygenChartModel.Time = "";
-        if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
-            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
+        AddBloodPressureChartModel.Time = "";
+        if (AddBloodPressureChartModel.BloodPressureChartId == 0)
+            response = await chartService.AddBloodPressureChart(AddBloodPressureChartModel);
         else
-            response = await chartService.AddBloodOxygenChart(AddBloodOxygenChartModel);
+            response = await chartService.AddBloodPressureChart(AddBloodPressureChartModel);
 
         if (response.Succeeded)
         {
@@ -132,23 +132,14 @@
             var id = response.Data;
             _processing = true;
             IResult<int> resp;
-            BloodOxygenChartEntryModel.BloodOxygenChartEntry = entry;          
-            BloodOxygenChartEntryModel.BloodOxygenChartEntryId = id;          
-            resp = await chartService.AddBloodOxygenChartEntry(BloodOxygenChartEntryModel);
-
-        }
-
-
-            if (AddBloodOxygenChartModel.BloodOxygenChartId == 0)
-            {
-                _snackBar.Add("New Blood Oxygen Chart Saved", Severity.Success);
-                _processing = false;
+            BloodPressureChartEntryModel.BloodPressureChartEntry = entry;          
+            BloodPressureChartEntryModel.BloodPressureChartId = id;          
+            resp = await chartService.AddBloodPressureChartEntry(BloodPressureChartEntryModel);
             }
-            else
-            {
-                _snackBar.Add("Blood Oxygen Chart Updated", Severity.Success);
-                _processing = false;
-            }
+
+            _snackBar.Add("Blood Pressure Chart Saved", Severity.Success);
+            _processing = false;
+            
             MudDialog.Close();
         }
         else
@@ -158,5 +149,5 @@
                 _snackBar.Add(message, Severity.Error);
             }
         }
-    }     
+    }   
 }

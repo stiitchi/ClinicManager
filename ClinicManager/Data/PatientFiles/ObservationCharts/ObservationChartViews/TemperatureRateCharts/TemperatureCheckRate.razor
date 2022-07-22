@@ -1,9 +1,10 @@
 ﻿@using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
+@using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
-@using ClinicManager.Web.Infrastructure.Services.ICDCode
+@using ClinicManager.Web.Infrastructure.Services.Chart
 @using ClinicManager.Shared.DTO_s
-@inject IICDCodeService icdCodeService 
+@inject IChartService chartService 
 
 
 <EditForm Model="@AddTempChartModel" OnValidSubmit="SaveAsync">
@@ -76,7 +77,7 @@
     private bool CanSave = true;
     double[] Data = {};
     public List<double> ChartValues = new List<double>();
-
+    public TemperatureRateEntryDTO TemperatureRateEntryModel { get; set; } = new();
     private int Index = -1; 
 
     public List<ChartSeries> Series = new List<ChartSeries>(){};
@@ -115,33 +116,36 @@
 
     private async Task SaveAsync()
     {
-        //_processing = true;
-        //IResult<int> response;
-        //if (AddEditICDModel.ICDCodeId == 0)
-        //    response = await icdCodeService.SaveAsync(AddEditICDModel);
-        //else
-        //    response = await icdCodeService.UpdateAsync(AddEditICDModel);
+        _processing = true;
+        IResult<int> response;
+        AddTempChartModel.Time = "";
+        if (AddTempChartModel.TempRatetId == 0)
+            response = await chartService.AddTemperatureRate(AddTempChartModel);
+        else
+            response = await chartService.AddTemperatureRate(AddTempChartModel);
 
-        //if (response.Succeeded)
-        //{
-        //    if (AddEditICDModel.ICDCodeId == 0)
-        //    {
-        //        _snackBar.Add("New ICD Code Saved", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    else
-        //    {
-        //        _snackBar.Add("ICD Code Updated", Severity.Success);
-        //        _processing = false;
-        //    }
-        //    MudDialog.Close();
-        //}
-        //else
-        //{
-        //    foreach (var message in response.Messages)
-        //    {
-        //        _snackBar.Add(message, Severity.Error);
-        //    }
-        //}
-    }     
+        if (response.Succeeded)
+        {
+            foreach(var entry in ChartValues)
+            {
+            var id = response.Data;
+            _processing = true;
+            IResult<int> resp;
+            TemperatureRateEntryModel.TemperatureRateEntry = entry;          
+            TemperatureRateEntryModel.TemperatureRateId = id;          
+            resp = await chartService.AddTemperatureRateChartEntry(TemperatureRateEntryModel);
+            }
+
+            _snackBar.Add("New Temperature Rate Chart Saved", Severity.Success);
+            _processing = false;
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }          
 }
