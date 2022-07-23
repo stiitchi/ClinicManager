@@ -1,0 +1,41 @@
+﻿@page "/nurse-ward-selector"
+
+<MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+    <ChildContent>
+        @for (int i = 1; i < 4; i++) 
+         {
+             var dropzone = i.ToString();
+             <MudPaper Class="ma-4 flex-grow-1">
+                 <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                     <MudListSubheader>Drop Zone @dropzone</MudListSubheader>
+                     <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" />
+                 </MudList>
+             </MudPaper>
+         }
+    </ChildContent>
+    <ItemRenderer>
+        <MudListItem Text="@context.Name"/>
+    </ItemRenderer>
+</MudDropContainer>
+
+@code {
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+    {
+        dropItem.Item.Selector = dropItem.DropzoneIdentifier;
+    }
+
+    private List<DropItem> _items = new()
+    {
+        new DropItem(){ Name = "Marlie Johnson", Selector = "1" },
+        new DropItem(){ Name = "Jone Schoemann", Selector = "1" },
+        new DropItem(){ Name = "Franco Gerber", Selector = "1" },
+        new DropItem(){ Name = "Julia Sanders", Selector = "2" },
+        new DropItem(){ Name = "Nathan Scholtz", Selector = "2" },
+    };
+    
+    public class DropItem
+    {
+        public string Name { get; init; }
+        public string Selector { get; set; }
+    }
+}

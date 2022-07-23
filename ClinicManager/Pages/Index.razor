@@ -1,13 +1,15 @@
 ﻿@page "/"
+@using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Data.Modals.Wards
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Patient
 @using ClinicManager.Shared.DTO_s
 @inject IWardService wardService 
+@inject IPatientService patientService 
 @inject IBedService bedService 
 
 <MudGrid>
-
    @* <MudItem md="6" sm="6">
             <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
@@ -40,7 +42,7 @@
                 </MudCardContent>
             </MudCard>
     </MudItem> *@
-       <MudItem md="12" sm="12">
+  @*     <MudItem md="12" sm="12">
             <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderContent>
@@ -73,10 +75,53 @@
                    </MudGrid>
                 </MudCardContent>
             </MudCard>
-    </MudItem>
-    
-   
+    </MudItem>*@
 </MudGrid>
+
+     <MudTable Class="mt-8" Hover="true" Breakpoint="Breakpoint.Sm" Items="@_patients"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<PatientDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<PatientDTO, bool>(Search)" @ref="_table">
+        <ToolBarContent>
+                <MudTextField Label="Search Patients" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="FirstName">First Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="LastName">Last Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="IDNo">ID Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="WardNo">Ward Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="BedNo">Bed Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="RefferingDoctor">Doctor</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="First Name">
+                <MudHighlighter Text="@context.FirstName.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Last Name">
+                <MudHighlighter Text="@context.LastName" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.IDNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.WardNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+             <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.BedNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd> 
+             <MudTd DataLabel="RefferingDoctor">
+                <MudHighlighter Text="@context.RefferingDoctor.ToString()" HighlightedText="@_searchString" />
+            </MudTd> 
+            <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+             <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px"  @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{context.Id}"))">View Records</MudButton>
+            </MudTd> 
+            <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+             <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+            </MudTd> 
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager RowsPerPageString="Rows" />
+        </PagerContent>
+        </MudTable>
+   
 
 
 @code{
@@ -85,10 +130,20 @@
     private WardDTO ward = new();
     private int wardId;
 
+    public string Patient;
+    private List<PatientDTO> _patients = new();
+    private PatientDTO patient = new();
+    public bool isTableView = true;
+    private string _searchString = "";
+     private MudTable<PatientDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
 
     protected async override Task OnInitializedAsync()
     {
         await GetAllWards();
+        await GetAllPatients();
     }
 
 
@@ -110,6 +165,186 @@
         if (wards.Succeeded)
         {
             _wards = wards.Data;
+        }
+    }
+
+
+    private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        if (id != 0)
+        {
+            patient = _patients.FirstOrDefault(c => c.Id == id);
+            if (patient != null)
+            {
+           parameters.Add(nameof(EditPatient.AddEditPatientModel), new PatientDTO
+            {
+                Id = patient.Id,
+                AccountNo = patient.AccountNo,
+                AdmissionDate = patient.AdmissionDate,
+                BedNo = patient.BedNo,
+                WardNo = patient.WardNo,
+                DateOfBirth = patient.DateOfBirth,
+                DependentCode = patient.DependentCode,
+                Dietician = patient.Dietician,
+                DischargeDate = patient.DischargeDate,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Gender = patient.Gender,
+                AuthNo = patient.AuthNo,
+                CaseInformationNumber = patient.CaseInformationNumber,
+                City = patient.City,
+                Email = patient.Email,
+                EmployerName = patient.EmployerName,
+                Initials = patient.Initials,           
+                Race = patient.Race,
+                Language = patient.Language,
+                MainMedicalAidMemberBusinessCity = patient.MainMedicalAidMemberBusinessCity,
+                MainMedicalAidMemberBusinessPostalCode = patient.MainMedicalAidMemberBusinessPostalCode,
+                MainMedicalAidMemberBusinessProvince = patient.MainMedicalAidMemberBusinessProvince,
+                MainMedicalAidMemberBusinessStreetAddress = patient.MainMedicalAidMemberStreetAddress,
+                MainMedicalAidMemberCellNo = patient.MainMedicalAidMemberCellNo,
+                MainMedicalAidMemberCity = patient.MainMedicalAidMemberCity,
+                MainMedicalAidMemberEmployer = patient.MainMedicalAidMemberEmployer,
+                MainMedicalAidMemberFirstName = patient.MainMedicalAidMemberFirstName,
+                MainMedicalAidMemberLastName = patient.MainMedicalAidMemberLastName,
+                MainMedicalAidMemberIdNumber = patient.MainMedicalAidMemberIdNumber,
+                MainMedicalAidMemberOccupation = patient.MainMedicalAidMemberOccupation,
+                MainMedicalAidMemberPostalAddress = patient.MainMedicalAidMemberPostalAddress,
+                MainMedicalAidMemberPostalAddressCode = patient.MainMedicalAidMemberPostalAddressCode,
+                MainMedicalAidMemberProvince = patient.MainMedicalAidMemberProvince,
+                MainMedicalAidMemberRelationship = patient.MainMedicalAidMemberRelationship,
+                MainMedicalAidMemberStreetAddress = patient.MainMedicalAidMemberStreetAddress,
+                MainMedicalAidMemberSuburb = patient.MainMedicalAidMemberSuburb,
+                MainMedicalAidMemberTelNo = patient.MainMedicalAidMemberTelNo,
+                NextOfKin = patient.NextOfKin,
+                NextOfKinAltContactNo = patient.NextOfKinAltContactNo,
+                NextOfKinContactNo = patient.NextOfKinContactNo,
+                Occupation = patient.Occupation,
+                OtherContact = patient.OtherContact,
+                OtherContactNo = patient.OtherContactNo,
+                OtherContactAltContactNo = patient.OtherContactAltContactNo,
+                OtherContactRelationship = patient.OtherContactRelationship,
+                PatientCellNo = patient.PatientCellNo,
+                PatientTelNo = patient.PatientTelNo,
+                PatientWorkTelNo = patient.PatientWorkTelNo,
+                PoBox = patient.PoBox,
+                PoBoxCode = patient.PoBoxCode,
+                PostalCode = patient.PostalCode,
+                Province = patient.Province,
+                RelationshipOfKin = patient.RelationshipOfKin,
+                StreetAddress = patient.StreetAddress,
+                Suburb = patient.Suburb,
+                WorkAddress = patient.WorkAddress,
+                WorkAddressCity = patient.WorkAddressCity,
+                WorkAddressCode = patient.WorkAddressCode,
+                WorkAddressProvince = patient.WorkAddressProvince,
+                WoundLocation = patient.WoundLocation,
+                MedicalAidName = patient.MedicalAidName,
+                MedicalAidNo = patient.MedicalAidNo,
+                MedicalAidOption = patient.MedicalAidOption,
+                IDNo = patient.IDNo,
+                OT = patient.OT,
+                Speech = patient.Speech,
+                Physio = patient.Physio,
+                Psych = patient.Psych,
+                RefferingDoctor = patient.RefferingDoctor,
+                RefferingHospital = patient.RefferingHospital,
+                Title = patient.Title,
+                ReportDate = patient.ReportDate,
+                SocialWorker = patient.SocialWorker,
+                Stage = patient.Stage
+            });
+            }
+        }
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<EditPatient>(id == 0 ? "Create" : "Edit", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            await _table.ReloadServerData();
+        }
+    }
+ private bool Search(PatientDTO patient) => FilterFunc(patient, _searchString);
+
+    private bool FilterFunc(PatientDTO patient, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (patient.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.LastName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.WardNo.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.BedNo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.RefferingDoctor.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.RefferingHospital.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private async Task GetAllPatientsAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await patientService.GetAllPatientsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _patients = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+     private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<PatientDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetAllPatientsAsync(state);
+            return new TableData<PatientDTO> { TotalItems = _totalItems, Items = _patients };
+        }
+
+    public async Task GetAllPatients()
+    {
+        var patient = await patientService.GetAll();
+        if (patient.Succeeded)
+        {
+            _patients = patient.Data;
         }
     }
 }

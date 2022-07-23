@@ -17,6 +17,9 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
 
         Task<IResult<int>> UpdateAsync(PatientDTO request);
 
+        Task<PaginatedResult<PatientDTO>> GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
+
+
         Task<IResult<int>> DeleteAsync(int id);
     }
 }

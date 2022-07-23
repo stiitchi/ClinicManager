@@ -26,6 +26,13 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
             return await response.ToResult<List<PatientDTO>>(); throw new NotImplementedException();
         }
 
+        public async Task<PaginatedResult<PatientDTO>> GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientEndpoint.GetAllPatientsTable(pageNumber, pageSize, searchString, orderBy));
+            return await response.ToPaginatedResult<PatientDTO>();
+        }
+
         public async Task<IResult<PatientDTO>> GetById(int id)
         {
             await ConfigureHeaders();

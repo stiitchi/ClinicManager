@@ -31,13 +31,14 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                     BedId = e.Id,
                     WardNumber = e.WardNumber,
                     BedNumber = e.BedNumber,
-                    WardId = e.WardId
+                    WardId = e.WardId,
+                    PatientId = e.PatientId,
                 };
 
                 var beds = await _context.Beds
                         .AsNoTracking()
                         .IgnoreQueryFilters()
-                        .Where(x => x.WardId == request.WardId && x.PatientId != 0)
+                        .Where(x => x.WardId == request.WardId && x.PatientId != null)
                         .Select(expression)
                         .ToListAsync(cancellationToken);
                 return await Result<List<BedDTO>>.SuccessAsync(beds);

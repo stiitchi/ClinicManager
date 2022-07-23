@@ -9,6 +9,6 @@ namespace ClinicManager.Shared.DTO_s
         public string? PatientName { get; set; }
         public int WardId { get; set; }
         public int NurseId { get; set; }
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; }
     }
 }

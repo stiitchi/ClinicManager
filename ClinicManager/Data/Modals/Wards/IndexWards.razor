@@ -38,7 +38,7 @@ else
    </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Outlined" Color="Color.Info"
-                               @onclick="@(() => GetAllWards())"
+                               @onclick="@(() => GetAllBedsByWardId(Ward.WardId))"
                                Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Error"
                                @onclick="@(() => GetAllOccupiedBedsByWardId(Ward.WardId))"
@@ -98,4 +98,4 @@ else
             _beds = beds.Data;
         }
     }
-    }
+}

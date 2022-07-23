@@ -21,6 +21,13 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new DeletePatientCommand { Id = id }));
         }
 
+        [HttpGet("GetAllPatientsTable")]
+        public async Task<IActionResult> GetAllPatientsTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
+        {
+            var patients = await _mediator.Send(new GetAllPatientsTableQuery(pageNumber, pageSize, searchString, orderBy));
+            return Ok(patients);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -14,6 +14,19 @@ namespace ClinicManager.Web.Infrastructure.Routes
             return $"api/Patient/{id}";
         }
 
+        public static string GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy)
+        {
+            var url = $"api/Patient/GetAllPatientsTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&orderBy=";
+            if (orderBy?.Any() == true)
+            {
+                foreach (var orderByPart in orderBy)
+                {
+                    url += $"{orderByPart},";
+                }
+                url = url[..^1];
+            }
+            return url;
+        }
         public static string GetPatientByIDNumber(long patientId)
         {
             return $"api/Patient/GetPatientByIDNumber?patientId={patientId}";

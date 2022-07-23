@@ -42,9 +42,14 @@
                     @foreach (var item in _beds)
                     {
                         <MudSelectItem T="int" Value="@item.PropInt" />
+                        if(_beds.Count() ! > 0)
+                        {
+                            <MudText Class="ms-2">All Beds Occupied</MudText>
+                        }
                     }
+
                     </MudSelect>
-                </MudItem>       
+                </MudItem>        
             </MudExpansionPanel>
 
             <MudExpansionPanel HideIcon="isPostalCodeSelected" Icon="@Icons.TwoTone.Check" Text="Patient Personal Detail">
