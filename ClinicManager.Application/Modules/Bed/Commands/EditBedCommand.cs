@@ -9,8 +9,7 @@ namespace ClinicManager.Application.Modules.Bed.Commands
     {
         public int BedId { get; set; }
         public int BedNumber { get; set; }
-        public  string WardNumber { get; set; }
-        public int WardId { get; set; }
+        public string RoomNumber { get; set; }
     }
 
     public class EditBedCommandHandler : IRequestHandler<EditBedCommand, Result<int>>
@@ -30,15 +29,15 @@ namespace ClinicManager.Application.Modules.Bed.Commands
                 if (bed == null)
                     throw new Exception("Bed does not exist");
 
-                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == request.WardNumber, cancellationToken);
-                if (ward == null)
-                    throw new Exception("Ward doesn't exist");
+                var room = await _context.Rooms.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.RoomNumber == request.RoomNumber, cancellationToken);
+                if (room == null)
+                    throw new Exception("Room doesn't exist");
 
                 bed.Set(
                     request.BedNumber,
-                    request.WardNumber,
-                    ward
+                    room
                     );
+
                 await _context.SaveChangesAsync(cancellationToken);
                 return await Result<int>.SuccessAsync(bed.BedNumber.ToString());
             }

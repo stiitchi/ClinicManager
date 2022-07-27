@@ -23,10 +23,10 @@ namespace ClinicManager.API.Controllers
             return Ok(beds);
         }
 
-        [HttpGet("GetAllBedsByWardIdTable")]
-        public async Task<IActionResult> GetAllBedsByWardIdTable(int pageNumber, int pageSize, string? searchString, int wardId, string? orderBy = null)
+        [HttpGet("GetAllBedsByRoomIdTable")]
+        public async Task<IActionResult> GetAllBedsByRoomIdTable(int pageNumber, int pageSize, string? searchString, int roomId, string? orderBy = null)
         {
-            var beds = await _mediator.Send(new GetAllBedsByWardIdTableQuery(pageNumber, pageSize, searchString, wardId, orderBy));
+            var beds = await _mediator.Send(new GetAllBedsByRoomIdTableQuery(pageNumber, pageSize, searchString, roomId, orderBy));
             return Ok(beds);
         }
 
@@ -36,28 +36,16 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetBedByIdQuery { Id = id }));
         }
 
-        [HttpGet("GetAllBedsByWardId")]
-        public async Task<IActionResult> GetAllBedsByWardId(int wardId)
+        [HttpGet("GetAllBedsByRoomId")]
+        public async Task<IActionResult> GetAllBedsByRoomId(int roomId)
         {
-            return Ok(await _mediator.Send(new GetAllBedsByWardIdQuery { WardId = wardId }));
+            return Ok(await _mediator.Send(new GetAllBedsByRoomIdQuery { RoomId = roomId }));
         }
 
-        [HttpGet("GetAllOccupiedBedsByWardId")]
-        public async Task<IActionResult> GetAllOccupiedBedsByWardId(int wardId)
+        [HttpGet("BedsByRoomIdLookup")]
+        public async Task<IActionResult> BedsByRoomIdLookup(string roomNo)
         {
-            return Ok(await _mediator.Send(new GetAllOccupiedBedsByWardIdQuery { WardId = wardId }));
-        }
-
-        [HttpGet("GetAllUnoccupiedBedsByWardId")]
-        public async Task<IActionResult> GetAllUnoccupiedBedsByWardId(int wardId)
-        {
-            return Ok(await _mediator.Send(new GetAllUnoccupiedBedsByWardIdQuery { WardId = wardId }));
-        }
-
-        [HttpGet("BedsByWardIdLookup")]
-        public async Task<IActionResult> BedsByWardIdLookup(int wardId)
-        {
-            return Ok(await _mediator.Send(new GetBedsByWardIdForLookupQuery { WardId = wardId }));
+            return Ok(await _mediator.Send(new GetBedsByRoomIdForLookupQuery { RoomNo = roomNo }));
         }
 
         [HttpGet("ForLookup")]
@@ -67,22 +55,10 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(int id, int wardId)
+        public async Task<IActionResult> Delete(int id, int roomId)
         {
-            return Ok(await _mediator.Send(new DeleteBedCommand { Id = id, WardId = wardId }));
+            return Ok(await _mediator.Send(new DeleteBedCommand { Id = id, RoomId = roomId }));
         }
-
-
-        [HttpPost("AssignPatientToBed")]
-        public async Task<IActionResult> AssignPatientToBed(int patientId, int bedId)
-        {
-            return Ok(await _mediator.Send(new AssignBedToPatientCommand
-            {
-                BedId = bedId,
-                PatientId = patientId
-            }));
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> Add(BedDTO bed)
@@ -90,9 +66,8 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new AddBedCommand
             {
                 BedId = bed.BedId,
-                WardId = bed.WardId,
-                BedNumber = bed.BedNumber,
-                WardNumber = bed.WardNumber
+                RoomId = bed.RoomId.Value,
+                BedNumber = bed.BedNumber
             }));
         }
 
@@ -102,9 +77,8 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new EditBedCommand
             {
                 BedId = bed.BedId,
-                BedNumber = bed.BedNumber,
-                WardNumber = bed.WardNumber,
-                WardId = bed.WardId
+                RoomNumber = bed.RoomNumber,
+                BedNumber = bed.BedNumber
             }));
         }
     }

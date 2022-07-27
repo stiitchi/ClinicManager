@@ -46,15 +46,14 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                 {
                     BedId = e.Id,
                     BedNumber = e.BedNumber,
-                    WardId = e.WardId,
-                    WardNumber = e.WardNumber
+                    RoomNumber = e.RoomNumber
                 };
 
                 IQueryable<BedEntity> query = _context.Beds;
 
                 if (!string.IsNullOrEmpty(request.SearchString))
                     query = query.Where(o => o.BedNumber.ToString().Contains(request.SearchString)  ||
-                                             o.WardNumber.ToString().Contains(request.SearchString)
+                                             o.RoomNumber.ToString().Contains(request.SearchString)
                                              );
 
                 if (request.OrderBy?.Any() != true)

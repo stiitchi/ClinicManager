@@ -16,9 +16,9 @@ namespace ClinicManager.Web.Infrastructure.Routes
             return $"api/Bed/AssignPatientToBed?patientId={patientId}&bedId={bedId}";
         }
 
-        public static string Delete(int id, int wardId)
+        public static string Delete(int id, int roomId)
         {
-            return $"api/Bed/Delete?id={id}&wardId={wardId}";
+            return $"api/Bed/Delete?id={id}&roomId={roomId}";
         }
         public static string GetById(int id)
         {
@@ -34,20 +34,19 @@ namespace ClinicManager.Web.Infrastructure.Routes
             return $"api/Bed/GetAllOccupiedBedsByWardId?wardId={wardId}";
         }
 
-
-        public static string GetAllBedsByWardId(int wardId)
+        public static string GetAllBedsByRoomId(int roomId)
         {
-            return $"api/Bed/GetAllBedsByWardId?wardId={wardId}";
+            return $"api/Bed/GetAllBedsByRoomId?roomId={roomId}";
         }
 
-        public static string BedsByWardIdLookup(int wardId)
+        public static string BedsByRoomIdLookup(string roomNo)
         {
-            return $"api/Bed/BedsByWardIdLookup?wardId={wardId}";
+            return $"api/Bed/BedsByRoomIdLookup?roomNo={roomNo}";
         }
 
-        public static string GetAllBedsByWardIdTable(int pageNumber, int pageSize, string searchString, int wardId, string[] orderBy)
+        public static string GetAllBedsByRoomIdTable(int pageNumber, int pageSize, string searchString, int roomId, string[] orderBy)
         {
-            var url = $"api/Bed/GetAllBedsByWardIdTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&wardId={wardId}&orderBy=";
+            var url = $"api/Bed/GetAllBedsByRoomIdTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&roomId={roomId}&orderBy=";
             if (orderBy?.Any() == true)
             {
                 foreach (var orderByPart in orderBy)

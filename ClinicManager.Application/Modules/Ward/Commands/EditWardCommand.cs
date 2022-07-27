@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +9,7 @@ namespace ClinicManager.Application.Modules.Ward.Commands
     {
         public int WardId { get; set; }
         public string WardNumber { get; set; }
-        public int RoomNumber { get; set; }
-        public int TotalBeds { get; set; }
+        public int TotalRooms { get; set; }
     }
 
     public class EditWardCommandHandler : IRequestHandler<EditWardCommand, Result<int>>
@@ -32,10 +30,10 @@ namespace ClinicManager.Application.Modules.Ward.Commands
                     throw new Exception("Ward does not exist");
 
                 ward.Set(
-                    request.WardNumber, 
-                    request.RoomNumber,
-                    request.TotalBeds
+                    request.WardNumber,
+                    request.TotalRooms
                     );
+
                 await _context.SaveChangesAsync(cancellationToken);
                 return await Result<int>.SuccessAsync(ward.Id);
             }

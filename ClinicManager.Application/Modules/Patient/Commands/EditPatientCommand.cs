@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +20,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string Initials { get; set; }
         public long IDNo { get; set; }
         public string WardNo { get; set; }
+        public string RoomNo { get; set; }
         public int BedNo { get; set; }
         public string PatientTelNo { get; set; }
         public string PatientCellNo { get; set; }
@@ -113,6 +113,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 patient.Set(
                 request.WardNo,
                 request.BedNo,
+                request.RoomNo,
                 request.CaseInformationNumber,
                 request.AccountNo,
                 request.AdmissionDate,

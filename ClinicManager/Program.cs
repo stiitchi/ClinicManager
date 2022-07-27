@@ -7,6 +7,7 @@ using ClinicManager.Web.Infrastructure.Services.ICDCode;
 using ClinicManager.Web.Infrastructure.Services.Nurses;
 using ClinicManager.Web.Infrastructure.Services.Patient;
 using ClinicManager.Web.Infrastructure.Services.PatientRecords;
+using ClinicManager.Web.Infrastructure.Services.Room;
 using ClinicManager.Web.Infrastructure.Services.State;
 using ClinicManager.Web.Infrastructure.Services.Ward;
 using MudBlazor.Services;
@@ -30,6 +31,7 @@ builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<INurseService, NurseService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IChartService, ChartService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IPatientRecordService, PatientRecordService>();
 builder.Services.AddScoped<IWardService, WardService>();
 builder.Services.AddScoped(sp => sp

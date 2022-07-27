@@ -3,7 +3,7 @@ namespace ClinicManager.Web.Infrastructure.Routes
 {
     public class WardEndpoint
     {
-        public static string ForLookUp = "api/Ward/ForLookup";
+        public static string WardForLookup = "api/Ward/WardForLookup";
 
         public static string Save = "api/Ward";
 

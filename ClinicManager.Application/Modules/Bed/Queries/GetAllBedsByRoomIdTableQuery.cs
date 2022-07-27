@@ -10,20 +10,20 @@ using ClinicManager.Application.Extensions;
 
 namespace ClinicManager.Application.Modules.Bed.Queries
 {
-     public class GetAllBedsByWardIdTableQuery : IRequest<PaginatedResult<BedDTO>>
+     public class GetAllBedsByRoomIdTableQuery : IRequest<PaginatedResult<BedDTO>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public int WardId { get; set; }
+        public int RoomId { get; set; }
         public string SearchString { get; set; }
         public string[] OrderBy { get; set; }
 
-        public GetAllBedsByWardIdTableQuery(int pageNumber, int pageSize, string searchString, int wardId, string orderBy)
+        public GetAllBedsByRoomIdTableQuery(int pageNumber, int pageSize, string searchString, int roomId, string orderBy)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
             SearchString = searchString;
-            WardId = wardId;
+            RoomId = roomId;
             if (!string.IsNullOrWhiteSpace(orderBy))
             {
                 OrderBy = orderBy.Split(',');
@@ -31,16 +31,16 @@ namespace ClinicManager.Application.Modules.Bed.Queries
         }
     }
 
-    public class GetAllBedsByWardIdTableQueryHandler : IRequestHandler<GetAllBedsByWardIdTableQuery, PaginatedResult<BedDTO>>
+    public class GetAllBedsByRoomIdTableQueryHandler : IRequestHandler<GetAllBedsByRoomIdTableQuery, PaginatedResult<BedDTO>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllBedsByWardIdTableQueryHandler(IApplicationDbContext context)
+        public GetAllBedsByRoomIdTableQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<PaginatedResult<BedDTO>> Handle(GetAllBedsByWardIdTableQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<BedDTO>> Handle(GetAllBedsByRoomIdTableQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -48,15 +48,17 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                 {
                     BedId = e.Id,
                     BedNumber = e.BedNumber,
-                    WardId = e.WardId,
-                    WardNumber = e.WardNumber
+                    RoomNumber = e.RoomNumber,
+                    PatientId = e.PatientId,
+                    RoomId = e.RoomId
                 };
 
                 IQueryable<BedEntity> query = _context.Beds;
 
                 if (!string.IsNullOrEmpty(request.SearchString))
                     query = query.Where(o => o.BedNumber.ToString().Contains(request.SearchString) ||
-                                             o.WardNumber.ToString().Contains(request.SearchString)
+                                             o.RoomNumber.ToString().Contains(request.SearchString) ||
+                                             o.PatientId.ToString().Contains(request.SearchString)
                                              );
 
                 if (request.OrderBy?.Any() != true)
@@ -65,7 +67,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                    .AsNoTracking()
                    .IgnoreQueryFilters()
                    .Select(expression)
-                   .Where(x=> x.WardId == request.WardId)
+                   .Where(x=> x.RoomId == request.RoomId)
                    .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
                 }
@@ -77,7 +79,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                     .IgnoreQueryFilters()
                     .OrderBy(ordering)
                     .Select(expression)
-                    .Where(x => x.WardId == request.WardId)
+                    .Where(x => x.RoomId == request.RoomId)
                     .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
                 }

@@ -9,9 +9,8 @@ namespace ClinicManager.Application.Modules.Bed.Commands
   public class AddBedCommand : IRequest<Result<int>>
     {
         public int BedId { get; set; }
-        public int WardId { get; set; }
         public int BedNumber { get; set; }
-        public string WardNumber { get; set; }
+        public int RoomId { get; set; }
     }
 
     public class AddBedCommandHandler : IRequestHandler<AddBedCommand, Result<int>>
@@ -28,26 +27,23 @@ namespace ClinicManager.Application.Modules.Bed.Commands
             try
             {
                 var beds = await _context.Beds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.BedNumber == request.BedNumber &&
-                                                                                             c.WardNumber == request.WardNumber,cancellationToken);
+                                                                                             c.RoomId == request.RoomId, cancellationToken);
                 if (beds != null)
                     throw new Exception("Bed already exists");
 
-                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.WardNumber == request.WardNumber, cancellationToken);
-                if (ward == null)
-                    throw new Exception("Ward doesn't exist");
+                var room = await _context.Rooms.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.RoomId, cancellationToken);
+                if (room == null)
+                    throw new Exception("Room doesn't exist");
 
                 var bed = new BedEntity(
+                    request.BedId,
                     request.BedNumber,
-                    request.WardNumber,
-                    ward
+                    room
                     );
-
-                ward.AddBedToWard(1);
-                ward.AddOccupied(1);
 
                 await _context.Beds.AddAsync(bed, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return await Result<int>.SuccessAsync(ward.Id);
+                return await Result<int>.SuccessAsync(bed.Id);
             }
             catch (Exception ex)
             {

@@ -30,7 +30,7 @@
                     <MudDatePicker MinDate="DateTime.Today" Variant="Variant.Outlined" @bind-Date="AddEditPatientModel.AdmissionDate" Label="Admission Date" />
                 </MudItem>
                 <MudItem  Class="mb-2" sm="12">
-                    <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Prop2 == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
+           @*         <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Prop2 == i)?.Prop2 ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="GetAllBedsByWardId"
                         Label="Ward Number" T="string">
                     @foreach (var item in _wards)
                     {
@@ -43,7 +43,7 @@
                     {
                         <MudSelectItem T="int" Value="@item.PropInt" />
                     }
-                    </MudSelect>
+                    </MudSelect>*@
                 </MudItem>       
             </MudExpansionPanel>
 
@@ -449,8 +449,6 @@
     private bool isMedMemberPostalCodeSelected = true;
     private bool isCitySelected = true;
     
-    private DateTime? dischargeDate = DateTime.Now;
-    private DateTime? reportDate = DateTime.Now;
 
     protected async override Task OnInitializedAsync()
     {
@@ -479,10 +477,6 @@
     {
         _processing = true;
         IResult<int> response;
-
-        AddEditPatientModel.ReportDate = DateTime.Now;
-        AddEditPatientModel.DischargeDate = DateTime.Now;
-        AddEditPatientModel.AdmissionDate = DateTime.Now;
 
         if (AddEditPatientModel.Id == 0)
             response = await patientService.SaveAsync(AddEditPatientModel);
@@ -523,16 +517,16 @@
             }
         }    
        
-        public async Task GetAllBedsByWardId(string wardId)
-        {
-            AddEditPatientModel.WardNo = wardId;
+        //public async Task GetAllBedsByWardId(string wardId)
+        //{
+        //    AddEditPatientModel.WardNo = wardId;
 
-            var ward = await wardService.GetWardsByWardNumber(wardId);
-            var wardNumber = ward.Data.WardId;
-            var bed = await bedService.BedsByWardIdLookup(wardNumber);
-            if (bed.Succeeded)
-            {
-                _beds = bed.Data;
-            }
-        }
+        //    var ward = await wardService.GetWardsByWardNumber(wardId);
+        //    var wardNumber = ward.Data.WardId;
+        //    var bed = await bedService.BedsByWardIdLookup(wardNumber);
+        //    if (bed.Succeeded)
+        //    {
+        //        _beds = bed.Data;
+        //    }
+        //}
 }

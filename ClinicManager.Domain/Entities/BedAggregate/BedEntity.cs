@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Domain.Entities.PatientAggregate;
+using ClinicManager.Domain.Entities.RoomAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
-using ClinicManager.Domain.Entities.WardAggregate;
 
 namespace ClinicManager.Domain.Entities.BedAggregate
 {
@@ -8,24 +8,24 @@ namespace ClinicManager.Domain.Entities.BedAggregate
     {
         public BedEntity()
         {}
-        public BedEntity(int bedNumber, string wardNumber, WardEntity ward)
+        public BedEntity(int bedNumber, RoomEntity room)
         {
             _bedNumber = bedNumber;
-            _wardNumber = wardNumber;
-            _wardId = ward.Id;
+            _roomNumber = room.RoomNumber;
+            _roomId = room.Id;
         }
-        public BedEntity(int bedId, int bedNumber, string wardNumber, WardEntity ward)
+        public BedEntity(int bedId, int bedNumber, RoomEntity room)
         {
             _id = bedId;
             _bedNumber = bedNumber;
-            _wardNumber = wardNumber;
-            _wardId = ward.Id;
+            _roomNumber = room.RoomNumber;
+            _roomId = room.Id;
         }
-        public void Set(int bedNumber, string wardNumber, WardEntity ward)
+        public void Set(int bedNumber, RoomEntity room)
         {
             _bedNumber = bedNumber;
-            _wardNumber = wardNumber;
-            _wardId = ward.Id;
+            _roomNumber = room.RoomNumber;
+            _roomId = room.Id;
         }
 
         public void AssignPatientToBed(PatientEntity patient)
@@ -41,12 +41,8 @@ namespace ClinicManager.Domain.Entities.BedAggregate
         private int _bedNumber;
         public int BedNumber => _bedNumber;
 
-        private string _wardNumber;
-        public string WardNumber => _wardNumber;
-
-        public WardEntity Ward;
-        private int _wardId;
-        public int WardId => _wardId;
+        private string _roomNumber;
+        public string RoomNumber => _roomNumber;
 
         public PatientEntity Patient;
         private int? _patientId;
@@ -56,6 +52,11 @@ namespace ClinicManager.Domain.Entities.BedAggregate
 
         private int? _nurseId;
         public int? NurseId => _nurseId;
+
+        public RoomEntity Room;
+
+        private int? _roomId;
+        public int? RoomId => _roomId;
 
         private readonly List<PatientBedEntity> _patientBeds = new();
         public virtual IReadOnlyCollection<PatientBedEntity> PatientBeds => _patientBeds;

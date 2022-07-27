@@ -10,14 +10,11 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Ward
         {
             conf.ToTable("Wards", "dbo");
             conf.HasKey(c => c.Id);
-            conf.Property(c => c.RoomNumber).IsRequired();
             conf.Property(c => c.WardNumber).IsRequired();
-            conf.Property(c => c.TotalBeds).IsRequired();
-            conf.Property(c => c.OccupiedBeds).IsRequired();
-            conf.Property(c => c.UnOccupiedBeds).IsRequired();
+            conf.Property(c => c.TotalRooms).IsRequired();
 
-            var beds = conf.Metadata.FindNavigation(nameof(WardEntity.Beds));
-            beds.SetPropertyAccessMode(PropertyAccessMode.Field);
+            var rooms = conf.Metadata.FindNavigation(nameof(WardEntity.Rooms));
+            rooms.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             var doctors = conf.Metadata.FindNavigation(nameof(WardEntity.Doctors));
             doctors.SetPropertyAccessMode(PropertyAccessMode.Field);

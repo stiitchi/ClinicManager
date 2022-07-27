@@ -11,17 +11,17 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Bed
             conf.ToTable("Beds", "dbo");
             conf.HasKey(c => c.Id);
             conf.Property(c => c.BedNumber).IsRequired();
-            conf.Property(c => c.WardNumber).IsRequired(false);
-            conf.HasOne(c => c.Ward).WithMany(c => c.Beds).HasForeignKey(c => c.WardId);
+            conf.Property(c => c.RoomNumber).IsRequired(false);
+            conf.HasOne(c => c.Room).WithMany(c => c.Beds).HasForeignKey(c => c.RoomId);
             conf.HasOne(c => c.Nurse).WithMany(c => c.Beds).HasForeignKey(c => c.NurseId).IsRequired(false);
             conf.HasOne(c => c.Patient).WithMany(c => c.Beds).HasForeignKey(c => c.PatientId).IsRequired(false);
-            conf.Property(c => c.IsActive).IsRequired();
 
             var patientBeds = conf.Metadata.FindNavigation(nameof(BedEntity.PatientBeds));
             patientBeds.SetPropertyAccessMode(PropertyAccessMode.Field);
 
+            conf.Property(c => c.IsActive).IsRequired();
             conf.HasIndex(c => c.Id);
-            conf.HasIndex(c => c.WardId);
+            conf.HasIndex(c => c.RoomId);
             conf.HasIndex(c => c.NurseId);
             conf.HasIndex(c => c.PatientId);
             conf.HasQueryFilter(t => t.IsActive);

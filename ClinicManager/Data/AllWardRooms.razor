@@ -1,22 +1,23 @@
-﻿@page "/all-WardBeds/{WardId:int}"
+﻿@page "/all-ward-rooms/{WardId:int}"
 @using ClinicManager.Data.Modals.Beds
-@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Data.Modals.Misc
+@using ClinicManager.Data.Modals.Room
+@using ClinicManager.Web.Infrastructure.Services.Room
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using Modals
 @using ClinicManager.Shared.DTO_s
-@using Skye.Web.Shared.Dialogs
-@inject IBedService bedService 
+@inject IRoomService roomService 
 @inject IWardService wardService 
 
-    <MudGrid Class="mt-8">
+   <MudGrid Class="mt-8">
         <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
-                Ward -  @WardNo Beds
+                Ward @WardId - Rooms
             </MudText>
         </MudItem>
           <MudItem xs="12" md="6" sm="6">
             <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
-                       Variant="Variant.Outlined">New Bed</MudButton>
+                       Variant="Variant.Outlined">New Room</MudButton>
         </MudItem>
 
             <MudItem xs="12" md="6" sm="6">
@@ -27,53 +28,58 @@
             </MudItem>
         @if (!isTableView)
         {
-            @foreach (var bed in _beds)
+            @foreach (var room in _rooms)
             {
-            <MudItem md="3" sm="6">
-                <MudCard Elevation="5" Style="height:150px">
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                        <MudText Align="Align.Center" Typo="Typo.body2">Ward @bed.WardNumber</MudText>
-                        </CardHeaderContent>
-                        <CardHeaderActions>
-                            <MudIconButton Class="mt-3" Color="Color.Dark" Icon="@Icons.Filled.Edit" @onclick="@(() => InvokeModal(bed.BedId))"/>
-                            <MudIconButton Class="mt-3" Color="Color.Error" Icon="@Icons.Filled.Delete" @onclick="@(() => Delete(bed.BedId, bed.WardId))"/>
-                        </CardHeaderActions>
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <MudText Align="Align.Center" Typo="Typo.h6"> Bed @bed.BedNumber</MudText>
-                    </MudCardContent>
-                </MudCard>
-            </MudItem>
+                <MudItem xs="12" md="3" sm="3">
+                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                        <MudCardContent>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> Room @room.RoomNumber</MudText>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudText Align="Align.Center" Typo="Typo.body1">Ward @room.WardId</MudText>
+                            </center>
+                        </MudCardContent>
+                        <MudCardContent>
+                            <center>
+                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
+                            </center>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
             }
         }
     </MudGrid>
     @if (isTableView)
     {
-    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_beds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(Search)" @ref="_table">
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_rooms"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<RoomDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<RoomDTO, bool>(Search)" @ref="_table">
             <ToolBarContent>
         <div class="justify-center mud-text-align-center">
             <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
         </div>
         <MudSpacer />
-            <MudTextField Label="Search Beds" @bind-Value="SearchField" Variant="Variant.Outlined" Adornment="Adornment.Start"
+            <MudTextField Label="Search Rooms" @bind-Value="SearchField" Variant="Variant.Outlined" Adornment="Adornment.Start"
                     AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel T="BedDTO" SortLabel="BedNumber">Bed Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="RoomNumber">Room Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="WardId">Ward Number</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="BedNumber">
-            <MudHighlighter Text="@context.BedNumber.ToString()" HighlightedText="@_searchString" />
+            <MudHighlighter Text="@context.RoomNumber.ToString()" HighlightedText="@_searchString" />
         </MudTd>
-@*        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.BedId))">View Patient</MudButton>
-       </MudTd>*@
+         <MudTd DataLabel="WardId">
+            <MudHighlighter Text="@context.WardId.ToString()" HighlightedText="@_searchString" />
+        </MudTd>   
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.BedId))">Edit</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@context.RoomId}"))">View Beds</MudButton>
+       </MudTd>
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.RoomId))">Edit</MudButton>
        </MudTd>
        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.BedId, @context.WardId))">Delete</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.RoomId, @context.WardId))">Delete</MudButton>
        </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -84,37 +90,29 @@
 
 @code{
     [Parameter] public int WardId { get; set; } 
-    private string WardNo;
 
     DateTime? date = DateTime.Today;
     public string SearchField;
-    private List<BedDTO> _beds = new();
+    private List<RoomDTO> _rooms = new();
     public bool isTableView = true;
-    private BedDTO bed = new();
-    private MudTable<BedDTO> _table;
+    private RoomDTO room = new();
+    private MudTable<RoomDTO> _table;
     private int _totalItems;
     private int _currentPage;
     private TableState _state;
     private string _searchString = "";
     protected async override Task OnInitializedAsync()
     {
-        await GetAllBeds(WardId);
-        await GetWardNumber(WardId);
+        await GetAllRoomsByWardId(WardId);
     }
 
-    public async Task GetAllBeds(int wardId)
+    public async Task GetAllRoomsByWardId(int wardId)
     {
-        var beds = await bedService.GetAllBedsByWardId(wardId);
-        if (beds.Succeeded)
-        {
-            _beds = beds.Data;
-        }
-    }
-
-    public async Task GetWardNumber(int wardId)
-    {
-        var wardNumber = await wardService.GetById(wardId);
-        WardNo = wardNumber.Data.WardNumber;
+        //var rooms = await roomService.GetAllRoomsByWardId(wardId);
+        //if (rooms.Succeeded)
+        //{
+        //    _rooms = rooms.Data;
+        //}
     }
 
     public void SetViewGrid()
@@ -126,55 +124,51 @@
         isTableView = true;
     }
 
-        private async Task InvokeModal(int id = 0)
+    private async Task InvokeModal(int id = 0)
     {
         var parameters = new DialogParameters();
         if (id != 0)
         {
-            bed = _beds.FirstOrDefault(c => c.BedId == id);
-            if (bed != null)
+            room = _rooms.FirstOrDefault(c => c.RoomId == id);
+            if (room != null)
             {
-                parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
+                parameters.Add(nameof(AddEditRoom.AddEditRoomModel), new RoomDTO
                 {
-                BedId = bed.BedId,
-                BedNumber = bed.BedNumber,
-                WardNumber = bed.WardNumber,
-                WardId = bed.WardId
+                WardId = room.WardId,
+                TotalBeds = room.TotalBeds,
+                RoomId = room.RoomId,
+                RoomNumber = room.RoomNumber
                 });
             }
         }
         else{
-                parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
+                parameters.Add(nameof(AddEditRoom.AddEditRoomModel), new RoomDTO
                 {
                 WardId = WardId
                 });
         }
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-        var dialog = _dialogService.Show<AddEditBed>(id == 0 ? "Create Bed" : "Edit Bed", parameters, options);
+        var dialog = _dialogService.Show<AddEditRoom>(id == 0 ? "Create Room" : "Edit Room", parameters, options);
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
             await _table.ReloadServerData();
         }
     }
-    private bool Search(BedDTO bed) => FilterFunc(bed, _searchString);
+    private bool Search(RoomDTO room) => FilterFunc(room, _searchString);
 
-    private bool FilterFunc(BedDTO bed, string searchString)
+    private bool FilterFunc(RoomDTO room, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (bed.BedNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
-        {
-            return true;
-        }
-        if (bed.WardNumber?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        if (room.RoomNumber?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
         {
             return true;
         }
         return false;
     }
 
-        private async Task GetBedsAsync(TableState state)
+    private async Task GetRoomsAsync(TableState state)
     {
         string[] orderings = null;
         if (!string.IsNullOrEmpty(state.SortLabel))
@@ -182,12 +176,12 @@
             orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
         }
 
-        var response = await bedService.GetAllBedsByWardIdTable(state.Page + 1, state.PageSize, _searchString, WardId,  orderings);
+        var response = await roomService.GetAllRoomsByWardIdTable(state.Page + 1, state.PageSize, _searchString, WardId,  orderings);
         if (response.Succeeded)
         {
             _totalItems = response.TotalCount;
             _currentPage = response.CurrentPage;
-            _beds = response.Data;
+            _rooms = response.Data;
         }
         else
         {
@@ -204,20 +198,20 @@
         _table.ReloadServerData();
     }
 
-    private async Task<TableData<BedDTO>> ServerReload(TableState state)
+    private async Task<TableData<RoomDTO>> ServerReload(TableState state)
     {
         if (!string.IsNullOrWhiteSpace(_searchString))
         {
             state.Page = 0;
         }
         _state = state;
-        await GetBedsAsync(state);
-        return new TableData<BedDTO> { TotalItems = _totalItems, Items = _beds };
+        await GetRoomsAsync(state);
+        return new TableData<RoomDTO> { TotalItems = _totalItems, Items = _rooms };
     }
 
         private async Task Delete(int id, int wardId)
     {
-        string deleteContent = $"Delete Bed {_beds.FirstOrDefault(c => c.BedId == id).BedNumber}";
+        string deleteContent = $"Delete Room {_rooms.FirstOrDefault(c => c.RoomId == id).RoomNumber}";
         var parameters = new DialogParameters
         {
             {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
@@ -227,11 +221,11 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            var response = await bedService.DeleteAsync(id, wardId);
+            var response = await roomService.DeleteAsync(id, wardId);
             if (response.Succeeded)
             {
                 await _table.ReloadServerData();
-                _snackBar.Add("Bed Deleted", Severity.Success);
+                _snackBar.Add("Room Deleted", Severity.Success);
             }
             else
             {

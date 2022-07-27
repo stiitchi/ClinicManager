@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                 var dto = new BedDTO
                 {
                     BedNumber = bed.BedNumber,
-                    WardNumber = bed.WardNumber,
+                    RoomNumber = bed.RoomNumber,
                     PatientId = bed.PatientId.Value,
                     NurseId = bed.NurseId.Value,
                     BedId = bed.Id,
-                    WardId = bed.WardId
+                    RoomId = bed.RoomId
                 };
                 return await Result<BedDTO>.SuccessAsync(dto);
             }

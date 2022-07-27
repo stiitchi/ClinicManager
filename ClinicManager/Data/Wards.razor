@@ -1,9 +1,9 @@
 ﻿@page "/wards"
+@using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Data.Modals.Wards
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using Modals
 @using ClinicManager.Shared.DTO_s
-@using Skye.Web.Shared.Dialogs
 @inject IWardService wardService 
 
 
@@ -42,7 +42,7 @@
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudChip Size="Size.Large" Color="Color.Info">
-                                    @ward.TotalBeds Beds
+                                    @ward.TotalRooms Rooms
                                 </MudChip>
                             @*    <MudChip Size="Size.Large" Color="Color.Success">
                                     28 Available
@@ -77,21 +77,17 @@
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel T="WardDTO" SortLabel="WardNumber">Ward Number</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="RoomNumber">Room Number</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="TotalBeds">Total Beds</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="WardDTO" SortLabel="TotalRooms">Total Rooms</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Ward Number">
             <MudHighlighter Text="@context.WardNumber.ToString()" HighlightedText="@_searchString" />
-        </MudTd>
-        <MudTd DataLabel="Room Number">
-            <MudHighlighter Text="@context.RoomNumber.ToString()" HighlightedText="@_searchString" />
-        </MudTd>
-        <MudTd DataLabel="Total Beds">
-            <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
+        </MudTd>  
+        <MudTd DataLabel="Total Rooms">
+            <MudHighlighter Text="@context.TotalRooms.ToString()" HighlightedText="@_searchString" />
         </MudTd>  
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-WardBeds/{@context.WardId}"))">View Beds</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-ward-rooms/{@context.WardId}"))">View Rooms</MudButton>
        </MudTd>
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
          <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.WardId))">Edit</MudButton>
@@ -156,8 +152,7 @@
                 {
                     WardId = ward.WardId,
                     WardNumber = ward.WardNumber,
-                    RoomNumber = ward.RoomNumber,
-                    TotalBeds = ward.TotalBeds
+                    TotalRooms = ward.TotalRooms
                 });
             }
         }
@@ -189,7 +184,7 @@
         {
             return true;
         }
-        if (ward.RoomNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        if (ward.TotalRooms.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
         {
             return true;
         }

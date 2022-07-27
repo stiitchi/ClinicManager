@@ -23,6 +23,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.SkinIntegrity;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts;
+using ClinicManager.Domain.Entities.RoomAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<RoleEntity> Roles { get; set; }
         DbSet<PatientEntity> Patients { get; set; }
         DbSet<PatientBedEntity> PatientBeds { get; set; }
+        DbSet<RoomEntity> Rooms { get; set; }
 
         //Reports
 

@@ -2,7 +2,6 @@
 @using ClinicManager.Web.Infrastructure.Services.Ward
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using ClinicManager.Shared.DTO_s
-@using Skye.Web.Shared.Dialogs
 @inject IWardService wardService 
 @inject IBedService bedService 
 
@@ -37,9 +36,9 @@ else
         </MudGrid>
    </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Outlined" Color="Color.Info"
+@*        <MudButton Variant="Variant.Outlined" Color="Color.Info"
                                @onclick="@(() => GetAllBedsByWardId(Ward.WardId))"
-                               Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>
+                               Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>*@
         <MudButton Variant="Variant.Outlined" Color="Color.Error"
                                @onclick="@(() => GetAllOccupiedBedsByWardId(Ward.WardId))"
                                Style="border-radius:10px 10px 10px 10px; width:150px">Occupied</MudButton>
@@ -60,7 +59,7 @@ else
     protected async override Task OnInitializedAsync()
     {
         await GetAllWards();
-        await GetAllBedsByWardId(Ward.WardId);
+        //await GetAllBedsByWardId(Ward.WardId);
     }
 
     public async Task GetAllWards()
@@ -90,9 +89,9 @@ else
         }
     }
 
-    public async Task GetAllBedsByWardId(int wardId)
+    public async Task GetAllBedsByRoomId(int roomId)
     {
-        var beds = await bedService.GetAllBedsByWardId(wardId);
+        var beds = await bedService.GetAllBedsByRoomId(roomId);
         if (beds.Succeeded)
         {
             _beds = beds.Data;

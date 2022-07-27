@@ -34,8 +34,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                 {
                     WardId = ward.Id,
                     WardNumber = ward.WardNumber,
-                    RoomNumber = ward.RoomNumber,
-                    TotalBeds = ward.TotalBeds
+                    TotalRooms = ward.TotalRooms
                 };
                 return await Result<WardDTO>.SuccessAsync(dto);
             }

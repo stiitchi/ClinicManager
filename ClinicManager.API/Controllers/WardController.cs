@@ -35,7 +35,7 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllWardsByWardNumber { WardNumber = wardNumber }));
         }
 
-        [HttpGet("ForLookup")]
+        [HttpGet("WardForLookup")]
         public async Task<IActionResult> ForLookup()
         {
             return Ok(await _mediator.Send(new GetAllWardsForLookupQuery()));
@@ -54,9 +54,8 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new AddWardCommand
             {
                 WardId = ward.WardId,
-                RoomNumber = ward.RoomNumber,
                 WardNumber = ward.WardNumber,
-                TotalBeds = ward.TotalBeds
+                TotalRooms = ward.TotalRooms
             }));
         }
 
@@ -66,9 +65,8 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new EditWardCommand
             {
                 WardId = ward.WardId,
-                RoomNumber = ward.RoomNumber,
                 WardNumber = ward.WardNumber,
-                TotalBeds = ward.TotalBeds
+                TotalRooms = ward.TotalRooms
             }));
         }
     }

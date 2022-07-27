@@ -84,6 +84,7 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients
             conf.Property(c => c.MainMemberBusinessCity).IsRequired();
             conf.Property(c => c.MainMemberBusinessProvince).IsRequired();
             conf.Property(c => c.MainMemberBusinessPostalCode).IsRequired();
+            conf.Property(c => c.RoomNo).IsRequired();
 
 
             var bloodOxygenCharts = conf.Metadata.FindNavigation(nameof(PatientEntity.BloodOxygenCharts));

@@ -35,6 +35,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     Id = patient.Id,
                     WardNo = patient.WardNO,
                     BedNo = patient.BedNO,
+                    RoomNo = patient.RoomNo,
                     CaseInformationNumber = patient.CaseInfomationNo,
                     AccountNo = patient.AccountNO,
                     AdmissionDate = patient.AdmissionDate,

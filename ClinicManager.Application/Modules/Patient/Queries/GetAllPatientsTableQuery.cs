@@ -51,6 +51,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     AdmissionDate = e.AdmissionDate,
                     AuthNo = e.AuthNo,
                     BedNo = e.BedNO,
+                    RoomNo = e.RoomNo,
                     CaseInformationNumber = e.CaseInfomationNo,
                     City = e.City,
                     DateOfBirth = e.DateOfBirth,

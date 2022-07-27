@@ -34,6 +34,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         public PatientEntity(
            string wardNo,
            int bedNo,
+           string roomNo,
            int caseInformationNumber,
            int accountNo,
            DateTime? admissionDate,
@@ -110,6 +111,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         {
             _wardNO                          = wardNo;
             _bedNO                           = bedNo;
+            _roomNo                          = roomNo;  
             _caseInfomationNo                = caseInformationNumber;
             _accountNO                       = accountNo;
             _admissionDate                   = admissionDate;
@@ -186,6 +188,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         public void Set(
           string wardNo,
           int bedNo,
+          string roomNo,
           int caseInformationNumber,
           int accountNo,
           DateTime? admissionDate,
@@ -262,6 +265,7 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         {
             _wardNO                          = wardNo;
             _bedNO                           = bedNo;
+            _roomNo                          = roomNo;
             _caseInfomationNo                = caseInformationNumber;
             _accountNO                       = accountNo;
             _admissionDate                   = admissionDate;
@@ -335,6 +339,9 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
             _mainMemberBusinessProvince      = memberBusinessAddressProvince;
             _mainMemberBusinessPostalCode    = memberBusinessAddressPostalCode;
         }
+
+        private string _roomNo;
+        public string RoomNo => _roomNo;
 
         private string _authNo;
         public string AuthNo => _authNo;

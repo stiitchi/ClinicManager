@@ -43,7 +43,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Ward
         public async Task<IResult<List<LookupDTO>>> GetForLookUp()
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.WardEndpoint.ForLookUp);
+            var response = await _httpClient.GetAsync(Routes.WardEndpoint.WardForLookup);
             return await response.ToResult<List<LookupDTO>>();
         }
 

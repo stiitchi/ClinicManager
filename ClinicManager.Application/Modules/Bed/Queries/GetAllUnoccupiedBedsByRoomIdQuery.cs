@@ -8,37 +8,37 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.Bed.Queries
 {
-    public class GetAllOccupiedBedsByWardIdQuery : IRequest<Result<List<BedDTO>>>
+    public class GetAllUnoccupiedBedsByRoomIdQuery : IRequest<Result<List<BedDTO>>>
     {
-        public int WardId { get; set; }
+        public int RoomId { get; set; }
     }
 
-    public class GetAllOccupiedBedsByWardIdQueryHandler : IRequestHandler<GetAllOccupiedBedsByWardIdQuery, Result<List<BedDTO>>>
+    public class GetAllUnoccupiedBedsByRoomIdQueryHandler : IRequestHandler<GetAllUnoccupiedBedsByRoomIdQuery, Result<List<BedDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllOccupiedBedsByWardIdQueryHandler(IApplicationDbContext context)
+        public GetAllUnoccupiedBedsByRoomIdQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<BedDTO>>> Handle(GetAllOccupiedBedsByWardIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<BedDTO>>> Handle(GetAllUnoccupiedBedsByRoomIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                 {
                     BedId = e.Id,
-                    WardNumber = e.WardNumber,
                     BedNumber = e.BedNumber,
-                    WardId = e.WardId,
-                    PatientId = e.PatientId,
+                    RoomId = e.RoomId,
+                    PatientId = e.PatientId
+
                 };
 
                 var beds = await _context.Beds
                         .AsNoTracking()
                         .IgnoreQueryFilters()
-                        .Where(x => x.WardId == request.WardId && x.PatientId != null)
+                        .Where(x => x.RoomId == request.RoomId && x.PatientId == null)
                         .Select(expression)
                         .ToListAsync(cancellationToken);
                 return await Result<List<BedDTO>>.SuccessAsync(beds);

@@ -10,8 +10,7 @@ namespace ClinicManager.Application.Modules.Ward.Commands
     {
         public int WardId { get; set; }
         public string WardNumber { get; set; }
-        public int RoomNumber { get; set; }
-        public int TotalBeds { get; set; }
+        public int TotalRooms { get; set; }
     }
 
     public class AddWardCommandHandler : IRequestHandler<AddWardCommand, Result<int>>
@@ -33,8 +32,7 @@ namespace ClinicManager.Application.Modules.Ward.Commands
 
                 var ward = new WardEntity(
                     request.WardNumber,
-                    request.RoomNumber,
-                    request.TotalBeds
+                    request.TotalRooms
                     );
 
                 await _context.Wards.AddAsync(ward, cancellationToken);

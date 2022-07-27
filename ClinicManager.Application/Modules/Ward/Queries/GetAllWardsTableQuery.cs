@@ -46,8 +46,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                 {
                     WardId = e.Id,
                     WardNumber = e.WardNumber,
-                    RoomNumber = e.RoomNumber,
-                    TotalBeds = _context.Beds.Where(x => x.WardId == e.Id).Count()
+                    TotalRooms = _context.Rooms.Count(x=> x.WardId == e.Id)
                 };
 
                 
@@ -55,8 +54,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
 
                 if (!string.IsNullOrEmpty(request.SearchString))
                     query = query.Where(o => o.WardNumber.ToString().Contains(request.SearchString) ||
-                                             o.RoomNumber.ToString().Contains(request.SearchString) ||
-                                             o.TotalBeds.ToString().Contains(request.SearchString)
+                                             o.TotalRooms.ToString().Contains(request.SearchString)
                                              );
 
                 if (request.OrderBy?.Any() != true)

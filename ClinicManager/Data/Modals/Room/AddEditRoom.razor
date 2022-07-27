@@ -1,0 +1,116 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Room
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Shared.DTO_s
+@inject IRoomService roomService 
+@inject IWardService wardService 
+
+<EditForm Model="@AddEditRoomModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            @{
+            if (AddEditRoomModel.RoomId == 0)
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3" />
+                Add Room
+            </MudText>
+            }
+            else
+            {
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3" />
+                Update Room
+            </MudText>
+            }
+            }
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField Variant="Variant.Outlined" T="string" For="@(() => AddEditRoomModel.RoomNumber)" @bind-Value="AddEditRoomModel.RoomNumber" Label="Room Number" />
+                </MudItem>    
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(!Validated || _processing)"  Color="Color.Success">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                @if (AddEditRoomModel.RoomId != 0)
+                {
+                    <MudText>Update</MudText>
+                }
+                else
+                {
+                    <MudText>Save</MudText>
+                }
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public RoomDTO AddEditRoomModel { get; set; } = new();
+    private List<LookupDTO> _wards = new();
+    private bool _processing = false;
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+     protected async override Task OnInitializedAsync()
+    {
+        await GetWardByNumber(AddEditRoomModel.WardId);
+    } 
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    public async Task GetWardByNumber(int wardId)
+    {
+        var response = await wardService.GetById(wardId);
+        AddEditRoomModel.WardNumber = response.Data.WardNumber;
+    }  
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        if (AddEditRoomModel.RoomId == 0)
+            response = await roomService.SaveAsync(AddEditRoomModel);
+        else
+            response = await roomService.UpdateAsync(AddEditRoomModel);
+
+        if (response.Succeeded)
+        {
+            if (AddEditRoomModel.RoomId == 0)
+            {
+                _snackBar.Add("New Room Saved", Severity.Success);
+                _processing = false;
+            }
+            else
+            {
+                _snackBar.Add("Room Updated", Severity.Success);
+                _processing = false;
+            }
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }     
+}

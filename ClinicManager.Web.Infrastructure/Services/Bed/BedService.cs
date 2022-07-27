@@ -12,10 +12,10 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
         {
         }
 
-        public async Task<IResult<int>> DeleteAsync(int id, int wardId)
+        public async Task<IResult<int>> DeleteAsync(int id, int roomId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.DeleteAsync(Routes.BedEndpoints.Delete(id, wardId));
+            var response = await _httpClient.DeleteAsync(Routes.BedEndpoints.Delete(id, roomId));
             return await response.ToResult<int>();
         }
 
@@ -40,10 +40,10 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             return await response.ToResult<BedDTO>();
         }
 
-        public async Task<IResult<List<BedDTO>>> GetAllBedsByWardId(int wardId)
+        public async Task<IResult<List<BedDTO>>> GetAllBedsByRoomId(int roomId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByWardId(wardId));
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByRoomId(roomId));
             return await response.ToResult<List<BedDTO>>();
         }
         public async Task<IResult<List<BedDTO>>> GetAllOccupiedBedsByWardId(int wardId)
@@ -80,17 +80,17 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             return await response.ToResult<int>();
         }
 
-        public async Task<PaginatedResult<BedDTO>> GetAllBedsByWardIdTable(int pageNumber, int pageSize, string searchString, int wardId, string[] orderBy)
+        public async Task<PaginatedResult<BedDTO>> GetAllBedsByRoomIdTable(int pageNumber, int pageSize, string searchString, int roomId, string[] orderBy)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByWardIdTable(pageNumber, pageSize, searchString, wardId, orderBy));
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByRoomIdTable(pageNumber, pageSize, searchString, roomId, orderBy));
             return await response.ToPaginatedResult<BedDTO>();
         }
 
-        public async Task<IResult<List<LookupDTO>>> BedsByWardIdLookup(int wardId)
+        public async Task<IResult<List<LookupDTO>>> BedsByRoomIdLookup(string roomNo)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.BedEndpoints.BedsByWardIdLookup(wardId));
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.BedsByRoomIdLookup(roomNo));
             return await response.ToResult<List<LookupDTO>>();
         }
 

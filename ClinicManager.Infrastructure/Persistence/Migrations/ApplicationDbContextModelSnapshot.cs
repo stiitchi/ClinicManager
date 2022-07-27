@@ -235,10 +235,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WardId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<string>("WardNumber")
+                    b.Property<string>("RoomNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -249,7 +249,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("WardId");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Beds", "dbo");
                 });
@@ -1068,6 +1068,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("ReportDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("SocialWorker")
                         .HasColumnType("bit");
@@ -2762,6 +2766,34 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("StoolChartRecords", "dbo");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.RoomAggregate.RoomEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RoomNumber")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("WardId");
+
+                    b.ToTable("Rooms", "dbo");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -2876,16 +2908,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OccupiedBeds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalBeds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnOccupiedBeds")
+                    b.Property<int>("TotalRooms")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserEntityId")
@@ -2914,17 +2937,15 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .WithMany("Beds")
                         .HasForeignKey("PatientId");
 
-                    b.HasOne("ClinicManager.Domain.Entities.WardAggregate.WardEntity", "Ward")
+                    b.HasOne("ClinicManager.Domain.Entities.RoomAggregate.RoomEntity", "Room")
                         .WithMany("Beds")
-                        .HasForeignKey("WardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Nurse");
 
                     b.Navigation("Patient");
 
-                    b.Navigation("Ward");
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.BedAggregate.PatientBedEntity", b =>
@@ -3708,6 +3729,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.RoomAggregate.RoomEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.WardAggregate.WardEntity", "Ward")
+                        .WithMany("Rooms")
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ward");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.UserRolesEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.UserAggregate.RoleEntity", "Role")
@@ -3883,6 +3915,11 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("WoundCareRecords");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.RoomAggregate.RoomEntity", b =>
+                {
+                    b.Navigation("Beds");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.UserEntity", b =>
                 {
                     b.Navigation("Beds");
@@ -3898,9 +3935,9 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.WardAggregate.WardEntity", b =>
                 {
-                    b.Navigation("Beds");
-
                     b.Navigation("Doctors");
+
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }

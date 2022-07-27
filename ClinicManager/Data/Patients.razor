@@ -103,8 +103,8 @@
                 <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
             </div>
             <MudSpacer />
-                <MudTextField Label="Search Patients" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
-                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+          @*      <MudTextField Label="Search Patients" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>*@
         </ToolBarContent>
         <HeaderContent>
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="FirstName">First Name</MudTableSortLabel></MudTh>
@@ -133,7 +133,13 @@
              <MudTd DataLabel="RefferingDoctor">
                 <MudHighlighter Text="@context.RefferingDoctor.ToString()" HighlightedText="@_searchString" />
             </MudTd> 
-            <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+             <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
+            </MudTd> 
+            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+             <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudButton>
+            </MudTd> 
+            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
              <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
             </MudTd> 
         </RowTemplate>

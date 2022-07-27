@@ -29,8 +29,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                 {
                     WardId = e.Id,
                     WardNumber = e.WardNumber,
-                    RoomNumber = e.RoomNumber,
-                    TotalBeds = e.TotalBeds
+                    TotalRooms = e.TotalRooms
                 };
 
                 var wards = await _context.Wards
