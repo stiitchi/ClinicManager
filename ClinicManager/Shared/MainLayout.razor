@@ -1,17 +1,63 @@
-﻿@using ClinicManager.Theme
+﻿@using Blazored.LocalStorage
+@using ClinicManager.Service
+@using ClinicManager.Theme
 @using MudBlazor.ThemeManager
 @inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILocalStorageService _localStorage
 
 <MudThemeProvider Theme="_themeManager.Theme"  />
 <MudDialogProvider />
 <MudSnackbarProvider />
+<AuthorizeView>
+    <NotAuthorized>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="d-flex align-center">
+                     <MudMainContent>                         
+                                  @Body     
+                    </MudMainContent>
+        </MudContainer>
+    </NotAuthorized>
 
+<Authorized>
 <MudLayout>
     <MudAppBar Color="Color.Info" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Class="mr-3" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <img src="/logo.png" width="130" height="60"> 
         <MudSpacer />
-        <MudIconButton Class="ml-3" Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+      <MudDivider Vertical="true" FlexItem="true" /> 
+              
+                    @if (string.IsNullOrEmpty(_stateService.GetUser().ImageUrl))
+                    {
+                     <MudMenu ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.BottomRight">
+                        <ActivatorContent>
+                            <MudAvatar Color="Color.Secondary">@_stateService.GetUser().FirstName.ElementAt(0)@_stateService.GetUser().LastName.ElementAt(0)</MudAvatar> 
+                       </ActivatorContent>
+                        <ChildContent>
+                            <MudMenuItem  OnClick="Account">Account</MudMenuItem>
+                             <MudMenuItem  OnClick="LogoutUser">Log Out</MudMenuItem>
+                        </ChildContent>
+                     </MudMenu>   
+                    }
+                    else
+                    {
+                      <MudMenu ActivationEvent="@MouseEvent.MouseOver" AnchorOrigin="Origin.BottomRight">
+                        <ActivatorContent>
+                     <MudAvatar Class="avatar-icon" Style="margin-left:10px;" Image="@_stateService.GetUser().ImageUrl"></MudAvatar>
+                      </ActivatorContent>
+                        <ChildContent>
+                            <MudMenuItem  OnClick="Account">Account</MudMenuItem>
+                            <MudMenuItem  OnClick="LogoutUser">Log Out</MudMenuItem>
+                        </ChildContent>
+                     </MudMenu>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown" >
+                        <MudList>
+                        <MudListItem>
+                        <MudText Style="color:black;" Typo="Typo.body2">@_stateService.GetUser().FullName</MudText>
+                        <MudText Style="color:black;" Typo="Typo.caption">@_stateService.GetActiveUserRole().Role</MudText>
+                        </MudListItem>
+                        </MudList>
+                    </MudHidden>
+                    } 
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu/>
@@ -21,13 +67,26 @@
         @Body
     </MudContainer>
     </MudMainContent>
-</MudLayout>
+    </MudLayout>
+    </Authorized>
+</AuthorizeView>
+
 @code {
     bool _drawerOpen = true;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+    public async Task LogoutUser()
+    {
+        await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOutAsync();
+        _navigationManager.NavigateTo("login");
+    }
+
+    public async Task Account()
+    {
+        _navigationManager.NavigateTo("account");
     }
 
     private ThemeManagerTheme _themeManager = new ThemeManagerTheme

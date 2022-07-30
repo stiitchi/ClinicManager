@@ -5,12 +5,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialDBCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
+
+            migrationBuilder.EnsureSchema(
+                name: "lut");
 
             migrationBuilder.CreateTable(
                 name: "Admissions",
@@ -83,6 +86,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuthNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Suburb = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -165,11 +169,11 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
+                schema: "lut",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1703,6 +1707,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "lut",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -1723,10 +1728,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    TotalBeds = table.Column<int>(type: "int", nullable: false),
-                    OccupiedBeds = table.Column<int>(type: "int", nullable: false),
-                    UnOccupiedBeds = table.Column<int>(type: "int", nullable: false),
+                    TotalRooms = table.Column<int>(type: "int", nullable: false),
                     UserEntityId = table.Column<int>(type: "int", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -1739,6 +1741,121 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BloodOxygenChartEntries",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BloodOxygenChartEntry = table.Column<double>(type: "float", nullable: false),
+                    BloodOxygenChartId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodOxygenChartEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BloodOxygenChartEntries_BloodOxygenCharts_BloodOxygenChartId",
+                        column: x => x.BloodOxygenChartId,
+                        principalSchema: "dbo",
+                        principalTable: "BloodOxygenCharts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BloodPressureChartEntries",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BloodPressureChartEntry = table.Column<double>(type: "float", nullable: false),
+                    BloodPressureChartId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodPressureChartEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BloodPressureChartEntries_BloodPressureCharts_BloodPressureChartId",
+                        column: x => x.BloodPressureChartId,
+                        principalSchema: "dbo",
+                        principalTable: "BloodPressureCharts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeartRateChartEntries",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HeartRateChartEntry = table.Column<double>(type: "float", nullable: false),
+                    HeartRateChartId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeartRateChartEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HeartRateChartEntries_HeartRateCharts_HeartRateChartId",
+                        column: x => x.HeartRateChartId,
+                        principalSchema: "dbo",
+                        principalTable: "HeartRateCharts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RespitoryRateChartEntries",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RespitoryRateChartEntry = table.Column<double>(type: "float", nullable: false),
+                    RespitoryRateChartId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RespitoryRateChartEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RespitoryRateChartEntries_RespitoryCharts_RespitoryRateChartId",
+                        column: x => x.RespitoryRateChartId,
+                        principalSchema: "dbo",
+                        principalTable: "RespitoryCharts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TemperatureChartEntries",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TemperatureChartEntry = table.Column<double>(type: "float", nullable: false),
+                    TemperatureChartId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TemperatureChartEntries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TemperatureChartEntries_TemperatureCharts_TemperatureChartId",
+                        column: x => x.TemperatureChartId,
+                        principalSchema: "dbo",
+                        principalTable: "TemperatureCharts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1806,44 +1923,6 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Beds",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BedNumber = table.Column<int>(type: "int", nullable: false),
-                    WardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WardId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: true),
-                    NurseId = table.Column<int>(type: "int", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Beds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Beds_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalSchema: "dbo",
-                        principalTable: "Patients",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Beds_Users_NurseId",
-                        column: x => x.NurseId,
-                        principalSchema: "dbo",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Beds_Wards_WardId",
-                        column: x => x.WardId,
-                        principalSchema: "dbo",
-                        principalTable: "Wards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Doctors",
                 schema: "dbo",
                 columns: table => new
@@ -1877,6 +1956,66 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rooms",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    WardId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rooms_Wards_WardId",
+                        column: x => x.WardId,
+                        principalSchema: "dbo",
+                        principalTable: "Wards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Beds",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BedNumber = table.Column<int>(type: "int", nullable: false),
+                    RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: true),
+                    NurseId = table.Column<int>(type: "int", nullable: true),
+                    RoomId = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Beds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Beds_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalSchema: "dbo",
+                        principalTable: "Patients",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Beds_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalSchema: "dbo",
+                        principalTable: "Rooms",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Beds_Users_NurseId",
+                        column: x => x.NurseId,
+                        principalSchema: "dbo",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PatientBeds",
                 schema: "dbo",
                 columns: table => new
@@ -1905,6 +2044,19 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "lut",
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "SYSTEM ADMINISTRATOR" },
+                    { 2, "ADMITTED" },
+                    { 3, "DOCTOR" },
+                    { 4, "NURSE" },
+                    { 5, "SUPER USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1980,10 +2132,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Beds_WardId",
+                name: "IX_Beds_RoomId",
                 schema: "dbo",
                 table: "Beds",
-                column: "WardId");
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BloodGlucoseRecords_Id",
@@ -1998,6 +2150,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BloodOxygenChartEntries_BloodOxygenChartId",
+                schema: "dbo",
+                table: "BloodOxygenChartEntries",
+                column: "BloodOxygenChartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BloodOxygenChartEntries_Id",
+                schema: "dbo",
+                table: "BloodOxygenChartEntries",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BloodOxygenCharts_Id",
                 schema: "dbo",
                 table: "BloodOxygenCharts",
@@ -2008,6 +2172,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo",
                 table: "BloodOxygenCharts",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BloodPressureChartEntries_BloodPressureChartId",
+                schema: "dbo",
+                table: "BloodPressureChartEntries",
+                column: "BloodPressureChartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BloodPressureChartEntries_Id",
+                schema: "dbo",
+                table: "BloodPressureChartEntries",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BloodPressureCharts_Id",
@@ -2254,6 +2430,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo",
                 table: "HealthEducationRecords",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeartRateChartEntries_HeartRateChartId",
+                schema: "dbo",
+                table: "HeartRateChartEntries",
+                column: "HeartRateChartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeartRateChartEntries_Id",
+                schema: "dbo",
+                table: "HeartRateChartEntries",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HeartRateCharts_Id",
@@ -2610,6 +2798,30 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RespitoryRateChartEntries_Id",
+                schema: "dbo",
+                table: "RespitoryRateChartEntries",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RespitoryRateChartEntries_RespitoryRateChartId",
+                schema: "dbo",
+                table: "RespitoryRateChartEntries",
+                column: "RespitoryRateChartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_Id",
+                schema: "dbo",
+                table: "Rooms",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_WardId",
+                schema: "dbo",
+                table: "Rooms",
+                column: "WardId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SelfCareRecords_Id",
                 schema: "dbo",
                 table: "SelfCareRecords",
@@ -2668,6 +2880,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo",
                 table: "SupportRecords",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemperatureChartEntries_Id",
+                schema: "dbo",
+                table: "TemperatureChartEntries",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemperatureChartEntries_TemperatureChartId",
+                schema: "dbo",
+                table: "TemperatureChartEntries",
+                column: "TemperatureChartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TemperatureCharts_Id",
@@ -2811,11 +3035,11 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "BloodOxygenCharts",
+                name: "BloodOxygenChartEntries",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "BloodPressureCharts",
+                name: "BloodPressureChartEntries",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -2887,7 +3111,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "HeartRateCharts",
+                name: "HeartRateChartEntries",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -2983,7 +3207,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "RespitoryCharts",
+                name: "RespitoryRateChartEntries",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -3007,7 +3231,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "TemperatureCharts",
+                name: "TemperatureChartEntries",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -3035,6 +3259,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "BloodOxygenCharts",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "BloodPressureCharts",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "HeartRateCharts",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "Beds",
                 schema: "dbo");
 
@@ -3047,14 +3283,27 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "RespitoryCharts",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Wards",
+                name: "TemperatureCharts",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Roles",
+                schema: "lut");
+
+            migrationBuilder.DropTable(
+                name: "Rooms",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Patients",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Wards",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

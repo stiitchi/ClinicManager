@@ -124,7 +124,7 @@ namespace ClinicManager.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-            //RunAllSeedMethods(ref modelBuilder);
+            RunAllSeedMethods(ref modelBuilder);
         }
         public void RunAllSeedMethods(ref ModelBuilder modelBuilder)
         {

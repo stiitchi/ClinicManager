@@ -4,8 +4,10 @@
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using Modals
 @using ClinicManager.Shared.DTO_s
+@using static ClinicManager.Shared.Constants.Constants
 @inject IPatientService patientService 
-@inject IBedService bedService 
+@inject IBedService bedService
+@attribute [Authorize]
 
 
     <MudGrid Class="mt-8">
@@ -14,28 +16,26 @@
                 Patients
             </MudText>
         </MudItem>
-        <MudItem xs="12" md="6" sm="6">
-@*            <MudTextField Label="Search Patient" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>*@
+        <MudItem xs="12" md="6" sm="6">       
             <MudButton Color="Color.Info" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
                        Variant="Variant.Outlined">New Patient</MudButton>
+
             <MudButton Color="Color.Warning" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
                        Variant="Variant.Outlined">Search Patient</MudButton>
         </MudItem>
-
-        
-             <MudItem xs="12" md="6" sm="6">
-                    <MudTooltip Text="Table View">
-                        <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
-                                       Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
-                    </MudTooltip>
-                    <MudTooltip Text="Grid View">
-                        <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
-                                       Icon="@Icons.Material.Filled.GridView"></MudIconButton>
-                    </MudTooltip>
-            </MudItem>
+    
+        <MudItem xs="12" md="6" sm="6">
+                <MudTooltip Text="Table View">
+                    <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                                    Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                </MudTooltip>
+                <MudTooltip Text="Grid View">
+                    <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                                    Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                </MudTooltip>
+        </MudItem>
  @*       <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
         </MudItem>
@@ -67,19 +67,31 @@
                                 </center>
                             </MudCardContent>
                             <MudCardContent>
-                                <center>
-
+                            <center>
+                            @switch(_stateService.GetActiveUserRole().Role)
+                            {
+                              case "SYSTEM ADMINISTRATOR":
+                                _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
                                     <MudTooltip Text="View Patient">
                                         <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
-                             @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
-                                    </MudTooltip>                 
-                                    <MudTooltip Text="Patient Reports">
-                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
-                            @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
-                                    </MudTooltip>
-                                    @* <MudTooltip Text="Discharge Patient">
-                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Warning" Icon="@Icons.Material.TwoTone.Home" />
-                                        </MudTooltip>*@
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
+                                    </MudTooltip>  
+                                break;
+                              case "SUPER USER":
+                                _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                                <MudTooltip Text="View Patient">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
+                                </MudTooltip>  
+                                break;
+                              default:
+                                //
+                                break;
+                            }         
+                            <MudTooltip Text="Patient Reports">
+                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                            </MudTooltip>
                                 </center>
                             </MudCardContent>
                         </MudCard>

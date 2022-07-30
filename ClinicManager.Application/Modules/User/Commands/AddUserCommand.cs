@@ -20,7 +20,7 @@ namespace ClinicManager.Application.Modules.User.Commands
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, Result<int>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IAuthenticationService _tokenGenerator;
+        private readonly IAuthenticationService _authenticationService;
 
         public AddUserCommandHandler(IApplicationDbContext context)
         {
@@ -40,9 +40,6 @@ namespace ClinicManager.Application.Modules.User.Commands
                 newUser.Id = request.UserId;
                 newUser.FullName = $"{request.Name}{request.LastName}";
                 newUser.Email = request.Email;
-
-
-                _tokenGenerator.GenerateJWTToken(newUser);
 
                 var user = new UserEntity(
                 request.Name,

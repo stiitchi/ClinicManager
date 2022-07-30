@@ -1,0 +1,102 @@
+﻿@page "/login"
+@using Blazored.FluentValidation
+@using ClinicManager.Service
+@using ClinicManager.Shared.DTO_s.Auth
+@using ClinicManager.Shared.Request
+@using ClinicManager.Web.Infrastructure.Services.Authentication
+@inject IAuthenticationService authenticationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<MudContainer Class="mt-16">
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" sm="6" md="4">
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudCardContent>        
+                <EditForm Model="@login" OnValidSubmit="SubmitAsync">
+                    <FluentValidationValidator @ref="_fluentValidationValidator" />
+                    <MudGrid>
+                        <DataAnnotationsValidator />
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField T="string" Label="Email" Variant="Variant.Text"
+                                          @bind-Value="login.Email" For="@(() => login.Email)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField Label="Password" Variant="Variant.Text"
+                                          @bind-Value="login.Password" For="@(() => login.Password)"
+                                          InputType="@_passwordInput" Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
+                        </MudItem>
+     @*                   <MudItem xs="12" Class="d-flex justify-space-between align-center">
+                            <MudCheckBox T="bool" Label="Remember me?" Color="Color.Info" Class="ml-n1"></MudCheckBox> <MudLink Href="forgot-password">Forgot password?</MudLink>
+                        </MudItem>*@
+                        <MudItem xs="12" Class="d-flex justify-center">
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Outlined" Disabled="@(!Validated)" Color="Color.Info" Size="Size.Large" Style="width: 100%;">Sign In</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code{
+
+    public TokenRequest login  { get; set; } = new();
+    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+    private bool _passwordVisibility;
+    private InputType _passwordInput = InputType.Password;
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+    public async Task SubmitAsync()
+    {
+        var response = await authenticationService.LoginAsync(login);
+        if (response.Succeeded)
+        {
+            if (response.Data.UserRoles.Count > 0)
+            {
+                var firstUserRole = response.Data.UserRoles.FirstOrDefault();
+                _stateService.SetActiveUserRole(firstUserRole);
+                await ((CustomAuthStateProvider)AuthenticationStateProvider).SetActiveUserRoleAsync(firstUserRole);
+            }
+            else
+            {
+                _stateService.SetClient();
+            }
+
+            _stateService.SetUser(response.Data.User);
+            await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsAuthAsync(response.Data.User);
+            _stateService.OnUserRoleUpdate();
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            _snackBar.Add(response.Messages.FirstOrDefault(), Severity.Error);
+        }
+
+    }
+
+    void TogglePasswordVisibility()
+    {
+        if (_passwordVisibility)
+        {
+            _passwordVisibility = false;
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
+        }
+        else
+        {
+            _passwordVisibility = true;
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
+        }
+}
+}

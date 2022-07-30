@@ -1,4 +1,5 @@
-﻿
+﻿@using static ClinicManager.Shared.Constants.Constants
+
    <MudPaper Width="250px" Class="py-3" Elevation="0">
        <MudNavMenu>
            <MudGrid>
@@ -12,8 +13,8 @@
                                     <MudAvatar  Color="Color.Info" Variant="Variant.Outlined">
                                         <MudIcon Color="Color.Info" Icon="@Icons.Outlined.Person" Size="Size.Large" />
                                     </MudAvatar>
-                                        <MudText Typo="Typo.body2">Yolandi Venter</MudText> 
-                                        <MudText Typo="Typo.caption">Super User</MudText>
+                                        <MudText Typo="Typo.body2">@_stateService.GetUser().FullName</MudText> 
+                                        <MudText Typo="Typo.caption">@_stateService.GetActiveUserRole().Role</MudText>
                                     </center>
                                 </MudItem>
                             </MudGrid>
@@ -30,46 +31,86 @@
                </MudItem>
                 <MudItem xs="12" md="12" sm="12">
                 <center>
-                    <MudButton Href="/wards" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
-                     Variant="Variant.Outlined">Wards</MudButton>
+                    <MudButton Href="/subscription" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                     Variant="Variant.Outlined">Subscription</MudButton>
                  </center>
                </MudItem>
-@*               <MudItem xs="12" md="12" sm="12">
-                <center>
-                    <MudButton Href="/admissions" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
-                     Variant="Variant.Outlined">Admissions</MudButton>
-                 </center>
-               </MudItem>*@
-               <MudItem xs="12" md="12" sm="12">
-                <center>
-                    <MudButton Href="/patients" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
-                     Variant="Variant.Outlined">Patients</MudButton>
-                 </center>
-               </MudItem>
-@*                <MudItem xs="12" md="12" sm="12">
-                <center>
+
+                @switch(_stateService.GetActiveUserRole().Role)
+                {
+                  case "SYSTEM ADMINISTRATOR":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                        <MudButton Href="/wards" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Wards</MudButton>
+                     </center>
+                   </MudItem>
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                            <MudButton Href="/patients" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Patients</MudButton>
+                        </center>
+                    </MudItem>
+                    break;
+                  case "SUPER USER":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                        <MudButton Href="/wards" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Wards</MudButton>
+                     </center>
+                   </MudItem>
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                            <MudButton Href="/patients" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Patients</MudButton>
+                        </center>
+                    </MudItem>
+                    break;
+                    case "NURSE":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                            <MudButton Href="/patients" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Patients</MudButton>
+                        </center>
+                    </MudItem>
+                    break;
+                  default:
+                    //
+                    break;
+                }
+
+                @*<MudItem xs="12" md="12" sm="12">
+                    <center>
                     <MudButton Href="/all-nurse-selector" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
-                     Variant="Variant.Outlined">Nurses</MudButton>
-                 </center>
-               </MudItem>*@
-               @* <MudItem xs="12" md="12" sm="12">
-                <center>
+                    Variant="Variant.Outlined">Nurses</MudButton>
+                    </center>
+                    </MudItem>*@
+                @* <MudItem xs="12" md="12" sm="12">
+                    <center>
                     <MudButton Href="/all-doctors" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
-                     Variant="Variant.Outlined">Doctors</MudButton>
-                 </center>
-               </MudItem>*@
+                    Variant="Variant.Outlined">Doctors</MudButton>
+                    </center>
+                    </MudItem>*@
+
+                @if (_stateService.GetActiveUserRole()?.RoleID != null && _stateService.GetActiveUserRole().Role == RoleConstants.SYSTEM_ADMINISTRATOR)
+                {
                 <MudItem xs="12" md="12" sm="12">
-                <center>
-                    <MudButton Href="/day-fees" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                    <center>
+                        <MudButton Href="/day-fees" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
                      Variant="Variant.Outlined">Day Fees</MudButton>
-                 </center>
-               </MudItem>
+                    </center>
+                </MudItem>
                 <MudItem xs="12" md="12" sm="12">
-                <center>
+                    <center>
                     <MudButton Href="/icd-codes" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
                      Variant="Variant.Outlined">ICD 10 Codes</MudButton>
                  </center>
                </MudItem>
+                }
+
            </MudGrid>
 
 

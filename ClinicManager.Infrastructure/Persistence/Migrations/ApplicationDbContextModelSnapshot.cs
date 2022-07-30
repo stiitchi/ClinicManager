@@ -2797,18 +2797,43 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", "lut");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "SYSTEM ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "SUPER USER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "NURSE"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "ADMITTED"
+                        });
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.UserEntity", b =>

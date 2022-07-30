@@ -5,9 +5,11 @@
 @using ClinicManager.Web.Infrastructure.Services.Bed
 @using ClinicManager.Web.Infrastructure.Services.Patient
 @using ClinicManager.Shared.DTO_s
+@using static ClinicManager.Shared.Constants.Constants
 @inject IWardService wardService 
 @inject IPatientService patientService 
 @inject IBedService bedService 
+@attribute [Authorize]
 
 <MudGrid>
    @* <MudItem md="6" sm="6">
@@ -113,9 +115,24 @@
             <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
              <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px"  @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{context.Id}"))">View Records</MudButton>
             </MudTd> 
-            <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
-            </MudTd> 
+            @switch(_stateService.GetActiveUserRole().Role)
+                {
+                    case "SYSTEM ADMINISTRATOR":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                    <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+                    </MudTd> 
+                    break;
+                    case "SUPER USER":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                    <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+                    </MudTd>  
+                    break;
+                    default:
+                    //
+                    break;
+                }  
         </RowTemplate>
         <PagerContent>
             <MudTablePager RowsPerPageString="Rows" />

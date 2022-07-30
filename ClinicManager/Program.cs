@@ -1,4 +1,7 @@
+using Blazored.LocalStorage;
+using ClinicManager.Service;
 using ClinicManager.Web.Infrastructure.Services.Admission;
+using ClinicManager.Web.Infrastructure.Services.Authentication;
 using ClinicManager.Web.Infrastructure.Services.Bed;
 using ClinicManager.Web.Infrastructure.Services.Chart;
 using ClinicManager.Web.Infrastructure.Services.DayFees;
@@ -10,6 +13,8 @@ using ClinicManager.Web.Infrastructure.Services.PatientRecords;
 using ClinicManager.Web.Infrastructure.Services.Room;
 using ClinicManager.Web.Infrastructure.Services.State;
 using ClinicManager.Web.Infrastructure.Services.Ward;
+
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor.Services;
 using System.Globalization;
 
@@ -20,8 +25,10 @@ var config = builder.Configuration;
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor().AddHubOptions(config => config.MaximumReceiveMessageSize = 1048576);
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices();
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddScoped<IStateService, StateService>();
 builder.Services.AddScoped<IAdmissionService, AdmissionService>();
 builder.Services.AddScoped<IBedService, BedService>();
@@ -29,6 +36,7 @@ builder.Services.AddScoped<IDayFeesService, DayFeesService>();
 builder.Services.AddScoped<IICDCodeService, ICDCodeService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<INurseService, NurseService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IChartService, ChartService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
