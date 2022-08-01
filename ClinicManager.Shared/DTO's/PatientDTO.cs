@@ -60,6 +60,7 @@ namespace ClinicManager.Shared.DTO_s
         public string DependentCode { get; set; }
         public string AuthNo { get; set; }
         public string RoomNo { get; set; }
+        public bool IsAdmitted { get; set; }
 
         public string MainMedicalAidMemberFirstName { get; set; }
         public string MainMedicalAidMemberLastName { get; set; }

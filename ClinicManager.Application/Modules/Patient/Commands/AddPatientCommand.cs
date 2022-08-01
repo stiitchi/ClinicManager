@@ -85,6 +85,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         public string MainMedicalAidBusinessPostalCode{ get; set; }
         public long MainMedicalAidMemberIdNumber { get; set; }
 
+        public bool IsAdmitted { get; set; }
         public bool OT { get; set; }
         public bool Speech { get; set; }
         public bool Psych { get; set; }
@@ -188,6 +189,8 @@ namespace ClinicManager.Application.Modules.Patient.Commands
                 request.MainMedicalAidMemberBusinessProvince,
                 request.MainMedicalAidBusinessPostalCode
                 );
+
+                patient.AdmitPatient();
 
                 var patientName = $"{request.Title} {request.FirstName} {request.LastName}";
 

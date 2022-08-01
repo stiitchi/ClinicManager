@@ -36,9 +36,9 @@ namespace ClinicManager.Application.Modules.User.Commands
                         .ThenInclude(r => r.Role)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.Email.ToLower() == request.Email.ToLower(), cancellationToken);
+
                 if (user == null)
                     throw new ApiException("Invalid email or password");
-
                 if (user.PasswordHash == null && user.PasswordSalt == null)
                     throw new ApiException("Email not activated.");
                 var validPassword = _authenticationService.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt);
@@ -61,6 +61,8 @@ namespace ClinicManager.Application.Modules.User.Commands
                     MobileNo = user.MobileNo
                 };
                 response.Token = _authenticationService.GenerateJWTToken(userModel);
+
+                user.SetAsLoggedIn();
 
                 foreach (var userRole in user.UserRoles)
                 {

@@ -13,6 +13,8 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
 
         Task<IResult<int>> SaveAsync(PatientDTO request);
 
+        Task<IResult<int>> DischargePatient(int patientId);
+
         Task<IResult<List<LookupDTO>>> GetForLookUp();
 
         Task<IResult<int>> UpdateAsync(PatientDTO request);

@@ -54,6 +54,16 @@ namespace ClinicManager.Domain.Entities.UserAggregate
             _userRoles.Add(userRolesEntity);
         }
 
+        public void SetAsLoggedIn()
+        {
+            _isLoggedIn = true;
+        }
+
+        public void SetAsLoggedOut()
+        {
+            _isLoggedIn = false;
+        }
+
         public void SetRole(string role)
         {
             _role = role;
@@ -83,6 +93,9 @@ namespace ClinicManager.Domain.Entities.UserAggregate
             _nurseId = nurseId;
             _patientId = patientId;
         }
+
+        private bool _isLoggedIn;
+        public bool IsLoggedIn => _isLoggedIn;
 
         private int _patientId;
         public int PatientId => _patientId;

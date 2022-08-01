@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialDBCommit : Migration
+    public partial class InitialCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -160,6 +160,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     SocialWorker = table.Column<bool>(type: "bit", nullable: false),
                     Physio = table.Column<bool>(type: "bit", nullable: false),
                     Ot = table.Column<bool>(type: "bit", nullable: false),
+                    IsAdmitted = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -181,12 +182,42 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AmountOfNurses = table.Column<int>(type: "int", nullable: false),
+                    OverallTotal = table.Column<int>(type: "int", nullable: false),
+                    StoragePlan = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    MobileNo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ClinicName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    RepFirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    RepLastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ClinicAddress = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DateScheduled = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsChecked = table.Column<bool>(type: "bit", nullable: false),
+                    IsScheduled = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsLoggedIn = table.Column<bool>(type: "bit", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     MobileNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -1569,6 +1600,30 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubscriptionCart",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CartEntryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    SubscriptionId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubscriptionCart", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubscriptionCart_Subscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
+                        principalSchema: "dbo",
+                        principalTable: "Subscriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DayFees",
                 schema: "dbo",
                 columns: table => new
@@ -2870,6 +2925,24 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SubscriptionCart_Id",
+                schema: "dbo",
+                table: "SubscriptionCart",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubscriptionCart_SubscriptionId",
+                schema: "dbo",
+                table: "SubscriptionCart",
+                column: "SubscriptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscriptions_Id",
+                schema: "dbo",
+                table: "Subscriptions",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SupportRecords_Id",
                 schema: "dbo",
                 table: "SupportRecords",
@@ -3227,6 +3300,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "SubscriptionCart",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "SupportRecords",
                 schema: "dbo");
 
@@ -3284,6 +3361,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "RespitoryCharts",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

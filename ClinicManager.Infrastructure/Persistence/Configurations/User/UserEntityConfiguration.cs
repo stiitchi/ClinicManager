@@ -21,8 +21,7 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.User
             conf.Property(c => c.PasswordResetTokenExpiry).IsRequired(false);
             conf.Property(c => c.ActivationToken).IsRequired(false);
             conf.Property(c => c.EmailConfirmed);
-
-
+            conf.Property(c => c.IsLoggedIn);
 
             conf.HasIndex(c => c.Id);
             conf.HasIndex(c => c.Email);

@@ -1,8 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using ClinicManager.Shared.Constants;
 using ClinicManager.Shared.DTO_s;
+using ClinicManager.Shared.DTO_s.Auth;
 using ClinicManager.Web.Infrastructure.Services.State;
 using Microsoft.AspNetCore.Components.Authorization;
+using ClinicManager.Web.Infrastructure.Services.Authentication;
 using System.Security.Claims;
 
 namespace ClinicManager.Service
@@ -11,24 +13,26 @@ namespace ClinicManager.Service
     {
         private ILocalStorageService _localStorage;
         private IStateService _stateService;
+        private IAuthenticationService _authenticationService;
 
-        public CustomAuthStateProvider(ILocalStorageService localStorageService, IStateService stateService)
+        public CustomAuthStateProvider(ILocalStorageService localStorageService, IStateService stateService, IAuthenticationService authenticationService)
         {
-            _localStorage = localStorageService;
-            _stateService = stateService;
+            _localStorage          = localStorageService;
+            _stateService          = stateService;
+            _authenticationService = authenticationService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var email = await _localStorage.GetItemAsync<string>(Constants.Local.Email);
-            var userId = await _localStorage.GetItemAsync<string>(Constants.Local.UserId);
-            var firstName = await _localStorage.GetItemAsync<string>(Constants.Local.FirstName);
-            var lastName = await _localStorage.GetItemAsync<string>(Constants.Local.LastName);
-            var roleId = await _localStorage.GetItemAsync<string>(Constants.Local.ActiveRoleId);
-            var role = await _localStorage.GetItemAsync<string>(Constants.Local.ActiveRole);
+            var email           = await _localStorage.GetItemAsync<string>(Constants.Local.Email);
+            var userId          = await _localStorage.GetItemAsync<string>(Constants.Local.UserId);
+            var firstName       = await _localStorage.GetItemAsync<string>(Constants.Local.FirstName);
+            var lastName        = await _localStorage.GetItemAsync<string>(Constants.Local.LastName);
+            var roleId          = await _localStorage.GetItemAsync<string>(Constants.Local.ActiveRoleId);
+            var role            = await _localStorage.GetItemAsync<string>(Constants.Local.ActiveRole);
             var roleDisplayName = await _localStorage.GetItemAsync<string>(Constants.Local.ActiveRoleDisplayName);
-            var profilePicture = await _localStorage.GetItemAsync<string>(Constants.Local.ProfilePicture);
-            var identity = new ClaimsIdentity("apiauth_type");
+            var profilePicture  = await _localStorage.GetItemAsync<string>(Constants.Local.ProfilePicture);
+            var identity        = new ClaimsIdentity("apiauth_type");
 
             if (string.IsNullOrEmpty(email))
                 identity = new ClaimsIdentity();
@@ -93,6 +97,13 @@ namespace ClinicManager.Service
 
         public async Task MarkUserAsLoggedOutAsync()
         {
+
+            //LogoutDTO logout = new();
+
+            //var userId = await _localStorage.GetItemAsStringAsync(Constants.Local.UserId, null);
+
+            //var response = _authenticationService.LogoutAsync(logout);
+
             await _localStorage.RemoveItemAsync(Constants.Local.Email);
             await _localStorage.RemoveItemAsync(Constants.Local.UserId);
             await _localStorage.RemoveItemAsync(Constants.Local.FirstName);
@@ -101,6 +112,7 @@ namespace ClinicManager.Service
             await _localStorage.RemoveItemAsync(Constants.Local.ActiveRoleId);
             await _localStorage.RemoveItemAsync(Constants.Local.ActiveRole);
             await _localStorage.RemoveItemAsync(Constants.Local.ActiveRoleDisplayName);
+
             var identity = new ClaimsIdentity();
             var user = new ClaimsPrincipal(identity);
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));

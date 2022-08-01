@@ -572,9 +572,17 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         private bool _ot;
         public bool Ot => _ot;
 
-        private bool isActive;
-        public bool IsActive => isActive;
+        private bool _isAdmitted;
+        public bool IsAdmitted => _isAdmitted;
 
+        public void AdmitPatient()
+        {
+            _isAdmitted = true;
+        }
+        public void DischargePatient()
+        {
+            _isAdmitted = false;
+        }
         private readonly List<BloodOxygenChartEntity> _bloodOxygenCharts = new();
         public virtual IReadOnlyCollection<BloodOxygenChartEntity> BloodOxygenCharts => _bloodOxygenCharts;
 

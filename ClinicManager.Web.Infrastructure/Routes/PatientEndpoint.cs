@@ -13,7 +13,11 @@ namespace ClinicManager.Web.Infrastructure.Routes
         {
             return $"api/Patient/{id}";
         }
-
+        public static string DischargePatient(int patientId)
+        {
+            return $"api/Patient/DischargePatient?patientId={patientId}";
+        }
+        
         public static string GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy)
         {
             var url = $"api/Patient/GetAllPatientsTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&orderBy=";
@@ -27,6 +31,7 @@ namespace ClinicManager.Web.Infrastructure.Routes
             }
             return url;
         }
+
         public static string GetPatientByIDNumber(long patientId)
         {
             return $"api/Patient/GetPatientByIDNumber?patientId={patientId}";

@@ -1,10 +1,13 @@
 ﻿@using Blazored.LocalStorage
 @using ClinicManager.Service
+@using ClinicManager.Shared.DTO_s.Auth
 @using ClinicManager.Theme
+@using ClinicManager.Web.Infrastructure.Services.Authentication
 @using MudBlazor.ThemeManager
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ILocalStorageService _localStorage
+@inject IAuthenticationService authenticationService
 
 <MudThemeProvider Theme="_themeManager.Theme"  />
 <MudDialogProvider />
@@ -80,7 +83,7 @@
     }
     public async Task LogoutUser()
     {
-        await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOutAsync();
+        await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOutAsync();     
         _navigationManager.NavigateTo("login");
     }
 

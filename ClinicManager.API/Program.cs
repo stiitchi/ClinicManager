@@ -1,9 +1,12 @@
 using ClinicManager.API;
 using ClinicManager.Application;
 using ClinicManager.Application.Helpers;
+using ClinicManager.Application.Interfaces.Services;
 using ClinicManager.Domain.Entities.UserAggregate;
 using ClinicManager.Infrastructure;
 using ClinicManager.Infrastructure.Persistence;
+using ClinicManager.Infrastructure.Persistence.Services;
+using ClinicManager.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -14,6 +17,8 @@ builder.Services.AddInfrastructure(config);
 builder.Services.AddApplication();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.Configure<SendGridSettings>(config.GetSection("EmailSettings"));
+builder.Services.AddTransient<ISendGridService, SendGridService>();
 builder.Services.AddSwaggerGen(c=>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClinicManager.API", Version = "v1" });

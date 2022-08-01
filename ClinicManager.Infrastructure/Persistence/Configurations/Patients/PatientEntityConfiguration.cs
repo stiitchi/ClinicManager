@@ -61,7 +61,7 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Patients
             conf.Property(c => c.WoundLocation).IsRequired();
             conf.Property(c => c.WoundStage).IsRequired();
             conf.Property(c => c.Ot).IsRequired();
-            conf.Property(c => c.IsActive).IsRequired();
+            conf.Property(c => c.IsAdmitted).IsRequired();
             conf.Property(c => c.SpeechLanguage).IsRequired();
             conf.Property(c => c.Psychologist).IsRequired();
             conf.Property(c => c.SocialWorker).IsRequired();

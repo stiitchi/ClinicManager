@@ -1,0 +1,68 @@
+﻿@using ClinicManager.Shared.DTO_s
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+           Request # <MudText Color="Color.Secondary" Typo="Typo.h6">@Subscription.ReferenceNo</MudText>
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudCard Elevation="0" Style="width:400px">
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudText Class="mt-1" Typo="Typo.h5">@Subscription.ClinicName</MudText>
+                    <MudText Class="mt-3" Typo="Typo.body2">@Subscription.StoragePlan</MudText>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Color="Color.Secondary" Class="mt-4"Typo="Typo.body1">R @Subscription.PricePerNurse / per Nurse</MudText>
+                    <MudText Color="Color.Info" Class="mt-2" Typo="Typo.body1">Nurses: @Subscription.AmountOfNurses</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <center>
+                    <MudCard Elevation="0">
+                    <MudText Color="Color.Info" Typo="Typo.h6">Contact Details</MudText>
+                    <MudText>@Subscription.Email</MudText>
+                    <MudText>@Subscription.MobileNo</MudText>
+                    <MudText>@Subscription.repFirstName @Subscription.repLastName</MudText>
+                    </MudCard>
+                    <MudCard Class="mt-3" Elevation="0">
+                    <MudText Color="Color.Info" Typo="Typo.h6">Address</MudText>
+                    <MudText>@Subscription.ClinicAddress</MudText>
+                    <MudText>@Subscription.City</MudText>
+                    <MudText>@Subscription.Province</MudText>
+                    <MudText>@Subscription.PostalCode</MudText>
+                    </MudCard>
+
+                </center>
+            </MudCardContent>
+            <MudCardActions>
+                    <MudGrid>
+                        <MudItem md="6" sm="6">
+                            <MudText Class="ml-3" Typo="Typo.h6">Total</MudText>
+                        </MudItem>
+                        <MudItem md="6" sm="6">
+                            <MudText Typo="Typo.h6">R @Subscription.Amount</MudText>
+                        </MudItem>
+                    </MudGrid>
+            </MudCardActions>
+            </MudCard>
+        </MudGrid>
+   
+    </DialogContent>
+    <DialogActions>
+        <MudButton Class="mt-2" OnClick="Cancel">Cancel</MudButton>
+        @*<MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit">Confirm</MudButton>*@
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public SubscriptionDTO Subscription { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}

@@ -448,17 +448,18 @@
     private bool isStageSelected = true;
     private bool isMedMemberPostalCodeSelected = true;
     private bool isCitySelected = true;
-    
+
 
     protected async override Task OnInitializedAsync()
     {
         if(AddEditPatientModel.CaseInformationNumber == 0 && AddEditPatientModel.AccountNo == 0)
         {
-        Random rnd = new Random();
-        int accountNo = rnd.Next();
-        int caseInformationNo = rnd.Next();       
-        AddEditPatientModel.CaseInformationNumber = caseInformationNo;
-        AddEditPatientModel.AccountNo = accountNo;
+            Random rnd = new Random();
+            int accountNo = rnd.Next();
+            int caseInformationNo = rnd.Next();       
+            AddEditPatientModel.CaseInformationNumber = caseInformationNo;
+            AddEditPatientModel.AccountNo = accountNo;
+            AddEditPatientModel.IsAdmitted = true;
         }
         await GetForLookup();
     }

@@ -19,6 +19,13 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
             return await response.ToResult<int>();
         }
 
+        public async Task<IResult<int>> DischargePatient(int patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientEndpoint.DischargePatient(patientId));
+            return await response.ToResult<int>();
+        }
+
         public async Task<IResult<List<PatientDTO>>> GetAll()
         {
             await ConfigureHeaders();

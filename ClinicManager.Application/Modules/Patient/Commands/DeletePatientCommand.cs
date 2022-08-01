@@ -23,6 +23,7 @@ namespace ClinicManager.Application.Modules.Patient.Commands
         {
 
             var patient = await _context.Patients.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+            patient.DischargePatient();
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(patient.Id);

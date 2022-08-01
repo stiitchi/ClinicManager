@@ -1,6 +1,8 @@
 ﻿using ClinicManager.Application.Interfaces.Services;
+using ClinicManager.Application.Modules.Subscription.Commands;
 using ClinicManager.Application.Modules.User.Commands;
 using ClinicManager.Shared.DTO_s;
+using ClinicManager.Shared.DTO_s.Auth;
 using ClinicManager.Shared.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +47,25 @@ namespace ClinicManager.API.Controllers
             }
         }
 
+
+        [HttpPost("GenerateQuotePDF")]
+        public async Task<IActionResult> GenerateQuotePDF(SubscriptionDTO subscription)
+        {
+            try
+            {
+                var result = await _mediator.Send(new GenerateQuotePDFCommand
+                {
+                    _subscription = subscription,
+                }); ;
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(TokenRequest dtoUser)
         {
@@ -52,6 +73,15 @@ namespace ClinicManager.API.Controllers
             {
                 Email = dtoUser.Email,
                 Password = dtoUser.Password
+            }));
+        }
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout(LogoutDTO logout)
+        {
+            return Ok(await _mediator.Send(new LogoutCommand()
+            {
+               UserId = logout.UserId
             }));
         }
     }

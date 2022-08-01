@@ -1,4 +1,5 @@
 ﻿@page "/patients"
+@using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Web.Infrastructure.Services.Patient
 @using ClinicManager.Web.Infrastructure.Services.Bed
@@ -146,14 +147,20 @@
                 <MudHighlighter Text="@context.RefferingDoctor.ToString()" HighlightedText="@_searchString" />
             </MudTd> 
             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
+             <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
             </MudTd> 
             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudButton>
+             <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudButton>
             </MudTd> 
             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+             <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
             </MudTd> 
+            @if(@context.IsAdmitted == true)
+            {
+             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+             <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
+            </MudTd> 
+            }
         </RowTemplate>
         <PagerContent>
             <MudTablePager RowsPerPageString="Rows" />
@@ -171,7 +178,7 @@
     private PatientDTO patient = new();
     public bool isTableView = true;
     private string _searchString = "";
-     private MudTable<PatientDTO> _table;
+    private MudTable<PatientDTO> _table;
     private int _totalItems;
     private int _currentPage;
     private TableState _state;
@@ -194,6 +201,34 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<SearchPatientIDNumber>("Search Patient", parameters, options);
     }
+
+        private async Task DischargePatient(int patientId)
+        {
+            string dischargePatient = $"Discharge {_patients.FirstOrDefault(c => c.Id == patientId).FirstName}";
+            var parameters = new DialogParameters
+            {
+                {nameof(PatientDischargeConfirmation.ContentText), string.Format(dischargePatient, patientId)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<PatientDischargeConfirmation>("Discharge", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await patientService.DischargePatient(patientId);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Patient Discharged", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
 
     private async Task InvokeModal(int id = 0)
     {

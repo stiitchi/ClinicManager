@@ -12,6 +12,7 @@ using ClinicManager.Web.Infrastructure.Services.Patient;
 using ClinicManager.Web.Infrastructure.Services.PatientRecords;
 using ClinicManager.Web.Infrastructure.Services.Room;
 using ClinicManager.Web.Infrastructure.Services.State;
+using ClinicManager.Web.Infrastructure.Services.Subscription;
 using ClinicManager.Web.Infrastructure.Services.Ward;
 
 using Microsoft.AspNetCore.Components.Authorization;
@@ -42,6 +43,7 @@ builder.Services.AddScoped<IChartService, ChartService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IPatientRecordService, PatientRecordService>();
 builder.Services.AddScoped<IWardService, WardService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped(sp => sp
              .GetRequiredService<IHttpClientFactory>()
              .CreateClient(ClientName))

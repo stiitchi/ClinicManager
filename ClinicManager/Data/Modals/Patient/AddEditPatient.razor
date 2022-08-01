@@ -472,6 +472,7 @@
         int caseInformationNo = rnd.Next();       
         AddEditPatientModel.CaseInformationNumber = caseInformationNo;
         AddEditPatientModel.AccountNo = accountNo;
+        AddEditPatientModel.IsAdmitted = true;
         }
         await GetForLookup();
     

@@ -26,6 +26,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.SkinIntegrity;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts;
 using ClinicManager.Domain.Entities.RoomAggregate;
+using ClinicManager.Domain.Entities.SubscriptionAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
 using ClinicManager.Infrastructure.Persistence.SeedMethods;
@@ -54,6 +55,8 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<PatientICDCodeEntity> PatientICDCodes { get; set; }
         public DbSet<PatientDayFeesEntity> PatientDayFees { get; set; }
         public DbSet<RoomEntity> Rooms { get; set; }
+        public DbSet<SubscriptionEntity> Subscriptions { get; set; }
+        public DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
 
         //Patient Records
         public DbSet<IVEntity> CareplanIVTest { get; set; }

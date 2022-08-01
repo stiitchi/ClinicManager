@@ -31,7 +31,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     Id = e.Id,
                     Name = e.FirstName,
                     Prop1 = e.LastName,
-                    Prop2 = e.MobileNo,
+                    Prop2 = e.IsLoggedIn.ToString(),
                     Prop3 = e.Role
                 };
 

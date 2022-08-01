@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220730075915_InitialDBCommit")]
-    partial class InitialDBCommit
+    [Migration("20220730193608_InitialCommit")]
+    partial class InitialCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -889,6 +889,9 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsAdmitted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Language")
@@ -2796,6 +2799,119 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("Rooms", "dbo");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.SubscriptionAggregate.SubscriptionCartEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CartEntryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SubscriptionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("SubscriptionId");
+
+                    b.ToTable("SubscriptionCart", "dbo");
+                });
+
+            modelBuilder.Entity("ClinicManager.Domain.Entities.SubscriptionAggregate.SubscriptionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AmountOfNurses")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClinicAddress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClinicName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("DateScheduled")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsScheduled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MobileNo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("OverallTotal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("RepFirstName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("RepLastName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("StoragePlan")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("Subscriptions", "dbo");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -2863,6 +2979,9 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsLoggedIn")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -3767,6 +3886,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Ward");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.SubscriptionAggregate.SubscriptionCartEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.SubscriptionAggregate.SubscriptionEntity", "Subscription")
+                        .WithMany("SubscriptionCarts")
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subscription");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.UserRolesEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.UserAggregate.RoleEntity", "Role")
@@ -3945,6 +4075,11 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("ClinicManager.Domain.Entities.RoomAggregate.RoomEntity", b =>
                 {
                     b.Navigation("Beds");
+                });
+
+            modelBuilder.Entity("ClinicManager.Domain.Entities.SubscriptionAggregate.SubscriptionEntity", b =>
+                {
+                    b.Navigation("SubscriptionCarts");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.UserAggregate.UserEntity", b =>

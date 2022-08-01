@@ -24,6 +24,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.SkinIntegrity;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts;
 using ClinicManager.Domain.Entities.RoomAggregate;
+using ClinicManager.Domain.Entities.SubscriptionAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,8 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<PatientEntity> Patients { get; set; }
         DbSet<PatientBedEntity> PatientBeds { get; set; }
         DbSet<RoomEntity> Rooms { get; set; }
+        DbSet<SubscriptionEntity> Subscriptions { get; set; }
+        DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
 
         //Reports
 

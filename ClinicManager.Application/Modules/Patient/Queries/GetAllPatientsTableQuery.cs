@@ -119,7 +119,8 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     WorkAddressCity = e.WorkAddressCity,
                     WorkAddressCode = e.WorkAddressPostalCode,
                     WorkAddressProvince = e.WorkAddressProvince,
-                    WoundLocation = e.WoundLocation
+                    WoundLocation = e.WoundLocation,
+                    IsAdmitted = e.IsAdmitted
                 };
 
                 IQueryable<PatientEntity> query = _context.Patients;

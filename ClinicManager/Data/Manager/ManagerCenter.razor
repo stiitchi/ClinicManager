@@ -1,0 +1,345 @@
+﻿@page "/manager-center"
+@using ClinicManager.Data.Modals.Misc
+@using ClinicManager.Data.Modals.Patient
+@using ClinicManager.Web.Infrastructure.Services.Subscription
+@using Modals
+@using ClinicManager.Shared.DTO_s
+@inject ISubscriptionService subscriptionService 
+@attribute [Authorize]
+
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                Manager Center
+            </MudText>
+        </MudItem>
+
+<MudTabs>
+<MudTabPanel Icon="@Icons.Outlined.FiberNew" Text="New Requests">
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_subscriptions"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<SubscriptionDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<SubscriptionDTO, bool>(Search)" @ref="_table">
+        <ToolBarContent>
+    <div class="justify-center mud-text-align-center">
+        <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+    </div>
+    <MudSpacer />
+        <MudTextField Label="Search Subscriptions" @bind-Value="Subscription" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="Id">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="ClinicName">Clinic Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="AmountOfNurses">Amount Of Nurses</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="StoragePlan">Storage Plan</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="Email">Email</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="MobileNo">Mobile Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repFirstName">Representative Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repLastName">Representative Surname</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">
+            <MudHighlighter Text="@context.Id.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="ClinicName">
+            <MudHighlighter Text="@context.ClinicName" HighlightedText="@_searchString" />
+        </MudTd>
+        <MudTd DataLabel="AmountOfNurses">
+            <MudHighlighter Text="@context.AmountOfNurses.ToString()" HighlightedText="@_searchString" />
+        </MudTd>
+            <MudTd DataLabel="StoragePlan">
+            <MudHighlighter Text="@context.StoragePlan" HighlightedText="@_searchString" />
+        </MudTd>  
+        <MudTd DataLabel="Email">
+            <MudHighlighter Text="@context.Email" HighlightedText="@_searchString" />
+        </MudTd> 
+            <MudTd DataLabel="MobileNo">
+            <MudHighlighter Text="@context.MobileNo" HighlightedText="@_searchString" />
+        </MudTd>  
+            <MudTd DataLabel="repFirstName">
+            <MudHighlighter Text="@context.repFirstName" HighlightedText="@_searchString" />
+        </MudTd>  
+            <MudTd DataLabel="repLastName">
+            <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
+        </MudTd>  
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+            <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => OpenRequest(@context.Id))">View</MudButton>
+        </MudTd>
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+            <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.Id))">Delete</MudButton>
+        </MudTd>
+    </RowTemplate>
+<PagerContent>
+    <MudTablePager RowsPerPageString="Rows" />
+</PagerContent>
+</MudTable>
+        
+
+</MudTabPanel>
+<MudTabPanel Icon="@Icons.Outlined.Checklist" Text="Checked Requests">
+    <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_checkedSubscriptions"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<SubscriptionDTO>>>(ServerReloadCheckedSubscriptions))" Dense="true" Bordered="false" Striped="true" Filter="new Func<SubscriptionDTO, bool>(Search)" @ref="_table">
+            <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+                <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+            </div>
+            <MudSpacer />
+                <MudTextField Label="Search Subscriptions" @bind-Value="Subscription" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="Id">Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="ClinicName">Clinic Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="AmountOfNurses">Amount Of Nurses</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="StoragePlan">Storage Plan</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="Email">Email</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="MobileNo">Mobile Number</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repFirstName">Representative Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repLastName">Representative Surname</MudTableSortLabel></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">
+                    <MudHighlighter Text="@context.Id.ToString()" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="ClinicName">
+                    <MudHighlighter Text="@context.ClinicName" HighlightedText="@_searchString" />
+                </MudTd>
+                <MudTd DataLabel="AmountOfNurses">
+                    <MudHighlighter Text="@context.AmountOfNurses.ToString()" HighlightedText="@_searchString" />
+                </MudTd>
+                 <MudTd DataLabel="StoragePlan">
+                    <MudHighlighter Text="@context.StoragePlan" HighlightedText="@_searchString" />
+                </MudTd>  
+                <MudTd DataLabel="Email">
+                    <MudHighlighter Text="@context.Email" HighlightedText="@_searchString" />
+                </MudTd> 
+                 <MudTd DataLabel="MobileNo">
+                    <MudHighlighter Text="@context.MobileNo" HighlightedText="@_searchString" />
+                </MudTd>  
+                 <MudTd DataLabel="repFirstName">
+                    <MudHighlighter Text="@context.repFirstName" HighlightedText="@_searchString" />
+                </MudTd>  
+                 <MudTd DataLabel="repLastName">
+                    <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
+                </MudTd>   
+                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                 <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => OpenRequest(@context.Id))">View</MudButton>
+               </MudTd>
+               <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                 <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.Id))">Delete</MudButton>
+               </MudTd>
+            </RowTemplate>
+        <PagerContent>
+            <MudTablePager RowsPerPageString="Rows" />
+        </PagerContent>
+        </MudTable>
+</MudTabPanel>
+<MudTabPanel Icon="@Icons.Outlined.CalendarMonth"  Text="Scheduled Requests">
+
+</MudTabPanel>
+</MudTabs>
+</MudGrid>
+       
+
+@code{
+    public string Subscription;
+    private List<SubscriptionDTO> _subscriptions = new();
+    private List<SubscriptionDTO> _checkedSubscriptions = new();
+    private SubscriptionDTO subscription = new();
+    private MudTable<SubscriptionDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
+    private string _searchString = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllSubscriptions();
+    }
+
+    private async Task OpenRequest(int subscriptionId)
+    {
+        var response = await subscriptionService.GetById(subscriptionId);
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ViewRequestModal.Subscription), new SubscriptionDTO
+        {
+            Id              = response.Data.Id,
+            Email           = response.Data.Email,
+            MobileNo        = response.Data.MobileNo,
+            ClinicAddress   = response.Data.ClinicAddress,
+            Amount          = response.Data.Amount,
+            AmountOfNurses  = response.Data.AmountOfNurses,
+            ClinicName      = response.Data.ClinicName,
+            City            = response.Data.City,
+            PostalCode      = response.Data.PostalCode,
+            PricePerNurse   = response.Data.PricePerNurse,
+            Province        = response.Data.Province,
+            ReferenceNo     = response.Data.ReferenceNo,
+            repFirstName    = response.Data.repFirstName,
+            repLastName     = response.Data.repLastName,
+            StoragePlan     = response.Data.StoragePlan
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+
+        _dialogService.Show<ViewRequestModal>("View Request", parameters, options);
+    }
+    public async Task GetAllSubscriptions()
+    {
+        var subscriptions = await subscriptionService.GetAll();
+        if (subscriptions.Succeeded)
+        {
+            _subscriptions = subscriptions.Data;
+        }
+    }
+
+    private bool Search(SubscriptionDTO subscription) => FilterFunc(subscription, _searchString);
+
+    private bool FilterFunc(SubscriptionDTO subscription, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (subscription.Email.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (subscription.ClinicName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (subscription.ClinicName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (subscription.MobileNo.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+     private async Task GetSubscriptionsAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await subscriptionService.GetAllSubscriptionsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _subscriptions = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }
+
+        private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
+
+        private async Task<TableData<SubscriptionDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetSubscriptionsAsync(state);
+            return new TableData<SubscriptionDTO> { TotalItems = _totalItems, Items = _subscriptions };
+        }
+        //Checked Tables
+        private async Task GetCheckedSubscriptionsAsync(TableState state)
+        {
+            string[] orderings = null;
+            if (!string.IsNullOrEmpty(state.SortLabel))
+            {
+                orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+            }
+
+            var response = await subscriptionService.GetAllCheckedSubscriptionsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+            if (response.Succeeded)
+            {
+                _totalItems = response.TotalCount;
+                _currentPage = response.CurrentPage;
+                _checkedSubscriptions = response.Data;
+            }
+            else
+            {
+                foreach (var message in response.Messages)
+                {
+                    _snackBar.Add(message, Severity.Error);
+                }
+            }
+        }
+        private async Task<TableData<SubscriptionDTO>> ServerReloadCheckedSubscriptions(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetCheckedSubscriptionsAsync(state);
+            return new TableData<SubscriptionDTO> { TotalItems = _totalItems, Items = _checkedSubscriptions };
+        }
+
+         private bool SearchChecked(SubscriptionDTO subscription) => FilterCheckedFunc(subscription, _searchString);
+
+         private bool FilterCheckedFunc(SubscriptionDTO subscription, string searchString)
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (subscription.Email.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            if (subscription.ClinicName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            if (subscription.ClinicName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            if (subscription.MobileNo.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return true;
+            }
+            return false;
+    }
+
+
+        private async Task Delete(int id)
+        {
+            string deleteContent = $"Delete Subscription {_subscriptions.FirstOrDefault(c => c.Id == id).ClinicName}";
+            var parameters = new DialogParameters
+            {
+                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await subscriptionService.DeleteAsync(id);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Subscription Deleted", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+}

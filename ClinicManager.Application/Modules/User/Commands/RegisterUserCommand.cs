@@ -70,7 +70,7 @@ namespace ClinicManager.Application.Modules.User.Commands
                     Email = request.Email,
                 };
 
-                //var result = await _mediator.Send(new RegisterClientEmailCommand(emailDto));
+                var result = await _mediator.Send(new RegisterClientEmailCommand(emailDto));
 
                 return await Result<int>.SuccessAsync(user.Id);
             }
