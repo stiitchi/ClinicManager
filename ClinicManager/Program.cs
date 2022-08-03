@@ -6,7 +6,9 @@ using ClinicManager.Web.Infrastructure.Services.Bed;
 using ClinicManager.Web.Infrastructure.Services.Chart;
 using ClinicManager.Web.Infrastructure.Services.DayFees;
 using ClinicManager.Web.Infrastructure.Services.Doctor;
+using ClinicManager.Web.Infrastructure.Services.Faults;
 using ClinicManager.Web.Infrastructure.Services.ICDCode;
+using ClinicManager.Web.Infrastructure.Services.Notification;
 using ClinicManager.Web.Infrastructure.Services.Nurses;
 using ClinicManager.Web.Infrastructure.Services.Patient;
 using ClinicManager.Web.Infrastructure.Services.PatientRecords;
@@ -44,6 +46,8 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IPatientRecordService, PatientRecordService>();
 builder.Services.AddScoped<IWardService, WardService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<IFaultService, FaultService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped(sp => sp
              .GetRequiredService<IHttpClientFactory>()
              .CreateClient(ClientName))

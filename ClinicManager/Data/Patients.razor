@@ -42,7 +42,6 @@
                     //
                     break;
                 }  
-
         </MudItem>
     
         <MudItem xs="12" md="6" sm="6">
@@ -150,6 +149,7 @@
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="LastName">Last Name</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="IDNo">ID Number</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="WardNo">Ward Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="RoomNo">Room Number</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="BedNo">Bed Number</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="RefferingDoctor">Doctor</MudTableSortLabel></MudTh>
         </HeaderContent>
@@ -165,6 +165,9 @@
             </MudTd>
             <MudTd DataLabel="IDNo">
                 <MudHighlighter Text="@context.WardNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="RoomNo">
+                <MudHighlighter Text="@context.RoomNo.ToString()" HighlightedText="@_searchString" />
             </MudTd>
              <MudTd DataLabel="IDNo">
                 <MudHighlighter Text="@context.BedNo.ToString()" HighlightedText="@_searchString" />

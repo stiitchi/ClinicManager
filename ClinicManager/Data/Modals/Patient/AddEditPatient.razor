@@ -316,7 +316,6 @@
                <MudButton Variant="Variant.Outlined" Class="mt-2 mb-2"  Style="border-radius:10px 10px 10px 10px"
                    Color="Color.Info" OnClick="SetMedicalDetailsAsUserDetails">Fill User Details</MudButton>
                 </MudItem>
-    
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberFirstName" Label="Member First Name" Variant="Variant.Outlined" />
                 </MudItem>
@@ -340,14 +339,9 @@
                         <MudSelectItem T="string" Value="@("Other")" />
                     </MudSelect>
                 </MudItem>
-                <MudItem sm="12">
-                    <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberTelNo" Label="Member Telephone Number" Variant="Variant.Outlined" />
-                </MudItem>
-                <MudItem sm="12">
-                    <MudTextField Adornment="Adornment.Start" AdornmentText="+27" @bind-Value="AddEditPatientModel.MainMedicalAidMemberCellNo" Label="Member Cellphone Number" Variant="Variant.Outlined" />
-                </MudItem>      
+                    
                 </MudTabPanel>
-                <MudTabPanel Text="Contact Details">
+                <MudTabPanel Text="Address">
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberStreetAddress" Label="Street Address" Variant="Variant.Outlined" />
                 </MudItem>  
@@ -377,7 +371,15 @@
                 <MudItem sm="12">
                     <MudTextField T="string"  ValueChanged="MemberPostalAddressCode" Label="Postal Address Code" Variant="Variant.Outlined" />
                 </MudItem>
-                </MudTabPanel>         
+                </MudTabPanel>   
+                <MudTabPanel Text="Contact Details">
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberTelNo" Label="Member Telephone Number" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField Adornment="Adornment.Start" AdornmentText="+27" @bind-Value="AddEditPatientModel.MainMedicalAidMemberCellNo" Label="Member Cellphone Number" Variant="Variant.Outlined" />
+                </MudItem> 
+                </MudTabPanel>                 
                </MudTabs>
             </MudExpansionPanel>
             <MudExpansionPanel HideIcon="isCitySelected" Icon="@Icons.TwoTone.Check"  Text="Business Details">

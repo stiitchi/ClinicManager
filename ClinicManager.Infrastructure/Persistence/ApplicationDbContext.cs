@@ -6,7 +6,9 @@ using ClinicManager.Domain.Entities.ChartsAggregate;
 using ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
 using ClinicManager.Domain.Entities.DoctorsAggregate;
+using ClinicManager.Domain.Entities.FaultAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
+using ClinicManager.Domain.Entities.NotificationAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanSkinIntegrity;
@@ -57,6 +59,9 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<RoomEntity> Rooms { get; set; }
         public DbSet<SubscriptionEntity> Subscriptions { get; set; }
         public DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
+        public DbSet<NotificationEntity> Notifications { get; set; }
+        public DbSet<FaultEntity> Faults { get; set; }
+
 
         //Patient Records
         public DbSet<IVEntity> CareplanIVTest { get; set; }

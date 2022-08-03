@@ -29,7 +29,7 @@ namespace ClinicManager.Shared.Constants
             public static string DOCTOR = "DOCTOR";
             public static string NURSE = "NURSE";
             public static string ADMITTED = "ADMITTED";
-            public static string SUPER_USER = "SUPERUSER";
+            public static string SUPER_USER = "SUPER USER";
         }
     }
 }

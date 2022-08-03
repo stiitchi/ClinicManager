@@ -4,7 +4,9 @@ using ClinicManager.Domain.Entities.ChartsAggregate;
 using ClinicManager.Domain.Entities.ChartsAggregate.ChartEntry;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
 using ClinicManager.Domain.Entities.DoctorsAggregate;
+using ClinicManager.Domain.Entities.FaultAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
+using ClinicManager.Domain.Entities.NotificationAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanSkinIntegrity;
@@ -51,6 +53,8 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<RoomEntity> Rooms { get; set; }
         DbSet<SubscriptionEntity> Subscriptions { get; set; }
         DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
+        DbSet<NotificationEntity> Notifications { get; set; }
+        DbSet<FaultEntity> Faults { get; set; }
 
         //Reports
 

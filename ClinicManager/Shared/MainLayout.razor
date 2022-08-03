@@ -1,6 +1,8 @@
 ﻿@using Blazored.LocalStorage
+@using ClinicManager.Data.Manager.Modals
 @using ClinicManager.Service
 @using ClinicManager.Shared.DTO_s.Auth
+@using ClinicManager.Shared.DTO_s.Faults
 @using ClinicManager.Theme
 @using ClinicManager.Web.Infrastructure.Services.Authentication
 @using MudBlazor.ThemeManager
@@ -37,6 +39,7 @@
                        </ActivatorContent>
                         <ChildContent>
                             <MudMenuItem  OnClick="Account">Account</MudMenuItem>
+                            <MudMenuItem  OnClick="LogFault">Log Fault</MudMenuItem>
                              <MudMenuItem  OnClick="LogoutUser">Log Out</MudMenuItem>
                         </ChildContent>
                      </MudMenu>   
@@ -49,6 +52,7 @@
                       </ActivatorContent>
                         <ChildContent>
                             <MudMenuItem  OnClick="Account">Account</MudMenuItem>
+                            <MudMenuItem  OnClick="LogFault">Log Fault</MudMenuItem>
                             <MudMenuItem  OnClick="LogoutUser">Log Out</MudMenuItem>
                         </ChildContent>
                      </MudMenu>
@@ -91,6 +95,15 @@
     {
         _navigationManager.NavigateTo("account");
     }
+
+    public async Task LogFault()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(FaultLoggerModal.FaultModel), new FaultsDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<FaultLoggerModal>("Log a Fault", parameters, options);
+    }
+
 
     private ThemeManagerTheme _themeManager = new ThemeManagerTheme
     {

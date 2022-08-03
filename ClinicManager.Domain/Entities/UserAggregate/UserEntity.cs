@@ -1,6 +1,8 @@
 ﻿using ClinicManager.Domain.Entities.BedAggregate;
 using ClinicManager.Domain.Entities.DayFeesAggregate;
+using ClinicManager.Domain.Entities.FaultAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
+using ClinicManager.Domain.Entities.NotificationAggregate;
 using ClinicManager.Domain.Entities.WardAggregate;
 
 namespace ClinicManager.Domain.Entities.UserAggregate
@@ -159,6 +161,12 @@ namespace ClinicManager.Domain.Entities.UserAggregate
 
         private readonly List<ICDCodeEntity> _icdCodes = new();
         public virtual IReadOnlyCollection<ICDCodeEntity> ICDCodes => _icdCodes;
+
+        private readonly List<NotificationEntity> _notifications = new();
+        public virtual IReadOnlyCollection<NotificationEntity> Notifications => _notifications;
+
+        private readonly List<FaultEntity> _faults = new();
+        public virtual IReadOnlyCollection<FaultEntity> Faults => _faults;
 
     }
 }

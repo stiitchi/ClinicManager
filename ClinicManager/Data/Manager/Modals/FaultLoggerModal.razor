@@ -1,0 +1,94 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Shared.DTO_s.Faults
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.Faults
+@using ClinicManager.Shared.DTO_s
+@inject IFaultService faultService 
+
+
+<EditForm Model="@FaultModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+               Log a Fault
+            </MudText>    
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="string" Label="Severity" @bind-Value="FaultModel.Severity" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem T="string" Value="@("Critical")" />
+                        <MudSelectItem T="string" Value="@("Moderate")" />
+                        <MudSelectItem T="string" Value="@("Low")" />
+                    </MudSelect>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudTextField @bind-Value="FaultModel.Description" Label="Description" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem sm="12">
+                <center>
+                   <MudFab HtmlTag="upload"
+                    Color="Color.Secondary"
+                    Icon="@Icons.Filled.Image"
+                    Label="Load picture"
+                    for="fileInput" />
+                </center>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(!Validated || _processing)"  Color="Color.Success">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                <MudText>Log Fault</MudText>           
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public FaultsDTO FaultModel { get; set; } = new();
+    private bool _processing = false;
+
+    private FluentValidationValidator _fluentValidationValidator;
+    private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        if (FaultModel.Id == 0)
+            response = await faultService.SaveAsync(FaultModel);
+        else
+            response = await faultService.SaveAsync(FaultModel);
+
+        if (response.Succeeded)
+        {
+            _snackBar.Add("Fault has been logged", Severity.Success);
+            _processing = false;       
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }     
+}

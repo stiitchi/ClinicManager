@@ -13,6 +13,9 @@
 
 <MudGrid>
     <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h5">@patient.Title @patient.FirstName @patient.LastName</MudText> 
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
    <MudButton Class="mr-2" OnClick="EditPatients" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px">Edit</MudButton>
     <MudButton Class="mr-2" OnClick="ShowDetails" Variant="Variant.Outlined" Color="Color.Warning" Style="border-radius:10px 10px 10px 10px">Details</MudButton>
     <MudButton Class="mr-2" OnClick="ShowRecords" Variant="Variant.Outlined" Color="Color.Secondary" Style="border-radius:10px 10px 10px 10px">Records</MudButton>
