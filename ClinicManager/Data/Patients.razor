@@ -17,14 +17,32 @@
                 Patients
             </MudText>
         </MudItem>
-        <MudItem xs="12" md="6" sm="6">       
-            <MudButton Color="Color.Info" Class="mt-3"
+        <MudItem xs="12" md="6" sm="6">  
+        @switch(_stateService.GetActiveUserRole().Role)
+                {
+                    case "SYSTEM ADMINISTRATOR":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                        <MudButton Color="Color.Info" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
-                       Variant="Variant.Outlined">New Patient</MudButton>
-
-            <MudButton Color="Color.Warning" Class="mt-3"
+                       Variant="Variant.Outlined">New Patient</MudButton> 
+                       <MudButton Color="Color.Warning" Class="mt-3"
                        Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
                        Variant="Variant.Outlined">Search Patient</MudButton>
+                    break;
+                    case "SUPER USER":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                          <MudButton Color="Color.Info" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
+                       Variant="Variant.Outlined">New Patient</MudButton> 
+                       <MudButton Color="Color.Warning" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
+                       Variant="Variant.Outlined">Search Patient</MudButton>
+                    break;
+                    default:
+                    //
+                    break;
+                }  
+
         </MudItem>
     
         <MudItem xs="12" md="6" sm="6">
@@ -77,6 +95,10 @@
                                         <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
                                         @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
                                     </MudTooltip>  
+                                    <MudTooltip Text="Patient Reports">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                                    </MudTooltip>
                                 break;
                               case "SUPER USER":
                                 _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
@@ -84,6 +106,10 @@
                                         <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
                                         @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
                                 </MudTooltip>  
+                                <MudTooltip Text="Patient Reports">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                                </MudTooltip>
                                 break;
                               default:
                                 //
@@ -146,21 +172,43 @@
              <MudTd DataLabel="RefferingDoctor">
                 <MudHighlighter Text="@context.RefferingDoctor.ToString()" HighlightedText="@_searchString" />
             </MudTd> 
+            @switch(_stateService.GetActiveUserRole().Role)
+            {
+                case "SYSTEM ADMINISTRATOR":
+                _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+                </MudTd> 
+                @if(@context.IsAdmitted == true)
+                {
+                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                 <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
+                </MudTd> 
+                } 
+                break;
+                case "SUPER USER":
+                _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+                </MudTd> 
+                @if(@context.IsAdmitted == true)
+                {
+                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                 <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
+                </MudTd> 
+                }  
+                break;
+                default:
+                //
+                break;
+            } 
             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
              <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
             </MudTd> 
             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
              <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudButton>
             </MudTd> 
-            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
-            </MudTd> 
-            @if(@context.IsAdmitted == true)
-            {
-             <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
-            </MudTd> 
-            }
+         
         </RowTemplate>
         <PagerContent>
             <MudTablePager RowsPerPageString="Rows" />

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.Bed.Commands
 {
-   public class DeleteBedCommand : IRequest<Result<int>>
+    public class DeleteBedCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
         public int RoomId { get; set; }
@@ -24,7 +24,9 @@ namespace ClinicManager.Application.Modules.Bed.Commands
         {
             var room = await _context.Rooms.Where(a => a.Id == request.RoomId).FirstOrDefaultAsync();
 
-            var bed  = await _context.Beds.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+            var bed = await _context.Beds.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+            if (bed.IsOccupied == true)
+                throw new Exception("This Bed Currently has a Patient assigned to it, move the Patient before Deleting");
             _context.Beds.Remove(bed);
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(bed.Id);

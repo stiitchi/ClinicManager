@@ -10,7 +10,7 @@
 <MudDialog>
         <TitleContent>
             <MudText Typo="Typo.h6">
-                <MudIcon Icon="@Icons.Material.Filled.Search" Class="mr-3" />
+            <MudIcon Icon="@Icons.Material.Filled.Search" Class="mr-3" />
                 Search Patient
             </MudText>    
         </TitleContent>
@@ -36,7 +36,10 @@
                 @if(existingId == false)
                 {
                <center>
-                    <MudText Typo="Typo.caption" >Patient does not exist</MudText>
+                    <MudText Typo="Typo.body1" >Patient does not exist</MudText> <br/>
+
+                      <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
+                        Color="Color.Info" OnClick="() => AddPatient()">Add New Patient</MudButton>
                 </center>              
                 }          
              </MudItem> 
@@ -56,6 +59,16 @@
     private bool showMessage = false;
     public bool existingId = false;
     private string IdNumber;
+
+    private void AddPatient()
+    {
+        MudDialog.Close();
+        var idNo = Convert.ToInt64(IdNumber);
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO { IDNo = idNo });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("New Patient", parameters, options);
+    }
 
     public async Task SearchPatientById()
     {

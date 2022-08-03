@@ -24,10 +24,14 @@ namespace ClinicManager.Application.Modules.Patient.Commands
 
             var patient = await _context.Patients.IgnoreQueryFilters()
                                          .FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
+            var bed = await _context.Beds.IgnoreQueryFilters()
+                                        .FirstOrDefaultAsync(c => c.PatientId == request.PatientId, cancellationToken);
+
+            bed.RemovePatientFromBed(patient);
+
             patient.DischargePatient();
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(patient.Id);
-
         }
     }
 }

@@ -62,7 +62,7 @@
                 </MudCardHeader>
             </MudCard>
         </MudItem>
-        <MudItem xs="12" md="4" sm="4">
+        <MudItem xs="12" md="3" sm="3">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
@@ -74,7 +74,19 @@
                 </MudCardHeader>
             </MudCard>
         </MudItem>
-        <MudItem xs="12" md="4" sm="4">
+        <MudItem xs="12" md="3" sm="3">
+            <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudChip Size="Size.Large"Color="Color.Warning">@patient.RoomNo</MudChip>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">Room</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="3" sm="3">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
@@ -86,11 +98,11 @@
                 </MudCardHeader>
             </MudCard>
         </MudItem>
-            <MudItem xs="12" md="4" sm="4">
+            <MudItem xs="12" md="3" sm="3">
             <MudCard Elevation="4" Style="border-radius:10px 10px 10px 10px">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudChip Size="Size.Large" Color="Color.Secondary">Observation Charts</MudChip>
+                        <MudChip Size="Size.Large"Color="Color.Warning">Charts</MudChip>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudButton Class="mr-2" Variant="Variant.Outlined" Color="Color.Info" Style="border-radius:10px 10px 10px 10px" @onclick="@(() => _navigationManager.NavigateTo($"/patient-charts/{PatientId}"))">View</MudButton>

@@ -27,16 +27,23 @@ namespace ClinicManager.Domain.Entities.BedAggregate
             _roomNumber = room.RoomNumber;
             _roomId = room.Id;
         }
-
         public void AssignPatientToBed(PatientEntity patient)
         {
             _patientId = patient.Id;
+            _isOccupied = true;
         }
-
+        public void RemovePatientFromBed(PatientEntity patient)
+        {
+            _patientId = patient.Id;
+            _isOccupied = false;
+        }
         public void AssignNurseToBed(int nurseId)
         {
             _nurseId = nurseId;
         }
+
+        private bool _isOccupied;
+        public bool IsOccupied => _isOccupied;
 
         private int _bedNumber;
         public int BedNumber => _bedNumber;

@@ -309,9 +309,14 @@
                 </MudItem>          
             </MudExpansionPanel>
 
-               <MudExpansionPanel HideIcon="isMedMemberPostalCodeSelected" Icon="@Icons.TwoTone.Check" Text="Main Member/ Accountable Person">
+               <MudExpansionPanel HideIcon="isMedMemberPostalCodeSelected" Icon="@Icons.TwoTone.Check" Text="Main Member / Accountable Person">
                 <MudTabs>
                 <MudTabPanel Text="Accountable Person">
+                <MudItem sm="12">
+               <MudButton Variant="Variant.Outlined" Class="mt-2 mb-2"  Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Info" OnClick="SetMedicalDetailsAsUserDetails">Fill User Details</MudButton>
+                </MudItem>
+    
                 <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberFirstName" Label="Member First Name" Variant="Variant.Outlined" />
                 </MudItem>
@@ -375,10 +380,13 @@
                 </MudTabPanel>         
                </MudTabs>
             </MudExpansionPanel>
-
             <MudExpansionPanel HideIcon="isCitySelected" Icon="@Icons.TwoTone.Check"  Text="Business Details">
             <MudTabs>
                 <MudTabPanel Text="General">
+                <MudItem sm="12">
+                   <MudButton Variant="Variant.Outlined" Class="mt-2 mb-2" Style="border-radius:10px 10px 10px 10px"
+                   Color="Color.Info" OnClick="SetOccupationDetailsAsUserDetails">Fill Business Details</MudButton>
+                </MudItem>
                  <MudItem sm="12">
                     <MudTextField @bind-Value="AddEditPatientModel.MainMedicalAidMemberOccupation" Label="Member Occupation" Variant="Variant.Outlined" />
                 </MudItem>
@@ -459,7 +467,7 @@
     private bool isStageSelected = true;
     private bool isMedMemberPostalCodeSelected = true;
     private bool isCitySelected = true;
-    
+
     private DateTime? dischargeDate = DateTime.Now;
     private DateTime? reportDate = DateTime.Now;
 
@@ -467,21 +475,44 @@
     {
         if(AddEditPatientModel.CaseInformationNumber == 0 && AddEditPatientModel.AccountNo == 0)
         {
-        Random rnd = new Random();
-        int accountNo = rnd.Next();
-        int caseInformationNo = rnd.Next();       
-        AddEditPatientModel.CaseInformationNumber = caseInformationNo;
-        AddEditPatientModel.AccountNo = accountNo;
-        AddEditPatientModel.IsAdmitted = true;
+            Random rnd = new Random();
+            int accountNo = rnd.Next();
+            int caseInformationNo = rnd.Next();       
+            AddEditPatientModel.CaseInformationNumber = caseInformationNo;
+            AddEditPatientModel.AccountNo = accountNo;
+            AddEditPatientModel.IsAdmitted = true;
         }
         await GetForLookup();
-    
+
     }
     public void Cancel()
     {
         MudDialog.Cancel();
     }
 
+    public void SetOccupationDetailsAsUserDetails()
+    {
+        AddEditPatientModel.MainMedicalAidMemberOccupation                = AddEditPatientModel.Occupation;
+        AddEditPatientModel.MainMedicalAidMemberEmployer                  = AddEditPatientModel.EmployerName;
+        AddEditPatientModel.MainMedicalAidMemberBusinessStreetAddress     = AddEditPatientModel.WorkAddress;
+        AddEditPatientModel.MainMedicalAidMemberBusinessPostalCode        = AddEditPatientModel.WorkAddressCode;
+        AddEditPatientModel.MainMedicalAidMemberBusinessProvince          = AddEditPatientModel.Province;
+        AddEditPatientModel.MainMedicalAidMemberBusinessCity              = AddEditPatientModel.MainMedicalAidMemberBusinessCity;
+    }
+
+    public void SetMedicalDetailsAsUserDetails()
+    {
+        AddEditPatientModel.MainMedicalAidMemberFirstName                 = AddEditPatientModel.FirstName;
+        AddEditPatientModel.MainMedicalAidMemberLastName                  = AddEditPatientModel.LastName;
+        AddEditPatientModel.MainMedicalAidMemberIdNumber                  = AddEditPatientModel.IDNo;
+        AddEditPatientModel.MainMedicalAidMemberTelNo                     = AddEditPatientModel.PatientTelNo;
+        AddEditPatientModel.MainMedicalAidMemberBusinessStreetAddress     = AddEditPatientModel.StreetAddress;
+        AddEditPatientModel.MainMedicalAidMemberSuburb                    = AddEditPatientModel.Suburb;
+        AddEditPatientModel.MainMedicalAidMemberCity                      = AddEditPatientModel.City;
+        AddEditPatientModel.MainMedicalAidMemberProvince                  = AddEditPatientModel.Province;
+        AddEditPatientModel.MainMedicalAidMemberPostalAddress             = AddEditPatientModel.PostalCode;
+    }
+    
     private async Task SaveAsync()
     {
         _processing = true;

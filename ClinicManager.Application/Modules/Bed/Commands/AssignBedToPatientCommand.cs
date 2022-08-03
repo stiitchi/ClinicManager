@@ -28,7 +28,7 @@ namespace ClinicManager.Application.Modules.Bed.Commands
             {
 
                 var patientBeds = await _context.PatientBeds.IgnoreQueryFilters().FirstOrDefaultAsync
-                    (c => c.Id == request.PatientBedId && c.PatientId != request.PatientId,cancellationToken);
+                    (c => c.Id == request.PatientBedId && c.PatientId != request.PatientId, cancellationToken);
 
                 if (patientBeds != null)
                     throw new Exception("A patient is already assigned to this bed");
@@ -41,7 +41,7 @@ namespace ClinicManager.Application.Modules.Bed.Commands
                 if (patient == null)
                     throw new Exception("Patient doesn't exist");
 
-
+                bed.AssignPatientToBed(patient);
 
                 var patientName = $"{patient.Title} {patient.FirstName} {patient.LastName}";
 

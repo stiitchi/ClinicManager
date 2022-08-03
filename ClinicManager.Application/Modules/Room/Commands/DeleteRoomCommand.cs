@@ -25,7 +25,14 @@ namespace ClinicManager.Application.Modules.Room.Commands
             var wards = await _context.Wards.Where(a => a.Id == request.WardId).FirstOrDefaultAsync();
 
             var room = await _context.Rooms.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+
+            var bed = await _context.Beds.Where(a => a.RoomNumber == room.RoomNumber && a.IsOccupied != false).FirstOrDefaultAsync();
+
+            
+            
+
             _context.Rooms.Remove(room);
+            
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(room.Id);
         }

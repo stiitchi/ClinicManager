@@ -12,6 +12,7 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Bed
             conf.HasKey(c => c.Id);
             conf.Property(c => c.BedNumber).IsRequired();
             conf.Property(c => c.RoomNumber).IsRequired(false);
+            conf.Property(c => c.IsOccupied).IsRequired();
             conf.HasOne(c => c.Room).WithMany(c => c.Beds).HasForeignKey(c => c.RoomId);
             conf.HasOne(c => c.Nurse).WithMany(c => c.Beds).HasForeignKey(c => c.NurseId).IsRequired(false);
             conf.HasOne(c => c.Patient).WithMany(c => c.Beds).HasForeignKey(c => c.PatientId).IsRequired(false);

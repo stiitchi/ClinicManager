@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Application.Modules.Patient.Commands
 {
-  public class DeletePatientCommand : IRequest<Result<int>>
+    public class DeletePatientCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
     }
@@ -21,13 +21,15 @@ namespace ClinicManager.Application.Modules.Patient.Commands
 
         public async Task<Result<int>> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
         {
-
             var patient = await _context.Patients.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
-            patient.DischargePatient();
+
+            var bed = await _context.Beds.Where(a => a.PatientId == request.Id).FirstOrDefaultAsync();
+
+            bed.RemovePatientFromBed(patient);
+
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(patient.Id);
-
         }
     }
 }
