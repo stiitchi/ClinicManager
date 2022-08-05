@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new VitalSignDTO
                 {
-                    VitalSignsId = vitalSignRecord.Id,
+                    VitalSignsId        = vitalSignRecord.Id,
                     VitalSignsFrequency = vitalSignRecord.VitalSignsFrequency,
-                    VitalSignSignature = vitalSignRecord.VitalSignSignature,
-                    VitalSignsTime = vitalSignRecord.VitalSignsTime,
-                    PatientId = vitalSignRecord.PatientId
+                    VitalSignSignature  = vitalSignRecord.VitalSignSignature,
+                    VitalSignsTime      = vitalSignRecord.VitalSignsTime,
+                    PatientId           = vitalSignRecord.PatientId
                 };
                 return await Result<VitalSignDTO>.SuccessAsync(dto);
             }

@@ -17,7 +17,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
 
         Task<IResult<int>> SaveAsync(BedDTO request);
 
-        Task<IResult<int>> AssignPatientToBed(int patientId, int bedId);
+        Task<IResult<int>> AssignPatientToBed(MovePatientDTO movePatient);
 
         Task<IResult<List<LookupDTO>>> GetForLookUp();
 

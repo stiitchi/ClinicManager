@@ -35,9 +35,9 @@ namespace ClinicManager.Application.Modules.Admissions.Queries
                 var dto = new UserDTO
                 {
                     FirstName = nurse.FirstName,
-                    LastName = nurse.LastName,
-                    MobileNo = nurse.MobileNo,
-                    Email = nurse.Email
+                    LastName  = nurse.LastName,
+                    MobileNo  = nurse.MobileNo,
+                    Email     = nurse.Email
                 };
                 return await Result<UserDTO>.SuccessAsync(dto);
             }

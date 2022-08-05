@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
 
                 var dto = new TemperatureRateDTO
                 {
-                    TempRatetId = temperatureRateChart.Id,
+                    TempRatetId   = temperatureRateChart.Id,
                     TempRateEntry = temperatureRateChart.RespitoryChartEntry,
-                    Time = temperatureRateChart.Time,
-                    PatientId = temperatureRateChart.PatientId
+                    Time          = temperatureRateChart.Time,
+                    PatientId     = temperatureRateChart.PatientId
                 };
                 return await Result<TemperatureRateDTO>.SuccessAsync(dto);
             }

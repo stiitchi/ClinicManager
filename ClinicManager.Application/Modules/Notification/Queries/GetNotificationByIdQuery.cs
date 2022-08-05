@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.Notification.Queries
 
                 var dto = new NotificationDTO
                 {
-                    Id = notification.Id,
-                    Description = notification.Description,
-                    CreatedOn = notification.CreatedOn,
-                    SeenOn = notification.SeenOn,
-                    UserId = notification.UserId
+                    Id              = notification.Id,
+                    Description     = notification.Description,
+                    CreatedOn       = notification.CreatedOn,
+                    SeenOn          = notification.SeenOn,
+                    UserId          = notification.UserId
                 };
                 return await Result<NotificationDTO>.SuccessAsync(dto);
             }

@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             {
                 Expression<Func<CommunicationEntity, CommunicationDTO>> expression = e => new CommunicationDTO
                 {
-                    CommunicationId = e.Id,
-                    CommunicationFrequency = e.CommunicationFrequency,
-                    CommunicationSignature = e.CommunicationSignature,
-                    CommunicationTime = e.CommunicationTime,
-                    PatientId = e.PatientId
+                    CommunicationId         = e.Id,
+                    CommunicationFrequency  = e.CommunicationFrequency,
+                    CommunicationSignature  = e.CommunicationSignature,
+                    CommunicationTime       = e.CommunicationTime,
+                    PatientId               = e.PatientId
                 };
 
                 var communicationEntry = await _context.CommunicationTests

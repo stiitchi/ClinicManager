@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             {
                 Expression<Func<WoundCareEntity, WoundCareDTO>> expression = e => new WoundCareDTO
                 {
-                    WoundCareId = e.Id,
-                    WoundCareFreq = e.WoundCareFrequency,
-                    WoundCareTime = e.WoundCareTime,
-                    WoundCareSignature = e.WoundCareSignature,
-                    PatientId = e.PatientId
+                    WoundCareId         = e.Id,
+                    WoundCareFreq       = e.WoundCareFrequency,
+                    WoundCareTime       = e.WoundCareTime,
+                    WoundCareSignature  = e.WoundCareSignature,
+                    PatientId           = e.PatientId
                 };
 
                 var woundCareRecords = await _context.WoundCareTests

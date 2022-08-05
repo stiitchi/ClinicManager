@@ -27,8 +27,8 @@ namespace ClinicManager.Application.Modules.ICDCode.Queries
             {
                 Expression<Func<ICDCodeEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.IcdCode,
+                    Id    = e.Id,
+                    Name  = e.IcdCode,
                     Prop1 = e.IcdDescription,
                     Prop2 = e.DateAdded.ToString()
                 };

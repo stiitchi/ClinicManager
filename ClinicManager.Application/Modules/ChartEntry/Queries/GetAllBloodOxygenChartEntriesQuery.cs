@@ -29,8 +29,8 @@ namespace ClinicManager.Application.Modules.ChartEntry.Queries
                 Expression<Func<BloodOxygenChartEntryEntity, BloodOxygenChartEntryDTO>> expression = e => new BloodOxygenChartEntryDTO
                 {
                     BloodOxygenChartEntryId = e.Id,
-                    BloodOxygenChartId = e.BloodOxygenChartId,
-                    BloodOxygenChartEntry = e.BloodOxygenChartEntry
+                    BloodOxygenChartId      = e.BloodOxygenChartId,
+                    BloodOxygenChartEntry   = e.BloodOxygenChartEntry
                 };
 
                 var bloodOxygenChartEntries = await _context.BloodOxygenChartEntries

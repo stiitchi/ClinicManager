@@ -44,11 +44,11 @@ namespace ClinicManager.Application.Modules.Notification.Queries
             {
                 Expression<Func<NotificationEntity, NotificationDTO>> expression = e => new NotificationDTO
                 {
-                    Id = e.Id,
-                    UserId = e.UserId,
+                    Id          = e.Id,
+                    UserId      = e.UserId,
                     Description = e.Description,
-                    CreatedOn = e.CreatedOn,
-                    SeenOn = e.SeenOn
+                    CreatedOn   = e.CreatedOn,
+                    SeenOn      = e.SeenOn
                 };
 
                 IQueryable<NotificationEntity> query = _context.Notifications;

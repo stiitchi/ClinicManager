@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             {
                 Expression<Func<NasalCannulEntity, NasalCannulaDTO>> expression = e => new NasalCannulaDTO
                 {
-                    NasalCannulaId = e.Id,
-                    NasalCannulaFrequency = e.NasalCannulaFrequency,
-                    NasalCannulaSignature = e.NasalCannulaSignature,
-                    NasalCannulaTime = e.NasalCannulaTime,
-                    PatientId = e.PatientId
+                    NasalCannulaId          = e.Id,
+                    NasalCannulaFrequency   = e.NasalCannulaFrequency,
+                    NasalCannulaSignature   = e.NasalCannulaSignature,
+                    NasalCannulaTime        = e.NasalCannulaTime,
+                    PatientId               = e.PatientId
                 };
 
                 var nasalEntry = await _context.NasalCannulTests

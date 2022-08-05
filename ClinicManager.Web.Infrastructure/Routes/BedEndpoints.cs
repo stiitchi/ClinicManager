@@ -6,15 +6,11 @@ namespace ClinicManager.Web.Infrastructure.Routes
         public static string ForLookUp = "api/Bed/ForLookup";
 
         public static string Save = "api/Bed";
+        public static string AssignPatientToBed = "api/Bed/AssignPatientToBed";
 
         //public static string AssignPatientToBed = "api/Bed/AssignPatientToBed";
 
         public static string GetAllBeds = "api/Bed/GetAllBeds";
-
-        public static string AssignPatientToBed(int patientId, int bedId)
-        {
-            return $"api/Bed/AssignPatientToBed?patientId={patientId}&bedId={bedId}";
-        }
 
         public static string Delete(int id, int roomId)
         {

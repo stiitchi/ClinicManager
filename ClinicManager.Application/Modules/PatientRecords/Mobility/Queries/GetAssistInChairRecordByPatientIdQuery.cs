@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new AssistIntoChairDTO
                 {
-                    AssistIntoChairId = chairAssistEntry.Id,
-                    AssistIntoChairFrequency = chairAssistEntry.AssistIntoChairFrequency,
-                    AssistIntoChairSignature = chairAssistEntry.AssistIntoChairSignature,
-                    AssistIntoChairTime = chairAssistEntry.AssistIntoChairTime,
-                    PatientId = chairAssistEntry.PatientId
+                    AssistIntoChairId           = chairAssistEntry.Id,
+                    AssistIntoChairFrequency    = chairAssistEntry.AssistIntoChairFrequency,
+                    AssistIntoChairSignature    = chairAssistEntry.AssistIntoChairSignature,
+                    AssistIntoChairTime         = chairAssistEntry.AssistIntoChairTime,
+                    PatientId                   = chairAssistEntry.PatientId
                 };
                 return await Result<AssistIntoChairDTO>.SuccessAsync(dto);
             }

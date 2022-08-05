@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
             {
                 Expression<Func<RednessEntity, RednessDTO>> expression = e => new RednessDTO
                 {
-                    ReportRednessId = e.Id,
+                    ReportRednessId        = e.Id,
                     ReportRednessSignature = e.ReportRednessSignature,
                     ReportRednessFrequency = e.ReportRednessFrequency,
-                    ReportRednessTime = e.ReportRednessTime,
-                    PatientId = e.PatientId
+                    ReportRednessTime      = e.ReportRednessTime,
+                    PatientId              = e.PatientId
                 };
 
                 var rednessEntry = await _context.RednessTests

@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new NeuroLogicalDTO
                 {
-                    NeuroLogicalId = neuroLogicalRecord.Id,
-                    NeuroLogicalFrequency = neuroLogicalRecord.NeuroLogicalFrequency,
-                    NeuroLogicalSignature = neuroLogicalRecord.NeuroLogicalSignature,
-                    NeuroLogicalTime = neuroLogicalRecord.NeuroLogicalTime,
-                    PatientId = neuroLogicalRecord.PatientId
+                    NeuroLogicalId          = neuroLogicalRecord.Id,
+                    NeuroLogicalFrequency   = neuroLogicalRecord.NeuroLogicalFrequency,
+                    NeuroLogicalSignature   = neuroLogicalRecord.NeuroLogicalSignature,
+                    NeuroLogicalTime        = neuroLogicalRecord.NeuroLogicalTime,
+                    PatientId               = neuroLogicalRecord.PatientId
                 };
                 return await Result<NeuroLogicalDTO>.SuccessAsync(dto);
             }

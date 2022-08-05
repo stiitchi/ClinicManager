@@ -20,7 +20,6 @@ namespace ClinicManager.Domain.Entities.BedAggregate
             _patientId = patient.Id;
             _bedId = bed.Id;
         }
-
         public string PatientName => _patientName;
         private string _patientName;
         public BedEntity Bed { get; set; }

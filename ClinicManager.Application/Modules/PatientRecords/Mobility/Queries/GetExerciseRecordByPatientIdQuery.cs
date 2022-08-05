@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new ExerciseDTO
                 {
-                    ExercisesId = exerciseEntry.Id,
-                    ExercisesFrequency = exerciseEntry.ExercisesFrequency,
-                    ExercisesSignature = exerciseEntry.ExercisesSignature,
-                    ExercisesTime = exerciseEntry.ExercisesTime,
-                    PatientId = exerciseEntry.PatientId
+                    ExercisesId         = exerciseEntry.Id,
+                    ExercisesFrequency  = exerciseEntry.ExercisesFrequency,
+                    ExercisesSignature  = exerciseEntry.ExercisesSignature,
+                    ExercisesTime       = exerciseEntry.ExercisesTime,
+                    PatientId           = exerciseEntry.PatientId
                 };
                 return await Result<ExerciseDTO>.SuccessAsync(dto);
             }

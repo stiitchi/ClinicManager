@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new BedRestDTO
                 {
-                    BedRestId = bedRestEntry.Id,
-                    BedRestFrequency = bedRestEntry.BedRestFrequency,
-                    BedRestSignature = bedRestEntry.BedRestSignature,
-                    BedRestTime = bedRestEntry.BedRestTime,
-                    PatientId = bedRestEntry.PatientId
+                    BedRestId           = bedRestEntry.Id,
+                    BedRestFrequency    = bedRestEntry.BedRestFrequency,
+                    BedRestSignature    = bedRestEntry.BedRestSignature,
+                    BedRestTime         = bedRestEntry.BedRestTime,
+                    PatientId           = bedRestEntry.PatientId
                 };
                 return await Result<BedRestDTO>.SuccessAsync(dto);
             }

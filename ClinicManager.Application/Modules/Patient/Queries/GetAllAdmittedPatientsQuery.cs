@@ -8,20 +8,20 @@ using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.Patient.Queries
 {
-    public class GetAllPatientsQuery : IRequest<Result<List<PatientDTO>>>
+    public class GetAllAdmittedPatientsQuery : IRequest<Result<List<PatientDTO>>>
     {
     }
 
-    public class GetAllPatientsQueryHandler : IRequestHandler<GetAllPatientsQuery, Result<List<PatientDTO>>>
+    public class GetAllAdmittedPatientsQueryHandler : IRequestHandler<GetAllAdmittedPatientsQuery, Result<List<PatientDTO>>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllPatientsQueryHandler(IApplicationDbContext context)
+        public GetAllAdmittedPatientsQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Result<List<PatientDTO>>> Handle(GetAllPatientsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<PatientDTO>>> Handle(GetAllAdmittedPatientsQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     OtherContact                              = e.OtherContact,
                     OtherContactNo                            = e.OtherContactNo,
                     OtherContactRelationship                  = e.OtherContactRelationship,
-                    OtherContactAltContactNo                  = e.OtherContactAltContactNo, 
+                    OtherContactAltContactNo                  = e.OtherContactAltContactNo,
                     RefferingDoctor                           = e.RefferingDoctor,
                     RefferingHospital                         = e.RefferingHospital,
                     MedicalAidName                            = e.MedicalAidName,
@@ -85,7 +85,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     SocialWorker                              = e.SocialWorker,
                     Physio                                    = e.Physio,
                     MainMedicalAidMemberFirstName             = e.MainMemberFirstName,
-                    MainMedicalAidMemberLastName              = e.MainMemberLastName, 
+                    MainMedicalAidMemberLastName              = e.MainMemberLastName,
                     MainMedicalAidMemberIdNumber              = e.MedicalAidIdNumber,
                     MainMedicalAidMemberRelationship          = e.MainMemberRelationship,
                     MainMedicalAidMemberTelNo                 = e.MainMemberTelNo,
@@ -100,13 +100,14 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     MainMedicalAidMemberEmployer              = e.MainMemberEmployer,
                     MainMedicalAidMemberBusinessStreetAddress = e.MainMemberBusinessStreetAddress,
                     MainMedicalAidMemberBusinessCity          = e.MainMemberBusinessCity,
-                    MainMedicalAidMemberBusinessProvince      = e.MainMemberBusinessProvince,     
+                    MainMedicalAidMemberBusinessProvince      = e.MainMemberBusinessProvince,
                     MainMedicalAidMemberBusinessPostalCode    = e.MainMemberBusinessPostalCode,
                     IsAdmitted                                = e.IsAdmitted
                 };
 
                 var patients = await _context.Patients
                     .AsNoTracking()
+                    .Where(x => x.IsAdmitted == true)
                     .Select(expression)
                     .ToListAsync(cancellationToken);
                 return await Result<List<PatientDTO>>.SuccessAsync(patients);

@@ -27,10 +27,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
             {
                 Expression<Func<RespitoryRateChartEntity, RespitoryChartDTO>> expression = e => new RespitoryChartDTO
                 {
-                    RespitoryChartId = e.Id,
-                    RespitoryChartEntry = e.RespitoryChartEntry,
-                    Time = e.Time,
-                    PatientId = e.PatientId
+                    RespitoryChartId        = e.Id,
+                    RespitoryChartEntry     = e.RespitoryChartEntry,
+                    Time                    = e.Time,
+                    PatientId               = e.PatientId
                 };
 
                 var respitoryCharts = await _context.RespitoryRateCharts

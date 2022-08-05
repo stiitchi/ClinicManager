@@ -44,7 +44,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
             {
                 Expression<Func<WardEntity, WardDTO>> expression = e => new WardDTO
                 {
-                    WardId = e.Id,
+                    WardId     = e.Id,
                     WardNumber = e.WardNumber,
                     TotalRooms = _context.Rooms.Count(x=> x.WardId == e.Id)
                 };

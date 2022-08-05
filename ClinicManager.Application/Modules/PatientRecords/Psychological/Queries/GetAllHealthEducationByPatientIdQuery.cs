@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             {
                 Expression<Func<HealthCareEntity, HealthEducationDTO>> expression = e => new HealthEducationDTO
                 {
-                    HealthEducationId = e.Id,
-                    HealthEducationTime = e.HealthEducationTime,
-                    HealthEducationFrequency = e.HealthEducationFrequency,
-                    HealthEducationSignature = e.HealthEducationSignature,
-                    PatientId = e.PatientId
+                    HealthEducationId           = e.Id,
+                    HealthEducationTime         = e.HealthEducationTime,
+                    HealthEducationFrequency    = e.HealthEducationFrequency,
+                    HealthEducationSignature    = e.HealthEducationSignature,
+                    PatientId                   = e.PatientId
                 };
 
                 var heatlhEntry = await _context.HealthCareTests

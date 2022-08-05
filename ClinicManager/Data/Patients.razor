@@ -123,9 +123,7 @@
                         </MudCard>
                     </MudItem>
                 }
-
             }
-
         else
         {
             <MudText Align="Align.Center" Typo="Typo.body1">No Patients Found</MudText>
@@ -180,38 +178,43 @@
                 case "SYSTEM ADMINISTRATOR":
                 _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
+                <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
+                </MudTd>  
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                    <MudMenuItem OnClick="@(() => InvokeModal(@context.Id))">Edit</MudMenuItem>
+                    @if(@context.IsAdmitted == true)
+                    {
+                    <MudMenuItem OnClick="@(() => DischargePatient(@context.Id))">Discharge</MudMenuItem>
+                    } 
+                    <MudMenuItem OnClick="@(() => MovePatients(@context.Id))">Move</MudMenuItem>
+                    <MudMenuItem OnClick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudMenuItem>
+                </MudMenu>
                 </MudTd> 
-                @if(@context.IsAdmitted == true)
-                {
-                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
-                </MudTd> 
-                } 
                 break;
                 case "SUPER USER":
                 _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => InvokeModal(@context.Id))">Edit</MudButton>
-                </MudTd> 
-                @if(@context.IsAdmitted == true)
-                {
-                 <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Warning" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
-                </MudTd> 
-                }  
+                <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
+                </MudTd>  
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                    <MudMenuItem OnClick="@(() => InvokeModal(@context.Id))">Edit</MudMenuItem>
+                    @if(@context.IsAdmitted == true)
+                    {
+                    <MudMenuItem OnClick="@(() => DischargePatient(@context.Id))">Discharge</MudMenuItem>
+                    } 
+                    <MudMenuItem OnClick="@(() => MovePatients(@context.Id))">Move</MudMenuItem>
+                    <MudMenuItem OnClick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudMenuItem>
+                </MudMenu>
+                </MudTd>  
                 break;
                 default:
-                //
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                    <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
+                </MudTd> 
                 break;
             } 
-            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{@context.Id}"))">Records</MudButton>
-            </MudTd> 
-            <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-             <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px"   @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{@context.Id}"))">View</MudButton>
-            </MudTd> 
-         
         </RowTemplate>
         <PagerContent>
             <MudTablePager RowsPerPageString="Rows" />
@@ -241,6 +244,18 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
         _dialogService.Show<AddEditPatient>("New Patient", parameters, options);
     }
+
+    private void MovePatients(int patientId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(MovePatient.MovePatientModel), new MovePatientDTO
+        {
+            PatientId = patientId
+        });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<MovePatient>("Move Patient", parameters, options);
+    }
+
 
     private void SearchPatient()
     {

@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
             {
                 Expression<Func<SupportEntity, SupportDTO>> expression = e => new SupportDTO
                 {
-                    SupportId = e.Id,
-                    SupportSignature = e.SupportSignature,
-                    SupportFrequency = e.SupportFrequency,
-                    SupportTime = e.SupportTime,
-                    PatientId = e.PatientId
+                    SupportId           = e.Id,
+                    SupportSignature    = e.SupportSignature,
+                    SupportFrequency    = e.SupportFrequency,
+                    SupportTime         = e.SupportTime,
+                    PatientId           = e.PatientId
                 };
 
                 var supportEntry = await _context.SupportTests

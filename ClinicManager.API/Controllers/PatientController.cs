@@ -14,7 +14,12 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new GetAllPatientsQuery { }));
         }
-
+        [HttpGet("GetAllAdmittedPatients")]
+        public async Task<IActionResult> GetAllAdmittedPatients()
+        {
+            return Ok(await _mediator.Send(new GetAllAdmittedPatientsQuery { }));
+        }
+        
         [HttpGet("DischargePatient")]
         public async Task<IActionResult> DischargePatient(int patientId)
         {
@@ -34,6 +39,13 @@ namespace ClinicManager.API.Controllers
         public async Task<IActionResult> GetAllPatientsTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
         {
             var patients = await _mediator.Send(new GetAllPatientsTableQuery(pageNumber, pageSize, searchString, orderBy));
+            return Ok(patients);
+        }
+
+        [HttpGet("GetAllAdmittedPatientsTable")]
+        public async Task<IActionResult> GetAllAdmittedPatientsTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
+        {
+            var patients = await _mediator.Send(new GetAllAdmittedPatientsTableQuery(pageNumber, pageSize, searchString, orderBy));
             return Ok(patients);
         }
 

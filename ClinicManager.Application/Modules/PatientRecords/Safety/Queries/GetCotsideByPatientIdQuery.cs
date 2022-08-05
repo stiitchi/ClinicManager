@@ -32,10 +32,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
 
                 var dto = new CotsideDTO
                 {
-                    CotsidesTime = cotsideEntry.CotsidesTime,
-                    CotsidesSignature = cotsideEntry.CotsidesSignature,
-                    CotsidesFrequency = cotsideEntry.CotsidesFrequency,
-                    PatientId = cotsideEntry.PatientId
+                    CotsidesTime        = cotsideEntry.CotsidesTime,
+                    CotsidesSignature   = cotsideEntry.CotsidesSignature,
+                    CotsidesFrequency   = cotsideEntry.CotsidesFrequency,
+                    PatientId           = cotsideEntry.PatientId
                 };
                 return await Result<CotsideDTO>.SuccessAsync(dto);
             }

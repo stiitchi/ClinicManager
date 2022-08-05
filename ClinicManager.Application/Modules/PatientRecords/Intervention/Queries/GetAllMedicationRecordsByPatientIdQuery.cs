@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             {
                 Expression<Func<MedicationEntity, MedicationDTO>> expression = e => new MedicationDTO
                 {
-                    MedicationId = e.Id,
-                    MedicationFreq = e.MedicationFrequency,
-                    MedicationTime = e.MedicationTime,
+                    MedicationId        = e.Id,
+                    MedicationFreq      = e.MedicationFrequency,
+                    MedicationTime      = e.MedicationTime,
                     MedicationSignature = e.MedicationSignature,
-                    PatientId = e.PatientId
+                    PatientId           = e.PatientId
                 };
 
                 var medicationRecord = await _context.MedicationTests

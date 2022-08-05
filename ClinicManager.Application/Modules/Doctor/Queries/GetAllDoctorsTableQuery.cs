@@ -44,12 +44,12 @@ namespace ClinicManager.Application.Modules.Doctor.Queries
             {
                 Expression<Func<DoctorEntity, UserDTO>> expression = e => new UserDTO
                 {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Email = e.Email,
-                    MobileNo = e.MobileNo,
-                    WardId = e.WardId
+                    Id          = e.Id,
+                    FirstName   = e.FirstName,
+                    LastName    = e.LastName,
+                    Email       = e.Email,
+                    MobileNo    = e.MobileNo,
+                    WardId      = e.WardId
                 };
 
                 IQueryable<DoctorEntity> query = _context.Doctors;

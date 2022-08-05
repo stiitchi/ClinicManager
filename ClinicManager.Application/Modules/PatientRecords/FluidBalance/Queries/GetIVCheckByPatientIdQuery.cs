@@ -32,16 +32,16 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
                     throw new Exception("Unable to return IV Check");
                 var dto = new FluidBalanceIVCheckDTO
                 {
-                    IVTestId = ivCheck.Id,
-                    intravenousML = ivCheck.IntravenousIntakeMl,
-                    intravenousIntakeTime = ivCheck.IntravenousIntakeTime,
+                    IVTestId                       = ivCheck.Id,
+                    intravenousML                  = ivCheck.IntravenousIntakeMl,
+                    intravenousIntakeTime          = ivCheck.IntravenousIntakeTime,
                     intravenousIntakeTimeCompleted = ivCheck.IntravenousIntakeTimeCompleted,
-                    intravenousStartVolume = ivCheck.IntravenousIntakeStartVolume,
-                    intravenousCompleteVolume = ivCheck.IntravenousIntakeCompleteVolume,
-                    intravenousCheck = ivCheck.IvCheck,
-                    intravenousDesc = ivCheck.IvDescription,
-                    intravenousRunningTotal = ivCheck.IntravenousRunningTotal,
-                    PatientId = ivCheck.PatientId
+                    intravenousStartVolume         = ivCheck.IntravenousIntakeStartVolume,
+                    intravenousCompleteVolume      = ivCheck.IntravenousIntakeCompleteVolume,
+                    intravenousCheck               = ivCheck.IvCheck,
+                    intravenousDesc                = ivCheck.IvDescription,
+                    intravenousRunningTotal        = ivCheck.IntravenousRunningTotal,
+                    PatientId                      = ivCheck.PatientId
                 };
                 return await Result<FluidBalanceIVCheckDTO>.SuccessAsync(dto);
             }

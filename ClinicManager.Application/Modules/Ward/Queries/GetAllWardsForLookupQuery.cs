@@ -26,8 +26,8 @@ namespace ClinicManager.Application.Modules.Ward.Queries
             {
                 Expression < Func<WardEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.WardNumber,
+                    Id    = e.Id,
+                    Name  = e.WardNumber,
                     Prop1 = e.TotalRooms.ToString()
                 };
 

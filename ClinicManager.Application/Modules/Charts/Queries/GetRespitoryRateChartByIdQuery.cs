@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
 
                 var dto = new RespitoryChartDTO
                 {
-                    RespitoryChartId = respitoryChartEntry.Id,
+                    RespitoryChartId    = respitoryChartEntry.Id,
                     RespitoryChartEntry = respitoryChartEntry.RespitoryChartEntry,
-                    Time = respitoryChartEntry.Time,
-                    PatientId = respitoryChartEntry.PatientId
+                    Time                = respitoryChartEntry.Time,
+                    PatientId           = respitoryChartEntry.PatientId
                 };
                 return await Result<RespitoryChartDTO>.SuccessAsync(dto);
             }

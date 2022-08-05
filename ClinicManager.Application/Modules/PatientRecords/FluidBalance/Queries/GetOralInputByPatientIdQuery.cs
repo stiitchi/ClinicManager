@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
                     throw new Exception("Unable to return Oral Check");
                 var dto = new OralIntakeDTO
                 {
-                    OralIntakeTestId = oralCheck.Id,
-                    OralIntakeMl = oralCheck.OralIntakeMl,
-                    OralIntakeTime = oralCheck.OralIntakeTime,
-                    OralIntakeVolume = oralCheck.OralIntakeVolume,
-                    PatientId = oralCheck.PatientId
+                    OralIntakeTestId        = oralCheck.Id,
+                    OralIntakeMl            = oralCheck.OralIntakeMl,
+                    OralIntakeTime          = oralCheck.OralIntakeTime,
+                    OralIntakeVolume        = oralCheck.OralIntakeVolume,
+                    PatientId               = oralCheck.PatientId
                 };
                 return await Result<OralIntakeDTO>.SuccessAsync(dto);
             }

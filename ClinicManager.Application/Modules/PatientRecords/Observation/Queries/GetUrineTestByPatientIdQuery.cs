@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new UrineTestDTO
                 {
-                    UrineTestId = urineTestRecord.Id,
-                    UrineTestFrequency = urineTestRecord.UrineTestFrequency,
-                    UrineTestSignature = urineTestRecord.UrineTestSignature,
-                    UrineTestTime = urineTestRecord.UrineTestTime,
-                    PatientId = urineTestRecord.PatientId
+                    UrineTestId         = urineTestRecord.Id,
+                    UrineTestFrequency  = urineTestRecord.UrineTestFrequency,
+                    UrineTestSignature  = urineTestRecord.UrineTestSignature,
+                    UrineTestTime       = urineTestRecord.UrineTestTime,
+                    PatientId           = urineTestRecord.PatientId
                 };
                 return await Result<UrineTestDTO>.SuccessAsync(dto);
             }

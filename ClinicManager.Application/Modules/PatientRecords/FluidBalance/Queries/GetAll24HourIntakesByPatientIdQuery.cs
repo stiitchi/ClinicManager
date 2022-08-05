@@ -28,12 +28,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
             {
                 Expression<Func<Previous24HourIntakeEntity, Previous24HourIntakeDTO>> expression = e => new Previous24HourIntakeDTO
                 {
-                    TotalIntakeId = e.Id,
-                    DateToday = e.DateToday,
-                    TotalIntake = e.Total24HourIntake,
-                    Output24Hour = e.Previous24HourOutput,
-                    Intake24Hour = e.Previous24HourIntake,
-                    PatientId = e.PatientId
+                    TotalIntakeId       = e.Id,
+                    DateToday           = e.DateToday,
+                    TotalIntake         = e.Total24HourIntake,
+                    Output24Hour        = e.Previous24HourOutput,
+                    Intake24Hour        = e.Previous24HourIntake,
+                    PatientId           = e.PatientId
                 };
 
                 var prev24hour = await _context.Previous24HourIntakeTests

@@ -28,16 +28,16 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
             {
                 Expression<Func<IVTestEntity, FluidBalanceIVCheckDTO>> expression = e => new FluidBalanceIVCheckDTO
                 {
-                    IVTestId = e.Id,
-                    intravenousML = e.IntravenousIntakeMl,
-                    intravenousIntakeTime = e.IntravenousIntakeTime,
-                    intravenousIntakeTimeCompleted = e.IntravenousIntakeTimeCompleted,
-                    intravenousStartVolume = e.IntravenousIntakeStartVolume,
-                    intravenousCompleteVolume = e.IntravenousIntakeCompleteVolume,
-                    intravenousCheck = e.IvCheck,
-                    intravenousDesc = e.IvDescription,
-                    intravenousRunningTotal = e.IntravenousRunningTotal,
-                    PatientId = e.PatientId
+                    IVTestId                        = e.Id,
+                    intravenousML                   = e.IntravenousIntakeMl,
+                    intravenousIntakeTime           = e.IntravenousIntakeTime,
+                    intravenousIntakeTimeCompleted  = e.IntravenousIntakeTimeCompleted,
+                    intravenousStartVolume          = e.IntravenousIntakeStartVolume,
+                    intravenousCompleteVolume       = e.IntravenousIntakeCompleteVolume,
+                    intravenousCheck                = e.IvCheck,
+                    intravenousDesc                 = e.IvDescription,
+                    intravenousRunningTotal         = e.IntravenousRunningTotal,
+                    PatientId                       = e.PatientId
                 };
 
                 var ivChecks = await _context.IVTestRecords

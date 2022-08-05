@@ -32,7 +32,7 @@ namespace ClinicManager.Application.Modules.Ward.Queries
                     throw new Exception("Unable to return Ward");
                 var dto = new WardDTO
                 {
-                    WardId = ward.Id,
+                    WardId     = ward.Id,
                     WardNumber = ward.WardNumber,
                     TotalRooms = ward.TotalRooms
                 };

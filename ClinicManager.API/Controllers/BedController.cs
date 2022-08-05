@@ -65,9 +65,22 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new AddBedCommand
             {
-                BedId = bed.BedId,
-                RoomId = bed.RoomId.Value,
+                BedId     = bed.BedId,
+                RoomId    = bed.RoomId.Value,
                 BedNumber = bed.BedNumber
+            }));
+        }
+
+        [HttpPost("AssignPatientToBed")]
+        public async Task<IActionResult> AssignPatientToBed(MovePatientDTO movePatient)
+        {
+            return Ok(await _mediator.Send(new AssignBedToPatientCommand
+            {
+                BedId        = movePatient.BedId,
+                RoomId       = movePatient.RoomId,
+                WardId       = movePatient.WardId,
+                PatientBedId = movePatient.PatientBedId,
+                PatientId    = movePatient.PatientId
             }));
         }
 
@@ -76,9 +89,9 @@ namespace ClinicManager.API.Controllers
         {
             return Ok(await _mediator.Send(new EditBedCommand
             {
-                BedId = bed.BedId,
+                BedId      = bed.BedId,
                 RoomNumber = bed.RoomNumber,
-                BedNumber = bed.BedNumber
+                BedNumber  = bed.BedNumber
             }));
         }
     }

@@ -10,6 +10,8 @@ namespace ClinicManager.Application.Modules.Bed.Commands
     {
         public int PatientBedId { get; set; }
         public int BedId { get; set; }
+        public int WardId { get; set; }
+        public int RoomId { get; set; }
         public int PatientId { get; set; }
     }
 
@@ -26,12 +28,13 @@ namespace ClinicManager.Application.Modules.Bed.Commands
         {
             try
             {
+                var ward = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.WardId, cancellationToken);
+                if (ward == null)
+                    throw new Exception("Ward doesn't exist");
 
-                var patientBeds = await _context.PatientBeds.IgnoreQueryFilters().FirstOrDefaultAsync
-                    (c => c.Id == request.PatientBedId && c.PatientId != request.PatientId, cancellationToken);
-
-                if (patientBeds != null)
-                    throw new Exception("A patient is already assigned to this bed");
+                var room = await _context.Wards.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.RoomId, cancellationToken);
+                if (room == null)
+                    throw new Exception("Room doesn't exist");
 
                 var bed = await _context.Beds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.BedId, cancellationToken);
                 if (bed == null)
@@ -40,6 +43,11 @@ namespace ClinicManager.Application.Modules.Bed.Commands
                 var patient = await _context.Patients.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientId, cancellationToken);
                 if (patient == null)
                     throw new Exception("Patient doesn't exist");
+
+                var patientBeds = await _context.PatientBeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientBedId && c.PatientId != request.PatientId, cancellationToken);
+
+                if (patientBeds != null)
+                    _context.PatientBeds.Remove(patientBeds);
 
                 bed.AssignPatientToBed(patient);
 

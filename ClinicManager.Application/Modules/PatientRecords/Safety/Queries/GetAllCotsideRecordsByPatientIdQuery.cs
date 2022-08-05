@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
             {
                 Expression<Func<CotsideEntity, CotsideDTO>> expression = e => new CotsideDTO
                 {
-                    CotsidesId = e.Id,
-                    CotsidesFrequency = e.CotsidesFrequency,
-                    CotsidesSignature = e.CotsidesSignature,
-                    CotsidesTime = e.CotsidesTime,
-                    PatientId = e.PatientId
+                    CotsidesId          = e.Id,
+                    CotsidesFrequency   = e.CotsidesFrequency,
+                    CotsidesSignature   = e.CotsidesSignature,
+                    CotsidesTime        = e.CotsidesTime,
+                    PatientId           = e.PatientId
                 };
 
                 var cotsideEntry = await _context.CotsideRecords

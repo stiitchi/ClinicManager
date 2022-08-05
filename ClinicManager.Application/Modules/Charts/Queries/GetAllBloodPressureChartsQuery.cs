@@ -27,10 +27,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
             {
                 Expression<Func<BloodPressureChartEntity, BloodPressureDTO>> expression = e => new BloodPressureDTO
                 {
-                    BloodPressureChartId = e.Id,
+                    BloodPressureChartId    = e.Id,
                     BloodPressureChartEntry = e.BloodPressureChartEntry,
-                    Time = e.Time,
-                    PatientId = e.PatientId
+                    Time                    = e.Time,
+                    PatientId               = e.PatientId
                 };
 
                 var bloodPressureEntry = await _context.BloodPressureCharts

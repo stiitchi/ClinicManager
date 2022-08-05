@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
             {
                 Expression<Func<CheckIdBandEntity, CheckIDBandDTO>> expression = e => new CheckIDBandDTO
                 {
-                    CheckIDBandsId = e.Id,
-                    CheckIDBandsFrequency = e.CheckIDBandsFrequency,
-                    CheckIDBandsSignature = e.CheckIDBandsSignature,
-                    CheckIDBandsTime = e.CheckIDBandsTime,
-                    PatientId = e.PatientId
+                    CheckIDBandsId              = e.Id,
+                    CheckIDBandsFrequency       = e.CheckIDBandsFrequency,
+                    CheckIDBandsSignature       = e.CheckIDBandsSignature,
+                    CheckIDBandsTime            = e.CheckIDBandsTime,
+                    PatientId                   = e.PatientId
                 };
 
                 var idBandsEntry = await _context.CheckIdBandTests

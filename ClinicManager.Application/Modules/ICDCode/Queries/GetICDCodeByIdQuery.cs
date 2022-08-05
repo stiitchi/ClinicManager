@@ -32,9 +32,9 @@ namespace ClinicManager.Application.Modules.ICDCode.Queries
                     throw new Exception("Unable to return ICD Code");
                 var dto = new ICDCodeDTO
                 {
-                    ICDCode = icdCode.IcdCode,
+                    ICDCode     = icdCode.IcdCode,
                     Description = icdCode.IcdDescription,
-                    DateAdded = icdCode.DateAdded
+                    DateAdded   = icdCode.DateAdded
                 };
                 return await Result<ICDCodeDTO>.SuccessAsync(dto);
             }

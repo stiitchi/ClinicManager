@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<BloodEntity, BloodDTO>> expression = e => new BloodDTO
                 {
-                    BloodId = e.Id,
-                    BloodFrequency = e.BloodFrequency,
-                    BloodSignature = e.BloodSignature,
-                    BloodTime = e.BloodTime,
-                    PatientId = e.PatientId
+                    BloodId         = e.Id,
+                    BloodFrequency  = e.BloodFrequency,
+                    BloodSignature  = e.BloodSignature,
+                    BloodTime       = e.BloodTime,
+                    PatientId       = e.PatientId
                 };
 
                 var bloodGlucoseEntry = await _context.BloodTests

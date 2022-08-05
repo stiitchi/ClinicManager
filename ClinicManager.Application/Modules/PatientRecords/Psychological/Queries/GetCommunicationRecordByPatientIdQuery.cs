@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 
                 var dto = new CommunicationDTO
                 {
-                    CommunicationId = communicationRecord.Id,
-                    CommunicationFrequency = communicationRecord.CommunicationFrequency,
-                    CommunicationSignature = communicationRecord.CommunicationSignature,
-                    CommunicationTime = communicationRecord.CommunicationTime,
-                    PatientId = communicationRecord.PatientId
+                    CommunicationId         = communicationRecord.Id,
+                    CommunicationFrequency  = communicationRecord.CommunicationFrequency,
+                    CommunicationSignature  = communicationRecord.CommunicationSignature,
+                    CommunicationTime       = communicationRecord.CommunicationTime,
+                    PatientId               = communicationRecord.PatientId
                 };
                 return await Result<CommunicationDTO>.SuccessAsync(dto);
 

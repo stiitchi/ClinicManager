@@ -28,8 +28,8 @@ namespace ClinicManager.Application.Modules.Patient.Queries
             {
                 Expression<Func<UserEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.FirstName,
+                    Id    = e.Id,
+                    Name  = e.FirstName,
                     Prop1 = e.LastName,
                     Prop2 = e.IsLoggedIn.ToString(),
                     Prop3 = e.Role

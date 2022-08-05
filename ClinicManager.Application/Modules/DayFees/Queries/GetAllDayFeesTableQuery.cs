@@ -44,10 +44,10 @@ namespace ClinicManager.Application.Modules.DayFees.Queries
             {
                 Expression<Func<DayFeesEntity, DayFeesDTO>> expression = e => new DayFeesDTO
                 {
-                    DayFeeID = e.Id,
-                    DayFeeCode = e.DayFeeCode,
-                    DateAdded = e.DateAdded,
-                    Description = e.DayFeeDescription
+                    DayFeeID        = e.Id,
+                    DayFeeCode      = e.DayFeeCode,
+                    DateAdded       = e.DateAdded,
+                    Description     = e.DayFeeDescription
                 };
 
                 IQueryable<DayFeesEntity> query = _context.DayFees;

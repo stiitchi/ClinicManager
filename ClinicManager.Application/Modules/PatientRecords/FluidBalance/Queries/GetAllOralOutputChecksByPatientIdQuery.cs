@@ -28,12 +28,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
             {
                 Expression<Func<OralOutputEntity, OralOutputDTO>> expression = e => new OralOutputDTO
                 {
-                    OralOutputTestId = e.Id,
-                    IsUrine = e.IsUrine,
-                    OralOutputMl = e.OutputMl,
-                    OralOutputTime = e.OralOutputTime,
-                    RunningOutputTotal = e.RunningOutputTotal,
-                    PatientId = e.PatientId
+                    OralOutputTestId         = e.Id,
+                    IsUrine                  = e.IsUrine,
+                    OralOutputMl             = e.OutputMl,
+                    OralOutputTime           = e.OralOutputTime,
+                    RunningOutputTotal       = e.RunningOutputTotal,
+                    PatientId                = e.PatientId
                 };
 
                 var oralOutputChecks = await _context.OralOutputTests

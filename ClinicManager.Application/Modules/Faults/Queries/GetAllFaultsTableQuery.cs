@@ -44,11 +44,11 @@ namespace ClinicManager.Application.Modules.Faults.Queries
             {
                 Expression<Func<FaultEntity, FaultsDTO>> expression = e => new FaultsDTO
                 {
-                    Id = e.Id,
-                    UserId = e.UserId,
-                    Description = e.Description,
-                    CreatedOn = e.CreatedOn,
-                    SeenOn = e.SeenOn
+                    Id              = e.Id,
+                    UserId          = e.UserId,
+                    Description     = e.Description,
+                    CreatedOn       = e.CreatedOn,
+                    SeenOn          = e.SeenOn
                 };
 
                 IQueryable<FaultEntity> query = _context.Faults;

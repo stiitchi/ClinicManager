@@ -1,77 +1,363 @@
 ﻿@page "/admissions"
-@using ClinicManager.Web.Infrastructure.Services.Admission
+@using ClinicManager.Data.Modals.Misc
+@using ClinicManager.Data.Modals.Patient
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.Bed
 @using Modals
 @using ClinicManager.Shared.DTO_s
-@inject IAdmissionService admissionService
+@using static ClinicManager.Shared.Constants.Constants
+@inject IPatientService patientService 
+@inject IBedService bedService
 @attribute [Authorize]
 
-<MudContainer>
+
     <MudGrid Class="mt-8">
-        <MudItem xs="12" md="12" sm="12">
+        <MudItem md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
-                Admissions
+                Patients
             </MudText>
-        </MudItem>         
-        <MudItem xs="12" md="6" sm="6">
-            <MudTextField Label="Search Admission" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
-                          AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>
-            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
-                       Variant="Variant.Outlined">New Admission</MudButton>
         </MudItem>
-           <MudItem xs="12" md="3" sm="3">
+        <MudItem md="6" sm="6">  
+        @switch(_stateService.GetActiveUserRole().Role)
+                {
+                    case "SYSTEM ADMINISTRATOR":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                        <MudButton Color="Color.Info" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
+                       Variant="Variant.Outlined">New Patient</MudButton> 
+                       <MudButton Color="Color.Warning" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
+                       Variant="Variant.Outlined">Search Patient</MudButton>
+                    break;
+                    case "SUPER USER":
+                    _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                          <MudButton Color="Color.Info" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="AddPatient"
+                       Variant="Variant.Outlined">New Patient</MudButton> 
+                       <MudButton Color="Color.Warning" Class="mt-3"
+                       Style="border-radius:10px 10px 10px 10px" OnClick="SearchPatient"
+                       Variant="Variant.Outlined">Search Patient</MudButton>
+                    break;
+                    default:
+                    //
+                    break;
+                }  
+        </MudItem>  
+        <MudItem md="6" sm="6">
+                <MudTooltip Text="Table View">
+                    <MudIconButton Color="Color.Warning" OnClick="SetViewTable"
+                                    Icon="@Icons.Material.Filled.TableBar"></MudIconButton>
+                </MudTooltip>
+                <MudTooltip Text="Grid View">
+                    <MudIconButton Color="Color.Secondary" OnClick="SetViewGrid"
+                                    Icon="@Icons.Material.Filled.GridView"></MudIconButton>
+                </MudTooltip>
+        </MudItem>
+ @*       <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission From" @bind-Date="date" />
         </MudItem>
         <MudItem xs="12" md="3" sm="3">
             <MudDatePicker Variant="Variant.Outlined" Label="Admission To" @bind-Date="date" />
-        </MudItem>
-        @foreach(var admission in _admissions)
+        </MudItem>*@
+ @if (!isTableView)
         {
-        <MudItem xs="12" md="6" sm="6">
-           <MudNavLink>
-                <MudCard Elevation="5" Style="border-radius: 10px 10px 10px 10px">
-                    <MudCardHeader>
-                        <CardHeaderAvatar>
+            @if (_patients != null)
+            {
+                @foreach (var patient in _patients)
+                {
+                    <MudItem xs="12" md="4" sm="4">
+                        <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                            <MudCardContent>
+                                <MudText Align="Align.Center" Typo="Typo.h6">@patient.Title @patient.LastName</MudText>
+                            </MudCardContent>
+                            <MudCardContent>
+                                <MudText Align="Align.Center" Typo="Typo.body1">@patient.IDNo</MudText>
+                            </MudCardContent>
+                            <MudCardContent>
+                                <center>
+                                    <MudChip Size="Size.Large" Color="Color.Info">
+                                        @patient.AdmissionDate.Value.ToString("MMMM dd")
+                                    </MudChip>
+                                    <MudChip Size="Size.Large" Color="Color.Secondary">
+                                        @patient.AdmissionDate.Value.ToShortTimeString()               
+                                    </MudChip>
+                                </center>
+                            </MudCardContent>
+                            <MudCardContent>
                             <center>
-                                <MudChip Size="Size.Large" Color="Color.Warning">@admission.AdmissionDate.ToString("MMMM dd")</MudChip>
-                                <MudChip Size="Size.Large" Color="Color.Secondary">@admission.AdmissionTime.ToString("HH:mm")</MudChip>
-                            </center>
-                        </CardHeaderAvatar>
-                        <CardHeaderContent>
-                                <MudText Class="ml-3 mt-2" Typo="Typo.h6">@admission.PatientFullName @admission.LastName</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                </MudCard>
-           </MudNavLink>
-        </MudItem>
+                            @switch(_stateService.GetActiveUserRole().Role)
+                            {
+                              case "SYSTEM ADMINISTRATOR":
+                                _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                                    <MudTooltip Text="View Patient">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
+                                    </MudTooltip>  
+                                    <MudTooltip Text="Patient Reports">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                                    </MudTooltip>
+                                break;
+                              case "SUPER USER":
+                                _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                                <MudTooltip Text="View Patient">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.AccessibilityNew"
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-edit/{patient.Id}"))"/>
+                                </MudTooltip>  
+                                <MudTooltip Text="Patient Reports">
+                                        <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                        @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                                </MudTooltip>
+                                break;
+                              default:
+                                //
+                                break;
+                            }         
+                            <MudTooltip Text="Patient Reports">
+                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Secondary" Icon="@Icons.Material.TwoTone.Book" 
+                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{patient.Id}"))"/>
+                            </MudTooltip>
+                                </center>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+        else
+        {
+            <MudText Align="Align.Center" Typo="Typo.body1">No Patients Found</MudText>
         }
+    }
     </MudGrid>
-</MudContainer>
+
+        @if (isTableView)
+        {
+        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_patients"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<PatientDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<PatientDTO, bool>(Search)" @ref="_table">
+        <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+                <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
+            </div>
+            <MudSpacer />
+          @*      <MudTextField Label="Search Patients" @bind-Value="Patient" Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Info"></MudTextField>*@
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="FirstName">First Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="LastName">Last Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="IDNo">ID Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="WardNo">Ward Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="RoomNo">Room Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="BedNo">Bed Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="PatientDTO" SortLabel="RefferingDoctor">Doctor</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="First Name">
+                <MudHighlighter Text="@context.FirstName.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Last Name">
+                <MudHighlighter Text="@context.LastName" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.IDNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.WardNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="RoomNo">
+                <MudHighlighter Text="@context.RoomNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+             <MudTd DataLabel="IDNo">
+                <MudHighlighter Text="@context.BedNo.ToString()" HighlightedText="@_searchString" />
+            </MudTd> 
+             <MudTd DataLabel="RefferingDoctor">
+                <MudHighlighter Text="@context.RefferingDoctor.ToString()" HighlightedText="@_searchString" />
+            </MudTd> 
+            @switch(_stateService.GetActiveUserRole().Role)
+            {
+                case "SYSTEM ADMINISTRATOR":
+                _stateService.GetActiveUserRole().Role = RoleConstants.SYSTEM_ADMINISTRATOR;
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" OnClick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
+                </MudTd> 
+                break;
+                case "SUPER USER":
+                _stateService.GetActiveUserRole().Role = RoleConstants.SUPER_USER;
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudButton Class="pa-1 mx-1" Color="Color.Secondary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" OnClick="@(() => DischargePatient(@context.Id))">Discharge</MudButton>
+                </MudTd>  
+                break;
+                default:
+                <MudTd  Style="width:150px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                    //
+                </MudTd> 
+                break;
+            } 
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager RowsPerPageString="Rows" />
+        </PagerContent>
+        </MudTable>
+        }       
+
 
 @code{
     DateTime? date = DateTime.Today;
+    DateTime admissionDate;
+
     public string Patient;
-    private List<AdmissionDTO> _admissions = new();
-    private AdmissionDTO admission = new();
+    private List<PatientDTO> _patients = new();
+    private PatientDTO patient = new();
+    public bool isTableView = true;
+    private string _searchString = "";
+    private MudTable<PatientDTO> _table;
+    private int _totalItems;
+    private int _currentPage;
+    private TableState _state;
 
-    private async Task InvokeModal(int id = 0)
+    private void AddPatient()
     {
-    
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(AddEditPatient.AddEditPatientModel), new PatientDTO { });
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<AddEditPatient>("New Patient", parameters, options);
     }
 
-    protected async override Task OnInitializedAsync()
+    private void SearchPatient()
     {
-        await GetAllAdmissions();
+        Random rnd = new Random();
+        int accountNo = rnd.Next();
+        int caseInformationNo = rnd.Next();
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(SearchPatientIDNumber.Search), new SearchDTO {});
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
+        _dialogService.Show<SearchPatientIDNumber>("Search Patient", parameters, options);
     }
 
-    public async Task GetAllAdmissions()
-    {
-        var admission = await admissionService.GetAll();
-        if (admission.Succeeded)
+        private async Task DischargePatient(int patientId)
         {
-            _admissions = admission.Data;
+            string dischargePatient = $"Discharge {_patients.FirstOrDefault(c => c.Id == patientId).FirstName}";
+            var parameters = new DialogParameters
+            {
+                {nameof(PatientDischargeConfirmation.ContentText), string.Format(dischargePatient, patientId)}
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<PatientDischargeConfirmation>("Discharge", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                var response = await patientService.DischargePatient(patientId);
+                if (response.Succeeded)
+                {
+                    await _table.ReloadServerData();
+                    _snackBar.Add("Patient Discharged", Severity.Success);
+                }
+                else
+                {
+                    foreach (var message in response.Messages)
+                    {
+                        _snackBar.Add(message, Severity.Error);
+                    }
+                }
+            }
+        }
+
+ 
+
+     public void SetViewGrid()
+    {
+        isTableView = false;
+    }
+    public void SetViewTable()
+    {
+        isTableView = true;
+    }
+
+    private bool Search(PatientDTO patient) => FilterFunc(patient, _searchString);
+
+    private bool FilterFunc(PatientDTO patient, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (patient.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.LastName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.WardNo.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.BedNo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.RefferingDoctor.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (patient.RefferingHospital.Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private async Task GetAllPatientsAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await patientService.GetAllAdmittedPatientsTable(state.Page + 1, state.PageSize, _searchString, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _patients = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
         }
     }
 
+     private void OnSearch(string text)
+        {
+            _searchString = text;
+            _table.ReloadServerData();
+        }
 
+        private async Task<TableData<PatientDTO>> ServerReload(TableState state)
+        {
+            if (!string.IsNullOrWhiteSpace(_searchString))
+            {
+                state.Page = 0;
+            }
+            _state = state;
+            await GetAllPatientsAsync(state);
+            return new TableData<PatientDTO> { TotalItems = _totalItems, Items = _patients };
+        }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllPatients();
+    }
+
+    public async Task GetAllPatients()
+    {
+        var patient = await patientService.GetAllAdmittedPatients();
+        if (patient.Succeeded)
+        {
+            _patients = patient.Data;
+        }
+    }
 }
 

@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 
                 var dto = new SelfCareDTO
                 {
-                    SelfCareId = selfCareRecord.Id,
-                    SelfCareTime = selfCareRecord.SelfCareTime,
-                    SelfCareFreq = selfCareRecord.SelfCareFrequency,
-                    SelfCareSignature = selfCareRecord.SelfCareSignature,
-                    PatientId = selfCareRecord.PatientId
+                    SelfCareId          = selfCareRecord.Id,
+                    SelfCareTime        = selfCareRecord.SelfCareTime,
+                    SelfCareFreq        = selfCareRecord.SelfCareFrequency,
+                    SelfCareSignature   = selfCareRecord.SelfCareSignature,
+                    PatientId           = selfCareRecord.PatientId
                 };
                 return await Result<SelfCareDTO>.SuccessAsync(dto);
             }

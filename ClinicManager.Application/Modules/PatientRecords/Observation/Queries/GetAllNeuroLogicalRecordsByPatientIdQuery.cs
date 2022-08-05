@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<NeurologicalEntity, NeuroLogicalDTO>> expression = e => new NeuroLogicalDTO
                 {
-                    NeuroLogicalId = e.Id,
-                    NeuroLogicalTime = e.NeuroLogicalTime,
-                    NeuroLogicalFrequency = e.NeuroLogicalFrequency,
-                    NeuroLogicalSignature = e.NeuroLogicalSignature,
-                    PatientId = e.PatientId
+                    NeuroLogicalId          = e.Id,
+                    NeuroLogicalTime        = e.NeuroLogicalTime,
+                    NeuroLogicalFrequency   = e.NeuroLogicalFrequency,
+                    NeuroLogicalSignature   = e.NeuroLogicalSignature,
+                    PatientId               = e.PatientId
                 };
 
                 var neuroLogicalEntry = await _context.NeurologicalTests

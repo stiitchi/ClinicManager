@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
             {
                 Expression<Func<MobileImmobileEntity, MobileImmobileDTO>> expression = e => new MobileImmobileDTO
                 {
-                    MobileImmobileId = e.Id,
-                    MobileImmobileTime = e.MobileImmobileTime,
-                    MobileImmobileFreq = e.MobileImmobileFrequency,
+                    MobileImmobileId        = e.Id,
+                    MobileImmobileTime      = e.MobileImmobileTime,
+                    MobileImmobileFreq      = e.MobileImmobileFrequency,
                     MobileImmobileSignature = e.MobileImmobileSignature,
-                    PatientId = e.PatientId
+                    PatientId               = e.PatientId
                 };
 
                 var mobilityRecord = await _context.MobileImmobileTests

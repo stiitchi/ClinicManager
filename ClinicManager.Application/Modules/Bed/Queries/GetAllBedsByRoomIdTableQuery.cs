@@ -46,11 +46,11 @@ namespace ClinicManager.Application.Modules.Bed.Queries
             {
                 Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                 {
-                    BedId = e.Id,
-                    BedNumber = e.BedNumber,
-                    RoomNumber = e.RoomNumber,
-                    PatientId = e.PatientId,
-                    RoomId = e.RoomId
+                    BedId       = e.Id,
+                    BedNumber   = e.BedNumber,
+                    RoomNumber  = e.RoomNumber,
+                    PatientId   = e.PatientId,
+                    RoomId      = e.RoomId
                 };
 
                 IQueryable<BedEntity> query = _context.Beds;

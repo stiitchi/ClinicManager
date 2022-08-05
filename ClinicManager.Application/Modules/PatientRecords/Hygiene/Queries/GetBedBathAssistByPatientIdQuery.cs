@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
 
                 var dto = new BedBathAssistDTO
                 {
-                    BedBathAssistId = bedBathAssistEntry.Id,
-                    BedBathAssistTime = bedBathAssistEntry.BedBathAssistTime,
-                    BedBathAssistFreq = bedBathAssistEntry.BedBathAssistFrequency,
-                    BedBathAssistSignature = bedBathAssistEntry.BedBathAssistSignature,
-                    PatientId = bedBathAssistEntry.PatientId
+                    BedBathAssistId         = bedBathAssistEntry.Id,
+                    BedBathAssistTime       = bedBathAssistEntry.BedBathAssistTime,
+                    BedBathAssistFreq       = bedBathAssistEntry.BedBathAssistFrequency,
+                    BedBathAssistSignature  = bedBathAssistEntry.BedBathAssistSignature,
+                    PatientId               = bedBathAssistEntry.PatientId
                 };
                 return await Result<BedBathAssistDTO>.SuccessAsync(dto);
             }

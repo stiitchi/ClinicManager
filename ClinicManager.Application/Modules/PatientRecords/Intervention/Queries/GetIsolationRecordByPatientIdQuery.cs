@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new IsolationDTO
                 {
-                    IsolationId = isolationEntry.Id,
-                    IsolationFreq = isolationEntry.IsolationFrequency,
-                    IsolationTime = isolationEntry.IsolationTime,
-                    IsolationSignature = isolationEntry.IsolationSignature,
-                    PatientId = isolationEntry.PatientId
+                    IsolationId         = isolationEntry.Id,
+                    IsolationFreq       = isolationEntry.IsolationFrequency,
+                    IsolationTime       = isolationEntry.IsolationTime,
+                    IsolationSignature  = isolationEntry.IsolationSignature,
+                    PatientId           = isolationEntry.PatientId
                 };
                 return await Result<IsolationDTO>.SuccessAsync(dto);
             }

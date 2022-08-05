@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
 
                 var dto = new CheckIDBandDTO
                 {
-                    CheckIDBandsTime = idBandEntry.CheckIDBandsTime,
+                    CheckIDBandsTime      = idBandEntry.CheckIDBandsTime,
                     CheckIDBandsSignature = idBandEntry.CheckIDBandsSignature,
                     CheckIDBandsFrequency = idBandEntry.CheckIDBandsFrequency,
-                    PatientId = idBandEntry.PatientId
+                    PatientId             = idBandEntry.PatientId
                 };
                 return await Result<CheckIDBandDTO>.SuccessAsync(dto);
             }

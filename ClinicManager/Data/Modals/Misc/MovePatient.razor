@@ -1,0 +1,134 @@
+﻿@using Blazored.FluentValidation
+@using ClinicManager.Web.Infrastructure.Services.Patient
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Room
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Shared.DTO_s
+@inject IPatientService patientService 
+@inject IWardService wardService 
+@inject IBedService bedService 
+@inject IRoomService roomService 
+
+
+<EditForm Model="@MovePatientModel" OnValidSubmit="SaveAsync">
+    @*<FluentValidationValidator @ref="_fluentValidationValidator" />*@
+    <MudDialog>
+        <DialogContent>
+            <MudGrid>
+                <MudItem  Class="mb-2" sm="12">
+                    <MudSelect ToStringFunc="@(i=>_wards.FirstOrDefault(o=>o.Name == i)?.Name ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="WardSelector"
+                        Label="Ward Number" T="string">
+                    @foreach (var item in _wards)
+                    {
+                        <MudSelectItem T="string" Value="@item.Name" />
+                    }
+                    </MudSelect>
+                    <MudSelect ToStringFunc="@(i=>_rooms.FirstOrDefault(o=>o.Name == i)?.Name ?? string.Empty)" Variant="Variant.Outlined" ValueChanged="RoomSelector"
+                        Label="Room Number" T="string">
+                    @foreach (var item in _rooms)
+                    {
+                        <MudSelectItem T="string" Value="@item.Name" />
+                    }
+                    </MudSelect>
+                    <MudSelect ToStringFunc="@(i=>_beds.FirstOrDefault(o=>o.PropInt == i)?.Name ?? string.Empty)"  Variant="Variant.Outlined" ValueChanged="BedSelector"
+                        Label="Bed Number" T="int">
+                    @foreach (var item in _beds)
+                    {
+                        <MudSelectItem T="int" Value="@item.PropInt" />
+                    }
+
+                    </MudSelect>
+                </MudItem> 
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(_processing)" Color="Color.Success">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processing</MudText>
+            }
+            else
+            {
+                    <MudText>Move</MudText>
+            }
+        </MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public MovePatientDTO MovePatientModel { get; set; } = new();
+    private bool _processing = false;
+     private List<LookupDTO> _wards = new();
+    private List<LookupDTO> _rooms = new();
+    private List<LookupDTO> _beds = new();
+    public int BedNo { get; set; }
+    public int WardNo { get; set; }
+
+    //private FluentValidationValidator _fluentValidationValidator;
+    //private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetForLookup();
+    }
+
+    public void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+          public async Task GetForLookup()
+        {
+            var wards = await wardService.GetForLookUp();
+            if (wards.Succeeded)
+            {
+                _wards = wards.Data;
+            }
+        }     
+
+    private async Task SaveAsync()
+    {
+        _processing = true;
+        IResult<int> response;
+        response = await bedService.AssignPatientToBed(MovePatientModel);
+
+        if (response.Succeeded)
+        {
+            _snackBar.Add("Patient Successfully Moved", Severity.Success);
+            MudDialog.Close();
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }    
+    
+        public async Task WardSelector(string wardNo)
+        {
+            var ward = await wardService.GetWardsByWardNumber(wardNo);
+            MovePatientModel.WardId = ward.Data.WardId;
+            var rooms = await roomService.RoomsByWardIdLookup(ward.Data.WardId);
+            _rooms = rooms.Data;
+        }
+
+        public async Task RoomSelector(string roomNo)
+        {
+            var roomId = await roomService.GetRoomsByRoomNumber(roomNo);
+            var beds = await bedService.BedsByRoomIdLookup(roomNo);
+            MovePatientModel.RoomId = roomId.Data.RoomId;
+            _beds = beds.Data;
+        }
+
+        public async Task BedSelector(int bedId)
+        {
+            MovePatientModel.BedId = bedId;
+        }
+}

@@ -32,8 +32,8 @@ namespace ClinicManager.Application.Modules.Room.Queries
                     throw new Exception("Unable to return Room");
                 var dto = new RoomDTO
                 {
-                    RoomId = room.Id,
-                    WardId = room.WardId,
+                    RoomId     = room.Id,
+                    WardId     = room.WardId,
                     RoomNumber = room.RoomNumber
                 };
                 return await Result<RoomDTO>.SuccessAsync(dto);

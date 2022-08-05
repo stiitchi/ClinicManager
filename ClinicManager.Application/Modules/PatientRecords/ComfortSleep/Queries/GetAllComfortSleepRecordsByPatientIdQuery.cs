@@ -29,11 +29,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.ComfortSleep.Queries
             {
                 Expression<Func<NurseCarePlanComfortSleepEntity, ComfortSleepReportDTO>> expression = e => new ComfortSleepReportDTO
                 {
-                    ComfortSleepRecordId = e.Id,
-                    Frequency = e.PainControlFrequency,
-                    Signature = e.PainControlSignature,
-                    PainControlDateTime = e.PainControlTime,
-                    PatientId = e.PatientId
+                    ComfortSleepRecordId    = e.Id,
+                    Frequency               = e.PainControlFrequency,
+                    Signature               = e.PainControlSignature,
+                    PainControlDateTime     = e.PainControlTime,
+                    PatientId               = e.PatientId
                 };
 
                 var progressReport = await _context.NurseCarePlanComfortSleepRecords

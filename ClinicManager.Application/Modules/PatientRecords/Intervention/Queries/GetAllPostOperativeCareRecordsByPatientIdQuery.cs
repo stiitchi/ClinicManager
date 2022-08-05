@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
             {
                 Expression<Func<PostOperativeCareEntity, PostOperativeCareDTO>> expression = e => new PostOperativeCareDTO
                 {
-                    PostOperativeCareId = e.Id,
-                    PostOperativeCareFreq = e.PostOperativeCareFrequency,
-                    PostOperativeCareTime = e.PostOperativeCareTime,
+                    PostOperativeCareId        = e.Id,
+                    PostOperativeCareFreq      = e.PostOperativeCareFrequency,
+                    PostOperativeCareTime      = e.PostOperativeCareTime,
                     PostOperativeCareSignature = e.PostOperativeCareSignature,
-                    PatientId = e.PatientId
+                    PatientId                  = e.PatientId
                 };
 
                 var postOperativeCare = await _context.PostOperativeCareTests

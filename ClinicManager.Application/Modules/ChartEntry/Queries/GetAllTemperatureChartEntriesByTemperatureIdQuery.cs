@@ -28,9 +28,9 @@ namespace ClinicManager.Application.Modules.ChartEntry.Queries
             {
                 Expression<Func<TemperatureChartEntryEntity, TemperatureRateEntryDTO>> expression = e => new TemperatureRateEntryDTO
                 {
-                    TemperatureRateEntryId = e.Id,
-                    TemperatureRateId = e.TemperatureChartId,
-                    TemperatureRateEntry = e.TemperatureChartEntry
+                    TemperatureRateEntryId  = e.Id,
+                    TemperatureRateId       = e.TemperatureChartId,
+                    TemperatureRateEntry    = e.TemperatureChartEntry
                 };
 
                 var respitoryRateChartEntries = await _context.TemperatureChartEntries

@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 
                 var dto = new HealthEducationDTO
                 {
-                    HealthEducationId = healthEducationRecord.Id,
-                    HealthEducationFrequency = healthEducationRecord.HealthEducationFrequency,
-                    HealthEducationSignature = healthEducationRecord.HealthEducationSignature,
-                    HealthEducationTime = healthEducationRecord.HealthEducationTime,
-                    PatientId = healthEducationRecord.PatientId
+                    HealthEducationId           = healthEducationRecord.Id,
+                    HealthEducationFrequency    = healthEducationRecord.HealthEducationFrequency,
+                    HealthEducationSignature    = healthEducationRecord.HealthEducationSignature,
+                    HealthEducationTime         = healthEducationRecord.HealthEducationTime,
+                    PatientId                   = healthEducationRecord.PatientId
                 };
                 return await Result<HealthEducationDTO>.SuccessAsync(dto);
 

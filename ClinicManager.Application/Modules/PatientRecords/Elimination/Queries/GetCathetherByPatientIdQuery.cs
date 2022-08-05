@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
                     throw new Exception("Unable to return Cathether Record");
                 var dto = new CathetherDTO
                 {
-                    CatheterId = cathetherRecord.Id,
-                    CatheterTime = cathetherRecord.CathetherTime,
-                    CatheterSignature = cathetherRecord.CathetherSignature,
-                    CatheterFreq = cathetherRecord.CathetherFrequency,
-                    PatientId = cathetherRecord.PatientId
+                    CatheterId          = cathetherRecord.Id,
+                    CatheterTime        = cathetherRecord.CathetherTime,
+                    CatheterSignature   = cathetherRecord.CathetherSignature,
+                    CatheterFreq        = cathetherRecord.CathetherFrequency,
+                    PatientId           = cathetherRecord.PatientId
                 };
                 return await Result<CathetherDTO>.SuccessAsync(dto);
             }

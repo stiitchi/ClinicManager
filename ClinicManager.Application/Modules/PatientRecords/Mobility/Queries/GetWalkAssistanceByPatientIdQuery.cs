@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new WalkWithAssistanceDTO
                 {
-                    WalkWithAssistanceId = walkAssistanceEntry.Id,
-                    WalkWithAssistanceFrequency = walkAssistanceEntry.WalkWithAssistanceFrequency,
-                    WalkWithAssistanceSignature = walkAssistanceEntry.WalkWithAssistanceSignature,
-                    WalkWithAssistanceTime = walkAssistanceEntry.WalkWithAssistanceTime,
-                    PatientId = walkAssistanceEntry.PatientId
+                    WalkWithAssistanceId            = walkAssistanceEntry.Id,
+                    WalkWithAssistanceFrequency     = walkAssistanceEntry.WalkWithAssistanceFrequency,
+                    WalkWithAssistanceSignature     = walkAssistanceEntry.WalkWithAssistanceSignature,
+                    WalkWithAssistanceTime          = walkAssistanceEntry.WalkWithAssistanceTime,
+                    PatientId                       = walkAssistanceEntry.PatientId
                 };
                 return await Result<WalkWithAssistanceDTO>.SuccessAsync(dto);
             }

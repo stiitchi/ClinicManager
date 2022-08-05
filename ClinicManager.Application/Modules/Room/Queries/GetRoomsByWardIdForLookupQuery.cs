@@ -28,9 +28,9 @@ namespace ClinicManager.Application.Modules.Room.Queries
             {
                 Expression<Func<RoomEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.RoomNumber.ToString(),
-                    Prop1 = e.WardId.ToString()
+                    Id      = e.Id,
+                    Name    = e.RoomNumber.ToString(),
+                    Prop1   = e.WardId.ToString()
                 };
 
                 var room = await _context.Rooms

@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 
                 var dto = new SpecialDTO
                 {
-                    SpecialId = specialEntry.Id,
-                    SpecialTime = specialEntry.SpecialTime,
-                    SpecialSignature = specialEntry.SpecialSignature,
-                    SpecialFrequency = specialEntry.SpecialFrequency,
-                    PatientId = specialEntry.PatientId
+                    SpecialId           = specialEntry.Id,
+                    SpecialTime         = specialEntry.SpecialTime,
+                    SpecialSignature    = specialEntry.SpecialSignature,
+                    SpecialFrequency    = specialEntry.SpecialFrequency,
+                    PatientId           = specialEntry.PatientId
                 };
                 return await Result<SpecialDTO>.SuccessAsync(dto);
             }

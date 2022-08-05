@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             {
                 Expression<Func<SelfCareEntity, SelfCareDTO>> expression = e => new SelfCareDTO
                 {
-                    SelfCareId = e.Id,
-                    SelfCareTime = e.SelfCareTime,
-                    SelfCareFreq = e.SelfCareFrequency,
-                    SelfCareSignature = e.SelfCareSignature,
-                    PatientId = e.PatientId
+                    SelfCareId          = e.Id,
+                    SelfCareTime        = e.SelfCareTime,
+                    SelfCareFreq        = e.SelfCareFrequency,
+                    SelfCareSignature   = e.SelfCareSignature,
+                    PatientId           = e.PatientId
                 };
 
                 var selfCareReport = await _context.SelfCareTests

@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
             {
                 Expression<Func<SpecialEntity, SpecialDTO>> expression = e => new SpecialDTO
                 {
-                    SpecialId = e.Id,
-                    SpecialFrequency = e.SpecialFrequency,
-                    SpecialSignature = e.SpecialSignature,
-                    SpecialTime = e.SpecialTime,
-                    PatientId = e.PatientId
+                    SpecialId           = e.Id,
+                    SpecialFrequency    = e.SpecialFrequency,
+                    SpecialSignature    = e.SpecialSignature,
+                    SpecialTime         = e.SpecialTime,
+                    PatientId           = e.PatientId
                 };
 
                 var specialEntry = await _context.SpecialTests

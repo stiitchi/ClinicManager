@@ -31,23 +31,20 @@
         {
             @foreach (var room in _rooms)
             {
-                <MudItem xs="12" md="3" sm="3">
-                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                        <MudCardContent>
-                            <MudText Align="Align.Center" Typo="Typo.h6"> Room @room.RoomNumber</MudText>
-                        </MudCardContent>
-                        <MudCardContent>
-                            <center>
-                                <MudText Align="Align.Center" Typo="Typo.body1">Ward @room.WardId</MudText>
-                            </center>
-                        </MudCardContent>
-                        <MudCardContent>
-                            <center>
-                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
-                            </center>
-                        </MudCardContent>
-                    </MudCard>
-                </MudItem>
+            <MudItem md="3" sm="6">
+                <MudCard Elevation="5" Style="height:150px">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                        <MudButton Color="Color.Info" @onclick="@(() => InvokeModal(room.RoomId))" Variant="Variant.Outlined">Beds</MudButton>
+                        <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(room.RoomId))" Variant="Variant.Outlined">Edit</MudButton>
+                        <MudButton Color="Color.Error" @onclick="@(() => Delete(room.RoomId, room.WardId))" Variant="Variant.Outlined">Delete</MudButton>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h6">Room @room.RoomNumber</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
             }
         }
     </MudGrid>
@@ -65,6 +62,7 @@
     <HeaderContent>
         <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="RoomNumber">Room Number</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="WardId">Ward Number</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="TotalBeds">Total Beds</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="BedNumber">
@@ -72,6 +70,9 @@
         </MudTd>
          <MudTd DataLabel="WardId">
             <MudHighlighter Text="@context.WardId.ToString()" HighlightedText="@_searchString" />
+        </MudTd> 
+         <MudTd DataLabel="TotalBeds">
+            <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
         </MudTd>   
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
          <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@context.RoomId}"))">View Beds</MudButton>

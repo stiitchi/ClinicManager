@@ -31,11 +31,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Queries
                     throw new Exception("Unable to return Daily Record");
                 var dto = new DailyCareRecordDTO
                 {
-                    DailyCareRecordId = dailyRecord.Id,
-                    DateAdded = dailyRecord.DateAdded,
-                    TimeAdded = dailyRecord.TimeAdded,
-                    CareRecord = dailyRecord.CareRecord,
-                    PatientId = dailyRecord.PatientId
+                    DailyCareRecordId   = dailyRecord.Id,
+                    DateAdded           = dailyRecord.DateAdded,
+                    TimeAdded           = dailyRecord.TimeAdded,
+                    CareRecord          = dailyRecord.CareRecord,
+                    PatientId           = dailyRecord.PatientId
                 };
                 return await Result<DailyCareRecordDTO>.SuccessAsync(dto);
             }

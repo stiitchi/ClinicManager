@@ -27,10 +27,10 @@ namespace ClinicManager.Application.Modules.Room.Queries
             {
                 Expression<Func<RoomEntity, RoomDTO>> expression = e => new RoomDTO
                 {
-                    RoomId = e.Id,
+                    RoomId     = e.Id,
                     RoomNumber = e.RoomNumber,
-                    WardId = e.WardId,
-                    TotalBeds = e.Beds.Count()
+                    WardId     = e.WardId,
+                    TotalBeds  = e.Beds.Count()
                 };
 
                 var rooms = await _context.Rooms

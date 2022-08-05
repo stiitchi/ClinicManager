@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
             {
                 Expression<Func<BedBathEntity, BedBathDTO>> expression = e => new BedBathDTO
                 {
-                    BedBathId = e.Id,
-                    BedBathTime = e.BedBathTime,
-                    BedBathFreq= e.BedBathFrequency,
+                    BedBathId        = e.Id,
+                    BedBathTime      = e.BedBathTime,
+                    BedBathFreq      = e.BedBathFrequency,
                     BedBathSignature = e.BedBathSignature,
-                    PatientId = e.PatientId
+                    PatientId        = e.PatientId
                 };
 
                 var bedBathReport = await _context.BedBathTests

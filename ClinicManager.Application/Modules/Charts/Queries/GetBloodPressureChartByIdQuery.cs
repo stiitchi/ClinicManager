@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
 
                 var dto = new BloodPressureDTO
                 {
-                    BloodPressureChartId = bloodPressure.Id,
-                    BloodPressureChartEntry = bloodPressure.BloodPressureChartEntry,
-                    Time = bloodPressure.Time,
-                    PatientId = bloodPressure.PatientId
+                    BloodPressureChartId        = bloodPressure.Id,
+                    BloodPressureChartEntry     = bloodPressure.BloodPressureChartEntry,
+                    Time                        = bloodPressure.Time,
+                    PatientId                   = bloodPressure.PatientId
                 };
                 return await Result<BloodPressureDTO>.SuccessAsync(dto);
             }

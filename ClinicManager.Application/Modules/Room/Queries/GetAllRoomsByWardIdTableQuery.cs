@@ -46,10 +46,10 @@ namespace ClinicManager.Application.Modules.Room.Queries
             {
                 Expression<Func<RoomEntity, RoomDTO>> expression = e => new RoomDTO
                 {
-                    RoomId = e.Id,
-                    WardId = e.WardId,
-                    RoomNumber = e.RoomNumber,
-                    TotalBeds = e.Beds.Count()
+                    RoomId      = e.Id,
+                    WardId      = e.WardId,
+                    RoomNumber  = e.RoomNumber,
+                    TotalBeds   = e.Beds.Count()
                 };
 
                 IQueryable<RoomEntity> query = _context.Rooms;

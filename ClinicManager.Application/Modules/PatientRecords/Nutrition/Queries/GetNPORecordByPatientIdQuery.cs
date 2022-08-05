@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 
                 var dto = new KeepNPODTO
                 {
-                    KeepNPOId = npoRecordEntry.Id,
-                    KeepNPOFrequency = npoRecordEntry.KeepNPOFrequency,
-                    KeepNPOSignature = npoRecordEntry.KeepNPOSignature,
-                    KeepNPOTime = npoRecordEntry.KeepNPOTime,
-                    PatientId = npoRecordEntry.PatientId
+                    KeepNPOId           = npoRecordEntry.Id,
+                    KeepNPOFrequency    = npoRecordEntry.KeepNPOFrequency,
+                    KeepNPOSignature    = npoRecordEntry.KeepNPOSignature,
+                    KeepNPOTime         = npoRecordEntry.KeepNPOTime,
+                    PatientId           = npoRecordEntry.PatientId
                 };
                 return await Result<KeepNPODTO>.SuccessAsync(dto);
             }

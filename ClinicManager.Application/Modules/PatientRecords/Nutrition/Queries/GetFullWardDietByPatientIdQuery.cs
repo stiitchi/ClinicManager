@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
 
                 var dto = new FullWardDietDTO
                 {
-                    FullWardDietID = fullWardEntry.Id,
-                    FullWardDietFrequency = fullWardEntry.FullWardDietFrequency,
-                    FullWardDietSignature = fullWardEntry.FullWardDietSignature,
-                    FullWardDietTime = fullWardEntry.FullWardDietTime,
-                    PatientId = fullWardEntry.PatientId
+                    FullWardDietID          = fullWardEntry.Id,
+                    FullWardDietFrequency   = fullWardEntry.FullWardDietFrequency,
+                    FullWardDietSignature   = fullWardEntry.FullWardDietSignature,
+                    FullWardDietTime        = fullWardEntry.FullWardDietTime,
+                    PatientId               = fullWardEntry.PatientId
                 };
                 return await Result<FullWardDietDTO>.SuccessAsync(dto);
             }

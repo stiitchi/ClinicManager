@@ -8,6 +8,7 @@ namespace ClinicManager.Web.Infrastructure.Routes
         public static string Save = "api/Patient";
 
         public static string GetAllPatients = "api/Patient/GetAllPatients";
+        public static string GetAllAdmittedPatients = "api/Patient/GetAllAdmittedPatients";
 
         public static string GetById(int id)
         {
@@ -21,6 +22,20 @@ namespace ClinicManager.Web.Infrastructure.Routes
         public static string GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy)
         {
             var url = $"api/Patient/GetAllPatientsTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&orderBy=";
+            if (orderBy?.Any() == true)
+            {
+                foreach (var orderByPart in orderBy)
+                {
+                    url += $"{orderByPart},";
+                }
+                url = url[..^1];
+            }
+            return url;
+        }
+
+        public static string GetAllAdmittedPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy)
+        {
+            var url = $"api/Patient/GetAllAdmittedPatientsTable?pageNumber={pageNumber}&pageSize={pageSize}&searchString={searchString}&orderBy=";
             if (orderBy?.Any() == true)
             {
                 foreach (var orderByPart in orderBy)

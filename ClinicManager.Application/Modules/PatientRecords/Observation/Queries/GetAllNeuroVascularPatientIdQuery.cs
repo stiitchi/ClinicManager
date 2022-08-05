@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
             {
                 Expression<Func<NeurovascularEntity, NeuroVascularDTO>> expression = e => new NeuroVascularDTO
                 {
-                    NeuroVascularId = e.Id,
-                    NeuroVascularTime = e.NeuroVascularTime,
-                    NeuroVascularSignature = e.NeuroVascularSignature,
-                    NeuroVascularFrequency = e.NeuroVascularFrequency,
-                    PatientId = e.PatientId
+                    NeuroVascularId         = e.Id,
+                    NeuroVascularTime       = e.NeuroVascularTime,
+                    NeuroVascularSignature  = e.NeuroVascularSignature,
+                    NeuroVascularFrequency  = e.NeuroVascularFrequency,
+                    PatientId               = e.PatientId
                 };
 
                 var neuroVascularEntry = await _context.NeurovascularTests

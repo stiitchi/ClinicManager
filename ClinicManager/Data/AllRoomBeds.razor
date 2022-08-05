@@ -28,23 +28,22 @@
         {
             @foreach (var bed in _beds)
             {
-                <MudItem xs="12" md="3" sm="3">
-                    <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                        <MudCardContent>
-                            <MudText Align="Align.Center" Typo="Typo.h6"> Bed @bed.BedNumber</MudText>
-                        </MudCardContent>
-                        <MudCardContent>
-                            <center>
-                                <MudText Align="Align.Center" Typo="Typo.body1">Ward @bed.RoomNumber</MudText>
-                            </center>
-                        </MudCardContent>
-                        <MudCardContent>
-                            <center>
-                                <MudIconButton Size="Size.Large" Class="mr-1" Color="Color.Info" Icon="@Icons.Material.TwoTone.Preview" />
-                            </center>
-                        </MudCardContent>
-                    </MudCard>
-                </MudItem>
+            <MudItem md="3" sm="6">
+                <MudCard Elevation="5" Style="height:150px">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                        <MudButton Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@bed.RoomId}"))" Variant="Variant.Outlined">Beds</MudButton>
+                        <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(bed.BedId))" Variant="Variant.Outlined">Edit</MudButton>
+                        <MudButton Color="Color.Error" @onclick="@(() => Delete(bed.BedId, bed.RoomId.Value))" Variant="Variant.Outlined">Delete</MudButton>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h6">Bed @bed.BedNumber</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
             }
         }
     </MudGrid>

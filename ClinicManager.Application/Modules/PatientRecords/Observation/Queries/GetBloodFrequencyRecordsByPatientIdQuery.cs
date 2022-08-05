@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
 
                 var dto = new BloodDTO
                 {
-                    BloodId = bloodRecord.Id,
-                    BloodFrequency = bloodRecord.BloodFrequency,
-                    BloodSignature = bloodRecord.BloodSignature,
-                    BloodTime = bloodRecord.BloodTime,
-                    PatientId = bloodRecord.PatientId
+                    BloodId         = bloodRecord.Id,
+                    BloodFrequency  = bloodRecord.BloodFrequency,
+                    BloodSignature  = bloodRecord.BloodSignature,
+                    BloodTime       = bloodRecord.BloodTime,
+                    PatientId       = bloodRecord.PatientId
                 };
                 return await Result<BloodDTO>.SuccessAsync(dto);
 

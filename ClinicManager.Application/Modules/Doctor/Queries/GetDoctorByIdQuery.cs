@@ -34,10 +34,10 @@ namespace ClinicManager.Application.Modules.Doctor.Queries
                     throw new Exception("Unable to return Doctor");
                 var dto = new UserDTO
                 {
-                    FirstName = nurse.FirstName,
-                    LastName = nurse.LastName,
-                    MobileNo = nurse.MobileNo,
-                    Email = nurse.Email
+                    FirstName   = nurse.FirstName,
+                    LastName    = nurse.LastName,
+                    MobileNo    = nurse.MobileNo,
+                    Email       = nurse.Email
                 };
                 return await Result<UserDTO>.SuccessAsync(dto);
             }

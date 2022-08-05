@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
 
                 var dto = new ContinentDTO
                 {
-                ContinentId = continentRecord.Id,
-                ContinentTime = continentRecord.ContinentTime,
-                ContinentSignature = continentRecord.ContinentSignature,
-                ContinentFreq = continentRecord.ContinentFrequency,
-                PatientId = continentRecord.PatientId
+                ContinentId         = continentRecord.Id,
+                ContinentTime       = continentRecord.ContinentTime,
+                ContinentSignature  = continentRecord.ContinentSignature,
+                ContinentFreq       = continentRecord.ContinentFrequency,
+                PatientId           = continentRecord.PatientId
                 };
                 return await Result<ContinentDTO>.SuccessAsync(dto);
             }

@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.Doctor.Queries
             {
                 Expression<Func<UserEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.FirstName,
-                    Prop1 = e.LastName,
-                    Prop2 = e.MobileNo,
-                    Prop3 = e.Role
+                    Id      = e.Id,
+                    Name    = e.FirstName,
+                    Prop1   = e.LastName,
+                    Prop2   = e.MobileNo,
+                    Prop3   = e.Role
                 };
 
                 var users = await _context.Users

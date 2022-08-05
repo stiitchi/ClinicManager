@@ -28,10 +28,10 @@ namespace ClinicManager.Application.Modules.Bed.Queries
             {
                 Expression<Func<BedEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.BedNumber.ToString(),
-                    Prop1 = e.RoomId.ToString(),
-                    Prop2 = e.PatientId.ToString(),
+                    Id      = e.Id,
+                    Name    = e.BedNumber.ToString(),
+                    Prop1   = e.RoomId.ToString(),
+                    Prop2   = e.PatientId.ToString(),
                     PropInt = e.BedNumber
                 };
 

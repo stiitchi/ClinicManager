@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.Room.Queries
 
                 var dto = new RoomDTO
                 {
-                    RoomId = room.Id,
-                    WardId = room.WardId,
-                    RoomNumber = room.RoomNumber,
-                    TotalBeds = room.Beds.Count()
+                    RoomId      = room.Id,
+                    WardId      = room.WardId,
+                    RoomNumber  = room.RoomNumber,
+                    TotalBeds   = room.Beds.Count()
                 };
                 return await Result<List<RoomDTO>>.SuccessAsync();
             }

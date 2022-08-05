@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
 
                 var dto = new RednessDTO
                 {
-                    ReportRednessSignature = rednessEntry.ReportRednessSignature,
-                    ReportRednessFrequency = rednessEntry.ReportRednessFrequency,
-                    ReportRednessTime = rednessEntry.ReportRednessTime,
-                    PatientId = rednessEntry.PatientId
+                    ReportRednessSignature  = rednessEntry.ReportRednessSignature,
+                    ReportRednessFrequency  = rednessEntry.ReportRednessFrequency,
+                    ReportRednessTime       = rednessEntry.ReportRednessTime,
+                    PatientId               = rednessEntry.PatientId
                 };
                 return await Result<RednessDTO>.SuccessAsync(dto);
             }

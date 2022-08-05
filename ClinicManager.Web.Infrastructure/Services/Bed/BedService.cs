@@ -94,10 +94,10 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             return await response.ToResult<List<LookupDTO>>();
         }
 
-        public async Task<IResult<int>> AssignPatientToBed(int patientId, int bedId)
+        public async Task<IResult<int>> AssignPatientToBed(MovePatientDTO request)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.PostAsJsonAsync(Routes.BedEndpoints.AssignPatientToBed(patientId, bedId), bedId);
+            var response = await _httpClient.PostAsJsonAsync(Routes.BedEndpoints.AssignPatientToBed, request);
             return await response.ToResult<int>();
         }
     }

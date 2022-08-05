@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Queries
             {
                 Expression<Func<DailyCareRecordEntity, DailyCareRecordDTO>> expression = e => new DailyCareRecordDTO
                 {
-                    DailyCareRecordId = e.Id,
-                    DateAdded = e.DateAdded,
-                    TimeAdded = e.TimeAdded,
-                    CareRecord = e.CareRecord,
-                    PatientId = e.PatientId
+                    DailyCareRecordId   = e.Id,
+                    DateAdded           = e.DateAdded,
+                    TimeAdded           = e.TimeAdded,
+                    CareRecord          = e.CareRecord,
+                    PatientId           = e.PatientId
                 };
 
                 var dailyRecords = await _context.DailyCareRecords

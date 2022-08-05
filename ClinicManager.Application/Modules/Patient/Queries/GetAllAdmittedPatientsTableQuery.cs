@@ -1,23 +1,23 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
-using ClinicManager.Application.Extensions;
 using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using System.Linq.Dynamic.Core;
+using ClinicManager.Application.Extensions;
 
 namespace ClinicManager.Application.Modules.Patient.Queries
 {
-  public class GetAllPatientsTableQuery : IRequest<PaginatedResult<PatientDTO>>
+    public class GetAllAdmittedPatientsTableQuery : IRequest<PaginatedResult<PatientDTO>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public string SearchString { get; set; }
         public string[] OrderBy { get; set; }
 
-        public GetAllPatientsTableQuery(int pageNumber, int pageSize, string searchString, string orderBy)
+        public GetAllAdmittedPatientsTableQuery(int pageNumber, int pageSize, string searchString, string orderBy)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
@@ -29,16 +29,16 @@ namespace ClinicManager.Application.Modules.Patient.Queries
         }
     }
 
-    public class GetAllPatientsTableQueryHandler : IRequestHandler<GetAllPatientsTableQuery, PaginatedResult<PatientDTO>>
+    public class GetAllAdmittedPatientsTableQueryHandler : IRequestHandler<GetAllAdmittedPatientsTableQuery, PaginatedResult<PatientDTO>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllPatientsTableQueryHandler(IApplicationDbContext context)
+        public GetAllAdmittedPatientsTableQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<PaginatedResult<PatientDTO>> Handle(GetAllPatientsTableQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<PatientDTO>> Handle(GetAllAdmittedPatientsTableQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     OtherContactRelationship                  = e.OtherContactRelationship,
                     PatientCellNo                             = e.PatientCellNo,
                     PatientTelNo                              = e.PatientTelNo,
-                    PatientWorkTelNo                          =  e.PatientWorkTelNo,
+                    PatientWorkTelNo                          = e.PatientWorkTelNo,
                     Physio                                    = e.Physio,
                     PoBox                                     = e.PoBox,
                     PoBoxCode                                 = e.PoBoxCode,
@@ -127,9 +127,9 @@ namespace ClinicManager.Application.Modules.Patient.Queries
 
                 if (!string.IsNullOrEmpty(request.SearchString))
                     query = query.Where(o => o.FirstName.ToString().Contains(request.SearchString) ||
-                                             o.LastName.ToString().Contains(request.SearchString)  ||
-                                             o.RefferingDoctor.ToString().Contains(request.SearchString)  ||
-                                             o.RefferingHospital.ToString().Contains(request.SearchString)  ||
+                                             o.LastName.ToString().Contains(request.SearchString) ||
+                                             o.RefferingDoctor.ToString().Contains(request.SearchString) ||
+                                             o.RefferingHospital.ToString().Contains(request.SearchString) ||
                                              o.WardNO.ToString().Contains(request.SearchString)
                                              );
 
@@ -138,6 +138,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     var result = await query
                    .AsNoTracking()
                    .IgnoreQueryFilters()
+                   .Where(x => x.IsAdmitted == true)
                    .Select(expression)
                    .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
@@ -148,6 +149,7 @@ namespace ClinicManager.Application.Modules.Patient.Queries
                     var result = await query
                     .AsNoTracking()
                     .IgnoreQueryFilters()
+                    .Where(x => x.IsAdmitted == true)
                     .OrderBy(ordering)
                     .Select(expression)
                     .ToPaginatedListAsync(request.PageNumber, request.PageSize);

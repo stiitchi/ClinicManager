@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 
                 var dto = new NasalCannulaDTO
                 {
-                    NasalCannulaId = nasalCannalRecord.Id,
-                    NasalCannulaFrequency = nasalCannalRecord.NasalCannulaFrequency,
-                    NasalCannulaSignature = nasalCannalRecord.NasalCannulaSignature,
-                    NasalCannulaTime = nasalCannalRecord.NasalCannulaTime,
-                    PatientId = nasalCannalRecord.PatientId
+                    NasalCannulaId          = nasalCannalRecord.Id,
+                    NasalCannulaFrequency   = nasalCannalRecord.NasalCannulaFrequency,
+                    NasalCannulaSignature   = nasalCannalRecord.NasalCannulaSignature,
+                    NasalCannulaTime        = nasalCannalRecord.NasalCannulaTime,
+                    PatientId               = nasalCannalRecord.PatientId
                 };
                 return await Result<NasalCannulaDTO>.SuccessAsync(dto);
 

@@ -27,10 +27,10 @@ namespace ClinicManager.Application.Modules.DayFees.Queries
             {
                 Expression<Func<DayFeesEntity, LookupDTO>> expression = e => new LookupDTO
                 {
-                    Id = e.Id,
-                    Name = e.DayFeeCode,
-                    Prop1 = e.DayFeeDescription,
-                    Prop2 = e.DateAdded.ToString()
+                    Id      = e.Id,
+                    Name    = e.DayFeeCode,
+                    Prop1   = e.DayFeeDescription,
+                    Prop2   = e.DateAdded.ToString()
                 };
 
                 var dayFee = await _context.DayFees

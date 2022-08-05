@@ -34,11 +34,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.ComfortSleep.Queries
                     throw new Exception("Unable to return Comfort Sleep Report");
                 var dto = new ComfortSleepReportDTO
                 {
-                    PainControlDateTime = comfortSleepReport.PainControlTime,
-                    PatientId = comfortSleepReport.PatientId,
-                    Signature = comfortSleepReport.PainControlSignature,
-                    Frequency = comfortSleepReport.PainControlFrequency,
-                    ComfortSleepRecordId = comfortSleepReport.Id
+                    PainControlDateTime     = comfortSleepReport.PainControlTime,
+                    PatientId               = comfortSleepReport.PatientId,
+                    Signature               = comfortSleepReport.PainControlSignature,
+                    Frequency               = comfortSleepReport.PainControlFrequency,
+                    ComfortSleepRecordId    = comfortSleepReport.Id
                 };
                 return await Result<ComfortSleepReportDTO>.SuccessAsync(dto);
             }

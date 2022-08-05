@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.DayFees.Queries
             {
                 Expression<Func<PatientDayFeesEntity, PatientDayFeeDTO>> expression = e => new PatientDayFeeDTO
                 {
-                    PatientDayFeeId = e.Id,
-                    DayFeeId = e.DayFeesId.ToString(),
-                    PatientId = e.PatientId,
-                    DayFeeCode = e.DayFeeCode,
-                    DayFeeDescription = e.DayFeeDescription
+                    PatientDayFeeId     = e.Id,
+                    DayFeeId            = e.DayFeesId.ToString(),
+                    PatientId           = e.PatientId,
+                    DayFeeCode          = e.DayFeeCode,
+                    DayFeeDescription   = e.DayFeeDescription
                 };
 
                 var dayFees = await _context.PatientDayFees

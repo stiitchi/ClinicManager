@@ -32,14 +32,14 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Queries
                     throw new Exception("Unable to return Stool Chart");
                 var dto = new StoolChartDTO
                 {
-                    Consistency = stoolChart.Consistency,
-                    BowelAmount = stoolChart.BowelAmount,
-                    StoolTime = stoolChart.StoolChartTime,
-                    StoolDate = stoolChart.StoolChartDate,
-                    Blood = stoolChart.Blood,
-                    MuscousAmount = stoolChart.MucousAmount,
+                    Consistency         = stoolChart.Consistency,
+                    BowelAmount         = stoolChart.BowelAmount,
+                    StoolTime           = stoolChart.StoolChartTime,
+                    StoolDate           = stoolChart.StoolChartDate,
+                    Blood               = stoolChart.Blood,
+                    MuscousAmount       = stoolChart.MucousAmount,
                     NormalBowelMovement = stoolChart.NormalBowelHabit,
-                    PatientId = stoolChart.PatientId
+                    PatientId           = stoolChart.PatientId
                 };
                 return await Result<StoolChartDTO>.SuccessAsync(dto);
             }

@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
             {
                 Expression<Func<InhalaNebsEntity, InhalaNebsDTO>> expression = e => new InhalaNebsDTO
                 {
-                    InhalaNebsId = e.Id,
+                    InhalaNebsId        = e.Id,
                     InhalaNebsFrequency = e.InhalaNebsFrequency,
                     InhalaNebsSignature = e.InhalaNebsSignature,
-                    InhalaNebsTime = e.InhalaNebsTime,
-                    PatientId = e.PatientId
+                    InhalaNebsTime      = e.InhalaNebsTime,
+                    PatientId           = e.PatientId
                 };
 
                 var inhalaEntry = await _context.InhalaNebsTests

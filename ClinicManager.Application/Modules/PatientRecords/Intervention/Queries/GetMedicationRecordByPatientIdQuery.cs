@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new MedicationDTO
                 {
-                    MedicationId = medicationEntry.Id,
-                    MedicationFreq = medicationEntry.MedicationFrequency,
-                    MedicationTime = medicationEntry.MedicationTime,
+                    MedicationId        = medicationEntry.Id,
+                    MedicationFreq      = medicationEntry.MedicationFrequency,
+                    MedicationTime      = medicationEntry.MedicationTime,
                     MedicationSignature = medicationEntry.MedicationSignature,
-                    PatientId = medicationEntry.PatientId
+                    PatientId           = medicationEntry.PatientId
                 };
                 return await Result<MedicationDTO>.SuccessAsync(dto);
             }

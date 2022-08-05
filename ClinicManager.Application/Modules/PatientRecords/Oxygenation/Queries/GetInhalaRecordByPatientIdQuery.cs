@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 
                 var dto = new InhalaNebsDTO
                 {
-                    InhalaNebsId = inhalaRecord.Id,
-                    InhalaNebsFrequency = inhalaRecord.InhalaNebsFrequency,
-                    InhalaNebsSignature = inhalaRecord.InhalaNebsSignature,
-                    InhalaNebsTime = inhalaRecord.InhalaNebsTime,
-                    PatientId = inhalaRecord.PatientId
+                    InhalaNebsId         = inhalaRecord.Id,
+                    InhalaNebsFrequency  = inhalaRecord.InhalaNebsFrequency,
+                    InhalaNebsSignature  = inhalaRecord.InhalaNebsSignature,
+                    InhalaNebsTime       = inhalaRecord.InhalaNebsTime,
+                    PatientId            = inhalaRecord.PatientId
                 };
                 return await Result<InhalaNebsDTO>.SuccessAsync(dto);
 

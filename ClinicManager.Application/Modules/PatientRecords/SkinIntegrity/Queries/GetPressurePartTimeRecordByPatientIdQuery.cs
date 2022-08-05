@@ -34,9 +34,9 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
                 var dto = new PressurePartCareDTO
                 {
                     PressurePartCareSignature = pressurePartEntry.PressurePartCareSignature,
-                    PressurePartCareTime = pressurePartEntry.PressurePartCareTime,
+                    PressurePartCareTime      = pressurePartEntry.PressurePartCareTime,
                     PressurePartCareFrequency = pressurePartEntry.PressurePartCareFrequency,
-                    PatientId = pressurePartEntry.PatientId
+                    PatientId                 = pressurePartEntry.PatientId
                 };
                 return await Result<PressurePartCareDTO>.SuccessAsync(dto);
             }

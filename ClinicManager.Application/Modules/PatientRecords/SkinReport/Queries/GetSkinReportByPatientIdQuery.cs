@@ -32,13 +32,13 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinReport.Queries
 
                 var dto = new SkinReportDTO
                 {
-                    SkinIntegrityId = skinIntegrity.Id,
-                    SacrumDescription = skinIntegrity.SacrumDescription,
-                    HealsDescription = skinIntegrity.HealsDescription,
-                    HipsDescription = skinIntegrity.HipsDescription,
-                    OtherDescription = skinIntegrity.OtherDescription,
-                    Comments = skinIntegrity.Comments,
-                    PatientId = skinIntegrity.PatientId
+                    SkinIntegrityId     = skinIntegrity.Id,
+                    SacrumDescription   = skinIntegrity.SacrumDescription,
+                    HealsDescription    = skinIntegrity.HealsDescription,
+                    HipsDescription     = skinIntegrity.HipsDescription,
+                    OtherDescription    = skinIntegrity.OtherDescription,
+                    Comments            = skinIntegrity.Comments,
+                    PatientId           = skinIntegrity.PatientId
                 };
                 return await Result<SkinReportDTO>.SuccessAsync(dto);
             }

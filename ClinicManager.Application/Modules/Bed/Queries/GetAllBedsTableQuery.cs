@@ -44,8 +44,8 @@ namespace ClinicManager.Application.Modules.Bed.Queries
             {
                 Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                 {
-                    BedId = e.Id,
-                    BedNumber = e.BedNumber,
+                    BedId      = e.Id,
+                    BedNumber  = e.BedNumber,
                     RoomNumber = e.RoomNumber
                 };
 

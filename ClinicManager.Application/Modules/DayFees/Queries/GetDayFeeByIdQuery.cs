@@ -32,9 +32,9 @@ namespace ClinicManager.Application.Modules.DayFees.Queries
                     throw new Exception("Unable to return Day Fee");
                 var dto = new DayFeesDTO
                 {
-                    DayFeeCode = dayFees.DayFeeCode,
-                    Description = dayFees.DayFeeDescription,
-                    DateAdded = dayFees.DateAdded
+                    DayFeeCode      = dayFees.DayFeeCode,
+                    Description     = dayFees.DayFeeDescription,
+                    DateAdded       = dayFees.DateAdded
                 };
                 return await Result<DayFeesDTO>.SuccessAsync(dto);
             }

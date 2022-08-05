@@ -33,10 +33,10 @@ namespace ClinicManager.Application.Modules.Charts.Queries
 
                 var dto = new HeartRateDTO
                 {
-                    HeartRateChartId = heartRateChart.Id,
-                    HeartRateChartEntry = heartRateChart.HeartRateChartEntry,
-                    Time = heartRateChart.Time,
-                    PatientId = heartRateChart.PatientId
+                    HeartRateChartId        = heartRateChart.Id,
+                    HeartRateChartEntry     = heartRateChart.HeartRateChartEntry,
+                    Time                    = heartRateChart.Time,
+                    PatientId               = heartRateChart.PatientId
                 };
                 return await Result<HeartRateDTO>.SuccessAsync(dto);
             }

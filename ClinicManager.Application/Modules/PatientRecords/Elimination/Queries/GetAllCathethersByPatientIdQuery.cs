@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
             {
                 Expression<Func<CathetherEntity, CathetherDTO>> expression = e => new CathetherDTO
                 {
-                    CatheterId = e.Id,
-                    CatheterTime = e.CathetherTime,
-                    CatheterFreq = e.CathetherFrequency,
-                    CatheterSignature = e.CathetherSignature,
-                    PatientId = e.PatientId
+                    CatheterId          = e.Id,
+                    CatheterTime        = e.CathetherTime,
+                    CatheterFreq        = e.CathetherFrequency,
+                    CatheterSignature   = e.CathetherSignature,
+                    PatientId           = e.PatientId
                 };
 
                 var cathetherReport = await _context.CathetherRecords

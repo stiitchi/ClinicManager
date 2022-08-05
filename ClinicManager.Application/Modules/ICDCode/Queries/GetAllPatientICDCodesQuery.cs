@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.ICDCode.Queries
             {
                 Expression<Func<PatientICDCodeEntity, PatientICDCodeDTO>> expression = e => new PatientICDCodeDTO
                 {
-                    PatientICDCodeId = e.Id,
-                    ICDCodeId = e.IcdCodeId.ToString(),
-                    PatientId = e.PatientId,
+                    PatientICDCodeId   = e.Id,
+                    ICDCodeId          = e.IcdCodeId.ToString(),
+                    PatientId          = e.PatientId,
                     ICDCodeDescription = e.IcdDescription,
-                    ICDCode = e.IcdCode
+                    ICDCode            = e.IcdCode
                 };
 
                 var icdCode = await _context.PatientICDCodes

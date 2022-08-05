@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new PostOperativeCareDTO
                 {
-                    PostOperativeCareId = postOperativeEntry.Id,
-                    PostOperativeCareFreq = postOperativeEntry.PostOperativeCareFrequency,
-                    PostOperativeCareTime = postOperativeEntry.PostOperativeCareTime,
+                    PostOperativeCareId        = postOperativeEntry.Id,
+                    PostOperativeCareFreq      = postOperativeEntry.PostOperativeCareFrequency,
+                    PostOperativeCareTime      = postOperativeEntry.PostOperativeCareTime,
                     PostOperativeCareSignature = postOperativeEntry.PostOperativeCareSignature,
-                    PatientId = postOperativeEntry.PatientId
+                    PatientId                  = postOperativeEntry.PatientId
                 };
                 return await Result<PostOperativeCareDTO>.SuccessAsync(dto);
             }

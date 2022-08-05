@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
 
                 var dto = new WoundCareDTO
                 {
-                    WoundCareId = woundCareEntry.Id,
-                    WoundCareFreq = woundCareEntry.WoundCareFrequency,
-                    WoundCareTime = woundCareEntry.WoundCareTime,
+                    WoundCareId        = woundCareEntry.Id,
+                    WoundCareFreq      = woundCareEntry.WoundCareFrequency,
+                    WoundCareTime      = woundCareEntry.WoundCareTime,
                     WoundCareSignature = woundCareEntry.WoundCareSignature,
-                    PatientId = woundCareEntry.PatientId
+                    PatientId          = woundCareEntry.PatientId
                 };
                 return await Result<WoundCareDTO>.SuccessAsync(dto);
             }

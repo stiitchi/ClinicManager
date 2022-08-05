@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 
                 var dto = new MaskDTO
                 {
-                    MaskId = maskEntry.Id,
-                    MaskFrequency = maskEntry.MaskFrequency,
-                    MaskTime = maskEntry.MaskTime,
-                    PatientId = maskEntry.PatientId,
-                    MaskSignature = maskEntry.MaskSignature
+                    MaskId          = maskEntry.Id,
+                    MaskFrequency   = maskEntry.MaskFrequency,
+                    MaskTime        = maskEntry.MaskTime,
+                    PatientId       = maskEntry.PatientId,
+                    MaskSignature   = maskEntry.MaskSignature
                 };
 
                 return await Result<MaskDTO>.SuccessAsync(dto);

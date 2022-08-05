@@ -32,12 +32,12 @@ namespace ClinicManager.Application.Modules.PatientRecords.ProgressReport.Querie
                     throw new Exception("Unable to return Progress Report");
                 var dto = new ProgressReportDTO
                 {
-                   Allergy = progressReport.Allergy,
-                   RiskFactor = progressReport.RiskFactor,
-                   DateAdded = progressReport.DateAdded,
-                   TimeAdded = progressReport.TimeAdded,
-                   Desc = progressReport.Description,
-                   PatientId = progressReport.PatientId,
+                   Allergy      = progressReport.Allergy,
+                   RiskFactor   = progressReport.RiskFactor,
+                   DateAdded    = progressReport.DateAdded,
+                   TimeAdded    = progressReport.TimeAdded,
+                   Desc         = progressReport.Description,
+                   PatientId    = progressReport.PatientId,
                 };
                 return await Result<ProgressReportDTO>.SuccessAsync(dto);
             }

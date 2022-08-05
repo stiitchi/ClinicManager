@@ -6,6 +6,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
     public interface IPatientService
     {
         Task<IResult<List<PatientDTO>>> GetAll();
+        Task<IResult<List<PatientDTO>>> GetAllAdmittedPatients();
 
         Task<IResult<PatientDTO>> GetById(int id);
 
@@ -20,6 +21,7 @@ namespace ClinicManager.Web.Infrastructure.Services.Patient
         Task<IResult<int>> UpdateAsync(PatientDTO request);
 
         Task<PaginatedResult<PatientDTO>> GetAllPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
+        Task<PaginatedResult<PatientDTO>> GetAllAdmittedPatientsTable(int pageNumber, int pageSize, string searchString, string[] orderBy);
 
 
         Task<IResult<int>> DeleteAsync(int id);

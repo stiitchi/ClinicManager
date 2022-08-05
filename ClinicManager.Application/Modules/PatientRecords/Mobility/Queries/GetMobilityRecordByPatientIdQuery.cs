@@ -33,11 +33,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
 
                 var dto = new MobileImmobileDTO
                 {
-                    MobileImmobileId = mobilityEntry.Id,
-                    MobileImmobileFreq = mobilityEntry.MobileImmobileFrequency,
-                    MobileImmobileSignature = mobilityEntry.MobileImmobileSignature,
-                    MobileImmobileTime = mobilityEntry.MobileImmobileTime,
-                    PatientId = mobilityEntry.PatientId
+                    MobileImmobileId            = mobilityEntry.Id,
+                    MobileImmobileFreq          = mobilityEntry.MobileImmobileFrequency,
+                    MobileImmobileSignature     = mobilityEntry.MobileImmobileSignature,
+                    MobileImmobileTime          = mobilityEntry.MobileImmobileTime,
+                    PatientId                   = mobilityEntry.PatientId
                 };
                 return await Result<MobileImmobileDTO>.SuccessAsync(dto);
             }

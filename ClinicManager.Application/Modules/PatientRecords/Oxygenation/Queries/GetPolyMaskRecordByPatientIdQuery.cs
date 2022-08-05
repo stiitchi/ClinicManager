@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
 
                 var dto = new PolyMaskDTO
                 {
-                    PolyMaskId = polyMaskEntry.Id,
-                    PolyMaskFrequency = polyMaskEntry.PolyMaskFrequency,
-                    PolyMaskSignature = polyMaskEntry.PolyMaskSignature,
-                    PolyMaskTime = polyMaskEntry.PolyMaskTime,
-                    PatientId = polyMaskEntry.PatientId
+                    PolyMaskId          = polyMaskEntry.Id,
+                    PolyMaskFrequency   = polyMaskEntry.PolyMaskFrequency,
+                    PolyMaskSignature   = polyMaskEntry.PolyMaskSignature,
+                    PolyMaskTime        = polyMaskEntry.PolyMaskTime,
+                    PatientId           = polyMaskEntry.PatientId
                 };
                 return await Result<PolyMaskDTO>.SuccessAsync(dto);
 

@@ -32,11 +32,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
 
                 var dto = new SupportDTO
                 {
-                    SupportId = supportRecord.Id,
-                    SupportFrequency = supportRecord.SupportFrequency,
-                    SupportSignature = supportRecord.SupportSignature,
-                    SupportTime = supportRecord.SupportTime,
-                    PatientId = supportRecord.PatientId
+                    SupportId           = supportRecord.Id,
+                    SupportFrequency    = supportRecord.SupportFrequency,
+                    SupportSignature    = supportRecord.SupportSignature,
+                    SupportTime         = supportRecord.SupportTime,
+                    PatientId           = supportRecord.PatientId
                 };
 
                 return await Result<SupportDTO>.SuccessAsync(dto);

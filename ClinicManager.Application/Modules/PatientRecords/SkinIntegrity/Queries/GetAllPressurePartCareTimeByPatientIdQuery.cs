@@ -28,11 +28,11 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
             {
                 Expression<Func<PressurePartEntity, PressurePartCareDTO>> expression = e => new PressurePartCareDTO
                 {
-                    PressurePartCareId  = e.Id,
+                    PressurePartCareId        = e.Id,
                     PressurePartCareFrequency = e.PressurePartCareFrequency,
                     PressurePartCareSignature = e.PressurePartCareSignature,
-                    PressurePartCareTime = e.PressurePartCareTime,
-                    PatientId = e.PatientId
+                    PressurePartCareTime      = e.PressurePartCareTime,
+                    PatientId                 = e.PatientId
                 };
 
                 var pressureEntry = await _context.PressurePartRecords
