@@ -1,8 +1,10 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
+using ClinicManager.Domain.Entities.RoomAggregate;
 using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ClinicManager.Application.Modules.Room.Queries
 {
@@ -24,21 +26,21 @@ namespace ClinicManager.Application.Modules.Room.Queries
         {
             try
             {
-                var room = await _context.Rooms.AsNoTracking()
-                    .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(c => c.WardId == request.WardId, cancellationToken);
-
-                if (room == null)
-                    throw new Exception("Unable to return Room");
-
-                var dto = new RoomDTO
+                Expression<Func<RoomEntity, RoomDTO>> expression = e => new RoomDTO
                 {
-                    RoomId      = room.Id,
-                    WardId      = room.WardId,
-                    RoomNumber  = room.RoomNumber,
-                    TotalBeds   = room.Beds.Count()
+                    RoomId = e.Id,
+                    RoomNumber = e.RoomNumber,
+                    WardId = e.WardId,
+                    TotalBeds = e.Beds.Count()
                 };
-                return await Result<List<RoomDTO>>.SuccessAsync();
+
+                var rooms = await _context.Rooms
+                        .AsNoTracking()
+                        .IgnoreQueryFilters()
+                        .Where(x => x.WardId == request.WardId)
+                        .Select(expression)
+                        .ToListAsync(cancellationToken);
+                return await Result<List<RoomDTO>>.SuccessAsync(rooms);
             }
             catch (Exception ex)
             {

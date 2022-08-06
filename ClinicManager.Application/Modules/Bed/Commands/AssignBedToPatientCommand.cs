@@ -46,6 +46,13 @@ namespace ClinicManager.Application.Modules.Bed.Commands
 
                 var patientBeds = await _context.PatientBeds.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == request.PatientBedId && c.PatientId != request.PatientId, cancellationToken);
 
+                if(bed.IsOccupied)
+                {
+                   bed.RemovePatientFromBed(patient);
+                   var occupied = bed.IsOccupied;
+                   occupied = false;
+                }
+
                 if (patientBeds != null)
                     _context.PatientBeds.Remove(patientBeds);
 

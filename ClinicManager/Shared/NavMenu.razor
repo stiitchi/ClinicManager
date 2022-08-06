@@ -29,12 +29,12 @@
                      Variant="Variant.Outlined">Dashboard</MudButton>
                  </center>
                </MudItem>
-                <MudItem xs="12" md="12" sm="12">
+ @*               <MudItem xs="12" md="12" sm="12">
                 <center>
                     <MudButton Href="/subscription" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
                      Variant="Variant.Outlined">Subscription</MudButton>
                  </center>
-               </MudItem>
+               </MudItem>*@
 
                 @switch(_stateService.GetActiveUserRole().Role)
                 {
@@ -44,6 +44,12 @@
                         <center>
                         <MudButton Href="/wards" Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
                          Variant="Variant.Outlined">Wards</MudButton>
+                     </center>
+                   </MudItem>
+                    <MudItem xs="12" md="12" sm="12">
+                        <center>
+                        <MudButton OnClick="@(() => _navigationManager.NavigateTo($"/active-wards",true))"Color="Color.Info" Style="border-radius:10px 10px 10px 10px"
+                         Variant="Variant.Outlined">Active Wards</MudButton>
                      </center>
                    </MudItem>
                     <MudItem xs="12" md="12" sm="12">

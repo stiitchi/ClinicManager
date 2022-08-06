@@ -13,8 +13,10 @@
     {
         @foreach(var bed in _beds)
         {
+            @if(bed.IsOccupied == true)
+            {
         <MudItem xs="3" md="3" sm="3">
-                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
+                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px; border:solid red 1px;">
                     <MudCardHeader>
                     <CardHeaderContent>
                          <center>
@@ -24,7 +26,24 @@
                     </CardHeaderContent>
                     </MudCardHeader>
                 </MudCard>
-        </MudItem>          
+        </MudItem>   
+            }
+            else
+            {
+            <MudItem xs="3" md="3" sm="3">
+                <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px; border:solid red 1px;">
+                    <MudCardHeader>
+                    <CardHeaderContent>
+                         <center>
+                        <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
+                        @bed.BedNumber
+                        </center>
+                    </CardHeaderContent>
+                    </MudCardHeader>
+                </MudCard>
+        </MudItem>      
+            }
+          
         }
 }
 else
@@ -40,11 +59,11 @@ else
                                @onclick="@(() => GetAllBedsByWardId(Ward.WardId))"
                                Style="border-radius:10px 10px 10px 10px; width:150px">All</MudButton>*@
         <MudButton Variant="Variant.Outlined" Color="Color.Error"
-                               @onclick="@(() => GetAllOccupiedBedsByWardId(Ward.WardId))"
+                               @onclick="@(() => GetAllOccupiedBedsByRoomId(Ward.WardId))"
                                Style="border-radius:10px 10px 10px 10px; width:150px">Occupied</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Success"
                                Style="border-radius:10px 10px 10px 10px; width:150px"
-                               @onclick="@(() => GetAllUnoccupiedBedsByWardId(Ward.WardId))"
+                               @onclick="@(() => GetAllUnoccupiedBedsByRoomId(Ward.WardId))"
                                >Unoccupied</MudButton>
 
     </DialogActions>
@@ -71,18 +90,18 @@ else
         }
     }
 
-    public async Task GetAllOccupiedBedsByWardId(int wardId)
+    public async Task GetAllOccupiedBedsByRoomId(int roomId)
     {
-        var beds = await bedService.GetAllOccupiedBedsByWardId(wardId);
+        var beds = await bedService.GetAllOccupiedBedsByRoomId(roomId);
         if (beds.Succeeded)
         {
             _beds = beds.Data;
         }
     }
 
-     public async Task GetAllUnoccupiedBedsByWardId(int wardId)
+     public async Task GetAllUnoccupiedBedsByRoomId(int roomId)
     {
-        var beds = await bedService.GetAllUnoccupiedBedsByWardId(wardId);
+        var beds = await bedService.GetAllUnoccupiedBedsByRoomId(roomId);
         if (beds.Succeeded)
         {
             _beds = beds.Data;

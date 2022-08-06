@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220803055551_fix2")]
-    partial class fix2
+    [Migration("20220806070855_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -724,6 +724,50 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("PatientDoctor", "dbo");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.FaultAggregate.FaultEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("SeenOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Serverity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Faults", "dbo");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.ICDCodeAggregate.ICDCodeEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -797,6 +841,43 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientICDCodes", "dbo");
+                });
+
+            modelBuilder.Entity("ClinicManager.Domain.Entities.NotificationAggregate.NotificationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("SeenOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications", "dbo");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.NurseAggregate.PatientNurseEntity", b =>
@@ -3290,6 +3371,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.FaultAggregate.FaultEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.UserAggregate.UserEntity", "User")
+                        .WithMany("Faults")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.ICDCodeAggregate.ICDCodeEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.PatientAggregate.PatientEntity", null)
@@ -3318,6 +3410,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("ICDCode");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("ClinicManager.Domain.Entities.NotificationAggregate.NotificationEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.UserAggregate.UserEntity", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClinicManager.Domain.Entities.NurseAggregate.PatientNurseEntity", b =>
@@ -4091,7 +4194,11 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
                     b.Navigation("DayFees");
 
+                    b.Navigation("Faults");
+
                     b.Navigation("ICDCodes");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("UserRoles");
 

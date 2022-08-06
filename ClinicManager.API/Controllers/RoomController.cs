@@ -17,7 +17,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpGet("GetRoomsByRoomNumber")]
-        public async Task<IActionResult> GetWardsByWardNumber(string roomNumber)
+        public async Task<IActionResult> GetRoomsByRoomNumber(string roomNumber)
         {
             return Ok(await _mediator.Send(new GetRoomsByRoomNumberQuery { RoomNumber = roomNumber }));
         }

@@ -1,4 +1,4 @@
-﻿@page "/all-ward-rooms/{WardId:int}"
+﻿@page "/all-ward-rooms/{WardId:int}/{WardNumber}"
 @using ClinicManager.Data.Modals.Beds
 @using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Data.Modals.Room
@@ -13,7 +13,7 @@
    <MudGrid Class="mt-8">
         <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
-                Ward @WardId - Rooms
+                Ward @WardNumber - Rooms
             </MudText>
         </MudItem>
           <MudItem xs="12" md="6" sm="6">
@@ -75,13 +75,13 @@
             <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
         </MudTd>   
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@context.RoomId}"))">View Beds</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@context.RoomId}/{@context.RoomNumber}"))">View Beds</MudButton>
        </MudTd>
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => InvokeModal(@context.RoomId))">Edit</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Transparent" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => InvokeModal(@context.RoomId))">Edit</MudButton>
        </MudTd>
        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.RoomId, @context.WardId))">Delete</MudButton>
+         <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => Delete(@context.RoomId, @context.WardId))">Delete</MudButton>
        </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -91,7 +91,8 @@
     }
 
 @code{
-    [Parameter] public int WardId { get; set; } 
+    [Parameter] public int WardId { get; set; }
+    [Parameter] public string WardNumber { get; set; }
 
     DateTime? date = DateTime.Today;
     public string SearchField;

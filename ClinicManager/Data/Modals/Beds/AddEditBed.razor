@@ -72,7 +72,7 @@
     {
         _processing = true;
         IResult<int> response;
- 
+        AddEditBedModel.BedNumberString = string.Empty;
         if (AddEditBedModel.BedId == 0)
             response = await bedService.SaveAsync(AddEditBedModel);
         else

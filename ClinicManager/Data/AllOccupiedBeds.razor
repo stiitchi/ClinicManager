@@ -1,4 +1,4 @@
-﻿@page "/all-room-beds/{RoomId:int}/{RoomNumber}"
+﻿@page "/all-occupied-beds/{RoomId:int}/{RoomNumber}"
 @using ClinicManager.Data.Modals.Beds
 @using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Web.Infrastructure.Services.Bed
@@ -33,12 +33,13 @@
             </MudItem>
         @if (!isTableView)
         {
-            @foreach (var bed in _beds)
+            @foreach (var bed in _occupiedBeds)
             {
             <MudItem md="3" sm="6">
                 <MudCard Elevation="5" Style="height:150px">
                     <MudCardHeader>
                         <CardHeaderContent>
+                        <MudButton Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@bed.RoomId}"))" Variant="Variant.Outlined">Beds</MudButton>
                         <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(bed.BedId))" Variant="Variant.Outlined">Edit</MudButton>
                         <MudButton Color="Color.Error" @onclick="@(() => Delete(bed.BedId, bed.RoomId.Value))" Variant="Variant.Outlined">Delete</MudButton>
                         </CardHeaderContent>
@@ -55,7 +56,7 @@
     </MudGrid>
     @if (isTableView)
     {
-        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_beds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(SearchAll)" @ref="_table">
+        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_occupiedBeds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReloadOccupied))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(SearchOccupied)" @ref="_tableOccupied">
                 <ToolBarContent>
             <div class="justify-center mud-text-align-center">
                 <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
@@ -101,17 +102,17 @@
 
     DateTime? date = DateTime.Today;
     public string SearchField;
-    private List<BedDTO> _beds = new();
+    private List<BedDTO> _occupiedBeds = new();
     public bool isTableView = true;
     private BedDTO bed = new();
-    private MudTable<BedDTO> _table;
+    private MudTable<BedDTO> _tableOccupied;
     private int _totalItems;
     private int _currentPage;
     private TableState _state;
     private string _searchString = "";
     protected async override Task OnInitializedAsync()
     {
-        await GetAllBedsByRoomId(RoomId);
+        await GetAllOccupiedBedsByRoomId(RoomId);
     }
 
         public void SetViewGrid()
@@ -128,7 +129,7 @@
             var parameters = new DialogParameters();
             if (id != 0)
             {
-                bed = _beds.FirstOrDefault(c => c.BedId == id);
+                bed = _occupiedBeds.FirstOrDefault(c => c.BedId == id);
                 if (bed != null)
                 {
                     parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
@@ -153,12 +154,12 @@
             var result = await dialog.Result;
             if (!result.Cancelled)
             {
-                await _table.ReloadServerData();
+                await _tableOccupied.ReloadServerData();
             }
         }
         private async Task Delete(int id, int roomId)
         {
-            string deleteContent = $"Delete Bed {_beds.FirstOrDefault(c => c.BedId == id).BedNumber}";
+            string deleteContent = $"Delete Bed {_occupiedBeds.FirstOrDefault(c => c.BedId == id).BedNumber}";
             var parameters = new DialogParameters
             {
                 {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
@@ -171,7 +172,7 @@
                 var response = await bedService.DeleteAsync(id,roomId);
                 if (response.Succeeded)
                 {
-                    await _table.ReloadServerData();
+                    await _tableOccupied.ReloadServerData();
                     _snackBar.Add("Bed Deleted", Severity.Success);
                 }
                 else
@@ -187,21 +188,21 @@
         private void OnSearch(string text)
         {
             _searchString = text;
-            _table.ReloadServerData();
+            _tableOccupied.ReloadServerData();
         }
 
-        public async Task GetAllBedsByRoomId(int roomId)
+        public async Task GetAllOccupiedBedsByRoomId(int roomId)
         {
-            var beds = await bedService.GetAllBedsByRoomId(roomId);
-            if (beds.Succeeded)
+            var occupiedBeds = await bedService.GetAllOccupiedBedsByRoomId(roomId);
+            if (occupiedBeds.Succeeded)
             {
-                _beds = beds.Data;
+                _occupiedBeds = occupiedBeds.Data;
             }
         }
 
-        private bool SearchAll(BedDTO bed) => FilterFuncAll(bed, _searchString);
+        private bool SearchOccupied(BedDTO bed) => FilterFuncOccupied(bed, _searchString);
 
-        private bool FilterFuncAll(BedDTO bed, string searchString)
+        private bool FilterFuncOccupied(BedDTO bed, string searchString)
         {
             if (string.IsNullOrWhiteSpace(searchString))
                 return true;
@@ -216,18 +217,18 @@
             return false;
         }
 
-        private async Task<TableData<BedDTO>> ServerReload(TableState state)
+        private async Task<TableData<BedDTO>> ServerReloadOccupied(TableState state)
         {
             if (!string.IsNullOrWhiteSpace(_searchString))
             {
                 state.Page = 0;
             }
             _state = state;
-            await GetAllBedsAsync(state);
-            return new TableData<BedDTO> { TotalItems = _totalItems, Items = _beds };
+            await GetOccupiedBedsAsync(state);
+            return new TableData<BedDTO> { TotalItems = _totalItems, Items = _occupiedBeds };
         }
 
-         private async Task GetAllBedsAsync(TableState state)
+         private async Task GetOccupiedBedsAsync(TableState state)
         {
             string[] orderings = null;
             if (!string.IsNullOrEmpty(state.SortLabel))
@@ -235,12 +236,12 @@
                 orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
             }
 
-            var response = await bedService.GetAllBedsByRoomIdTable(state.Page + 1, state.PageSize, _searchString, RoomId, orderings);
+            var response = await bedService.GetAllOccupiedBedsTable(state.Page + 1, state.PageSize, _searchString, RoomId, orderings);
             if (response.Succeeded)
             {
                 _totalItems = response.TotalCount;
                 _currentPage = response.CurrentPage;
-                _beds = response.Data;
+                _occupiedBeds = response.Data;
             }
             else
             {
@@ -249,7 +250,5 @@
                     _snackBar.Add(message, Severity.Error);
                 }
             }
-        }
-
- 
+        }         
 }

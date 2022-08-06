@@ -44,40 +44,7 @@
                 </MudCardContent>
             </MudCard>
     </MudItem> *@
-  @*     <MudItem md="12" sm="12">
-            <MudCard Elevation="2" Style="border-radius:10px 10px 10px 10px">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <center>
-                        <MudChip Size="Size.Large" Color="Color.Warning">Wards</MudChip>
-                        </center>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                   <MudGrid>
-                        @foreach (var ward in _wards)
-                        {  
-                         <MudItem xs="3" md="3" sm="3">
-                            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px">
-                                <MudCardHeader>
-                                    <CardHeaderContent>
-                                        <center>
-                                        <MudChip Size="Size.Large" Color="Color.Warning">@ward.WardNumber</MudChip>
-                                        </center>
-                                    </CardHeaderContent>
-                                </MudCardHeader>
-                                <MudCardContent>
-                                    <center>
-                                        <MudButton Color="Color.Info" @onclick="@(() => ViewIndexWards(ward.WardId, ward.WardNumber))" Variant="Variant.Outlined">View</MudButton>
-                                    </center>
-                                </MudCardContent>
-                            </MudCard>
-                        </MudItem>  
-                        }
-                   </MudGrid>
-                </MudCardContent>
-            </MudCard>
-    </MudItem>*@
+
 </MudGrid>
 
      <MudTable Class="mt-8" Hover="true" Breakpoint="Breakpoint.Sm" Items="@_patients"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<PatientDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<PatientDTO, bool>(Search)" @ref="_table">
@@ -164,16 +131,6 @@
     }
 
 
-    public void ViewIndexWards(int wardId, string wardNumber)
-    {
-        var parameters = new DialogParameters();
-        parameters.Add(nameof(IndexWards.Ward), new WardDTO
-        {
-        WardId = wardId 
-        });
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
-        _dialogService.Show<IndexWards>($"Ward {wardNumber}", parameters, options);
-    }
 
 
     public async Task GetAllWards()

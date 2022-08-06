@@ -23,10 +23,17 @@ namespace ClinicManager.Application.Modules.Ward.Commands
         {
 
             var ward = await _context.Wards.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
+
+            var room = await _context.Rooms.Where(a => a.WardId == ward.Id).FirstOrDefaultAsync();
+
+            if(room.Beds.Count() > 0)
+            {
+                throw new Exception($"First Remove all Beds from Room {room.RoomNumber} before removing this Ward");
+            }
+
             _context.Wards.Remove(ward);
             await _context.SaveChangesAsync(cancellationToken);
             return await Result<int>.SuccessAsync(ward.Id);
-
         }
     }
 }

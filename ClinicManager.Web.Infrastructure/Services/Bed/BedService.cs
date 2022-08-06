@@ -46,16 +46,16 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllBedsByRoomId(roomId));
             return await response.ToResult<List<BedDTO>>();
         }
-        public async Task<IResult<List<BedDTO>>> GetAllOccupiedBedsByWardId(int wardId)
+        public async Task<IResult<List<BedDTO>>> GetAllOccupiedBedsByRoomId(int roomId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllOccupiedBedsByWardId(wardId));
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllOccupiedBeds(roomId));
             return await response.ToResult<List<BedDTO>>();
         }
-        public async Task<IResult<List<BedDTO>>> GetAllUnoccupiedBedsByWardId(int wardId)
+        public async Task<IResult<List<BedDTO>>> GetAllUnoccupiedBedsByRoomId(int roomId)
         {
             await ConfigureHeaders();
-            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllUnoccupiedBedsByWardId(wardId));
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllUnOccupiedBeds(roomId));
             return await response.ToResult<List<BedDTO>>();
         }
 
@@ -99,6 +99,20 @@ namespace ClinicManager.Web.Infrastructure.Services.Bed
             await ConfigureHeaders();
             var response = await _httpClient.PostAsJsonAsync(Routes.BedEndpoints.AssignPatientToBed, request);
             return await response.ToResult<int>();
+        }
+
+        public async Task<PaginatedResult<BedDTO>> GetAllUnOccupiedBedsTable(int pageNumber, int pageSize, string searchString, int roomId, string[] orderBy)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllUnOccupiedBedsTable(pageNumber, pageSize, searchString, roomId, orderBy));
+            return await response.ToPaginatedResult<BedDTO>();
+        }
+
+        public async Task<PaginatedResult<BedDTO>> GetAllOccupiedBedsTable(int pageNumber, int pageSize, string searchString, int roomId, string[] orderBy)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.BedEndpoints.GetAllOccupiedBedsTable(pageNumber, pageSize, searchString, roomId, orderBy));
+            return await response.ToPaginatedResult<BedDTO>();
         }
     }
 }

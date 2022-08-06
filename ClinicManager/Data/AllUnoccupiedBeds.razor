@@ -1,4 +1,4 @@
-﻿@page "/all-room-beds/{RoomId:int}/{RoomNumber}"
+﻿@page "/all-unoccupied-beds/{RoomId:int}/{RoomNumber}"
 @using ClinicManager.Data.Modals.Beds
 @using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Web.Infrastructure.Services.Bed
@@ -33,7 +33,7 @@
             </MudItem>
         @if (!isTableView)
         {
-            @foreach (var bed in _beds)
+            @foreach (var bed in _unOccupiedBeds)
             {
             <MudItem md="3" sm="6">
                 <MudCard Elevation="5" Style="height:150px">
@@ -55,7 +55,7 @@
     </MudGrid>
     @if (isTableView)
     {
-        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_beds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(SearchAll)" @ref="_table">
+        <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_unOccupiedBeds"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<BedDTO>>>(ServerReloadUnoccupied))" Dense="true" Bordered="false" Striped="true" Filter="new Func<BedDTO, bool>(SearchUnoccupied)" @ref="_tableUnoccupied">
                 <ToolBarContent>
             <div class="justify-center mud-text-align-center">
                 <MudButton DisableElevation Variant="Variant.Filled" Size="Size.Small" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">Reload</MudButton>
@@ -101,146 +101,79 @@
 
     DateTime? date = DateTime.Today;
     public string SearchField;
-    private List<BedDTO> _beds = new();
+    private List<BedDTO> _unOccupiedBeds = new();
     public bool isTableView = true;
     private BedDTO bed = new();
-    private MudTable<BedDTO> _table;
+    private MudTable<BedDTO> _tableUnoccupied;
     private int _totalItems;
     private int _currentPage;
     private TableState _state;
     private string _searchString = "";
+
     protected async override Task OnInitializedAsync()
     {
-        await GetAllBedsByRoomId(RoomId);
+        await GetAllUnoccupiedBedsByRoomId(RoomId);
     }
 
-        public void SetViewGrid()
-        {
-            isTableView = false;
-        }
-        public void SetViewTable()
-        {
-            isTableView = true;
-        }
+    public void SetViewGrid()
+    {
+        isTableView = false;
+    }
+    public void SetViewTable()
+    {
+        isTableView = true;
+    }
 
-        private async Task InvokeModal(int id = 0)
+    private async Task InvokeModal(int id = 0)
+    {
+        var parameters = new DialogParameters();
+        if (id != 0)
         {
-            var parameters = new DialogParameters();
-            if (id != 0)
+            bed = _unOccupiedBeds.FirstOrDefault(c => c.BedId == id);
+            if (bed != null)
             {
-                bed = _beds.FirstOrDefault(c => c.BedId == id);
-                if (bed != null)
+                parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
                 {
-                    parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
-                    {
-                    BedId = bed.BedId,
-                    BedNumber = bed.BedNumber,
-                    RoomId = bed.RoomId,
-                    RoomNumber = bed.RoomNumber
-                    });
-                }
-         
+                BedId = bed.BedId,
+                BedNumber = bed.BedNumber,
+                RoomId = bed.RoomId,
+                RoomNumber = bed.RoomNumber
+                });
             }
-            else
+
+        }
+        else
+        {
+            parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
                 {
-                    parameters.Add(nameof(AddEditBed.AddEditBedModel), new BedDTO
-                    {
-                    RoomId = RoomId
-                    });
-                }
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<AddEditBed>(id == 0 ? "Create Bed" : "Edit Bed", parameters, options);
-            var result = await dialog.Result;
-            if (!result.Cancelled)
-            {
-                await _table.ReloadServerData();
-            }
+                RoomId = RoomId
+                });
         }
-        private async Task Delete(int id, int roomId)
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<AddEditBed>(id == 0 ? "Create Bed" : "Edit Bed", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            string deleteContent = $"Delete Bed {_beds.FirstOrDefault(c => c.BedId == id).BedNumber}";
-            var parameters = new DialogParameters
-            {
-                {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
-            };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
-            var result = await dialog.Result;
-            if (!result.Cancelled)
-            {
-                var response = await bedService.DeleteAsync(id,roomId);
-                if (response.Succeeded)
-                {
-                    await _table.ReloadServerData();
-                    _snackBar.Add("Bed Deleted", Severity.Success);
-                }
-                else
-                {
-                    foreach (var message in response.Messages)
-                    {
-                        _snackBar.Add(message, Severity.Error);
-                    }
-                }
-            }
+            await _tableUnoccupied.ReloadServerData();
         }
-     
-        private void OnSearch(string text)
+    }
+    private async Task Delete(int id, int roomId)
+    {
+        string deleteContent = $"Delete Bed {_unOccupiedBeds.FirstOrDefault(c => c.BedId == id).BedNumber}";
+        var parameters = new DialogParameters
         {
-            _searchString = text;
-            _table.ReloadServerData();
-        }
-
-        public async Task GetAllBedsByRoomId(int roomId)
+            {nameof(DeleteConfirmation.ContentText), string.Format(deleteContent, id)}
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+        var dialog = _dialogService.Show<DeleteConfirmation>("Delete", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            var beds = await bedService.GetAllBedsByRoomId(roomId);
-            if (beds.Succeeded)
-            {
-                _beds = beds.Data;
-            }
-        }
-
-        private bool SearchAll(BedDTO bed) => FilterFuncAll(bed, _searchString);
-
-        private bool FilterFuncAll(BedDTO bed, string searchString)
-        {
-            if (string.IsNullOrWhiteSpace(searchString))
-                return true;
-            if (bed.BedNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
-            {
-                return true;
-            }
-            if (bed.RoomNumber?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private async Task<TableData<BedDTO>> ServerReload(TableState state)
-        {
-            if (!string.IsNullOrWhiteSpace(_searchString))
-            {
-                state.Page = 0;
-            }
-            _state = state;
-            await GetAllBedsAsync(state);
-            return new TableData<BedDTO> { TotalItems = _totalItems, Items = _beds };
-        }
-
-         private async Task GetAllBedsAsync(TableState state)
-        {
-            string[] orderings = null;
-            if (!string.IsNullOrEmpty(state.SortLabel))
-            {
-                orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
-            }
-
-            var response = await bedService.GetAllBedsByRoomIdTable(state.Page + 1, state.PageSize, _searchString, RoomId, orderings);
+            var response = await bedService.DeleteAsync(id,roomId);
             if (response.Succeeded)
             {
-                _totalItems = response.TotalCount;
-                _currentPage = response.CurrentPage;
-                _beds = response.Data;
+                await _tableUnoccupied.ReloadServerData();
+                _snackBar.Add("Bed Deleted", Severity.Success);
             }
             else
             {
@@ -250,6 +183,72 @@
                 }
             }
         }
+    }
 
- 
+    private void OnSearch(string text)
+    {
+        _searchString = text;
+        _tableUnoccupied.ReloadServerData();
+    }
+
+    public async Task GetAllUnoccupiedBedsByRoomId(int roomId)
+    {
+        var unOccupiedBeds = await bedService.GetAllUnoccupiedBedsByRoomId(roomId);
+        if (unOccupiedBeds.Succeeded)
+        {
+            _unOccupiedBeds = unOccupiedBeds.Data;
+        }
+    }
+
+    private bool SearchUnoccupied(BedDTO bed) => FilterFuncUnoccupied(bed, _searchString);
+
+    private bool FilterFuncUnoccupied(BedDTO bed, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (bed.BedNumber.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        if (bed.RoomNumber?.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private async Task<TableData<BedDTO>> ServerReloadUnoccupied(TableState state)
+    {
+        if (!string.IsNullOrWhiteSpace(_searchString))
+        {
+            state.Page = 0;
+        }
+        _state = state;
+        await GetUnoccupiedBedsAsync(state);
+        return new TableData<BedDTO> { TotalItems = _totalItems, Items = _unOccupiedBeds };
+    }
+
+   private async Task GetUnoccupiedBedsAsync(TableState state)
+    {
+        string[] orderings = null;
+        if (!string.IsNullOrEmpty(state.SortLabel))
+        {
+            orderings = state.SortDirection != SortDirection.None ? new[] { $"{state.SortLabel} {state.SortDirection}" } : new[] { $"{state.SortLabel}" };
+        }
+
+        var response = await bedService.GetAllUnOccupiedBedsTable(state.Page + 1, state.PageSize, _searchString, RoomId, orderings);
+        if (response.Succeeded)
+        {
+            _totalItems = response.TotalCount;
+            _currentPage = response.CurrentPage;
+            _unOccupiedBeds = response.Data;
+        }
+        else
+        {
+            foreach (var message in response.Messages)
+            {
+                _snackBar.Add(message, Severity.Error);
+            }
+        }
+    }   
 }

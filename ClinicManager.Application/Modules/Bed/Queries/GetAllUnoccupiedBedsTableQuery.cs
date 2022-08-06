@@ -10,18 +10,20 @@ using ClinicManager.Application.Extensions;
 
 namespace ClinicManager.Application.Modules.Bed.Queries
 {
-   public class GetAllBedsTableQuery : IRequest<PaginatedResult<BedDTO>>
+    public class GetAllUnoccupiedBedsTableQuery : IRequest<PaginatedResult<BedDTO>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+        public int RoomId { get; set; }
         public string SearchString { get; set; }
         public string[] OrderBy { get; set; }
 
-        public GetAllBedsTableQuery(int pageNumber, int pageSize, string searchString, string orderBy)
+        public GetAllUnoccupiedBedsTableQuery(int pageNumber, int pageSize, string searchString, int roomId, string orderBy)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
             SearchString = searchString;
+            RoomId = roomId;
             if (!string.IsNullOrWhiteSpace(orderBy))
             {
                 OrderBy = orderBy.Split(',');
@@ -29,35 +31,36 @@ namespace ClinicManager.Application.Modules.Bed.Queries
         }
     }
 
-    public class GetAllBedsTableQueryHandler : IRequestHandler<GetAllBedsTableQuery, PaginatedResult<BedDTO>>
+    public class GetAllUnoccupiedBedsTableQueryHandler : IRequestHandler<GetAllUnoccupiedBedsTableQuery, PaginatedResult<BedDTO>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllBedsTableQueryHandler(IApplicationDbContext context)
+        public GetAllUnoccupiedBedsTableQueryHandler(IApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<PaginatedResult<BedDTO>> Handle(GetAllBedsTableQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<BedDTO>> Handle(GetAllUnoccupiedBedsTableQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                 {
-                    BedId           = e.Id,
-                    BedNumber       = e.BedNumber,
-                    RoomNumber      = e.RoomNumber,
-                    RoomId          = e.RoomId,
-                    PatientId       = e.PatientId,
-                    BedNumberString = e.BedNumber.ToString(),
-                    IsOccupied      = e.IsOccupied
+                    BedId = e.Id,
+                    BedNumber = e.BedNumber,
+                    RoomNumber = e.RoomNumber,
+                    PatientId = e.PatientId,
+                    RoomId = e.RoomId,
+                    IsOccupied = e.IsOccupied,
+                    BedNumberString = e.BedNumber.ToString()
                 };
 
                 IQueryable<BedEntity> query = _context.Beds;
 
                 if (!string.IsNullOrEmpty(request.SearchString))
-                    query = query.Where(o => o.BedNumber.ToString().Contains(request.SearchString)  ||
-                                             o.RoomNumber.ToString().Contains(request.SearchString)
+                    query = query.Where(o => o.BedNumber.ToString().Contains(request.SearchString) ||
+                                             o.RoomNumber.ToString().Contains(request.SearchString) ||
+                                             o.PatientId.ToString().Contains(request.SearchString)
                                              );
 
                 if (request.OrderBy?.Any() != true)
@@ -66,6 +69,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                    .AsNoTracking()
                    .IgnoreQueryFilters()
                    .Select(expression)
+                   .Where(x => x.RoomId == request.RoomId && x.IsOccupied == false)
                    .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
                 }
@@ -77,6 +81,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                     .IgnoreQueryFilters()
                     .OrderBy(ordering)
                     .Select(expression)
+                    .Where(x => x.RoomId == request.RoomId && x.IsOccupied == false)
                     .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
                 }

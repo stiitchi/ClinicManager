@@ -32,12 +32,13 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                     throw new Exception("Unable to return Bed");
                 var dto = new BedDTO
                 {
-                    BedNumber   = bed.BedNumber,
-                    RoomNumber  = bed.RoomNumber,
-                    PatientId   = bed.PatientId.Value,
-                    NurseId     = bed.NurseId.Value,
-                    BedId       = bed.Id,
-                    RoomId      = bed.RoomId
+                    BedNumber       = bed.BedNumber,
+                    RoomNumber      = bed.RoomNumber,
+                    PatientId       = bed.PatientId.Value,
+                    NurseId         = bed.NurseId.Value,
+                    BedId           = bed.Id,
+                    RoomId          = bed.RoomId,
+                    BedNumberString = bed.BedNumber.ToString()
                 };
                 return await Result<BedDTO>.SuccessAsync(dto);
             }

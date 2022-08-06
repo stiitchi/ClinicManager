@@ -16,6 +16,26 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllBedsQuery { }));
         }
 
+        [HttpGet("GetAllBedsByRoomId")]
+        public async Task<IActionResult> GetAllBedsByRoomId(int roomId)
+        {
+            return Ok(await _mediator.Send(new GetAllBedsByRoomIdQuery { RoomId = roomId }));
+        }
+
+        [HttpGet("GetAllOccupiedBeds")]
+        public async Task<IActionResult> GetAllOccupiedBeds(int roomId)
+        {
+            return Ok(await _mediator.Send(new GetAllOccupiedBedsByRoomIdQuery {  RoomId = roomId }));
+        }
+
+
+        [HttpGet("GetAllUnOccupiedBeds")]
+        public async Task<IActionResult> GetAllUnOccupiedBeds(int roomId)
+        {
+            return Ok(await _mediator.Send(new GetAllUnoccupiedBedsByRoomIdQuery { RoomId = roomId }));
+
+        }
+
         [HttpGet("GetAllBedsTable")]
         public async Task<IActionResult> GetAllBedsTable(int pageNumber, int pageSize, string? searchString, string? orderBy = null)
         {
@@ -30,16 +50,24 @@ namespace ClinicManager.API.Controllers
             return Ok(beds);
         }
 
+        [HttpGet("GetAllOccupiedBedsTable")]
+        public async Task<IActionResult> GetAllOccupiedBedsTable(int pageNumber, int pageSize, string? searchString, int roomId, string? orderBy = null)
+        {
+            var beds = await _mediator.Send(new GetAllOccupiedBedsTableQuery(pageNumber, pageSize, searchString, roomId, orderBy));
+            return Ok(beds);
+        }
+
+        [HttpGet("GetAllUnOccupiedBedsTable")]
+        public async Task<IActionResult> GetAllUnOccupiedBedsTable(int pageNumber, int pageSize, string? searchString, int roomId, string? orderBy = null)
+        {
+            var beds = await _mediator.Send(new GetAllUnoccupiedBedsTableQuery(pageNumber, pageSize, searchString, roomId, orderBy));
+            return Ok(beds);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _mediator.Send(new GetBedByIdQuery { Id = id }));
-        }
-
-        [HttpGet("GetAllBedsByRoomId")]
-        public async Task<IActionResult> GetAllBedsByRoomId(int roomId)
-        {
-            return Ok(await _mediator.Send(new GetAllBedsByRoomIdQuery { RoomId = roomId }));
         }
 
         [HttpGet("BedsByRoomIdLookup")]

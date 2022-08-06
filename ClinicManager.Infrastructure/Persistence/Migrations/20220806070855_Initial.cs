@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialCommit : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1655,6 +1655,34 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Faults",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Serverity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsResolved = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SeenOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Faults_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ICDCodes",
                 schema: "dbo",
                 columns: table => new
@@ -1683,6 +1711,32 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SeenOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifications_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -2040,6 +2094,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsOccupied = table.Column<bool>(type: "bit", nullable: false),
                     BedNumber = table.Column<int>(type: "int", nullable: false),
                     RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: true),
@@ -2061,7 +2116,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         column: x => x.RoomId,
                         principalSchema: "dbo",
                         principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Beds_Users_NurseId",
                         column: x => x.NurseId,
@@ -2463,6 +2519,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Faults_Id",
+                schema: "dbo",
+                table: "Faults",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faults_UserId",
+                schema: "dbo",
+                table: "Faults",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FullWardDietRecords_Id",
                 schema: "dbo",
                 table: "FullWardDietRecords",
@@ -2647,6 +2715,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo",
                 table: "NeurovascularRecords",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_Id",
+                schema: "dbo",
+                table: "Notifications",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserId",
+                schema: "dbo",
+                table: "Notifications",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OralIntakeRecords_Id",
@@ -3176,6 +3256,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "Faults",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "FullWardDietRecords",
                 schema: "dbo");
 
@@ -3225,6 +3309,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "NeurovascularRecords",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Notifications",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

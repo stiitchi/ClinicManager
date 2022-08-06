@@ -1,0 +1,169 @@
+﻿@page "/active-wards"
+@using ClinicManager.Data.Modals.Wards
+@using ClinicManager.Web.Infrastructure.Services.Ward
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Room
+@using ClinicManager.Shared.DTO_s
+@inject IWardService wardService 
+@inject IBedService bedService 
+@inject IRoomService roomService 
+
+                       
+<MudItem md="12" sm="12">
+            <MudGrid>
+                @if(isRoomShowing != true)
+                {                  
+                    @foreach (var ward in _wards)
+                    {  
+                        <MudItem md="2" sm="2">
+                         <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px;">
+                            <MudCardHeader>
+                            <CardHeaderContent>
+                                 <center>
+                                <MudIcon Icon="@Icons.Filled.Business"/> <br/>
+                                <MudText Typo="Typo.h6"> Ward @ward.WardNumber</MudText>
+                                </center>                         
+                            </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <center>
+                                <MudButton OnClick="@(() => GetAllRoomsByWardId(ward.WardId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
+                                </center>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>  
+                    }
+                }
+                else if(isBedShowing == false)
+                {
+                    @foreach (var room in _rooms)
+                    {  
+                        <MudItem md="2" sm="2">
+                         <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px;">
+                            <MudCardHeader>
+                            <CardHeaderContent>
+                                 <center>
+                                <MudIcon Icon="@Icons.Filled.DoorBack"/> <br/>
+                                    <MudText Typo="Typo.h6">Room @room.RoomNumber</MudText>
+                                </center>                         
+                            </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <center>
+                                <MudButton OnClick="@(() => GetAllBedsByRoomId(room.RoomId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
+                                </center>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>  
+                    } 
+                }
+                @if(isBedShowing != false)
+                {
+                    @foreach (var bed in _beds)
+                    {
+                        @if(bed.IsOccupied == true)
+                        {
+                          <MudItem md="2" sm="2">
+                            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px; border: solid red 1px">
+                                <MudCardHeader>
+                                <CardHeaderContent>
+                                     <center>
+                                    <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
+                                        <MudText Typo="Typo.h6">Bed @bed.BedNumber</MudText>
+                                    </center>                         
+                                </CardHeaderContent>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <center>
+                                        @*<MudButton Disabled="true" Variant="Variant.Outlined" Color="Color.Info">Assign</MudButton>*@
+                                    </center>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>    
+                        }
+                        else
+                        {
+                        <MudItem md="2" sm="2">
+                            <MudCard Elevation="5" Style="border-radius:10px 10px 10px 10px;  border: solid green 1px">
+                                <MudCardHeader>
+                                <CardHeaderContent>
+                                     <center>
+                                    <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
+                                        <MudText Typo="Typo.h6">Bed @bed.BedNumber</MudText>
+                                    </center>                         
+                                </CardHeaderContent>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <center>
+                                        @*<MudButton Variant="Variant.Outlined" Color="Color.Info">Assign</MudButton>*@
+                                    </center>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>    
+                        }                   
+                    }
+                }
+            </MudGrid>
+</MudItem>
+
+@code{
+    private List<WardDTO> _wards = new();
+    private List<BedDTO> _beds = new();
+    private List<RoomDTO> _rooms = new();
+    [Parameter] public WardDTO Ward { get; set; } = new();
+    private bool isRoomShowing = false;
+    private bool isBedShowing = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllWards();
+        //await GetAllBedsByWardId(Ward.WardId);
+    }
+
+    public async Task GetAllWards()
+    {
+        var wards = await wardService.GetAll();
+        if (wards.Succeeded)
+        {
+            _wards = wards.Data;
+        }
+    }
+
+    public async Task GetAllRoomsByWardId(int wardId)
+    {
+        var rooms = await roomService.GetAllRoomsByWardId(wardId);
+        if (rooms.Succeeded)
+        {
+            _rooms = rooms.Data;
+            isRoomShowing = true;
+        }
+    }
+
+    public async Task GetAllBedsByRoomId(int roomId)
+    {
+        var beds = await bedService.GetAllBedsByRoomId(roomId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+            isBedShowing = true;
+        }
+    }
+
+    public async Task GetAllOccupiedBedsByRoomId(int roomId)
+    {
+        var beds = await bedService.GetAllOccupiedBedsByRoomId(roomId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+
+     public async Task GetAllUnoccupiedBedsByRoomId(int roomId)
+    {
+        var beds = await bedService.GetAllUnoccupiedBedsByRoomId(roomId);
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+}

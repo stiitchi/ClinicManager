@@ -1,4 +1,5 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
+using ClinicManager.Domain.Entities.PatientAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
 using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
@@ -26,19 +27,17 @@ namespace ClinicManager.Application.Modules.Patient.Queries
         {
             try
             {
-                Expression<Func<UserEntity, LookupDTO>> expression = e => new LookupDTO
+                Expression<Func<PatientEntity, LookupDTO>> expression = e => new LookupDTO
                 {
                     Id    = e.Id,
                     Name  = e.FirstName,
                     Prop1 = e.LastName,
-                    Prop2 = e.IsLoggedIn.ToString(),
-                    Prop3 = e.Role
+                    Prop2 = e.IsAdmitted.ToString()
                 };
 
-                var users = await _context.Users
+                var users = await _context.Patients
                     .AsNoTracking()
                     .Select(expression)
-                    .Where(r => r.Prop3 == RoleConstants.NURSE)
                     .ToListAsync(cancellationToken);
                 return await Result<List<LookupDTO>>.SuccessAsync(users);
             }

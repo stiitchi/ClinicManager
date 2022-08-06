@@ -1,0 +1,50 @@
+﻿@page "/bed-drag-assigner"
+@using ClinicManager.Web.Infrastructure.Services.Bed
+@using ClinicManager.Web.Infrastructure.Services.Room
+@using ClinicManager.Shared.DTO_s
+@inject IBedService bedService
+@inject IRoomService roomService
+
+
+<MudDropContainer T="BedDTO" Items="_beds" ItemsSelector="@((item,dropzone) => item.BedNumberString == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+    <ChildContent>        
+
+
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Elevation="25" Class="pa-4 my-4">@context.BedNumber</MudPaper>
+    </ItemRenderer>
+</MudDropContainer>
+
+@code {
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllBeds();
+        await GetAllRooms();
+    }
+
+    private void ItemUpdated(MudItemDropInfo<BedDTO> dropItem)
+    {
+        dropItem.Item.BedNumberString = dropItem.DropzoneIdentifier;
+    }
+    private List<BedDTO> _beds = new();
+    private List<RoomDTO> _rooms = new();
+
+    public async Task GetAllBeds()
+    {
+        var beds = await bedService.GetAll();
+        if (beds.Succeeded)
+        {
+            _beds = beds.Data;
+        }
+    }
+    public async Task GetAllRooms()
+    {
+        var rooms = await roomService.GetAll();
+        if (rooms.Succeeded)
+        {
+            _rooms = rooms.Data;
+        }
+    }
+}

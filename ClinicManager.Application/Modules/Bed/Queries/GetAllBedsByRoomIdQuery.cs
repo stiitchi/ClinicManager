@@ -28,10 +28,13 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                 {
                     Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                     {
-                        BedId        = e.Id,
-                        RoomNumber   = e.RoomNumber,
-                        BedNumber    = e.BedNumber,
-                        RoomId       = e.RoomId
+                        BedId           = e.Id,
+                        RoomNumber      = e.RoomNumber,
+                        BedNumber       = e.BedNumber,
+                        RoomId          = e.RoomId,
+                        IsOccupied      = e.IsOccupied,
+                        BedNumberString = e.BedNumber.ToString(),
+                        PatientId       = e.PatientId
                     };
 
                     var beds = await _context.Beds

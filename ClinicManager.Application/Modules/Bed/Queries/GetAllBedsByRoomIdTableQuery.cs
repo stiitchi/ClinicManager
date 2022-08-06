@@ -46,11 +46,13 @@ namespace ClinicManager.Application.Modules.Bed.Queries
             {
                 Expression<Func<BedEntity, BedDTO>> expression = e => new BedDTO
                 {
-                    BedId       = e.Id,
-                    BedNumber   = e.BedNumber,
-                    RoomNumber  = e.RoomNumber,
-                    PatientId   = e.PatientId,
-                    RoomId      = e.RoomId
+                    BedId = e.Id,
+                    BedNumber = e.BedNumber,
+                    RoomNumber = e.RoomNumber,
+                    PatientId = e.PatientId,
+                    RoomId = e.RoomId,
+                    IsOccupied = e.IsOccupied,
+                    BedNumberString = e.BedNumber.ToString()
                 };
 
                 IQueryable<BedEntity> query = _context.Beds;
@@ -67,7 +69,7 @@ namespace ClinicManager.Application.Modules.Bed.Queries
                    .AsNoTracking()
                    .IgnoreQueryFilters()
                    .Select(expression)
-                   .Where(x=> x.RoomId == request.RoomId)
+                   .Where(x => x.RoomId == request.RoomId)
                    .ToPaginatedListAsync(request.PageNumber, request.PageSize);
                     return result;
                 }
