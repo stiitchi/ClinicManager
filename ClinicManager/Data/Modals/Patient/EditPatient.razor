@@ -407,11 +407,11 @@
         </EditForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Outlined" Style="border-radius:10px 10px 10px 10px"
-                   Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Outlined" Style="border-radius: 15px 15px;"
+        Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
         <MudButton DisableElevation Variant="Variant.Outlined" OnClick="SaveAsync"
         ButtonType="ButtonType.Submit" Disabled="@(_processing)" 
-        Style="border-radius:10px 10px 10px 10px"
+        Style="border-radius: 15px 15px;"
         Color="Color.Success">
             @if (AddEditPatientModel.Id != 0)
             {

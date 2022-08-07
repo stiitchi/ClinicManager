@@ -39,19 +39,16 @@ namespace ClinicManager.Application.Modules.User.Commands
         {
             try
             { 
-
                  byte[] hash = Encoding.ASCII.GetBytes(request.Password);
                  byte[] salt = Encoding.ASCII.GetBytes(request.Password);
 
                 _authenticationService.CreatePasswordHash(request.Password, out hash, out salt);
-
 
                 var user = new UserEntity(request.FirstName, request.LastName, request.Email, request.MobileNo);
 
                 user.SetPassword(hash, salt);
 
                 var userRoles = new UserRolesEntity();
-
 
                 var role = await _context.Roles.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Name == request.Role, cancellationToken);
                 if (role == null)
@@ -60,8 +57,6 @@ namespace ClinicManager.Application.Modules.User.Commands
                 userRoles.Role = role;
                 user.AddUserRole(userRoles);
                 
-
-
                 await _context.Users.AddAsync(user, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220806070855_Initial")]
-    partial class Initial
+    [Migration("20220807151728_InitialDBCommit")]
+    partial class InitialDBCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -2543,6 +2543,64 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("PolyMaskRecords", "dbo");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.PatientAggregate.Records.Prescription.PrescriptionEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Dose")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DurationOfQuantity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Frequency")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MedicationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PharDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("PharQuantity")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ReqDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("ReqQuantity")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("ReqWS")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Route")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Prescriptions", "dbo");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords.PatientProgressEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -3882,6 +3940,17 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("ClinicManager.Domain.Entities.PatientAggregate.Records.Prescription.PrescriptionEntity", b =>
+                {
+                    b.HasOne("ClinicManager.Domain.Entities.PatientAggregate.PatientEntity", "Patient")
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords.PatientProgressEntity", b =>
                 {
                     b.HasOne("ClinicManager.Domain.Entities.PatientAggregate.PatientEntity", "Patient")
@@ -4140,6 +4209,8 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("PolyMaskRecords");
 
                     b.Navigation("PostOperativeCareRecords");
+
+                    b.Navigation("Prescriptions");
 
                     b.Navigation("PressurePartRecords");
 

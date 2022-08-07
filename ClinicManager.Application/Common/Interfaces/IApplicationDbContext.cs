@@ -20,6 +20,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Mobility;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Prescription;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
@@ -55,6 +56,7 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
         DbSet<NotificationEntity> Notifications { get; set; }
         DbSet<FaultEntity> Faults { get; set; }
+        DbSet<PrescriptionEntity> Prescriptions { get; set; }
 
         //Reports
 

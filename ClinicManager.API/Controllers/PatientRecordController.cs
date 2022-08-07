@@ -18,6 +18,8 @@ using ClinicManager.Application.Modules.PatientRecords.Observation.Commands;
 using ClinicManager.Application.Modules.PatientRecords.Observation.Queries;
 using ClinicManager.Application.Modules.PatientRecords.Oxygenation.Commands;
 using ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries;
+using ClinicManager.Application.Modules.PatientRecords.Prescription.Commands;
+using ClinicManager.Application.Modules.PatientRecords.Prescription.Queries;
 using ClinicManager.Application.Modules.PatientRecords.ProgressReport.Commands;
 using ClinicManager.Application.Modules.PatientRecords.ProgressReport.Queries;
 using ClinicManager.Application.Modules.PatientRecords.Psychological.Commands;
@@ -39,6 +41,7 @@ using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.DTO_s.Records.Oxygenation;
+using ClinicManager.Shared.DTO_s.Records.Prescription;
 using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.DTO_s.Records.Safety;
 using ClinicManager.Shared.DTO_s.Records.SkinIntegrity;
@@ -51,7 +54,29 @@ namespace ClinicManager.API.Controllers
     [ApiController]
     public class PatientRecordController : BaseApiController<PatientRecordController>
     {
-                                     /* Add Records */
+                                            /* Add Records */
+
+        [HttpPost("AddPrescription")]
+        public async Task<IActionResult> AddPrescription(PrescriptionDTO prescription)
+        {
+            return Ok(await _mediator.Send(new AddPrescriptionCommand
+            {
+                PrescriptionId  = prescription.PrescriptionId,
+                Date  = prescription.Date,
+                MedicationName = prescription.MedicationName,
+                Dose = prescription.Dose,
+                Route = prescription.Route,
+                Freq = prescription.Freq,
+                DurationOfQuantity = prescription.DurationOfQuantity,
+                ReqWS = prescription.ReqWS,
+                ReqQuantity = prescription.ReqQuantity,
+                ReqDate = prescription.ReqDate,
+                PharQuantity = prescription.PharQuantity,
+                PharDate = prescription.PharDate,
+                PatientId = prescription.PatientId
+            }));
+        }
+
         //Comfort Sleep
 
         [HttpPost("AddComfortSleepRecord")]
@@ -675,7 +700,13 @@ namespace ClinicManager.API.Controllers
             }));
         }
 
-                                        /* Delete Records */
+                                            /* Delete Records */
+
+        [HttpDelete("DeletePrescription")]
+        public async Task<IActionResult> DeletePrescription(int id)
+        {
+            return Ok(await _mediator.Send(new DeletePrescriptionCommand { Id = id }));
+        }
 
         //Comfort Sleep
 
@@ -973,10 +1004,16 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new DeleteStoolChartCommand { Id = id }));
         }
 
-                                        /* Get All Records*/
+                                            /* Get All Records */
+
+        [HttpGet("GetAllPrescriptionsByPatientId")]
+        public async Task<IActionResult> GetAllPrescriptionsByPatientId(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetAllPrescriptionsByPatientIdQuery { PatientId = patientId }));
+        }
 
         //Comfort Sleep
-
+        
         [HttpGet("GetAllComfortSleepRecordsByPatientId")]
         public async Task<IActionResult> GetAllComfortSleepRecordsByPatientId(int patientId)
         {
@@ -1271,7 +1308,13 @@ namespace ClinicManager.API.Controllers
             return Ok(await _mediator.Send(new GetAllStoolChartsByPatientIdQuery { PatientId = patientId }));
         }
 
-                                                 /* GetById Records */
+                                        /* GetById Records */
+
+        [HttpGet("GetPrescriptionByPatientId")]
+        public async Task<IActionResult> GetPrescriptionByPatientId(int patientId)
+        {
+            return Ok(await _mediator.Send(new GetPrescriptionByPatientIdQuery { PatientId = patientId }));
+        }
 
         //Comfort Sleep
 

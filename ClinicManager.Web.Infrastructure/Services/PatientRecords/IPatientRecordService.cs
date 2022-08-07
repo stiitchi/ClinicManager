@@ -7,6 +7,7 @@ using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.DTO_s.Records.Oxygenation;
+using ClinicManager.Shared.DTO_s.Records.Prescription;
 using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.DTO_s.Records.Safety;
 using ClinicManager.Shared.DTO_s.Records.SkinIntegrity;
@@ -61,8 +62,10 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         Task<IResult<int>> AddPressurePartCareTimeRecord(PressurePartCareDTO request);
         Task<IResult<int>> AddRednessReportRecord(RednessDTO request);
         Task<IResult<int>> AddStoolChartRecord(StoolChartDTO request);
+        Task<IResult<int>> AddPrescription(PrescriptionDTO request);
 
 
+        Task<IResult<List<PrescriptionDTO>>> GetAllPrescriptionByPatientId(int patientId);
         Task<IResult<List<ComfortSleepReportDTO>>> GetAllComfortSleepRecordsByPatientId(int patientId);
         Task<IResult<List<DailyCareRecordDTO>>> GetAllDailyCareRecordsByPatientId(int patientId);
         Task<IResult<List<CathetherDTO>>> GetAllCathethersByPatientId(int patientId);
@@ -108,6 +111,7 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         Task<IResult<List<RednessDTO>>> GetAllRednessReportsById(int patientId);
         Task<IResult<List<StoolChartDTO>>> GetAllStoolChartsByPatientId(int patientId);
 
+        Task<IResult<PrescriptionDTO>> GetPrescriptionByPatientId(int id);
         Task<IResult<ComfortSleepReportDTO>> GetComfortSleepRecordByPatientId(int id);
         Task<IResult<DailyCareRecordDTO>> GetDailyCareRecordByPatientId(int id);
         Task<IResult<CathetherDTO>> GetCathetherRecordByPatientId(int id);

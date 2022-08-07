@@ -27,7 +27,7 @@
                             </MudCardHeader>
                             <MudCardContent>
                                 <center>
-                                <MudButton OnClick="@(() => GetAllRoomsByWardId(ward.WardId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
+                                <MudButton Style="border-radius: 15px 15px;" OnClick="@(() => GetAllRoomsByWardId(ward.WardId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
                                 </center>
                             </MudCardContent>
                         </MudCard>
@@ -50,7 +50,7 @@
                             </MudCardHeader>
                             <MudCardContent>
                                 <center>
-                                <MudButton OnClick="@(() => GetAllBedsByRoomId(room.RoomId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
+                                <MudButton Style="border-radius: 15px 15px;" OnClick="@(() => GetAllBedsByRoomId(room.RoomId))" Variant="Variant.Outlined" Color="Color.Info">View</MudButton>
                                 </center>
                             </MudCardContent>
                         </MudCard>
@@ -75,6 +75,7 @@
                                 </MudCardHeader>
                                 <MudCardContent>
                                     <center>
+                                    <MudText Typo="Typo.body2">Occupied</MudText>
                                         @*<MudButton Disabled="true" Variant="Variant.Outlined" Color="Color.Info">Assign</MudButton>*@
                                     </center>
                                 </MudCardContent>
@@ -95,6 +96,7 @@
                                 </MudCardHeader>
                                 <MudCardContent>
                                     <center>
+                                    <MudText Typo="Typo.body2">Unoccupied</MudText>
                                         @*<MudButton Variant="Variant.Outlined" Color="Color.Info">Assign</MudButton>*@
                                     </center>
                                 </MudCardContent>

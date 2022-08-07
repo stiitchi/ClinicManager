@@ -47,8 +47,14 @@ namespace ClinicManager.Web.Infrastructure.Routes
         public static string AddPressurePartCareTimeRecord = "api/PatientRecord/AddPressurePartCareTimeRecord";
         public static string AddRednessReportRecord = "api/PatientRecord/AddRednessReportRecord";
         public static string AddStoolChartRecord = "api/PatientRecord/AddStoolChartRecord";
+        public static string AddPrescription = "api/PatientRecord/AddPrescription";
 
-     
+
+        public static string DeletePrescription(int id)
+        {
+            return $"api/PatientRecord/DeletePrescription/{id}";
+        }
+
         public static string DeleteComfortSleepRecord(int id)
         {
             return $"api/PatientRecord/DeleteComfortSleepRecord/{id}";
@@ -223,7 +229,10 @@ namespace ClinicManager.Web.Infrastructure.Routes
         }
 
 
-
+        public static string GetAllPrescriptionsByPatientId(int patientId)
+        {
+            return $"api/PatientRecord/GetAllPrescriptionsByPatientId?patientId={patientId}";
+        }
         public static string GetAllComfortSleepRecordsByPatientId(int patientId)
         {
             return $"api/PatientRecord/GetAllComfortSleepRecordsByPatientId?patientId={patientId}";
@@ -402,7 +411,10 @@ namespace ClinicManager.Web.Infrastructure.Routes
         }
 
 
-
+        public static string GetPrescriptionByPatientId(int patientId)
+        {
+            return $"api/PatientRecord/GetPrescriptionByPatientId?patientId={patientId}";
+        }
         public static string GetComfortSleepRecordByPatientId(int patientId)
         {
             return $"api/PatientRecord/GetComfortSleepRecordByPatientId?patientId={patientId}";

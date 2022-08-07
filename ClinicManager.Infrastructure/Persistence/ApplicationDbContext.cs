@@ -22,6 +22,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Mobility;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Prescription;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
@@ -61,6 +62,7 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<SubscriptionCartEntity> SubscriptionCarts { get; set; }
         public DbSet<NotificationEntity> Notifications { get; set; }
         public DbSet<FaultEntity> Faults { get; set; }
+        public DbSet<PrescriptionEntity> Prescriptions { get; set; }
 
 
         //Patient Records

@@ -13,7 +13,7 @@
     </MudItem>
     <MudItem xs="12" md="12" sm="12">
       <MudButton Variant="Variant.Outlined" Color="Color.Info"
-                               Style="border-radius:10px 10px 10px 10px"
+                               Style="border-radius: 15px 15px;"
                                @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
     </MudItem> 
        <MudItem md="6" sm="6">
@@ -21,7 +21,7 @@
             <MudCardHeader>
                 <CardHeaderActions>
                           <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/oral-input-reports/{PatientId}"))"
-                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                               Style="border-radius: 15px 15px;">View</MudButton>
                 </CardHeaderActions>
                 <CardHeaderContent>
                 <MudText>Oral Input Reports</MudText>
@@ -34,7 +34,7 @@
             <MudCardHeader>
                 <CardHeaderActions>
                           <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/oral-output-reports/{PatientId}"))"
-                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                               Style="border-radius: 15px 15px;">View</MudButton>
                 </CardHeaderActions>
                 <CardHeaderContent>
                 <MudText>Oral Output Reports</MudText>
@@ -47,7 +47,7 @@
             <MudCardHeader>
                 <CardHeaderActions>
                           <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/iv-reports/{PatientId}"))"
-                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                               Style="border-radius: 15px 15px;">View</MudButton>
                 </CardHeaderActions>
                 <CardHeaderContent>
                 <MudText>IV Test Reports</MudText>
@@ -60,7 +60,7 @@
             <MudCardHeader>
                 <CardHeaderActions>
                           <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="@(() => _navigationManager.NavigateTo($"/intake-reports/{PatientId}"))"
-                               Style="border-radius:10px 10px 10px 10px">View</MudButton>
+                               Style="border-radius: 15px 15px;">View</MudButton>
                 </CardHeaderActions>
                 <CardHeaderContent>
                 <MudText>24 Hour Reports</MudText>

@@ -14,6 +14,7 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Mobility;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Nutrition;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Observations;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Oxygenation;
+using ClinicManager.Domain.Entities.PatientAggregate.Records.Prescription;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.ProgressRecords;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
@@ -583,6 +584,10 @@ namespace ClinicManager.Domain.Entities.PatientAggregate
         {
             _isAdmitted = false;
         }
+
+        private readonly List<PrescriptionEntity> _prescriptions= new();
+        public virtual IReadOnlyCollection<PrescriptionEntity> Prescriptions => _prescriptions;
+
         private readonly List<BloodOxygenChartEntity> _bloodOxygenCharts = new();
         public virtual IReadOnlyCollection<BloodOxygenChartEntity> BloodOxygenCharts => _bloodOxygenCharts;
 

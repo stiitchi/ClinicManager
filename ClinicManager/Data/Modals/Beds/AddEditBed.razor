@@ -14,14 +14,14 @@
             if (AddEditBedModel.BedId == 0)
             {
             <MudText Typo="Typo.h6">
-                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3" />
                 Add Bed
             </MudText>
             }
             else
             {
             <MudText Typo="Typo.h6">
-                <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3 mb-n1" />
+                <MudIcon Icon="@Icons.Material.Filled.Update" Class="mr-3" />
                 Update Bed
             </MudText>
             }
@@ -35,8 +35,8 @@
             </MudGrid>
         </DialogContent>
         <DialogActions>
-        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Success">
+        <MudButton Style="border-radius: 15px 15px;" DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Style="border-radius: 15px 15px;" DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" Disabled="@(_processing)"  Color="Color.Success">
             @if (_processing)
             {
                 <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />

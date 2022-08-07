@@ -1,0 +1,124 @@
+﻿@page "/patient-prescriptions-view/{PatientId:int}"
+@using ClinicManager.Shared.DTO_s.Records
+@using ClinicManager.Shared.DTO_s.Records.Prescription
+@using ClinicManager.Shared.DTO_s.Records.SkinReport
+@using ClinicManager.Shared.Wrappers
+@using ClinicManager.Web.Infrastructure.Services.PatientRecords
+@inject IPatientRecordService patientRecordService 
+
+<MudGrid>
+    <MudItem xs="12" md="12" sm="12">
+        <MudText Align="Align.Center" Typo="Typo.h6">
+            Stool Chart View
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="12" sm="12">
+      <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                               Style="border-radius: 15px 15px;"
+                               @onclick="@(() => _navigationManager.NavigateTo($"/patient-view/{PatientId}"))">Back</MudButton>
+    </MudItem>
+@if (_prescriptions.Count() > 0)
+    {
+    @foreach(var prescription in _prescriptions)
+    {
+    <MudItem md="4" sm="4">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>              
+                       <MudChip Color="Color.Warning">@prescription.Date.ToString("MMMM dd")</MudChip>                       
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2"> Medication Name</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                    <MudChip Color="Color.Success">@prescription.MedicationName</MudChip>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Dose</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Warning">@prescription.Dose ml</MudChip>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Frequency</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Info">@prescription.Freq</MudChip>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Requsition W/S</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudChip Color="Color.Info">@prescription.ReqWS</MudChip>                      
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Requsition Date</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                    <MudChip Color="Color.Warning">@prescription.ReqDate.ToString("MMMM dd")</MudChip>                       
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Pharmacy Date</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                    <MudChip Color="Color.Warning">@prescription.PharDate.ToString("MMMM dd")</MudChip>                       
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Requsition Quantity</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                        <MudChip Color="Color.Info">@prescription.ReqQuantity</MudChip>                                            
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Pharmacy Quantity</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                    <MudChip Color="Color.Info">@prescription.PharQuantity</MudChip>                                            
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Duration Of Quantity</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                    <MudChip Color="Color.Info">@prescription.DurationOfQuantity</MudChip>                                            
+                  </MudItem>
+                  <MudItem md="6" sm="6">
+                        <MudText Typo="Typo.body2">Route</MudText>
+                  </MudItem>
+                  <MudItem md="6" sm="6">                
+                    <MudChip Color="Color.Info">@prescription.Route</MudChip>                                            
+                  </MudItem>
+                </MudGrid>             
+                </MudCardContent>
+        </MudCard>
+    </MudItem>
+    }
+}
+else
+    {
+       <MudItem xs="12" md="12" sm="12">
+            <MudText Align="Align.Center" Typo="Typo.body1">No Prescriptions Reports Found</MudText> 
+       </MudItem>
+    }
+</MudGrid>
+
+@code {
+    private List<PrescriptionDTO> _prescriptions = new();
+    [Parameter] public int PatientId { get; set; } 
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllPrescriptionByPatientId(PatientId);
+    }
+
+    public async Task GetAllPrescriptionByPatientId(int patientId)
+    {
+        var prescriptions = await patientRecordService.GetAllPrescriptionByPatientId(patientId);
+        if (prescriptions.Succeeded)
+        {
+            _prescriptions = prescriptions.Data;
+        }
+    }  
+}

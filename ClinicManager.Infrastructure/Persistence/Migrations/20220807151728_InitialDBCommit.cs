@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialDBCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1193,6 +1193,39 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Prescriptions",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MedicationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dose = table.Column<double>(type: "float", nullable: false),
+                    Frequency = table.Column<double>(type: "float", nullable: false),
+                    ReqWS = table.Column<bool>(type: "bit", nullable: false),
+                    ReqDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PharDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReqQuantity = table.Column<double>(type: "float", nullable: false),
+                    PharQuantity = table.Column<double>(type: "float", nullable: false),
+                    DurationOfQuantity = table.Column<double>(type: "float", nullable: false),
+                    Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prescriptions_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalSchema: "dbo",
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PressurePartRecords",
                 schema: "dbo",
                 columns: table => new
@@ -2116,8 +2149,7 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         column: x => x.RoomId,
                         principalSchema: "dbo",
                         principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Beds_Users_NurseId",
                         column: x => x.NurseId,
@@ -2873,6 +2905,18 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Prescriptions_Id",
+                schema: "dbo",
+                table: "Prescriptions",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prescriptions_PatientId",
+                schema: "dbo",
+                table: "Prescriptions",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PressurePartRecords_Id",
                 schema: "dbo",
                 table: "PressurePartRecords",
@@ -3349,6 +3393,10 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "PostOperativeCareRecords",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Prescriptions",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

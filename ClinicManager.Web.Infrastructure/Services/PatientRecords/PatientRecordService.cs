@@ -7,6 +7,7 @@ using ClinicManager.Shared.DTO_s.Records.Mobility;
 using ClinicManager.Shared.DTO_s.Records.Nutrition;
 using ClinicManager.Shared.DTO_s.Records.Observations;
 using ClinicManager.Shared.DTO_s.Records.Oxygenation;
+using ClinicManager.Shared.DTO_s.Records.Prescription;
 using ClinicManager.Shared.DTO_s.Records.Psychological;
 using ClinicManager.Shared.DTO_s.Records.Safety;
 using ClinicManager.Shared.DTO_s.Records.SkinIntegrity;
@@ -237,6 +238,13 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
         {
             await ConfigureHeaders();
             var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddPostOperativeCareRecord, request);
+            return await response.ToResult<int>();
+        }
+
+        public async Task<IResult<int>> AddPrescription(PrescriptionDTO request)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.PostAsJsonAsync(Routes.PatientRecordsEndpoints.AddPrescription, request);
             return await response.ToResult<int>();
         }
 
@@ -562,6 +570,13 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             return await response.ToResult<List<PostOperativeCareDTO>>(); throw new NotImplementedException();
         }
 
+        public async Task<IResult<List<PrescriptionDTO>>> GetAllPrescriptionByPatientId(int patientId)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetAllPrescriptionsByPatientId(patientId));
+            return await response.ToResult<List<PrescriptionDTO>>(); throw new NotImplementedException();
+        }
+
         public async Task<IResult<List<PressurePartCareDTO>>> GetAllPressurePartCareTimeByPatientId(int patientId)
         {
             await ConfigureHeaders();
@@ -858,6 +873,13 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             return await response.ToResult<PostOperativeCareDTO>();
         }
 
+        public async Task<IResult<PrescriptionDTO>> GetPrescriptionByPatientId(int id)
+        {
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetPrescriptionByPatientId(id));
+            return await response.ToResult<PrescriptionDTO>();
+        }
+
         public async Task<IResult<PressurePartCareDTO>> GetPressurePartTimeRecordByPatientId(int id)
         {
             await ConfigureHeaders();
@@ -907,9 +929,11 @@ namespace ClinicManager.Web.Infrastructure.Services.PatientRecords
             return await response.ToResult<StoolChartDTO>();
         }
 
-        public Task<IResult<StoolChartDTO>> GetStoolChartByPatientIdQuery(int id)
+        public async Task<IResult<StoolChartDTO>> GetStoolChartByPatientIdQuery(int id)
         {
-            throw new NotImplementedException();
+            await ConfigureHeaders();
+            var response = await _httpClient.GetAsync(Routes.PatientRecordsEndpoints.GetStoolChartByPatientId(id));
+            return await response.ToResult<StoolChartDTO>();
         }
 
         public async Task<IResult<SupportDTO>> GetSupportRecordByPatientId(int id)

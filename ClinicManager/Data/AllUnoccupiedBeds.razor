@@ -14,15 +14,15 @@
             </MudText>
         </MudItem>
         <MudItem xs="12" md="4" sm="4">
-            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+            <MudButton Color="Color.Info" OnClick="(() => InvokeModal())" Class="mt-3 mb-3" Style="border-radius: 15px 15px;"
                        Variant="Variant.Outlined">New Bed</MudButton>
         </MudItem>
             <MudItem xs="12" md="4" sm="4">
-                        <MudButton Color="Color.Transparent" OnClick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                        <MudButton Color="Color.Transparent" OnClick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius: 15px 15px;"
                        Variant="Variant.Outlined">All</MudButton>
-                        <MudButton Color="Color.Success" OnClick="@(() => _navigationManager.NavigateTo($"/all-unoccupied-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                        <MudButton Color="Color.Success" OnClick="@(() => _navigationManager.NavigateTo($"/all-unoccupied-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius: 15px 15px;"
                        Variant="Variant.Outlined">Unoccupied</MudButton>
-                        <MudButton Color="Color.Error" OnClick="@(() => _navigationManager.NavigateTo($"/all-occupied-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius:10px 10px 10px 10px"
+                        <MudButton Color="Color.Error" OnClick="@(() => _navigationManager.NavigateTo($"/all-occupied-beds/{RoomId}/{RoomNumber}"))" Class="mt-3 mb-3" Style="border-radius: 15px 15px;"
                        Variant="Variant.Outlined">Occupied</MudButton>
             </MudItem>
             <MudItem xs="12" md="4" sm="4">
@@ -39,8 +39,8 @@
                 <MudCard Elevation="5" Style="height:150px">
                     <MudCardHeader>
                         <CardHeaderContent>
-                        <MudButton Color="Color.Warning" @onclick="@(() => InvokeModal(bed.BedId))" Variant="Variant.Outlined">Edit</MudButton>
-                        <MudButton Color="Color.Error" @onclick="@(() => Delete(bed.BedId, bed.RoomId.Value))" Variant="Variant.Outlined">Delete</MudButton>
+                        <MudButton Style="border-radius: 15px 15px;" Color="Color.Warning" @onclick="@(() => InvokeModal(bed.BedId))" Variant="Variant.Outlined">Edit</MudButton>
+                        <MudButton Style="border-radius: 15px 15px;" Color="Color.Error" @onclick="@(() => Delete(bed.BedId, bed.RoomId.Value))" Variant="Variant.Outlined">Delete</MudButton>
                         </CardHeaderContent>
                         <CardHeaderActions>
                         </CardHeaderActions>
