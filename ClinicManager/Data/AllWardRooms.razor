@@ -63,6 +63,8 @@
         <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="RoomNumber">Room Number</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="WardId">Ward Number</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="TotalBeds">Total Beds</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="TotalBeds">Occupied</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="RoomDTO" SortLabel="TotalBeds">Unoccupied</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="BedNumber">
@@ -73,7 +75,13 @@
         </MudTd> 
          <MudTd DataLabel="TotalBeds">
             <MudHighlighter Text="@context.TotalBeds.ToString()" HighlightedText="@_searchString" />
-        </MudTd>   
+        </MudTd> 
+         <MudTd DataLabel="OccupiedBeds">
+            <MudHighlighter Text="@context.OccupiedBeds.ToString()" HighlightedText="@_searchString" />
+        </MudTd>  
+         <MudTd DataLabel="UnoccupiedBeds">
+            <MudHighlighter Text="@context.UnoccupiedBeds.ToString()" HighlightedText="@_searchString" />
+        </MudTd>  
         <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
          <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:150px" @onclick="@(() => _navigationManager.NavigateTo($"/all-room-beds/{@context.RoomId}/{@context.RoomNumber}"))">View Beds</MudButton>
        </MudTd>

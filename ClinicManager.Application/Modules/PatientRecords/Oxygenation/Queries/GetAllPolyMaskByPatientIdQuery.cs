@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
                 var polyMaskEntry = await _context.PolyMaskTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.PolyMaskTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

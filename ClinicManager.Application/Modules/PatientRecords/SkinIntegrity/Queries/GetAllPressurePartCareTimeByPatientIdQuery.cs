@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
                 var pressureEntry = await _context.PressurePartRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.PressurePartCareTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.PressurePartCareFrequency != 0)
                         .ToListAsync(cancellationToken);

@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                 var neuroLogicalEntry = await _context.NeurologicalTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.NeuroLogicalTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.NeuroLogicalFrequency != 0)
                         .ToListAsync(cancellationToken);

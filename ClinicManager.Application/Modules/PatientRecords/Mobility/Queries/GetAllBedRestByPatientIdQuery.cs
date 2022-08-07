@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 var bedRest = await _context.BedRestTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.BedRestTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.BedRestFrequency != 0)
                         .ToListAsync(cancellationToken);

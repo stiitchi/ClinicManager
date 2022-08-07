@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 var assistInChairEntry = await _context.WalkChairTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.AssistIntoChairTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.AssistIntoChairFrequency != 0)
                         .ToListAsync(cancellationToken);

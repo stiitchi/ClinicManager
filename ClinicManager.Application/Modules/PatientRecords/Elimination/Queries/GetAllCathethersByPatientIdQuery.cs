@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
                 var cathetherReport = await _context.CathetherRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.CathetherTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

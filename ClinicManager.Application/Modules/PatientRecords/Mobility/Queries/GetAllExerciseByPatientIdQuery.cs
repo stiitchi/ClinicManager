@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 var excerciseEntry = await _context.ExerciseTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.ExercisesTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.ExercisesFrequency != 0)
                         .ToListAsync(cancellationToken);

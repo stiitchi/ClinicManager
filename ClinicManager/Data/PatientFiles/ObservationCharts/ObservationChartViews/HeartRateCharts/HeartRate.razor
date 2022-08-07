@@ -1,4 +1,4 @@
-﻿@using Blazored.FluentValidation
+﻿ @using Blazored.FluentValidation
 @using ClinicManager.Shared.DTO_s.Charts
 @using ClinicManager.Shared.DTO_s.Charts.ChartEntry
 @using ClinicManager.Shared.Wrappers
@@ -21,7 +21,7 @@
                 </MudItem>
                 <MudItem xs="7">
                     <center>
-                    <MudButton Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddHeartRateChartModel.HeartRateChartEntry))">Add Value</MudButton>
+                    <MudButton Style="border-radius: 15px 15px;" Variant="Variant.Outlined" Class="mt-3" Disabled="chartDrawn" Color="Color.Info" @onclick="@(() => AddToChart(AddHeartRateChartModel.HeartRateChartEntry))">Add Value</MudButton>
                     </center>
                 </MudItem>
                     @if(ChartValues.Count() > 0)
@@ -49,9 +49,9 @@
             </MudGrid>
         </DialogContent>
         <DialogActions>
-        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
-        <MudButton DisableElevation Variant="Variant.Outlined" Color="Color.Info" Disabled="@(isDisabled || chartDrawn)"  OnClick="DrawChart">Draw Chart</MudButton>
-        <MudButton DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" 
+        <MudButton Style="border-radius: 15px 15px;" DisableElevation Variant="Variant.Outlined" Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Style="border-radius: 15px 15px;" DisableElevation Variant="Variant.Outlined" Color="Color.Info" Disabled="@(isDisabled || chartDrawn)"  OnClick="DrawChart">Draw Chart</MudButton>
+        <MudButton Style="border-radius: 15px 15px;" DisableElevation Variant="Variant.Outlined" ButtonType="ButtonType.Submit" 
         Disabled="@(_processing || CanSave)"  Color="Color.Success">
             @if (_processing)
             {

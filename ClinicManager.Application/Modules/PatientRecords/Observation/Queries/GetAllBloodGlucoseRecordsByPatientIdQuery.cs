@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                 var bloodGlucoseEntry = await _context.BloodGlucoseTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.BloodGlucoseTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.BloodGlucoseFrequency != 0)
                         .ToListAsync(cancellationToken);

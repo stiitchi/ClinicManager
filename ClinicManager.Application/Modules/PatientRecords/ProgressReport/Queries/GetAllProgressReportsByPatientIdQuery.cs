@@ -41,6 +41,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.ProgressReport.Querie
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
+                        .OrderByDescending(x => x.DateAdded)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
                 return await Result<List<ProgressReportDTO>>.SuccessAsync(progressReport);

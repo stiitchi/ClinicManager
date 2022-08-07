@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                 var specialEntry = await _context.SpecialTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.SpecialTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.SpecialFrequency != 0)
                         .ToListAsync(cancellationToken);

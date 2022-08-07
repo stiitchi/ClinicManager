@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 var mobilityRecord = await _context.MobileImmobileTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.MobileImmobileTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.MobileImmobileFreq != 0)
                         .ToListAsync(cancellationToken);

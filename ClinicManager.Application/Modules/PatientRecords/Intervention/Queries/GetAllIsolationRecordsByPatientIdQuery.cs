@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 var isolationRecord = await _context.IsolationTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.IsolationTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

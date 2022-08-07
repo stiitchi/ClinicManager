@@ -39,6 +39,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
                 var oralOutputChecks = await _context.OralOutputTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.OralOutputTime)
                         .Where(x => x.PatientId == request.PatientId)
                         .Select(expression)
                         .ToListAsync(cancellationToken);

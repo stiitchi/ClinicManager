@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
                 var maskEntry = await _context.MaskTimeTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.MaskTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.MaskFrequency != 0)
                         .ToListAsync(cancellationToken);

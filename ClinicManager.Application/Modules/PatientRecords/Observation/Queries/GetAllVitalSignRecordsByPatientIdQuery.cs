@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                 var vitalSignsEntry = await _context.VitalSignTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.VitalSignsTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

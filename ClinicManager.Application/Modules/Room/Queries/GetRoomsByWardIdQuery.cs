@@ -31,7 +31,9 @@ namespace ClinicManager.Application.Modules.Room.Queries
                     RoomId = e.Id,
                     RoomNumber = e.RoomNumber,
                     WardId = e.WardId,
-                    TotalBeds = e.Beds.Count()
+                    TotalBeds = e.Beds.Count(),
+                    OccupiedBeds = e.Beds.Where(x => x.IsOccupied == true).Count(),
+                    UnoccupiedBeds = e.Beds.Where(x => x.IsOccupied == false).Count()
                 };
 
                 var rooms = await _context.Rooms

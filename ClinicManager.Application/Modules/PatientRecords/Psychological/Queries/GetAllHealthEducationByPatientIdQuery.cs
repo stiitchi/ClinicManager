@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
                 var heatlhEntry = await _context.HealthCareTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.HealthEducationTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.HealthEducationFrequency != 0)
                         .ToListAsync(cancellationToken);

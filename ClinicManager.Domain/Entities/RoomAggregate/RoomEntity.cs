@@ -21,6 +21,12 @@ namespace ClinicManager.Domain.Entities.RoomAggregate
         private string _roomNumber;
         public string RoomNumber => _roomNumber;
 
+        private int _occupiedBeds;
+        public int OccupiedBeds => _occupiedBeds;
+
+        private int _unoccupiedBeds;
+        public int UnoccupiedBeds => _unoccupiedBeds;
+
         public WardEntity Ward;
         private int _wardId;
         public int WardId => _wardId;

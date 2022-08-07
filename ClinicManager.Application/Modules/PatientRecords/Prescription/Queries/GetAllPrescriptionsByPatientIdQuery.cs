@@ -44,6 +44,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Prescription.Queries
                 var prescriptions = await _context.Prescriptions
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.Date)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

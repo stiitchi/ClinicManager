@@ -7,5 +7,7 @@
         public string WardNumber { get; set; }
         public string RoomNumber { get; set; }
         public int TotalBeds { get; set; }
+        public int? OccupiedBeds { get; set; }
+        public int? UnoccupiedBeds{ get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                 var wardDietEntry = await _context.WardDietTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.FullWardDietTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

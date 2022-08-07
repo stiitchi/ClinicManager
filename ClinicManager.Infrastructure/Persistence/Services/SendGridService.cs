@@ -26,23 +26,22 @@ namespace ClinicManager.Infrastructure.Persistence.Services
         {
             try
             {
-                var msg = new SendGridMessage();
                 var from = new EmailAddress(_emailSettings.EmailFrom, _emailSettings.EmailFromName);
 
-                msg.SetFrom(from);
-                msg.AddTos(_recipients);
-                msg.SetTemplateId(templateId);
-                msg.SetTemplateData(emailDataTemplate);
 
-                var response = await _client.SendEmailAsync(msg);
-
-                return response.StatusCode == System.Net.HttpStatusCode.Accepted;
+                foreach(var recipient in _recipients)
+                {
+                    var msg =  MailHelper.CreateSingleTemplateEmail(from, recipient, templateId, emailDataTemplate);
+                    var response = await _client.SendEmailAsync(msg);
+                    return response.StatusCode == System.Net.HttpStatusCode.Accepted;
+                }
             }
             catch (Exception e)
             {
                 _logger.LogInformation($"Could not send email - {e.Message}");
                 throw;
             }
+            return false;
         }
 
         public void AddRecipient(EmailAddress recipient)

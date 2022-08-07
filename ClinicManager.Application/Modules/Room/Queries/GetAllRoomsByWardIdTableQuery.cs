@@ -49,7 +49,9 @@ namespace ClinicManager.Application.Modules.Room.Queries
                     RoomId      = e.Id,
                     WardId      = e.WardId,
                     RoomNumber  = e.RoomNumber,
-                    TotalBeds   = e.Beds.Count()
+                    TotalBeds   = e.Beds.Count(),
+                    OccupiedBeds = e.Beds.Where(x => x.IsOccupied == true).Count(),
+                    UnoccupiedBeds = e.Beds.Where(x => x.IsOccupied == false).Count()
                 };
 
                 IQueryable<RoomEntity> query = _context.Rooms;

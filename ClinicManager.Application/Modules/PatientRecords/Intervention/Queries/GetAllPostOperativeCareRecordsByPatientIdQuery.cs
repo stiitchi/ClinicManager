@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 var postOperativeCare = await _context.PostOperativeCareTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.PostOperativeCareTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

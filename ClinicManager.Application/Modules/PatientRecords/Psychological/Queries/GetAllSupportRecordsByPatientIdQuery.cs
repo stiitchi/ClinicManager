@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
                 var supportEntry = await _context.SupportTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.SupportTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.SupportFrequency != 0)
                         .ToListAsync(cancellationToken);

@@ -39,6 +39,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
                         .AsNoTracking()
                         .IgnoreQueryFilters()
                         .Select(expression)
+                        .OrderByDescending(x => x.InhalaNebsTime)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);
                 return await Result<List<InhalaNebsDTO>>.SuccessAsync(inhalaEntry);

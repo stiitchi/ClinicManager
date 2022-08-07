@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Elimination.Queries
                 var continentReport = await _context.ContinentRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.ContinentTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

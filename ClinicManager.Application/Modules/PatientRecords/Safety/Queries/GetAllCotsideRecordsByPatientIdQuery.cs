@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
                 var cotsideEntry = await _context.CotsideRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.CotsidesTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.CotsidesFrequency != 0)
                         .ToListAsync(cancellationToken);

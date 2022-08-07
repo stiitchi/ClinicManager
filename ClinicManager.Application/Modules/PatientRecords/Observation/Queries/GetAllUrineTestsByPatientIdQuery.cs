@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Observation.Queries
                 var urineTestEntry = await _context.UrineTestTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.UrineTestTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.UrineTestFrequency != 0)
                         .ToListAsync(cancellationToken);

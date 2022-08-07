@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.SkinIntegrity.Queries
                 var rednessEntry = await _context.RednessTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.ReportRednessTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

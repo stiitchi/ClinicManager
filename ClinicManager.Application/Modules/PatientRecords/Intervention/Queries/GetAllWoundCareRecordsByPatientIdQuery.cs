@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 var woundCareRecords = await _context.WoundCareTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.WoundCareTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
                 var bedBath = await _context.BedBathAssistTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.BedBathAssistTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

@@ -8,11 +8,13 @@
 @inject IBedService bedService 
 @inject IRoomService roomService 
 
-                       
 <MudItem md="12" sm="12">
             <MudGrid>
                 @if(isRoomShowing != true)
-                {                  
+                {      
+                     <MudItem md="12" sm="12">
+                        <MudText Align="Align.Center" Typo="Typo.h5">Wards</MudText>
+                    </MudItem>  
                     @foreach (var ward in _wards)
                     {  
                         <MudItem md="2" sm="2">
@@ -21,7 +23,7 @@
                             <CardHeaderContent>
                                  <center>
                                 <MudIcon Icon="@Icons.Filled.Business"/> <br/>
-                                <MudText Typo="Typo.h6"> Ward @ward.WardNumber</MudText>
+                                <MudText Typo="Typo.h6">@ward.WardNumber</MudText>
                                 </center>                         
                             </CardHeaderContent>
                             </MudCardHeader>
@@ -36,6 +38,9 @@
                 }
                 else if(isBedShowing == false)
                 {
+                    <MudItem md="12" sm="12">
+                        <MudText Align="Align.Center" Typo="Typo.h5">Rooms</MudText>
+                    </MudItem>   
                     @foreach (var room in _rooms)
                     {  
                         <MudItem md="2" sm="2">
@@ -44,7 +49,7 @@
                             <CardHeaderContent>
                                  <center>
                                 <MudIcon Icon="@Icons.Filled.DoorBack"/> <br/>
-                                    <MudText Typo="Typo.h6">Room @room.RoomNumber</MudText>
+                                    <MudText Typo="Typo.h6">@room.RoomNumber</MudText>
                                 </center>                         
                             </CardHeaderContent>
                             </MudCardHeader>
@@ -56,9 +61,19 @@
                         </MudCard>
                     </MudItem>  
                     } 
+                    if(_rooms.Count() == 0)
+                    {
+                    <MudItem md="12" sm="12">
+                        <MudText Align="Align.Center" Typo="Typo.body1">No Rooms in this Ward</MudText>          
+                    </MudItem> 
+                    }
                 }
+                
                 @if(isBedShowing != false)
                 {
+                     <MudItem md="12" sm="12">
+                        <MudText Align="Align.Center" Typo="Typo.h5">Beds</MudText>
+                    </MudItem>  
                     @foreach (var bed in _beds)
                     {
                         @if(bed.IsOccupied == true)
@@ -69,7 +84,7 @@
                                 <CardHeaderContent>
                                      <center>
                                     <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
-                                        <MudText Typo="Typo.h6">Bed @bed.BedNumber</MudText>
+                                        <MudText Typo="Typo.h6">@bed.BedNumber</MudText>
                                     </center>                         
                                 </CardHeaderContent>
                                 </MudCardHeader>
@@ -90,7 +105,7 @@
                                 <CardHeaderContent>
                                      <center>
                                     <MudIcon Icon="@Icons.Filled.Bed"/> <br/>
-                                        <MudText Typo="Typo.h6">Bed @bed.BedNumber</MudText>
+                                        <MudText Typo="Typo.h6">@bed.BedNumber</MudText>
                                     </center>                         
                                 </CardHeaderContent>
                                 </MudCardHeader>
@@ -104,8 +119,14 @@
                         </MudItem>    
                         }                   
                     }
-                }
-            </MudGrid>
+                    @if(_beds.Count() == 0)
+                    {
+                    <MudItem md="12" sm="12">
+                        <MudText Align="Align.Center" Typo="Typo.body1">No Beds in this Room</MudText>          
+                    </MudItem> 
+                    }
+            }
+        </MudGrid>
 </MudItem>
 
 @code{
@@ -115,6 +136,8 @@
     [Parameter] public WardDTO Ward { get; set; } = new();
     private bool isRoomShowing = false;
     private bool isBedShowing = false;
+    private int OccupiedCount;
+    private int UnoccupiedCount;
 
     protected async override Task OnInitializedAsync()
     {

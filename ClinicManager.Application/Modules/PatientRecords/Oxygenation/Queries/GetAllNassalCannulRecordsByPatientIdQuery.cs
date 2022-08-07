@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Oxygenation.Queries
                 var nasalEntry = await _context.NasalCannulTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.NasalCannulaTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.NasalCannulaFrequency != 0)
                         .ToListAsync(cancellationToken);

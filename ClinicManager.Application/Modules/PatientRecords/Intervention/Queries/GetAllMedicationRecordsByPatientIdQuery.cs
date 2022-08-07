@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 var medicationRecord = await _context.MedicationTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.MedicationTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

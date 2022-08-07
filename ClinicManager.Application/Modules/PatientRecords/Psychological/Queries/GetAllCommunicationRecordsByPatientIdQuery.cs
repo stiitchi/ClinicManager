@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Psychological.Queries
                 var communicationEntry = await _context.CommunicationTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.CommunicationTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.CommunicationFrequency != 0)
                         .ToListAsync(cancellationToken);

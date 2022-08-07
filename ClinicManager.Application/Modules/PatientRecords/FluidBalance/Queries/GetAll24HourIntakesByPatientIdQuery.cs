@@ -39,6 +39,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.FluidBalance.Queries
                 var prev24hour = await _context.Previous24HourIntakeTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.DateToday)
                         .Where(x=> x.PatientId == request.PatientId && x.Previous24HourOutput != 0 && x.Previous24HourIntake != 0)
                         .Select(expression)
                         .ToListAsync(cancellationToken);

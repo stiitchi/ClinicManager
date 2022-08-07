@@ -39,6 +39,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.ComfortSleep.Queries
                 var progressReport = await _context.NurseCarePlanComfortSleepRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.PainControlTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

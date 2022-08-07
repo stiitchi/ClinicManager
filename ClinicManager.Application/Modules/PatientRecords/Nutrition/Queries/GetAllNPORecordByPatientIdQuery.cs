@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Nutrition.Queries
                 var npoEntry = await _context.KeepNPOTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.KeepNPOTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

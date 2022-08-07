@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Intervention.Queries
                 var tractionRecords = await _context.TractionTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.TractionTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

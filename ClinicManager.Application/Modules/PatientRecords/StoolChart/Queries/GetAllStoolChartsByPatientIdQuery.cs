@@ -43,6 +43,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.StoolChart.Queries
                 var stoolChart = await _context.StoolChartTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.StoolChartTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.BowelAmount != "")
                         .ToListAsync(cancellationToken);

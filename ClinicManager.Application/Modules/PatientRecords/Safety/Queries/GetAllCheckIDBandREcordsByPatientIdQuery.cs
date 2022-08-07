@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Safety.Queries
                 var idBandsEntry = await _context.CheckIdBandTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.CheckIDBandsTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.CheckIDBandsFrequency != 0)
                         .ToListAsync(cancellationToken);

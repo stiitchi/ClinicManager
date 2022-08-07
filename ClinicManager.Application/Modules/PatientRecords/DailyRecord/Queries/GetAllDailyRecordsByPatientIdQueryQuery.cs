@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.DailyRecord.Queries
                 var dailyRecords = await _context.DailyCareRecords
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.DateAdded)
                         .Where(d => d.PatientId == request.PatientId)
                         .Select(expression)
                         .ToListAsync(cancellationToken);

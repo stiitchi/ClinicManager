@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Mobility.Queries
                 var bedRest = await _context.WalkAssistanceTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.WalkWithAssistanceTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId && r.WalkWithAssistanceFrequency != 0)
                         .ToListAsync(cancellationToken);

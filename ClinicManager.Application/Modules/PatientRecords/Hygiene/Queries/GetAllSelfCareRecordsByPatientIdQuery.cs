@@ -38,6 +38,7 @@ namespace ClinicManager.Application.Modules.PatientRecords.Hygiene.Queries
                 var selfCareReport = await _context.SelfCareTests
                         .AsNoTracking()
                         .IgnoreQueryFilters()
+                        .OrderByDescending(x => x.SelfCareTime)
                         .Select(expression)
                         .Where(r => r.PatientId == request.PatientId)
                         .ToListAsync(cancellationToken);

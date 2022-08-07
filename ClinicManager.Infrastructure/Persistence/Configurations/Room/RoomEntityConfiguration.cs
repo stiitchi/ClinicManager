@@ -12,6 +12,8 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Room
             conf.HasKey(c => c.Id);
             conf.Property(c => c.IsActive).IsRequired();
             conf.Property(c => c.RoomNumber).HasMaxLength(200);
+            conf.Property(c => c.OccupiedBeds);
+            conf.Property(c => c.UnoccupiedBeds);
 
             conf.HasOne(c => c.Ward).WithMany(c => c.Rooms).HasForeignKey(c => c.WardId);
 
