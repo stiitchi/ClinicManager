@@ -58,7 +58,9 @@ namespace ClinicManager.Application.Modules.Subscription.Queries
                     StoragePlan     = e.StoragePlan,
                     PricePerNurse   = e.PricePerNurse,
                     ReferenceNo     = e.ReferenceNumber,
-                    Amount          = e.OverallTotal
+                    Amount          = e.OverallTotal,
+                    PdfPath         = e.PdfPath,
+                    IsChecked       = e.IsChecked
                 };
 
                 IQueryable<SubscriptionEntity> query = _context.Subscriptions;

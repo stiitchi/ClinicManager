@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using QuestPDF.Fluent;
+using SendGrid.Helpers.Mail;
 
 namespace ClinicManager.Application.Modules.Subscription.Commands
 {
@@ -21,6 +22,7 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
         private readonly IConfiguration _config;
         private readonly ISendGridService _mailService;
 
+
         public GenerateQuotePDFCommandHandler(IApplicationDbContext context, IConfiguration config, ISendGridService mail)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -32,13 +34,13 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
         {
             try
             {
-                var subscription = await _context.Subscriptions.Where(a => a.Id == request._subscription.Id).FirstOrDefaultAsync();
+                var subscription = await _context.Subscriptions.Where(a => a.ClinicName == request._subscription.ClinicName).FirstOrDefaultAsync();
                 if (subscription == null)
                 {
                     return await Result<bool>.FailAsync("Subscription not found");
                 }
 
-                var document = new PDFHelper(subscription);
+                var document = new PDFHelper(request._subscription);
 
 
                 using (var stream = new MemoryStream())
@@ -47,6 +49,18 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
                     stream.Position = 0;
                 }
 
+                object emailTemplate = new { };
+                var templateId = "";
+
+                templateId = "none";
+
+                _mailService.AddRecipient(new EmailAddress()
+                {
+                    Email = request._subscription.Email,
+                    Name = $"{request._subscription.repFirstName} {request._subscription.repLastName}"
+                });
+
+                var result = await _mailService.SendEmail(emailTemplate, "test");
                 await _context.SaveChangesAsync(cancellationToken);
                 return await Result.SuccessAsync();
             }

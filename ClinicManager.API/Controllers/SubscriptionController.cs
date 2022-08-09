@@ -66,7 +66,8 @@ namespace ClinicManager.API.Controllers
                 Province        = subscription.Province,
                 AmountOfNurses  = subscription.AmountOfNurses,
                 StoragePlan     = subscription.StoragePlan,
-                PricePerNurse   = subscription.PricePerNurse
+                PricePerNurse   = subscription.PricePerNurse,
+                Amount          = subscription.Amount
             }));
         }
     }

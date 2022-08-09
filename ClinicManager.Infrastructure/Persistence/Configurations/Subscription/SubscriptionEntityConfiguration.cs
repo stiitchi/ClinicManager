@@ -21,6 +21,8 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations.Subscription
             conf.Property(c => c.City).HasMaxLength(200);
             conf.Property(c => c.Province).HasMaxLength(200);
             conf.Property(c => c.StoragePlan).HasMaxLength(200);
+            conf.Property(c => c.ReferenceNumber);
+            conf.Property(c => c.PdfPath);
             conf.Property(c => c.AmountOfNurses);
             conf.Property(c => c.OverallTotal);
             conf.Property(c => c.IsChecked);

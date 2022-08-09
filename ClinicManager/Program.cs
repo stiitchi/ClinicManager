@@ -2,6 +2,7 @@ using Blazored.LocalStorage;
 using ClinicManager.Service;
 using ClinicManager.Web.Infrastructure.Services.Admission;
 using ClinicManager.Web.Infrastructure.Services.Authentication;
+using ClinicManager.Web.Infrastructure.Services.AzureBlobStorage;
 using ClinicManager.Web.Infrastructure.Services.Bed;
 using ClinicManager.Web.Infrastructure.Services.Chart;
 using ClinicManager.Web.Infrastructure.Services.DayFees;
@@ -48,6 +49,7 @@ builder.Services.AddScoped<IWardService, WardService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IFaultService, FaultService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IAzureBlobStorageService, AzureBlobStorageService>();
 builder.Services.AddScoped(sp => sp
              .GetRequiredService<IHttpClientFactory>()
              .CreateClient(ClientName))

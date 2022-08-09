@@ -46,7 +46,9 @@ namespace ClinicManager.Application.Modules.Subscription.Queries
                     PricePerNurse  = subscription.PricePerNurse,
                     Amount         = subscription.OverallTotal,
                     ClinicAddress  = subscription.ClinicAddress,
-                    ReferenceNo    = subscription.ReferenceNumber
+                    ReferenceNo    = subscription.ReferenceNumber,
+                    PdfPath        = subscription.PdfPath,
+                    IsChecked      = subscription.IsChecked
 
                 };
                 return await Result<SubscriptionDTO>.SuccessAsync(dto);

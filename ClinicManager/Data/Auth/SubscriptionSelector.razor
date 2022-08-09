@@ -271,7 +271,9 @@
     {
         _processing = true;
         IResult<int> response;
-
+        subscription.Image = new byte[1];
+        subscription.ReferenceNo = string.Empty;
+        subscription.PdfPath = string.Empty;
         response = await subscriptionService.SaveAsync(subscription);
         if (response.Succeeded)
         {

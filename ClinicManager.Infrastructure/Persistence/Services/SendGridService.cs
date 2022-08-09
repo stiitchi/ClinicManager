@@ -31,7 +31,8 @@ namespace ClinicManager.Infrastructure.Persistence.Services
 
                 foreach(var recipient in _recipients)
                 {
-                    var msg =  MailHelper.CreateSingleTemplateEmail(from, recipient, templateId, emailDataTemplate);
+                    var to = new EmailAddress(recipient.Email, recipient.Name);
+                    var msg =  MailHelper.CreateSingleEmail(from, to, "Request", recipient.Name, templateId);
                     var response = await _client.SendEmailAsync(msg);
                     return response.StatusCode == System.Net.HttpStatusCode.Accepted;
                 }

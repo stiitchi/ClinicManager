@@ -1,6 +1,8 @@
 ﻿using ClinicManager.Application.Common.Interfaces;
 using ClinicManager.Application.Helpers;
+using ClinicManager.Application.Modules.Azure.Commands;
 using ClinicManager.Domain.Entities.SubscriptionAggregate;
+using ClinicManager.Shared.DTO_s;
 using ClinicManager.Shared.Wrappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,7 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
         public string City { get; set; }
         public string Province { get; set; }
         public int AmountOfNurses { get; set; }
+        public int Amount { get; set; }
         public string StoragePlan { get; set; }
         public int PricePerNurse { get; set; }
     }
@@ -28,10 +31,12 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
     public class AddSubscriptionCommandHandler : IRequestHandler<AddSubscriptionCommand, Result<int>>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
-        public AddSubscriptionCommandHandler(IApplicationDbContext context)
+        public AddSubscriptionCommandHandler(IApplicationDbContext context, IMediator mediator)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<Result<int>> Handle(AddSubscriptionCommand request, CancellationToken cancellationToken)
@@ -60,6 +65,28 @@ namespace ClinicManager.Application.Modules.Subscription.Commands
                     request.PricePerNurse
                     );
 
+
+                SubscriptionDTO subscriptionDTO = new SubscriptionDTO()
+                {
+                    Email          = request.Email,
+                    AmountOfNurses = request.AmountOfNurses,
+                    City           = request.City,
+                    ClinicAddress  = request.ClinicAddress,
+                    ClinicName     = request.ClinicName,
+                    MobileNo       = request.MobileNo,
+                    PostalCode     = request.PostalCode,
+                    PricePerNurse  = request.PricePerNurse,
+                    Province       = request.Province,
+                    ReferenceNo    = subscription.ReferenceNumber,
+                    repFirstName   = request.repFirstName,
+                    repLastName    = request.repLastName,
+                    StoragePlan    = request.StoragePlan,
+                    Amount         = request.Amount
+                };
+
+                var result = await _mediator.Send(new AddPDFToBlobStorageCommand(subscriptionDTO));
+
+                subscription.SetPDFPath($"reference-invoice_{subscription.ReferenceNumber}.pdf");
                 await _context.Subscriptions.AddAsync(subscription, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
                 return await Result<int>.SuccessAsync(subscription.Id);

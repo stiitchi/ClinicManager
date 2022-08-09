@@ -1,4 +1,3 @@
-using ClinicManager.API;
 using ClinicManager.Application;
 using ClinicManager.Application.Helpers;
 using ClinicManager.Application.Interfaces.Services;
@@ -18,6 +17,7 @@ builder.Services.AddApplication();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<SendGridSettings>(config.GetSection("EmailSettings"));
+builder.Services.AddTransient<IBlobFactory, BlobFactory>();
 builder.Services.AddTransient<ISendGridService, SendGridService>();
 builder.Services.AddSwaggerGen(c=>
 {

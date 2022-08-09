@@ -42,7 +42,9 @@ namespace ClinicManager.Application.Modules.Subscription.Queries
                     StoragePlan     = e.StoragePlan,
                     PricePerNurse   = e.PricePerNurse,
                     Amount          = e.OverallTotal,
-                    ReferenceNo     = e.ReferenceNumber
+                    ReferenceNo     = e.ReferenceNumber,
+                    PdfPath         = e.PdfPath,
+                    IsChecked       = e.IsChecked
                 };
 
                 var subscription = await _context.Subscriptions

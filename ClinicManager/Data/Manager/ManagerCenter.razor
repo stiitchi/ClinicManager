@@ -2,9 +2,13 @@
 @using ClinicManager.Data.Modals.Misc
 @using ClinicManager.Data.Modals.Patient
 @using ClinicManager.Web.Infrastructure.Services.Subscription
+@using ClinicManager.Web.Infrastructure.Services.AzureBlobStorage
 @using Modals
 @using ClinicManager.Shared.DTO_s
+@using Microsoft.JSInterop
+@inject IAzureBlobStorageService blobStorage 
 @inject ISubscriptionService subscriptionService 
+@inject IJSRuntime JSRuntime 
 @attribute [Authorize]
 
     <MudGrid Class="mt-8">
@@ -15,7 +19,7 @@
         </MudItem>
 
 <MudTabs>
-<MudTabPanel Icon="@Icons.Outlined.FiberNew" Text="New Requests">
+<MudTabPanel Icon="@Icons.Outlined.FiberNew" Text="New Requests" BadgeDot="countIsPresent" BadgeColor="Color.Error">
     <MudTable Hover="true" Breakpoint="Breakpoint.Sm" Items="@_subscriptions"  Elevation="25" ServerData="@(new Func<TableState, Task<TableData<SubscriptionDTO>>>(ServerReload))" Dense="true" Bordered="false" Striped="true" Filter="new Func<SubscriptionDTO, bool>(Search)" @ref="_table">
         <ToolBarContent>
     <div class="justify-center mud-text-align-center">
@@ -60,12 +64,18 @@
             <MudTd DataLabel="repLastName">
             <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
         </MudTd>  
-        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-            <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => OpenRequest(@context.Id))">View</MudButton>
-        </MudTd>
-        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-            <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.Id))">Delete</MudButton>
-        </MudTd>
+            @if(context.PdfPath != string.Empty)
+               {
+                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                 <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">View PDF</MudButton>
+               </MudTd>
+               }
+                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                    <MudMenuItem OnClick="@(() => OpenRequest(@context.Id))">View</MudMenuItem> 
+                    <MudMenuItem OnClick="@(() => Delete(@context.Id))">Delete</MudMenuItem>
+                </MudMenu>
+               </MudTd>
     </RowTemplate>
 <PagerContent>
     <MudTablePager RowsPerPageString="Rows" />
@@ -119,11 +129,17 @@
                  <MudTd DataLabel="repLastName">
                     <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
                 </MudTd>   
+               @if(context.PdfPath != string.Empty)
+               {
                 <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Info" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => OpenRequest(@context.Id))">View</MudButton>
+                 <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">Download PDF</MudButton>
                </MudTd>
-               <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Error" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => Delete(@context.Id))">Delete</MudButton>
+               }
+                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                    <MudMenuItem OnClick="@(() => OpenRequest(@context.Id))">View</MudMenuItem> 
+                    <MudMenuItem OnClick="@(() => Delete(@context.Id))">Delete</MudMenuItem>
+                </MudMenu>
                </MudTd>
             </RowTemplate>
         <PagerContent>
@@ -146,12 +162,30 @@
     private MudTable<SubscriptionDTO> _table;
     private int _totalItems;
     private int _currentPage;
+    private bool countIsPresent;
     private TableState _state;
     private string _searchString = "";
+    private IJSObjectReference _jsModule;
 
     protected async override Task OnInitializedAsync()
     {
+        _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./scripts/downloadScript.js");
         await GetAllSubscriptions();
+    }
+
+    public async Task DownloadPDF(string referenceNo)
+    {
+        var document = await blobStorage.DownloadPDF(referenceNo);
+        if (document.PDF != null)
+        {
+            var dataArray = Convert.ToBase64String(document.PDF);
+            await _jsModule.InvokeVoidAsync("download", new
+            {
+                ByteArray = dataArray,
+                FileName = document.PDFName,
+                MimeType = "application/pdf"
+            });
+        }
     }
 
     private async Task OpenRequest(int subscriptionId)
@@ -174,7 +208,8 @@
             ReferenceNo     = response.Data.ReferenceNo,
             repFirstName    = response.Data.repFirstName,
             repLastName     = response.Data.repLastName,
-            StoragePlan     = response.Data.StoragePlan
+            StoragePlan     = response.Data.StoragePlan,
+            IsChecked       = response.Data.IsChecked
         });
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraLarge, };
 
@@ -186,6 +221,12 @@
         if (subscriptions.Succeeded)
         {
             _subscriptions = subscriptions.Data;
+        }
+        var subs = _subscriptions.Where(x => x.IsChecked != true);
+        var count = subs.Count();
+        if(count > 0)
+        {
+            countIsPresent = true;
         }
     }
 

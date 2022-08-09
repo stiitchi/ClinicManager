@@ -26,6 +26,11 @@ namespace ClinicManager.Domain.Entities.SubscriptionAggregate
             _isChecked          = false;
         }
 
+        public void SetPDFPath(string path)
+        {
+            _pdfPath = path;
+        }
+
         public void SubscriptionIsChecked()
         {
             _isChecked = true;
@@ -72,6 +77,9 @@ namespace ClinicManager.Domain.Entities.SubscriptionAggregate
 
         private string _province;
         public string Province => _province;
+
+        private string _pdfPath;
+        public string PdfPath => _pdfPath;
 
         private DateTime _dateScheduled;
         public DateTime DateScheduled => _dateScheduled;

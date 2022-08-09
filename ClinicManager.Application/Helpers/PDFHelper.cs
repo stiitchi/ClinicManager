@@ -2,9 +2,8 @@
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using IContainer = QuestPDF.Infrastructure.IContainer;
-using ClinicManager.Domain.Entities.SubscriptionAggregate;
-using ClinicManager.Domain.Entities.UserAggregate;
 using QuestPDF.Drawing;
+using ClinicManager.Shared.DTO_s;
 
 namespace ClinicManager.Application.Helpers
 {
@@ -24,35 +23,37 @@ namespace ClinicManager.Application.Helpers
     }
     public class PDFHelper : IDocument
     {
-        public SubscriptionEntity _subscriptions { get; set; }
+        public SubscriptionDTO _subscriptions { get; set; }
 
 
         public double subtotal = 0.00;
 
-        public PDFHelper(SubscriptionEntity subscriptions)
+        public PDFHelper(SubscriptionDTO subscriptions)
         {
             _subscriptions = subscriptions ?? throw new ArgumentNullException(nameof(subscriptions));
         }
  
 
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-
+    
     public void Compose(IDocumentContainer container)
     {
-        try
-        {
+            string path = "https://medopsblob.blob.core.windows.net/medops-images/medopslogo.png";
+
+            try
+            {
             container
             .Page(page =>
             {
                 page.Margin(50);
 
-                    //page.Header().Element(ComposeHeader);
-                    page.Content().Element(ComposeContent);
+                page.Header().Element(ComposeHeader);
+                page.Content().Element(ComposeContent);
 
                 page.Footer().AlignCenter().Stack(stack =>
                 {
-                    stack.Item().AlignCenter().Height(50).Width(100).Image(_subscriptions.ClinicName, ImageScaling.FitArea);
-                    stack.Item().AlignCenter().Text("www.Clinicmanager.azurewebsites.net", TextStyle.Default.Size(8).SemiBold());
+                    //stack.Item().AlignCenter().Height(50).Width(100).Image(path, ImageScaling.FitArea);
+                    stack.Item().AlignCenter().Text("www.medops.com", TextStyle.Default.Size(8).SemiBold());
                 });
             });
         }
@@ -66,9 +67,8 @@ namespace ClinicManager.Application.Helpers
     {
         container.PaddingVertical(5).Stack(stack =>
         {
-            stack.Item().Element(ComposeHeader);
             stack.Item().Element(ComposeDetailsTable);
-            stack.Item().Element(ConditionsOfContract);
+            //stack.Item().Element(ConditionsOfContract);
         });
     }
 
@@ -80,13 +80,12 @@ namespace ClinicManager.Application.Helpers
         {
             row.RelativeColumn().Stack(stack =>
             {
-                stack.Item().Text($"REQUEST #{_subscriptions.ReferenceNumber} ", titleStyle);
+                stack.Item().Text($"Request - {_subscriptions.ReferenceNo} ", titleStyle);
             });
 
             row.ConstantColumn(100).Height(50).Stack(stack =>
             {
-                stack.Item().ValueCell().Height(10);
-                stack.Item().ValueCell().Text("DATE", titleStyle);
+                stack.Item().ValueCell().Text(DateTime.Now.ToString("MMMM dd"), titleStyle);
             });
         });
     }
@@ -122,13 +121,13 @@ namespace ClinicManager.Application.Helpers
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(2).LabelCell("FIRST NAME:");
-                        row.RelativeColumn(3).ValueCell().Text($"{_subscriptions.RepFirstName}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(3).ValueCell().Text($"{_subscriptions.repFirstName}", TextStyle.Default.Size(6));
                     });
 
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(2).LabelCell("LAST NAME:");
-                        row.RelativeItem(3).ValueCell().Text($"{_subscriptions.RepLastName}", TextStyle.Default.Size(6));
+                        row.RelativeItem(3).ValueCell().Text($"{_subscriptions.repLastName}", TextStyle.Default.Size(6));
                     });
 
                     stack.Item().Row(row =>
@@ -152,19 +151,19 @@ namespace ClinicManager.Application.Helpers
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(1).LabelCell("POSTAL CODE:");
-                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.MobileNo}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.PostalCode}", TextStyle.Default.Size(6));
                     });
 
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(1).LabelCell("CITY:");
-                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.MobileNo}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.City}", TextStyle.Default.Size(6));
                     });
 
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(1).LabelCell("PROVINCE:");
-                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.MobileNo}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(1).ValueCell().Text($"{_subscriptions.Province}", TextStyle.Default.Size(6));
                     });
                 });
         }
@@ -190,51 +189,19 @@ namespace ClinicManager.Application.Helpers
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(2).LabelCell("PRICE PER NURSE:");
-                        row.RelativeColumn(3).ValueCell().Text($"{_subscriptions.PricePerNurse}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(3).ValueCell().Text($"R{_subscriptions.PricePerNurse}", TextStyle.Default.Size(6));
                     });
-
-                    stack.Item().Row(row =>
-                    {
-                        row.RelativeColumn(5).LabelCell("METHOD OF PAYMENT:");
-                    });
-
-                    stack.Item().Border(0.75f).Row(row =>
-                    {
-                        row.RelativeColumn(1).Text("Card", TextStyle.Default.Size(6));
-                        row.RelativeColumn(1).Text("Cash", TextStyle.Default.Size(6));
-                        row.RelativeColumn(1).Text("EFT", TextStyle.Default.Size(6));
-                    });
-
-                    stack.Item().Border(0.75f).Row(row =>
-                    {
-                        row.RelativeColumn(1).Text("Mobicred", TextStyle.Default.Size(6));
-                        row.RelativeColumn(1).Text("Insurance", TextStyle.Default.Size(6));
-                        row.RelativeColumn(2).Text("Zapper", TextStyle.Default.Size(6));
-                    });
-
-                    stack.Item().Row(row =>
-                    {
-                        row.RelativeColumn().LabelCell("WORK NOT APPROVED:");
-                    });
-
-                    for (var i = 0; i < 10; i++)
-                    {
-                        stack.Item().Row(row =>
-                        {
-                            row.RelativeColumn().ValueCell();
-                        });
-                    }
 
                     stack.Item().Row(row =>
                     {
                         row.RelativeColumn(1).ValueCell();
                         row.RelativeColumn(2).LabelCell("SUB TOTAL");
-                        row.RelativeColumn(2).ValueCell().Text($"R{subtotal}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(2).ValueCell().Text($"R{_subscriptions.Amount}", TextStyle.Default.Size(6));
                     });
 
                     stack.Item().Row(row =>
                     {
-                        var vat = subtotal * 0.15;
+                        var vat = _subscriptions.Amount * 0.15;
                         row.RelativeColumn(1).ValueCell();
                         row.RelativeColumn(2).LabelCell("VAT");
                         row.RelativeColumn(2).ValueCell().Text($"R{vat}", TextStyle.Default.Size(6));
@@ -242,10 +209,10 @@ namespace ClinicManager.Application.Helpers
 
                     stack.Item().Row(row =>
                     {
-                        var total = subtotal * 1.15;
+                        var total = _subscriptions.Amount * 1.15;
                         row.RelativeColumn(1).ValueCell();
                         row.RelativeColumn(2).LabelCell("TOTAL");
-                        row.RelativeColumn(2).ValueCell().Text($"R{_subscriptions.OverallTotal}", TextStyle.Default.Size(6));
+                        row.RelativeColumn(2).ValueCell().Text($"R{total}", TextStyle.Default.Size(6));
                     });
                 });
         }
