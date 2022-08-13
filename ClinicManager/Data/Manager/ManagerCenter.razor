@@ -11,12 +11,16 @@
 @inject IJSRuntime JSRuntime 
 @attribute [Authorize]
 
-    <MudGrid Class="mt-8">
+<MudGrid Class="mt-8">
         <MudItem xs="12" md="12" sm="12">
             <MudText Align="Align.Center" Typo="Typo.h5">
                 Manager Center
             </MudText>
         </MudItem>
+</MudGrid>
+
+<MudTabs Position="Position.Left" Border="true">
+<MudTabPanel Icon="@Icons.Outlined.RequestPage"  Text="Requests">
 
 <MudTabs>
 <MudTabPanel Icon="@Icons.Outlined.FiberNew" Text="New Requests" BadgeDot="countIsPresent" BadgeColor="Color.Error">
@@ -36,8 +40,6 @@
         <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="StoragePlan">Storage Plan</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="Email">Email</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="MobileNo">Mobile Number</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repFirstName">Representative Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="SubscriptionDTO" SortLabel="repLastName">Representative Surname</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id">
@@ -57,25 +59,19 @@
         </MudTd> 
             <MudTd DataLabel="MobileNo">
             <MudHighlighter Text="@context.MobileNo" HighlightedText="@_searchString" />
-        </MudTd>  
-            <MudTd DataLabel="repFirstName">
-            <MudHighlighter Text="@context.repFirstName" HighlightedText="@_searchString" />
-        </MudTd>  
-            <MudTd DataLabel="repLastName">
-            <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
-        </MudTd>  
-            @if(context.PdfPath != string.Empty)
-               {
-                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">View PDF</MudButton>
-               </MudTd>
-               }
-                <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                    <MudMenuItem OnClick="@(() => OpenRequest(@context.Id))">View</MudMenuItem> 
-                    <MudMenuItem OnClick="@(() => Delete(@context.Id))">Delete</MudMenuItem>
-                </MudMenu>
-               </MudTd>
+        </MudTd>   
+        @if(context.PdfPath != string.Empty)
+            {
+            <MudTd  Style="width:120px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+                <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">View PDF</MudButton>
+            </MudTd>
+            }
+        <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
+        <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+            <MudMenuItem OnClick="@(() => OpenRequest(@context.Id))">View</MudMenuItem> 
+            <MudMenuItem OnClick="@(() => Delete(@context.Id))">Delete</MudMenuItem>
+        </MudMenu>
+        </MudTd>
     </RowTemplate>
 <PagerContent>
     <MudTablePager RowsPerPageString="Rows" />
@@ -122,17 +118,11 @@
                 </MudTd> 
                  <MudTd DataLabel="MobileNo">
                     <MudHighlighter Text="@context.MobileNo" HighlightedText="@_searchString" />
-                </MudTd>  
-                 <MudTd DataLabel="repFirstName">
-                    <MudHighlighter Text="@context.repFirstName" HighlightedText="@_searchString" />
-                </MudTd>  
-                 <MudTd DataLabel="repLastName">
-                    <MudHighlighter Text="@context.repLastName" HighlightedText="@_searchString" />
-                </MudTd>   
+                </MudTd>    
                @if(context.PdfPath != string.Empty)
                {
                 <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
-                 <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:200px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">Download PDF</MudButton>
+                 <MudButton Class="pa-1 mx-1" Color="Color.Primary" Variant="Variant.Outlined" Style="border-radius: 15px 15px; height:35px; width:120px" @onclick="@(() => DownloadPDF(@context.ReferenceNo))">Download PDF</MudButton>
                </MudTd>
                }
                 <MudTd  Style="width:200px;  padding-left: 0px;padding-right: 0px;" DataLabel="">
@@ -146,12 +136,16 @@
             <MudTablePager RowsPerPageString="Rows" />
         </PagerContent>
         </MudTable>
-</MudTabPanel>
-<MudTabPanel Icon="@Icons.Outlined.CalendarMonth"  Text="Scheduled Requests">
+    </MudTabPanel>
+    <MudTabPanel Icon="@Icons.Outlined.CalendarMonth"  Text="Scheduled Requests">
 
-</MudTabPanel>
+    </MudTabPanel>
 </MudTabs>
-</MudGrid>
+</MudTabPanel>
+   <MudTabPanel Icon="@Icons.Outlined.People"  Text="Staff">
+
+    </MudTabPanel>
+</MudTabs>
        
 
 @code{

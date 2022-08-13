@@ -29,6 +29,8 @@
 
   <ItemGroup>
     <Folder Include="Modules\Azure\Queries\" />
+    <Folder Include="Modules\PatientVitals\Queries\" />
+    <Folder Include="Modules\Reports\Queries\" />
     <Folder Include="Modules\User\Queries\" />
   </ItemGroup>
 

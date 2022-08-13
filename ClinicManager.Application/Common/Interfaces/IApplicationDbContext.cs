@@ -8,6 +8,9 @@ using ClinicManager.Domain.Entities.FaultAggregate;
 using ClinicManager.Domain.Entities.ICDCodeAggregate;
 using ClinicManager.Domain.Entities.NotificationAggregate;
 using ClinicManager.Domain.Entities.PatientAggregate;
+using ClinicManager.Domain.Entities.PatientAggregate.Allergies;
+using ClinicManager.Domain.Entities.PatientAggregate.Medications;
+using ClinicManager.Domain.Entities.PatientAggregate.Problems;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanFluids;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.CarePlanSkinIntegrity;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.ComfortSleep;
@@ -26,6 +29,9 @@ using ClinicManager.Domain.Entities.PatientAggregate.Records.Psychological;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.Safety;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.SkinIntegrity;
 using ClinicManager.Domain.Entities.PatientAggregate.Records.StoolCharts;
+using ClinicManager.Domain.Entities.PatientAggregate.Visits;
+using ClinicManager.Domain.Entities.PatientAggregate.Vitals;
+using ClinicManager.Domain.Entities.ReportsAggregate;
 using ClinicManager.Domain.Entities.RoomAggregate;
 using ClinicManager.Domain.Entities.SubscriptionAggregate;
 using ClinicManager.Domain.Entities.UserAggregate;
@@ -57,6 +63,14 @@ namespace ClinicManager.Application.Common.Interfaces
         DbSet<NotificationEntity> Notifications { get; set; }
         DbSet<FaultEntity> Faults { get; set; }
         DbSet<PrescriptionEntity> Prescriptions { get; set; }
+        DbSet<ReportOfTheDayEntity> ReportOfTheDayRecords { get; set; }
+        DbSet<PatientAllergiesEntity> PatientAllergies { get; set; }
+        DbSet<PatientMedicationEntity> PatientMedications { get; set; }
+        DbSet<PatientProblemsEntity> PatientProblems { get; set; }
+        DbSet<PatientVitalEntity> PatientVitals { get; set; }
+        DbSet<VisitEntity> PatientVisits { get; set; }
+
+        
 
         //Reports
 
